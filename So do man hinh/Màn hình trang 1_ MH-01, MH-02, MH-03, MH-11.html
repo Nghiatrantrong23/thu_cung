@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MH-01, MH-02, MH-03, MH-11</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fff;--ink:#000;--sh:#bdbdbd;--ha:#e6e6e6}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111;--ink:#f2f2f2;--sh:#555;--ha:#2a2a2a}}
+:root[data-theme="dark"]{--bg:#111;--ink:#f2f2f2;--sh:#555;--ha:#2a2a2a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px Arial,"Helvetica Neue",sans-serif}
+.w{max-width:880px;margin:0 auto;padding:16px}
+h1{font-size:15px;margin:30px 0 8px}h1:first-child{margin-top:0}
+h2{font-size:13px;font-style:italic;margin:14px 0 6px}
+.fr{border:4px double var(--ink);padding:12px 16px 16px;margin-bottom:6px}
+.mn{display:flex;flex-wrap:wrap;border:2px solid var(--ink);margin-bottom:10px}
+.mn div{flex:1 1 auto;text-align:center;padding:6px 8px;font-weight:700;font-size:12px}
+.mn div+div{border-left:2px solid var(--ink)}
+.mn .on{background:var(--ink);color:var(--bg)}
+.tt{border:2px solid var(--ink);text-align:center;font-weight:700;padding:8px;font-size:16px;margin-bottom:12px}
+.al{border:2px solid var(--ink);padding:6px 10px;margin-bottom:12px;font-size:13px}
+.sb{font-weight:700;margin:14px 0 6px}
+.r{display:flex;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+.f{display:grid;grid-template-columns:170px 1fr;align-items:center;gap:8px;margin-bottom:9px}
+@media(max-width:520px){.f{grid-template-columns:1fr}.f>label{text-align:left!important}.hn{margin-left:0!important}}
+.f>label{text-align:right}
+.bx{border:2px solid var(--ink);min-height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 8px;font-size:13px}
+.bx.s{max-width:300px}.bx.t{min-height:54px;align-items:flex-start;padding-top:6px}
+.bx.ro{background:repeating-linear-gradient(135deg,var(--ha) 0 3px,transparent 3px 6px)}
+.hn{font-size:12px;font-style:italic;margin:-4px 0 9px 178px}
+.wd{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px}
+th,td{border:2px solid var(--ink);padding:5px 8px;text-align:left;font-size:13px}
+th{text-align:center}td.c{text-align:center}td.n{text-align:right}
+tr.sl td{background:repeating-linear-gradient(135deg,var(--ha) 0 3px,transparent 3px 6px)}
+.sq{display:inline-block;width:14px;height:14px;border:2px solid var(--ink);vertical-align:middle;margin-right:6px}
+.sq.x{background:linear-gradient(45deg,transparent 42%,var(--ink) 42% 58%,transparent 58%),linear-gradient(-45deg,transparent 42%,var(--ink) 42% 58%,transparent 58%)}
+.sm{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;margin:10px 0;font-size:14px}
+.bt{display:flex;justify-content:center;flex-wrap:wrap;gap:18px;margin-top:16px}
+.b{border:2px solid var(--ink);padding:7px 16px;font-weight:700;font-style:italic;box-shadow:5px 5px 0 var(--sh);font-size:13px}
+.b.d{opacity:.45;border-style:dashed;box-shadow:none}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.g2{grid-template-columns:1fr}}
+.ct{text-align:center;font-size:13px;margin-top:12px}.ct b,.lk{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="w">
+
+<h1>MH-01: MÀN HÌNH ĐĂNG NHẬP / ĐĂNG KÝ (MỌI NGƯỜI DÙNG)</h1>
+<div class="g2">
+ <div><h2>a. Tab Đăng nhập (ví dụ khi nhập sai)</h2>
+  <div class="fr">
+   <div class="tt">HỆ THỐNG QUẢN LÝ VÀ ĐẶT LỊCH<br>DỊCH VỤ CHĂM SÓC THÚ CƯNG</div>
+   <div class="mn"><div class="on">ĐĂNG NHẬP</div><div>ĐĂNG KÝ</div></div>
+   <div class="al"><b>Lỗi:</b> Tài khoản hoặc mật khẩu không đúng.</div>
+   <div class="f"><label>Tên đăng nhập / Email: *</label><div class="bx">nguyenan</div></div>
+   <div class="f"><label>Mật khẩu: *</label><div class="bx">••••••••</div></div>
+   <div class="ct lk" style="margin:0 0 4px">Quên mật khẩu?</div>
+   <div class="bt"><div class="b">ĐĂNG NHẬP</div></div>
+   <div class="ct">Chưa có tài khoản? <b>Đăng ký ngay</b><br>Xem <b>bảng giá dịch vụ</b> (không cần đăng nhập)</div>
+  </div></div>
+ <div><h2>b. Tab Đăng ký (khách hàng mới)</h2>
+  <div class="fr">
+   <div class="tt">HỆ THỐNG QUẢN LÝ VÀ ĐẶT LỊCH<br>DỊCH VỤ CHĂM SÓC THÚ CƯNG</div>
+   <div class="mn"><div>ĐĂNG NHẬP</div><div class="on">ĐĂNG KÝ</div></div>
+   <div class="f"><label>Tên đăng nhập: *</label><div class="bx">nguyenan</div></div>
+   <div class="f"><label>Họ tên: *</label><div class="bx">Nguyễn An</div></div>
+   <div class="f"><label>Số điện thoại: *</label><div class="bx">0912345678</div></div>
+   <div class="hn">Gồm 10 chữ số</div>
+   <div class="f"><label>Email:</label><div class="bx">an@email.com</div></div>
+   <div class="f"><label>Mật khẩu: *</label><div class="bx">••••••••</div></div>
+   <div class="hn">Tối thiểu 8 ký tự</div>
+   <div class="f"><label>Nhập lại mật khẩu: *</label><div class="bx">••••••••</div></div>
+   <div class="bt"><div class="b">ĐĂNG KÝ</div></div>
+   <div class="ct">Đã có tài khoản? <b>Đăng nhập</b></div>
+  </div></div>
+</div>
+
+<h1>MH-02: MÀN HÌNH ĐẶT LỊCH DỊCH VỤ (KHÁCH HÀNG)</h1>
+<div class="fr">
+ <div class="mn"><div>HỒ SƠ THÚ CƯNG</div><div class="on">ĐẶT LỊCH</div><div>LỊCH HẸN</div><div>THÔNG TIN CÁ NHÂN</div><div>ĐĂNG XUẤT</div></div>
+ <div class="tt">ĐẶT LỊCH DỊCH VỤ</div>
+ <div class="al">Giờ mở cửa 08:00 đến 19:00. Lịch hẹn phải kết thúc trước 19:00. Chỉ hiển thị các giờ còn trống và đủ thời lượng.</div>
+ <div class="f"><label>Thú cưng: *</label><div class="r" style="margin:0"><div class="bx s" style="flex:1">Bé Mướp (Mèo) <span>▼</span></div><span class="lk">+ Thêm thú cưng</span></div></div>
+ <div class="f"><label>Ngày hẹn: *</label><div class="bx s">20/10/2026</div></div>
+ <div class="f"><label>Giờ hẹn: *</label><div class="bx s">09:00 <span>▼</span></div></div>
+ <div class="f"><label>Giờ kết thúc dự kiến:</label><div class="bx s ro">10:00</div></div>
+ <div class="sb">Chọn dịch vụ: *</div>
+ <div class="wd"><table>
+  <tr><th style="width:56px">Chọn</th><th>Tên dịch vụ</th><th style="width:100px">Thời lượng</th><th style="width:110px">Giá (VNĐ)</th></tr>
+  <tr><td class="c"><span class="sq x"></span></td><td>Tắm sấy</td><td class="c">60 phút</td><td class="n">150.000</td></tr>
+  <tr><td class="c"><span class="sq"></span></td><td>Cắt tỉa lông</td><td class="c">90 phút</td><td class="n">250.000</td></tr>
+  <tr><td class="c"><span class="sq"></span></td><td>Spa thư giãn</td><td class="c">120 phút</td><td class="n">400.000</td></tr>
+ </table></div>
+ <div class="f" style="margin-top:12px"><label>Ghi chú:</label><div class="bx t">Bé hơi nhát nước.</div></div>
+ <div class="sm"><span>Tổng thời lượng dự kiến: 60 phút</span><span><b>Tổng tạm tính: 150.000 VNĐ</b></span></div>
+ <div class="hn" style="margin:0;text-align:center">Sau khi gửi, lịch hẹn ở trạng thái "Chờ xác nhận".</div>
+ <div class="bt"><div class="b">XÁC NHẬN ĐẶT LỊCH</div><div class="b">QUAY LẠI</div></div>
+</div>
+
+<h1>MH-03: MÀN HÌNH DANH SÁCH LỊCH HẸN (KHÁCH HÀNG)</h1>
+<h2>a. Chọn lịch "Đã xác nhận": được hủy, chưa đánh giá được</h2>
+<div class="fr">
+ <div class="mn"><div>HỒ SƠ THÚ CƯNG</div><div>ĐẶT LỊCH</div><div class="on">LỊCH HẸN</div><div>THÔNG TIN CÁ NHÂN</div><div>ĐĂNG XUẤT</div></div>
+ <div class="tt">DANH SÁCH LỊCH HẸN CỦA TÔI</div>
+ <div class="r"><span>Trạng thái:</span><div class="bx s" style="width:200px">Tất cả <span>▼</span></div></div>
+ <div class="wd"><table>
+  <tr><th>Mã</th><th>Thú cưng</th><th>Dịch vụ</th><th>Ngày giờ hẹn</th><th>Trạng thái</th></tr>
+  <tr><td class="c">101</td><td>Bé Mướp (Mèo)</td><td>Tắm sấy</td><td class="c">20/10/2026 09:00</td><td>Chờ xác nhận</td></tr>
+  <tr class="sl"><td class="c">098</td><td>Bé Lu (Chó)</td><td>Cắt tỉa lông</td><td class="c">21/10/2026 14:00</td><td>Đã xác nhận</td></tr>
+  <tr><td class="c">090</td><td>Bé Mướp (Mèo)</td><td>Spa thư giãn</td><td class="c">12/10/2026 10:00</td><td>Hoàn thành</td></tr>
+  <tr><td class="c">085</td><td>Bé Lu (Chó)</td><td>Tắm sấy</td><td class="c">05/10/2026 08:00</td><td>Đã hủy</td></tr>
+ </table></div>
+ <div class="sb">Chi tiết lịch hẹn 098:</div>
+ <div class="f"><label>Thời gian:</label><div class="bx ro">21/10/2026, 14:00 đến 15:30</div></div>
+ <div class="f"><label>Nhân viên phụ trách:</label><div class="bx ro">Lê Văn B</div></div>
+ <div class="f"><label>Tạm tính:</label><div class="bx ro">250.000 VNĐ</div></div>
+ <div class="bt"><div class="b">HỦY LỊCH</div><div class="b d">GỬI ĐÁNH GIÁ</div><div class="b">QUAY LẠI</div></div>
+ <div class="hn" style="margin:8px 0 0;text-align:center">Hủy lịch chỉ áp dụng cho lịch "Chờ xác nhận" hoặc "Đã xác nhận". Đánh giá chỉ áp dụng cho lịch "Hoàn thành", mỗi lịch một đánh giá.</div>
+</div>
+<h2>b. Chọn lịch "Hoàn thành": đánh giá được, không hủy được</h2>
+<div class="fr">
+ <div class="mn"><div>HỒ SƠ THÚ CƯNG</div><div>ĐẶT LỊCH</div><div class="on">LỊCH HẸN</div><div>THÔNG TIN CÁ NHÂN</div><div>ĐĂNG XUẤT</div></div>
+ <div class="tt">DANH SÁCH LỊCH HẸN CỦA TÔI</div>
+ <div class="wd"><table>
+  <tr><th>Mã</th><th>Thú cưng</th><th>Dịch vụ</th><th>Ngày giờ hẹn</th><th>Trạng thái</th></tr>
+  <tr><td class="c">101</td><td>Bé Mướp (Mèo)</td><td>Tắm sấy</td><td class="c">20/10/2026 09:00</td><td>Chờ xác nhận</td></tr>
+  <tr><td class="c">098</td><td>Bé Lu (Chó)</td><td>Cắt tỉa lông</td><td class="c">21/10/2026 14:00</td><td>Đã xác nhận</td></tr>
+  <tr class="sl"><td class="c">090</td><td>Bé Mướp (Mèo)</td><td>Spa thư giãn</td><td class="c">12/10/2026 10:00</td><td>Hoàn thành</td></tr>
+  <tr><td class="c">085</td><td>Bé Lu (Chó)</td><td>Tắm sấy</td><td class="c">05/10/2026 08:00</td><td>Đã hủy</td></tr>
+ </table></div>
+ <div class="sb">Đánh giá dịch vụ (lịch hẹn 090):</div>
+ <div class="f"><label>Số sao: *</label><div class="bx s" style="font-size:18px;justify-content:flex-start;letter-spacing:4px">★★★★☆</div></div>
+ <div class="f"><label>Nhận xét:</label><div class="bx t">Nhân viên nhẹ nhàng, bé rất thoải mái.</div></div>
+ <div class="bt"><div class="b d">HỦY LỊCH</div><div class="b">GỬI ĐÁNH GIÁ</div><div class="b">QUAY LẠI</div></div>
+</div>
+
+<h1>MH-11: MÀN HÌNH HỒ SƠ THÚ CƯNG (KHÁCH HÀNG)</h1>
+<div class="fr">
+ <div class="mn"><div class="on">HỒ SƠ THÚ CƯNG</div><div>ĐẶT LỊCH</div><div>LỊCH HẸN</div><div>THÔNG TIN CÁ NHÂN</div><div>ĐĂNG XUẤT</div></div>
+ <div class="tt">HỒ SƠ THÚ CƯNG CỦA TÔI</div>
+ <div class="wd"><table>
+  <tr><th>Tên</th><th>Loài</th><th>Giống</th><th>Giới tính</th><th>Ngày sinh</th><th>Cân nặng (kg)</th><th>Trạng thái</th></tr>
+  <tr class="sl"><td>Bé Mướp</td><td class="c">Mèo</td><td>Mèo ta</td><td class="c">Cái</td><td class="c">12/03/2024</td><td class="n">4,2</td><td>Đang theo dõi</td></tr>
+  <tr><td>Bé Lu</td><td class="c">Chó</td><td>Poodle</td><td class="c">Đực</td><td class="c">05/06/2023</td><td class="n">6,5</td><td>Đang theo dõi</td></tr>
+ </table></div>
+ <div class="sb">Thông tin thú cưng Bé Mướp:</div>
+ <div class="f"><label>Tên thú cưng: *</label><div class="bx s">Bé Mướp</div></div>
+ <div class="f"><label>Loài: *</label><div class="bx s">Mèo <span>▼</span></div></div>
+ <div class="hn">Hệ thống chỉ nhận chó và mèo</div>
+ <div class="f"><label>Giống:</label><div class="bx s">Mèo ta</div></div>
+ <div class="f"><label>Giới tính:</label><div class="bx s">Cái <span>▼</span></div></div>
+ <div class="f"><label>Ngày sinh:</label><div class="bx s">12/03/2024</div></div>
+ <div class="f"><label>Cân nặng (kg):</label><div class="bx s">4,2</div></div>
+ <div class="f"><label>Ghi chú sức khỏe:</label><div class="bx t">Dị ứng sữa tắm hương hoa.</div></div>
+ <div class="bt"><div class="b">THÊM THÚ CƯNG MỚI</div><div class="b">LƯU THAY ĐỔI</div><div class="b">NGỪNG THEO DÕI</div></div>
+ <div class="hn" style="margin:8px 0 0;text-align:center">Thú cưng đã có lịch hẹn không xóa được, chỉ chuyển sang "Ngừng theo dõi".</div>
+</div>
+
+</div>
+</body>
+</html>

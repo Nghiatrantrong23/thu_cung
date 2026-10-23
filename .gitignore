@@ -1,0 +1,39 @@
+# Dependencies, generated output and caches
+node_modules/
+dist/
+dist-ssr/
+build/
+coverage/
+.cache/
+.vite/
+__pycache__/
+*.pyc
+
+# Local environment and credentials; only safe templates may be committed
+.env*
+!.env.example
+!.env.template
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+.aws/
+.ssh/
+.npmrc
+.netrc
+credentials.json
+service-account*.json
+
+# Database backups (schema and migration SQL remain tracked)
+backups/
+*.dump
+*.backup
+
+# Logs and editor/machine files
+logs/
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
