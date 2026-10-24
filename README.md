@@ -113,4 +113,4 @@ pg_restore --list $taskBackup
 
 Kiểm tra exit code và thử restore vào **DB mới khác tên**, không `--clean`/ghi đè DB đang dùng. Đợt này đã nghiệm thu backup/restore, so schema và baseline/migration trên **bản sao** DB local cũ; DB gốc chưa đổi. Không tự chuyển đổi timestamp/hoàn tiền lịch sử nếu chưa đối soát nguồn dữ liệu.
 
-Sau giai đoạn đạt: cập nhật kế hoạch, commit/push và đối chiếu SHA remote theo [AGENTS.md](AGENTS.md). Không force-push, không công khai `.env`, dump, token, log hoặc build.
+Sau giai đoạn đạt: cập nhật kế hoạch, commit/push lên nhánh công việc riêng và đối chiếu SHA của đúng nhánh remote theo [AGENTS.md](AGENTS.md). Không push trực tiếp lên main; chỉ đưa thay đổi vào main khi người dùng yêu cầu rõ. Không force-push, không công khai `.env`, dump, token, log hoặc build.
