@@ -47,17 +47,21 @@ export async function readSchedule(db, date) {
 }
 
 export async function availableSlots(date, duration, now = new Date()) {
+    return (await availability(date, duration, now)).slots
+}
+export async function availability(date, duration, now = new Date()) {
     if (!isValidDate(date)) throw bookingError(400, 'Ngày hẹn không hợp lệ.')
     duration = validateDuration(duration)
     const current = businessNow(now)
-    if (date < current.date) return []
+    if (date < current.date) return { slots: [], reason: 'PAST_DATE' }
     const schedule = await readSchedule({ query }, date)
+    if (!schedule.shifts.length) return { slots: [], reason: 'NO_SHIFTS' }
     const result = []
     for (let start = 480; start + duration <= 1140; start += 30) {
         if (date === current.date && start <= current.minutes) continue
         if (canSchedule({ ...schedule, candidate: { start, end: start + duration } })) result.push(hhmm(start))
     }
-    return result
+    return { slots: result, reason: result.length ? null : 'NO_CAPACITY' }
 }
 function hhmm(n) { return `${String(Math.floor(n / 60)).padStart(2, '0')}:${String(n % 60).padStart(2, '0')}` }
 

@@ -4,6 +4,7 @@ import { services as defaultMockServices } from '../../data/duLieuMau.js'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { usePets } from '../../data/khoThuCung.jsx'
 import { useBookings } from '../../data/khoLichHen.jsx'
+import { availabilityMessage } from '../../lib/bookingAvailability.js'
 import {
   CLOSE,
   OPEN,
@@ -59,6 +60,9 @@ export default function BookingPage() {
   // Khung gio trong tu server
   const [slots, setSlots] = useState([])
   const [loadingSlots, setLoadingSlots] = useState(false)
+  const [slotReason, setSlotReason] = useState(null)
+  const [slotError, setSlotError] = useState('')
+  const [slotVersion, setSlotVersion] = useState(0)
 
   // 1. Tai danh sach dich vu tu backend API
   useEffect(() => {
@@ -111,20 +115,22 @@ export default function BookingPage() {
   useEffect(() => {
     if (!date || duration <= 0) {
       setSlots([])
+      setStart('');setSlotReason(null);setSlotError('');setLoadingSlots(false)
       return
     }
     let cancelled = false
     setLoadingSlots(true)
+    setSlots([]);setStart('');setSlotReason(null);setSlotError('');setErrors(prev=>({...prev,start:undefined}))
     fetchAvailableSlots(date, duration).then((res) => {
       if (!cancelled) {
         if (res.ok) {
           const serverSlots = res.slots || []
           setSlots(serverSlots)
-          if (serverSlots.length > 0 && !serverSlots.includes(start)) {
-            setStart(serverSlots[0])
-          }
+          setSlotReason(res.reason)
+          setStart(current=>serverSlots.includes(current)?current:serverSlots[0]||'')
         } else {
           setSlots([])
+          setSlotError(res.error||'Không thể kiểm tra khung giờ.')
         }
         setLoadingSlots(false)
       }
@@ -132,7 +138,7 @@ export default function BookingPage() {
     return () => {
       cancelled = true
     }
-  }, [date, duration, fetchAvailableSlots])
+  }, [date, duration, fetchAvailableSlots, slotVersion])
 
   const startValid = slots.includes(start)
   const endTime = startValid ? toHHMM(toMin(start) + duration) : ''
@@ -317,7 +323,7 @@ export default function BookingPage() {
                   : loadingSlots
                   ? 'Đang kiểm tra giờ...'
                   : slots.length === 0
-                  ? 'Không còn giờ trống'
+                  ? slotError ? 'Không tải được giờ hẹn' : slotReason==='NO_SHIFTS' ? 'Chưa có ca làm' : 'Chưa có giờ phù hợp'
                   : 'Chọn giờ'}
               </option>
               {slots.map((t) => (
@@ -334,9 +340,10 @@ export default function BookingPage() {
         </div>
 
         {duration > 0 && !loadingSlots && slots.length === 0 && date >= today && (
-          <p className="-mt-3 text-sm font-semibold text-red-600">
-            Ngày này không còn khung giờ đủ {duration} phút. Vui lòng chọn ngày khác hoặc bớt dịch vụ.
-          </p>
+          <div className="-mt-3 space-y-2 text-sm font-semibold text-amber-800">
+            <p role={slotError?'alert':'status'}>{availabilityMessage({error:slotError,reason:slotReason,duration})}</p>
+            <button type="button" className="font-bold text-brand-700 underline" onClick={()=>setSlotVersion(v=>v+1)}>Kiểm tra lại giờ hẹn</button>
+          </div>
         )}
         {slots.length > 0 && start && !startValid && (
           <p className="-mt-3 text-sm font-semibold text-amber-700">

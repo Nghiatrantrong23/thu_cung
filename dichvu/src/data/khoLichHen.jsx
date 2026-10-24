@@ -42,7 +42,7 @@ export function BookingProvider({ children }) {
       try {
         const result = await apiCall(`/api/lich-hen/khung-gio-trong?ngay=${date}&thoiLuong=${duration}`)
         if (result.ok) {
-          return { ok: true, slots: result.data.slots ?? [] }
+          return { ok: true, slots: result.data.slots ?? [], reason: result.data.reason ?? null }
         }
         return { ok: false, slots: [], error: result.error }
       } catch (err) {

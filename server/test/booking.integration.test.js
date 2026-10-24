@@ -133,6 +133,12 @@ test('booking HTTP acceptance on a new isolated PostgreSQL database', {
         await t.test('a day without care shifts has no slots and rejects booking', async () => {
             const slots = await call(`/api/lich-hen/khung-gio-trong?ngay=${days.empty}&thoiLuong=30`)
             assert.deepEqual(slots.body.slots, [])
+            assert.equal(slots.body.reason, 'NO_SHIFTS')
+            const open = await call(`/api/lich-hen/khung-gio-trong?ngay=${days.normal}&thoiLuong=90`)
+            assert.equal(open.body.reason,null)
+            assert.ok(open.body.slots.includes('08:00'))
+            assert.ok(open.body.slots.includes('17:30'))
+            assert.ok(!open.body.slots.includes('18:00'))
             assert.equal((await book(online({ ngay: days.empty }))).status, 409)
         })
         await t.test('strict validation and customer ownership are enforced through HTTP', async () => {

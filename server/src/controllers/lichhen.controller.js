@@ -1,6 +1,6 @@
 import { cancelBooking, getAvailableStaff, processBooking } from '../services/dispatch.js'
 import { query } from '../config/db.js'
-import { availableSlots, createBooking } from '../services/booking.js'
+import { availability, createBooking } from '../services/booking.js'
 
 // Map DB trang_thai -> frontend
 const STATUS_DISPLAY = {
@@ -50,7 +50,7 @@ function mapLichHen(row, dichVuList = []) {
 
 // Availability is advisory; createBooking rechecks under a transaction day lock.
 export async function layKhungGioTrong(req, res, next) {
-    try { res.json({ slots: await availableSlots(req.query.ngay, req.query.thoiLuong) }) }
+    try { res.json(await availability(req.query.ngay, req.query.thoiLuong)) }
     catch (err) { next(err) }
 }
 

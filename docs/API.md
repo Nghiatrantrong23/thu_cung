@@ -80,6 +80,8 @@ Chăm sóc:
 
 Lịch: `ChoXacNhan → DaXacNhan → DangThucHien → HoanThanh`; từ chối `TuChoi`, hủy `DaHuy` tách riêng. Đổi giờ về chờ phân công lại. Hủy/thu hẹp ca và thay tài khoản đều kiểm tra công suất trong khóa; không cộng hai ca kề nhau thành một ca.
 
+Khung giờ trống giữ trường `slots` và bổ sung `reason`: `NO_SHIFTS` khi không có ca chăm sóc hoạt động; `PAST_DATE` khi ngày đã qua; `NO_CAPACITY` khi có ca nhưng không còn khoảng phục vụ phù hợp; `null` khi có giờ chọn. Không trả thông tin cá nhân nhân viên cho khách. Giờ mở cửa không tự tạo ca; quản lý xếp ca qua MH-09. Lỗi API phải hiện thông báo lỗi, không diễn giải thành hết chỗ.
+
 ## Hóa đơn và thu tiền
 
 | Method/route | Quyền | Hợp đồng |

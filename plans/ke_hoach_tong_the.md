@@ -156,3 +156,7 @@ Admin không tự khóa/hạ vai trò. Đổi vai trò tạo đúng profile và 
 Sau công việc: cập nhật kế hoạch và [nhật ký](NHAT_KY_KIEM_TRA.md). Sau giai đoạn đạt nghiệm thu: commit/push lên nhánh công việc riêng theo [AGENTS.md](../AGENTS.md), so SHA của đúng nhánh remote trước khi báo đã lưu. Theo yêu cầu ngày 24/10/2026, không push trực tiếp lên main; chỉ merge vào main khi người dùng yêu cầu rõ. Không force-push, không commit `.env`, token, dump, build hoặc log. Git không sao lưu dữ liệu PostgreSQL.
 
 Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [kiểm thử](../server/test/README.md), [API](../docs/API.md), [thiết kế DB](02_THIET_KE_CO_SO_DU_LIEU.md), [báo cáo](BAO_CAO_KIEM_THU_HE_THONG.md). Lịch sử mốc 2.0–2.2 và lỗi trước sửa được giữ trong nhật ký/Git. Bộ ảnh UML gốc chưa được vẽ lại trong đợt lập trình này; code đã áp dụng các sửa SD-03, SD-04 và AD/SD-06, không tuyên bố các PNG đã thay đổi.
+
+### Sửa khung giờ đặt lịch ngày 24/10/2026
+
+Đã phân biệt ngày chưa có ca chăm sóc với không còn chỗ/lỗi API; có nút kiểm tra lại. Database local chưa có ca, người dùng chọn tự xếp ca trong MH-09; không tự tạo ca hoặc nới công suất. HTTP booking14/14, frontend14/14 và build72 modules đạt. Xem nhật ký chi tiết.

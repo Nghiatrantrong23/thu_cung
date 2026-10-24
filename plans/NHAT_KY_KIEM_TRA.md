@@ -97,3 +97,13 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Baseline 000/001 và migrate 002–005 trên đúng DB development loopback, không seed/test vào DB ứng dụng. Hash mọi giá trị cột cũ khớp trước/sau, password hash giữ nguyên; .env và production không thay đổi.
 - Sau sửa ready200, danh mục qua localhost5173 proxy200; login cố ý sai401 đúng hợp đồng, không còn503. Auth/hồ sơ trên DB test mới petcare_test_auth_loginfix_20261024a: 10/10 PASS, có login bcrypt thật, refresh/thu hồi phiên/đổi mật khẩu/tài khoản tạm. Không đọc hoặc đổi mật khẩu người dùng thật để kiểm chứng.
 - Tài liệu chi tiết docs/DB_LOCAL_RECOVERY.md. Chỉ lưu/push nhánh codex/sua-dang-nhap-db-local; không merge hoặc push main.
+
+
+## 24/10/2026 — khung giờ đặt lịch và ca chưa cấu hình
+
+- Tái hiện ngày khách chọn 28/10/2026: DB development không có ca nào (toàn bảng ca = 0), có 1 nhân viên chăm sóc hoạt động. Đây là thiếu cấu hình ca, không phải so sánh ngày tương lai sai hoặc thời gian mở cửa 08:00–19:00 bị lỗi.
+- Người dùng chọn tự xếp ca trong trang Quản lý; không seed, không tạo ca tự động, không nới kiểm tra công suất hoặc giả giờ trống.
+- API khung giờ giữ slots và thêm reason NO_SHIFTS/NO_CAPACITY/PAST_DATE/null. Frontend hiển thị chưa có ca rõ ràng, tách lỗi tải API khỏi thiếu chỗ, xóa giờ cũ trong khi tải và thêm nút kiểm tra lại sau khi quản lý xếp ca.
+- HTTP booking DB test riêng petcare_test_slots_reason_20261024a: 14/14 PASS, gồm ngày không ca trả NO_SHIFTS, ngày có ca cho dịch vụ90 phút có08:00/17:30 và không18:00; tranh chỗ cuối201/409 vẫn đạt. Frontend14/14 PASS, build72 modules đạt. Không ghi dữ liệu kiểm thử vào DB ứng dụng.
+- Tab kiểm tra mới không chia sẻ phiên đăng nhập của tab người dùng, nên không xác nhận QA UI đã đăng nhập bằng mật khẩu thật; không thay đổi tab hồ sơ hiện tại. Bằng chứng chính là HTTP tích hợp và kiểm thử frontend/build.
+- Nhánh codex/sua-thong-bao-khung-gio, không push main. Hướng dẫn: Quản lý → Ca làm việc → chọn28/10/2026 → nhân viên chăm sóc →08:00–19:00 → Lưu ca; trang đặt lịch chọn lại ngày hoặc Kiểm tra lại giờ hẹn. Với90 phút, giờ bắt đầu muộn nhất17:30.
