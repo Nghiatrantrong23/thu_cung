@@ -107,3 +107,12 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - HTTP booking DB test riêng petcare_test_slots_reason_20261024a: 14/14 PASS, gồm ngày không ca trả NO_SHIFTS, ngày có ca cho dịch vụ90 phút có08:00/17:30 và không18:00; tranh chỗ cuối201/409 vẫn đạt. Frontend14/14 PASS, build72 modules đạt. Không ghi dữ liệu kiểm thử vào DB ứng dụng.
 - Tab kiểm tra mới không chia sẻ phiên đăng nhập của tab người dùng, nên không xác nhận QA UI đã đăng nhập bằng mật khẩu thật; không thay đổi tab hồ sơ hiện tại. Bằng chứng chính là HTTP tích hợp và kiểm thử frontend/build.
 - Nhánh codex/sua-thong-bao-khung-gio, không push main. Hướng dẫn: Quản lý → Ca làm việc → chọn28/10/2026 → nhân viên chăm sóc →08:00–19:00 → Lưu ca; trang đặt lịch chọn lại ngày hoặc Kiểm tra lại giờ hẹn. Với90 phút, giờ bắt đầu muộn nhất17:30.
+
+## 24/10/2026 — nâng cấp Emerald, đợt1: kiểm kê và đặc tả trước code
+
+- Đọc master prompt người dùng trong attachment, kế hoạch chuẩn, App/routes/layout/Context/theme/components và routes/controllers/services/middleware/schema000–005. Mốc “giai đoạn7” trong prompt cũ hơn code; hiện nghiệp vụ đến11, còn nghiệm thu12. Giữ roadmap6đợtUI riêng.
+- Xuất plans/MA_TRAN_UI_QUYEN_API.md và plans/DESIGN_SYSTEM_EMERALD.md, cập nhật kế hoạch. Chỉ tài liệu; chưa thay UI/API/DB/role/overlap/refund.
+- Ghi nhận fallback mock dịch vụ ở đặt khách/quầy; danh sách tài chính/KNLIMIT200; unread50; trạng thái map trùng/thiếu; chưa có StaffLayout và5dashboard. Đưa vào kế hoạch triển khai thay vì coi đã hoàn thành.
+- Người dùng đã chọn thêm luồng khách tự gửi khiếu nại chỉ lịch sở hữu. Đặc tả endpoint riêng, giữ POSTtiếpnhận cũ và quyền duyệtQ/A/chiT/Q/A; chưa viết endpoint và không ghi giả đó là nhân viên đã tiếp nhận.
+- Baseline chạy mới: backend npmtest67PASS/9skip; frontend14/14PASS/build72modules. Lint BLOCKED vì chưa có script/config. Responsive/UI mới chưa nghiệm thu vì mới phần audit/design; không sử dụng kết quảQA cũ để gọi UI mớiPASS.
+- Trước/sau: hiện trạng và đích ghi trong DS; danh sách file chỉ4tài liệu mới/sửa; nguồn UI→API ghi từng dòng ma trận; responsive375/768/1440 là tiêu chí cần kiểm khi code1b, chưa là kết quả. Git nhánh codex/nang-cap-ui-dot-1, không main.

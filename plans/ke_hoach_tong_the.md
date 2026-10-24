@@ -160,3 +160,20 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 ### Sửa khung giờ đặt lịch ngày 24/10/2026
 
 Đã phân biệt ngày chưa có ca chăm sóc với không còn chỗ/lỗi API; có nút kiểm tra lại. Database local chưa có ca, người dùng chọn tự xếp ca trong MH-09; không tự tạo ca hoặc nới công suất. HTTP booking14/14, frontend14/14 và build72 modules đạt. Xem nhật ký chi tiết.
+
+## 7. Nâng cấp Emerald UI — roadmap 6 đợt theo yêu cầu ngày 24/10/2026
+
+Đây là đợt nâng cấp giao diện và nối các luồng thiếu trên code giai đoạn1–11, không đổi số giai đoạn nghiệp vụ hoặc làm lại từ đầu. Nguồn chi tiết: [ma trận màn hình/quyền/API](MA_TRAN_UI_QUYEN_API.md), [đặc tả Design System](DESIGN_SYSTEM_EMERALD.md).
+
+| Đợt nâng cấp | Phạm vi | Trạng thái |
+| --- | --- | --- |
+| 1 | Kiểm kê5vai trò và DS dùng chung | Đã xuất ma trận và đặc tả trước code; components/layout DS chưa triển khai |
+| 2 | Khách: dashboard, Pet Cards, wizard, hóa đơn/KN, menu | Chưa triển khai nâng cấp |
+| 3 | Chăm sóc: hôm nay, timeline/progress/notes, profile | Chưa triển khai nâng cấp |
+| 4 | Lễ tân: dashboard/calendar/filter/POS | Chưa triển khai nâng cấp |
+| 5 | Quản lý/Admin: KPIs/charts/alerts/lighttheme | Chưa triển khai nâng cấp |
+| 6 | Hồi quy/responsive/nghiệm thu mới | Chưa chạy nghiệm thu UI mới |
+
+Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14PASS/build72modules. Lint chưa có script/config; UI mới/responsive chưa có để nghiệm thu, không báo PASS. Không thay runtime code/DB trong phần kiểm kê. Các kết quả cũ giữ rõ là mốc trước, không cộng trùng.
+
+Đã chốt với người dùng: bổ sung luồng khách tự gửi khiếu nại trên lịch sở hữu; không thay quyền endpoint tiếp nhận cũ, không cấp duyệt/chi cho khách. DS không tự phân loại bệnh từ ghi chú TEXT, không tính KPI tổng từ listLIMIT200 hoặc unread50tin. Bỏ fallback dịch vụ mock khi nâng cấp2/4. Ca local vẫn do người dùng tự xếp; không thêm tự động. OTP/email/cổng thanh toán/WebSocket P2 giữ để sau.
