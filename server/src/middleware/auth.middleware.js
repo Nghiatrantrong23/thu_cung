@@ -88,3 +88,38 @@ export function requireRole(...allowedRoles) {
 export function requireAdmin(req, res, next) {
     return requireRole('Admin')(req, res, next)
 }
+
+/** Reception/management permissions depend on the position read from the DB,
+ * not a role or position supplied by the client. */
+export function canManageAppointments(user) {
+    return user?.role === 'Admin'
+        || (user?.role === 'NhanVien' && ['Lễ tân', 'Quản lý'].includes(user.chucVu))
+}
+
+function checkPermission(req, res, next, allowed) {
+    if (!req.user) {
+        return res.status(401).json({ error: 'Authentication required' })
+    }
+    if (!allowed) {
+        return res.status(403).json({ error: 'Bạn không có quyền thực hiện thao tác này.' })
+    }
+    return next()
+}
+
+export function requireReception(req, res, next) {
+    return checkPermission(req, res, next, canManageAppointments(req.user))
+}
+
+// Customers still need ownership checks in the controller.
+export function requireCustomerOrReception(req, res, next) {
+    return checkPermission(req, res, next,
+        req.user?.role === 'KhachHang' || canManageAppointments(req.user))
+}
+
+// Care staff may read only their assigned appointments (controller filter).
+export function requireAppointmentReader(req, res, next) {
+    return checkPermission(req, res, next,
+        req.user?.role === 'KhachHang'
+        || canManageAppointments(req.user)
+        || (req.user?.role === 'NhanVien' && req.user.chucVu === 'Nhân viên chăm sóc'))
+}

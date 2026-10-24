@@ -1,14 +1,5 @@
-import { query, withTransaction } from '../config/db.js'
-
-// -------------------------------------------------------
-// Constants
-// -------------------------------------------------------
-const OPEN_HOUR = 8   // 08:00
-const CLOSE_HOUR = 19 // 19:00
-const STEP_MIN = 30   // buoc gio hen: 30 phut
-
-// Trang thai lich hen dang chiem giu khung gio
-const ACTIVE_STATUSES = ['ChoXacNhan', 'DaXacNhan', 'DangThucHien']
+import { query } from '../config/db.js'
+import { availableSlots, createBooking } from '../services/booking.js'
 
 // Map DB trang_thai -> frontend
 const STATUS_DISPLAY = {
@@ -17,18 +8,7 @@ const STATUS_DISPLAY = {
     DangThucHien: 'Đang thực hiện',
     HoanThanh: 'Hoàn thành',
     DaHuy: 'Đã hủy',
-}
-
-function toMin(hhmm) {
-    if (!hhmm) return 0
-    const [h, m] = hhmm.split(':').map(Number)
-    return h * 60 + m
-}
-
-function toHHMM(minutes) {
-    const h = String(Math.floor(minutes / 60)).padStart(2, '0')
-    const m = String(minutes % 60).padStart(2, '0')
-    return `${h}:${m}`
+    TuChoi: 'Từ chối',
 }
 
 function mapLichHen(row, dichVuList = []) {
@@ -62,76 +42,10 @@ function mapLichHen(row, dichVuList = []) {
     }
 }
 
-// -------------------------------------------------------
-// Tinh khung gio trong trong ngay
-// -------------------------------------------------------
-async function tinhKhungGioTrong(date, durationMin) {
-    if (!date || !durationMin || durationMin <= 0) return []
-
-    // Lay tat ca lich hen chua huy trong ngay (dinh dang HH24:MI)
-    const result = await query(
-        `SELECT to_char(ngay_gio_hen, 'HH24:MI') as start_str,
-                to_char(ngay_gio_ket_thuc_du_kien, 'HH24:MI') as end_str
-         FROM lich_hen
-         WHERE to_char(ngay_gio_hen, 'YYYY-MM-DD') = $1
-           AND trang_thai = ANY($2::text[])`,
-        [date, ACTIVE_STATUSES]
-    )
-
-    // Moi lich hen chiem 1 "slot" trong capacity (toi da 2 lich chay song song)
-    const CAPACITY = 2
-    const busy = result.rows.map((r) => ({
-        s: toMin(r.start_str),
-        e: toMin(r.end_str),
-    }))
-
-    const openMin = OPEN_HOUR * 60
-    const closeMin = CLOSE_HOUR * 60
-    const now = new Date()
-    const todayISO = now.toISOString().slice(0, 10)
-    const isToday = date === todayISO
-    // Tinh gio hien tai (UTC+7 o VN hoac local)
-    const nowMin = now.getHours() * 60 + now.getMinutes()
-
-    const slots = []
-    for (let s = openMin; s + durationMin <= closeMin; s += STEP_MIN) {
-        if (isToday && s <= nowMin) continue
-        const e = s + durationMin
-        let free = true
-        for (let t = s; t < e; t += STEP_MIN) {
-            const count = busy.filter((b) => b.s <= t && t < b.e).length
-            if (count >= CAPACITY) {
-                free = false
-                break
-            }
-        }
-        if (free) {
-            slots.push(toHHMM(s))
-        }
-    }
-    return slots
-}
-
-/**
- * GET /api/lich-hen/khung-gio-trong?ngay=YYYY-MM-DD&thoiLuong=90
- * Tra ve danh sach gio bat dau con trong.
- */
+// Availability is advisory; createBooking rechecks under a transaction day lock.
 export async function layKhungGioTrong(req, res, next) {
-    try {
-        const { ngay, thoiLuong } = req.query
-        if (!ngay || !thoiLuong) {
-            return res.status(400).json({ error: 'Thiếu tham số ngay hoặc thoiLuong.' })
-        }
-        const duration = parseInt(thoiLuong, 10)
-        if (isNaN(duration) || duration <= 0) {
-            return res.status(400).json({ error: 'thoiLuong phải là số nguyên dương.' })
-        }
-
-        const slots = await tinhKhungGioTrong(ngay, duration)
-        res.json({ slots })
-    } catch (err) {
-        next(err)
-    }
+    try { res.json({ slots: await availableSlots(req.query.ngay, req.query.thoiLuong) }) }
+    catch (err) { next(err) }
 }
 
 /**
@@ -153,6 +67,10 @@ export async function layDanhSachLichHen(req, res, next) {
         } else {
             const { ngay, trangThai } = req.query
             const conditions = []
+            if (req.user.role === 'NhanVien' && req.user.chucVu === 'Nhân viên chăm sóc') {
+                params.push(userId)
+                conditions.push(`lh.ma_nhan_vien = $${params.length}`)
+            }
             if (ngay) {
                 conditions.push(`to_char(lh.ngay_gio_hen, 'YYYY-MM-DD') = $${params.length + 1}`)
                 params.push(ngay)
@@ -215,260 +133,21 @@ export async function layDanhSachLichHen(req, res, next) {
     }
 }
 
-/**
- * POST /api/lich-hen
- * Khach hang tu dat lich truc tuyen (AD-02, MH-02).
- * Body: { thuCungId, ngay, gioStart, dichVuIds[], ghiChu }
- */
-export async function datLichOnline(req, res, next) {
+async function respondCreated(req, res, next, counter) {
     try {
-        const userId = req.user.userId
-        const { thuCungId, ngay, gioStart, dichVuIds, ghiChu } = req.body
-
-        // Validate input
-        if (!thuCungId || !ngay || !gioStart || !dichVuIds || dichVuIds.length === 0) {
-            return res.status(400).json({ error: 'Vui lòng điền đầy đủ: thú cưng, ngày, giờ và dịch vụ.' })
-        }
-
-        // Kiem tra thu cung thuoc ve khach hang nay
-        const tcResult = await query(
-            `SELECT ma_thu_cung, ten_thu_cung, loai_thu_cung, trang_thai FROM thu_cung WHERE ma_thu_cung = $1 AND ma_khach_hang = $2`,
-            [thuCungId, userId]
-        )
-        if (tcResult.rows.length === 0) {
-            return res.status(403).json({ error: 'Không tìm thấy thú cưng hoặc bạn không có quyền.' })
-        }
-        const thuCung = tcResult.rows[0]
-        if (!thuCung.trang_thai) {
-            return res.status(400).json({ error: `${thuCung.ten_thu_cung} đang ở trạng thái ngừng theo dõi.` })
-        }
-
-        // Lay thong tin dich vu
-        const dvResult = await query(
-            `SELECT ma_dv, ten_dv, gia_hien_hanh, thoi_luong_phut FROM dich_vu WHERE ma_dv = ANY($1::int[]) AND trang_thai = true`,
-            [dichVuIds]
-        )
-        if (dvResult.rows.length !== dichVuIds.length) {
-            return res.status(400).json({ error: 'Một hoặc nhiều dịch vụ không hợp lệ hoặc đã ngừng cung cấp.' })
-        }
-
-        const totalDuration = dvResult.rows.reduce((s, d) => s + (d.thoi_luong_phut || 0), 0)
-        if (totalDuration <= 0) {
-            return res.status(400).json({ error: 'Không tính được tổng thời lượng dịch vụ.' })
-        }
-
-        // Tinh thoi gian ket thuc
-        const [h, m] = gioStart.split(':').map(Number)
-        const startMin = h * 60 + m
-        const endMin = startMin + totalDuration
-        const CLOSE_MIN = CLOSE_HOUR * 60
-
-        if (startMin < OPEN_HOUR * 60 || endMin > CLOSE_MIN) {
-            return res.status(400).json({ error: `Lịch hẹn phải nằm trong khung 08:00 – 19:00 (kết thúc lúc ${toHHMM(endMin)}).` })
-        }
-
-        const endHH = String(Math.floor(endMin / 60)).padStart(2, '0')
-        const endMM = String(endMin % 60).padStart(2, '0')
-        const ngayGioHen = `${ngay} ${gioStart}:00`
-        const ngayGioKetThuc = `${ngay} ${endHH}:${endMM}:00`
-
-        // Kiem tra khung gio con trong truoc khi insert (tranh double-booking)
-        const slots = await tinhKhungGioTrong(ngay, totalDuration)
-        if (!slots.includes(gioStart)) {
-            return res.status(409).json({ error: 'Khung giờ này vừa có người đặt hoặc không còn trống. Vui lòng chọn giờ khác.' })
-        }
-
-        // Tao lich hen trong transaction
-        const lichHenId = await withTransaction(async (client) => {
-            const lhResult = await client.query(
-                `INSERT INTO lich_hen (ma_thu_cung, ngay_gio_hen, ngay_gio_ket_thuc_du_kien, trang_thai, ghi_chu)
-                 VALUES ($1, $2, $3, 'ChoXacNhan', $4)
-                 RETURNING ma_lich_hen`,
-                [thuCungId, ngayGioHen, ngayGioKetThuc, ghiChu?.trim() || null]
-            )
-            const newId = lhResult.rows[0].ma_lich_hen
-
-            // Insert chi_tiet_lich_hen
-            for (const dv of dvResult.rows) {
-                await client.query(
-                    `INSERT INTO chi_tiet_lich_hen (ma_lich_hen, ma_dv, so_luong, gia_du_kien, trang_thai)
-                     VALUES ($1, $2, 1, $3, 'ChoThucHien')`,
-                    [newId, dv.ma_dv, dv.gia_hien_hanh]
-                )
-            }
-
-            return newId
-        })
-
-        console.log(`[lichhen] Dat lich moi: #${lichHenId} - thuCung=${thuCungId} - user=${userId}`)
-
-        // Tra ve lich hen vua tao
-        const dvList = dvResult.rows.map((d) => ({
-            id: d.ma_dv, ten: d.ten_dv, gia: Number(d.gia_hien_hanh), soLuong: 1, trangThai: 'ChoThucHien'
-        }))
-
-        const createdBooking = mapLichHen({
-            ma_lich_hen: lichHenId,
-            ma_thu_cung: thuCungId,
-            ten_thu_cung: thuCung.ten_thu_cung,
-            loai_thu_cung: thuCung.loai_thu_cung,
-            ma_nhan_vien: null,
-            ten_nhan_vien: null,
-            ngay_hen: ngay,
-            gio_hen: gioStart,
-            gio_ket_thuc: `${endHH}:${endMM}`,
-            trang_thai: 'ChoXacNhan',
-            ghi_chu: ghiChu?.trim() || '',
-            ngay_tao: new Date(),
-        }, dvList)
-
-        res.status(201).json({
-            message: 'Đặt lịch thành công. Lễ tân sẽ xác nhận và phân công nhân viên cho bé.',
-            booking: createdBooking,
-            lichHen: createdBooking
-        })
-    } catch (err) {
-        if (err.code === '23P01') {
-            return res.status(409).json({ error: 'Khung giờ này vừa có người đặt. Vui lòng chọn giờ khác.' })
-        }
-        if (err.code === '23514') {
-            return res.status(400).json({ error: 'Lịch hẹn nằm ngoài giờ mở cửa (08:00 – 19:00) hoặc không hợp lệ.' })
-        }
-        next(err)
-    }
+        const created = await createBooking(req.body, req.user, { counter })
+        const serviceList = created.services.map((d) => ({ id: d.ma_dv, ten: d.ten_dv, gia: Number(d.gia_hien_hanh), soLuong: 1, trangThai: 'ChoThucHien' }))
+        const booking = mapLichHen({
+            ma_lich_hen: created.id, ma_thu_cung: created.pet.ma_thu_cung,
+            ten_thu_cung: created.pet.ten_thu_cung, loai_thu_cung: created.pet.loai_thu_cung,
+            ngay_hen: created.date, gio_hen: created.start, gio_ket_thuc: created.end,
+            trang_thai: 'ChoXacNhan', ghi_chu: created.note, ngay_tao: new Date(),
+        }, serviceList)
+        res.status(201).json({ message: 'Đặt lịch thành công. Lịch đang chờ xác nhận.', lichHenId: created.id, booking, lichHen: booking })
+    } catch (err) { next(err) }
 }
-
-/**
- * POST /api/lich-hen/tai-quay
- * Le tan dat lich ho khach tai quay (AD-02, MH-02b).
- * Body: { khachHangId?, sdt?, hoTen?, thuCungId, ngay, gioStart, dichVuIds[], ghiChu }
- * Neu khachHangId = null va co sdt: tu sinh tai khoan tam.
- */
-export async function datLichTaiQuay(req, res, next) {
-    try {
-        const { khachHangId, sdt, hoTen, thuCungId, tenThuCung, loaiThuCung, ngay, gioStart, dichVuIds, ghiChu } = req.body
-        const leTanId = req.user.userId
-
-        if ((!thuCungId && !tenThuCung) || !ngay || !gioStart || !dichVuIds || dichVuIds.length === 0) {
-            return res.status(400).json({ error: 'Vui lòng điền đầy đủ: thú cưng, ngày, giờ và dịch vụ.' })
-        }
-
-        let targetKhachHangId = khachHangId
-
-        // Neu chua co khach hang: tu sinh tai khoan tam (khach moi)
-        if (!targetKhachHangId && sdt) {
-            const existing = await query(
-                `SELECT ma_nguoi_dung FROM nguoi_dung WHERE so_dien_thoai = $1`, [sdt.trim()]
-            )
-            if (existing.rows.length > 0) {
-                targetKhachHangId = existing.rows[0].ma_nguoi_dung
-            } else {
-                // Sinh tai khoan tam
-                targetKhachHangId = await withTransaction(async (client) => {
-                    const tenDangNhap = sdt.trim()
-                    const randomPass = Math.random().toString(36).slice(2, 10)
-                    const bcrypt = await import('bcrypt')
-                    const hash = await bcrypt.default.hash(randomPass, 10)
-                    const uRes = await client.query(
-                        `INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau_hash, so_dien_thoai, vai_tro, trang_thai)
-                         VALUES ($1, $2, $3, 'KhachHang', true) RETURNING ma_nguoi_dung`,
-                        [tenDangNhap, hash, sdt.trim()]
-                    )
-                    const uid = uRes.rows[0].ma_nguoi_dung
-                    await client.query(
-                        `INSERT INTO khach_hang (ma_khach_hang, ho_ten) VALUES ($1, $2)`,
-                        [uid, hoTen?.trim() || 'Khách vãng lai']
-                    )
-                    console.log(`[lichhen] Tao tai khoan tam cho khach moi: ${tenDangNhap} (SDT: ${sdt})`)
-                    return uid
-                })
-            }
-        }
-
-        if (!targetKhachHangId) {
-            return res.status(400).json({ error: 'Vui lòng cung cấp mã khách hàng hoặc số điện thoại.' })
-        }
-
-        // Kiem tra thu cung hoac tao moi neu can
-        let finalThuCungId = thuCungId ? Number(thuCungId) : null
-        if (!finalThuCungId && tenThuCung) {
-            const newPetRes = await query(
-                `INSERT INTO thu_cung (ma_khach_hang, ten_thu_cung, loai_thu_cung, trang_thai)
-                 VALUES ($1, $2, $3, true) RETURNING ma_thu_cung`,
-                [targetKhachHangId, tenThuCung.trim(), loaiThuCung?.trim() || 'Chó']
-            )
-            finalThuCungId = newPetRes.rows[0].ma_thu_cung
-        }
-
-        const tcResult = await query(
-            `SELECT ma_thu_cung, ten_thu_cung, loai_thu_cung, trang_thai FROM thu_cung WHERE ma_thu_cung = $1 AND ma_khach_hang = $2`,
-            [finalThuCungId, targetKhachHangId]
-        )
-        if (tcResult.rows.length === 0) {
-            return res.status(403).json({ error: 'Không tìm thấy thú cưng của khách hàng này.' })
-        }
-
-        const dvResult = await query(
-            `SELECT ma_dv, ten_dv, gia_hien_hanh, thoi_luong_phut FROM dich_vu WHERE ma_dv = ANY($1::int[]) AND trang_thai = true`,
-            [dichVuIds]
-        )
-        if (dvResult.rows.length !== dichVuIds.length) {
-            return res.status(400).json({ error: 'Một hoặc nhiều dịch vụ không hợp lệ.' })
-        }
-
-        const totalDuration = dvResult.rows.reduce((s, d) => s + (d.thoi_luong_phut || 0), 0)
-        const [h, m] = gioStart.split(':').map(Number)
-        const startMin = h * 60 + m
-        const endMin = startMin + totalDuration
-
-        if (startMin < OPEN_HOUR * 60 || endMin > CLOSE_HOUR * 60) {
-            return res.status(400).json({ error: 'Lịch hẹn phải nằm trong khung 08:00 – 19:00.' })
-        }
-
-        const endHH = String(Math.floor(endMin / 60)).padStart(2, '0')
-        const endMM = String(endMin % 60).padStart(2, '0')
-        const ngayGioHen = `${ngay} ${gioStart}:00`
-        const ngayGioKetThuc = `${ngay} ${endHH}:${endMM}:00`
-
-        const slots = await tinhKhungGioTrong(ngay, totalDuration)
-        if (!slots.includes(gioStart)) {
-            return res.status(409).json({ error: 'Khung giờ này không còn trống. Vui lòng chọn giờ khác.' })
-        }
-
-        const lichHenId = await withTransaction(async (client) => {
-            const lhResult = await client.query(
-                `INSERT INTO lich_hen (ma_thu_cung, ngay_gio_hen, ngay_gio_ket_thuc_du_kien, trang_thai, ghi_chu)
-                 VALUES ($1, $2, $3, 'ChoXacNhan', $4)
-                 RETURNING ma_lich_hen`,
-                [finalThuCungId, ngayGioHen, ngayGioKetThuc, ghiChu?.trim() || null]
-            )
-            const newId = lhResult.rows[0].ma_lich_hen
-            for (const dv of dvResult.rows) {
-                await client.query(
-                    `INSERT INTO chi_tiet_lich_hen (ma_lich_hen, ma_dv, so_luong, gia_du_kien, trang_thai)
-                     VALUES ($1, $2, 1, $3, 'ChoThucHien')`,
-                    [newId, dv.ma_dv, dv.gia_hien_hanh]
-                )
-            }
-            return newId
-        })
-
-        console.log(`[lichhen] Dat lich tai quay: #${lichHenId} - letan=${leTanId} - khach=${targetKhachHangId}`)
-
-        res.status(201).json({
-            message: `Đã đặt lịch hẹn #${lichHenId} tại quầy thành công.`,
-            lichHenId,
-        })
-    } catch (err) {
-        if (err.code === '23P01') {
-            return res.status(409).json({ error: 'Khung giờ này vừa có người đặt. Vui lòng chọn giờ khác.' })
-        }
-        if (err.code === '23514') {
-            return res.status(400).json({ error: 'Lịch hẹn nằm ngoài giờ mở cửa hoặc không hợp lệ.' })
-        }
-        next(err)
-    }
-}
+export async function datLichOnline(req, res, next) { return respondCreated(req, res, next, false) }
+export async function datLichTaiQuay(req, res, next) { return respondCreated(req, res, next, true) }
 
 /**
  * PATCH /api/lich-hen/:id/huy
@@ -502,10 +181,11 @@ export async function huyLichHen(req, res, next) {
             return res.status(400).json({ error: `Không thể hủy lịch đang ở trạng thái "${STATUS_DISPLAY[lh.trang_thai] ?? lh.trang_thai}".` })
         }
 
-        await query(
-            `UPDATE lich_hen SET trang_thai = 'DaHuy' WHERE ma_lich_hen = $1`,
+        const updated = await query(
+            `UPDATE lich_hen SET trang_thai = 'DaHuy', ngay_cap_nhat=NOW() WHERE ma_lich_hen = $1 AND trang_thai IN ('ChoXacNhan','DaXacNhan')`,
             [id]
         )
+        if (!updated.rowCount) return res.status(409).json({ error: 'Lịch hẹn đã đổi trạng thái. Vui lòng tải lại.' })
 
         console.log(`[lichhen] Huy lich #${id} - user=${userId}`)
         res.json({ message: `Đã hủy lịch hẹn #${id} thành công.` })

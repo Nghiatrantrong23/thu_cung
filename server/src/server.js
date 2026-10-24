@@ -8,7 +8,8 @@ import adminRoutes from './routes/admin.routes.js'
 import petRoutes, { traCuuKhachHang } from './routes/pet.routes.js'
 import dichVuRoutes from './routes/dichvu.routes.js'
 import lichHenRoutes from './routes/lichhen.routes.js'
-import { authenticate } from './middleware/auth.middleware.js'
+import { authenticate, requireReception } from './middleware/auth.middleware.js'
+import { errorHandler } from './middleware/error.middleware.js'
 
 
 const app = express()
@@ -44,7 +45,7 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/thu-cung', petRoutes)
 app.use('/api/dich-vu', dichVuRoutes)
 app.use('/api/lich-hen', lichHenRoutes)
-app.get('/api/khach-hang/tra-cuu', authenticate, traCuuKhachHang)
+app.get('/api/khach-hang/tra-cuu', authenticate, requireReception, traCuuKhachHang)
 
 
 // 404 handler
@@ -53,14 +54,7 @@ app.use((req, res) => {
 })
 
 // Error handler
-app.use((err, req, res, next) => {
-    console.error('[error]', err)
-    const status = err.status || 500
-    res.status(status).json({
-        error: err.message || 'Internal server error',
-        ...(env.nodeEnv === 'development' && { stack: err.stack }),
-    })
-})
+app.use(errorHandler)
 
 // Start server
 const PORT = env.port

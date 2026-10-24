@@ -1,4 +1,4 @@
-import { query } from '../config/db.js'
+import { query, withTransaction } from '../config/db.js'
 
 // -------------------------------------------------------
 // Helper: Chuẩn hóa loài và giới tính
@@ -82,6 +82,10 @@ export async function layChiTietThuCung(req, res, next) {
             return res.status(403).json({ error: 'Bạn không có quyền xem thú cưng này.' })
         }
 
+        if (role === 'NhanVien' && req.user.chucVu === 'Nhân viên chăm sóc') {
+            const assigned = await query('SELECT 1 FROM lich_hen WHERE ma_thu_cung=$1 AND ma_nhan_vien=$2 LIMIT 1', [id, userId])
+            if (!assigned.rows.length) return res.status(403).json({ error: 'Bạn chỉ được xem thú cưng trong lịch được phân công.' })
+        }
         res.json({ pet: mapPetToFrontend(pet) })
     } catch (err) {
         next(err)
@@ -221,52 +225,22 @@ export async function capNhatThuCung(req, res, next) {
  */
 export async function doiTrangThaiThuCung(req, res, next) {
     try {
-        const { id } = req.params
-        const userId = req.user.userId
-        const { active } = req.body
-
-        const existing = await query(
-            `SELECT ma_thu_cung, ma_khach_hang, ten_thu_cung, trang_thai FROM thu_cung WHERE ma_thu_cung = $1`,
-            [id]
-        )
-        if (existing.rows.length === 0) {
-            return res.status(404).json({ error: 'Không tìm thấy thú cưng.' })
-        }
-        const current = existing.rows[0]
-        if (current.ma_khach_hang !== userId) {
-            return res.status(403).json({ error: 'Bạn không có quyền thao tác với thú cưng này.' })
-        }
-
-        // Neu ngung theo doi: kiem tra lich hen dang mo
-        if (!active) {
-            const openAppt = await query(
-                `SELECT ma_lich_hen FROM lich_hen
-                 WHERE ma_thu_cung = $1 AND trang_thai IN ('ChoXacNhan', 'DaXacNhan', 'DangThucHien')
-                 LIMIT 1`,
-                [id]
-            )
-            if (openAppt.rows.length > 0) {
-                return res.status(400).json({
-                    error: `${current.ten_thu_cung} đang có lịch hẹn chưa kết thúc. Hãy hủy hoặc chờ hoàn thành lịch hẹn trước khi ngừng theo dõi.`,
-                })
+        if (typeof req.body.active !== 'boolean') return res.status(400).json({ error: 'Trạng thái phải là true hoặc false.' })
+        const pet = await withTransaction(async (client) => {
+            // Serialize status changes with booking's pet FOR SHARE before checking open jobs.
+            const existing = await client.query('SELECT * FROM thu_cung WHERE ma_thu_cung=$1 FOR UPDATE', [req.params.id])
+            const current = existing.rows[0]
+            if (!current) throw Object.assign(new Error('Không tìm thấy thú cưng.'), { status: 404 })
+            if (current.ma_khach_hang !== req.user.userId) throw Object.assign(new Error('Bạn không có quyền thao tác với thú cưng này.'), { status: 403 })
+            if (!req.body.active) {
+                const open = await client.query("SELECT 1 FROM lich_hen WHERE ma_thu_cung=$1 AND trang_thai IN ('ChoXacNhan','DaXacNhan','DangThucHien') LIMIT 1", [req.params.id])
+                if (open.rows.length) throw Object.assign(new Error('Thú cưng đang có lịch hẹn chưa kết thúc.'), { status: 400 })
             }
-        }
-
-        const newStatus = Boolean(active)
-        const result = await query(
-            `UPDATE thu_cung SET trang_thai = $1, ngay_cap_nhat = NOW()
-             WHERE ma_thu_cung = $2
-             RETURNING ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, trang_thai, ngay_tao`,
-            [newStatus, id]
-        )
-
-        const pet = mapPetToFrontend(result.rows[0])
-        const msg = newStatus ? `Đã theo dõi lại ${pet.name}.` : `Đã ngừng theo dõi ${pet.name}. Bé sẽ không xuất hiện khi đặt lịch.`
-        console.log(`[pet] Đổi trạng thái: ${pet.name} -> ${newStatus} - userId=${userId}`)
-        res.json({ pet, message: msg })
-    } catch (err) {
-        next(err)
-    }
+            const result = await client.query('UPDATE thu_cung SET trang_thai=$1,ngay_cap_nhat=NOW() WHERE ma_thu_cung=$2 RETURNING *', [req.body.active, req.params.id])
+            return mapPetToFrontend(result.rows[0])
+        })
+        res.json({ pet, message: pet.active ? `Đã theo dõi lại ${pet.name}.` : `Đã ngừng theo dõi ${pet.name}.` })
+    } catch (err) { next(err) }
 }
 
 /**
@@ -277,8 +251,8 @@ export async function traCuuKhachHang(req, res, next) {
     try {
         const { sdt } = req.query
 
-        if (!sdt || !/^\d{9,11}$/.test(sdt.trim())) {
-            return res.status(400).json({ error: 'Số điện thoại không hợp lệ (9–11 chữ số).' })
+        if (!sdt || !/^\d{10}$/.test(sdt.trim())) {
+            return res.status(400).json({ error: 'Số điện thoại không hợp lệ (10 chữ số).' })
         }
 
         const userResult = await query(

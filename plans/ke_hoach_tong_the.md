@@ -14,16 +14,16 @@ Quy ước:
 - **Có SQL:** có khai báo bảng/ràng buộc; chưa xác nhận đã được áp dụng vào DB đang chạy.
 - **Chưa tích hợp:** có file nhưng chưa nối vào luồng sử dụng.
 - **Kế hoạch:** đầu việc chưa triển khai hoặc cần hoàn thiện.
-- **Nghiệm thu:** chỉ đánh dấu hoàn thành sau khi có kết quả kiểm thử. Lần rà soát tài liệu ban đầu chỉ đọc mã nguồn. Trong lần thiết lập Git sau đó, frontend đã build thành công và 19 file JavaScript backend qua kiểm tra cú pháp trên bản sao khớp mã nguồn; chưa chạy server/DB, seed, migration hoặc E2E. Xem NHAT_KY_KIEM_TRA.md.
+- **Nghiệm thu:** chỉ đánh dấu hoàn thành sau khi có kết quả kiểm thử. Bản 2.0 chỉ đọc mã. Lần triển khai 2.1 đã chạy backend/HTTP, migration/seed trên PostgreSQL 17 cô lập và build frontend. Backend mặc định: 63 kiểm thử đạt, 2 nhóm tích hợp bỏ qua khi không khai báo DB; các nhóm tích hợp đã chạy riêng: DB 8/8 và HTTP đặt lịch 14/14. Frontend 7/7 và build 55 modules đạt. Chưa nghiệm thu E2E toàn hệ thống. Xem NHAT_KY_KIEM_TRA.md.
 
 | Giai đoạn | Trạng thái qua rà soát mã nguồn | Phần còn thiếu chính |
 | --- | --- | --- |
-| 1. Môi trường | Có cấu hình, lockfile; frontend build thành công khi chuẩn bị bản lưu Git | Xác nhận kết nối PostgreSQL và extension trên DB thực tế |
+| 1. Môi trường | Build frontend, backend /health và PostgreSQL 17 + btree_gist đạt trong test cô lập | Môi trường vận hành thực tế chưa nghiệm thu |
 | 2. Database và seed | **Đạt trên DB phát triển/test cô lập: 18 kiểm thử** | DB cũ chưa có lịch sử cần rà soát/baseline riêng trước khi áp dụng |
-| 3. Khung backend | Có Express, pg Pool, withTransaction và handler lỗi | Chuẩn hóa mã lỗi DB/validation, tách lớp truy cập dữ liệu khi cần |
+| 3. Khung backend | Đã ánh xạ SQL/validation, giấu chi tiết lỗi và kiểm thử rollback HTTP | Tách thêm service khi có nghiệp vụ cần thiết |
 | 4. Xác thực/RBAC | Có đăng ký, đăng nhập, JWT, refresh API, hồ sơ, đổi mật khẩu | Phân quyền theo chức vụ phía server, tự refresh frontend, tài khoản tạm |
 | 5. Thú cưng/tra khách | Có giao diện/API hồ sơ và tra khách theo SĐT | Rà quyền tra cứu, kiểm thử sở hữu và trạng thái |
-| 6. Đặt lịch | **Đang thực hiện: có online và tại quầy** | Công suất theo ca, kiểm tra và ghi trong cùng vùng khóa, test đặt đồng thời |
+| 6. Đặt lịch | Công suất theo ca, transaction/khóa và HTTP tranh chỗ đạt | Bàn giao tài khoản tạm, thông báo ứng dụng và kiểm tra UI thực tế |
 | 7. Điều phối/phân công | Có xem/hủy lịch cho khách | MH-05, xác nhận/phân công, giữ chờ, từ chối, thông báo |
 | 8. Ca làm/chăm sóc | Có bảng ca và trạng thái dịch vụ | API/UI MH-09, MH-04 và luồng chăm sóc |
 | 9. Hóa đơn/thanh toán | Có bảng hóa đơn, chi tiết, thanh toán | API/UI MH-06, thu nhiều lần, QR và in chứng từ |
@@ -43,10 +43,10 @@ Không quy đổi số giai đoạn sang phần trăm hoàn thành: khối lư�
 | Backend | Node.js, Express 4, ES Modules |
 | Database | PostgreSQL, pg Pool, truy vấn SQL trực tiếp và withTransaction |
 | Xác thực | bcrypt, JWT access token, refresh token trong cookie HttpOnly |
-| Quyền | Middleware authenticate/requireRole/requireAdmin; cần bổ sung quyền theo chức vụ |
+| Quyền | Middleware vai trò/chức vụ: tra khách, tại quầy, xem/hủy lịch đã kiểm thử |
 | Extension SQL | btree_gist; schema hiện tại không cần pgcrypto vì chưa dùng UUID |
 
-`zod` và `express-rate-limit` có trong package.json nhưng chưa thấy được dùng trong src. Chưa có Repository Pattern riêng; SQL hiện đặt trực tiếp trong controllers. Tách service/repository là kế hoạch tổ chức code, không phải hiện trạng đã hoàn thành. Tiếp tục dùng pg, không yêu cầu đổi ORM.
+`zod` và `express-rate-limit` có trong package.json nhưng chưa thấy được dùng trong src. Chưa có Repository Pattern riêng; SQL còn trong controllers. Đặt lịch đã tách service dùng pg và transaction, thuật toán ca ở lib/scheduling.js. Tiếp tục dùng pg, không yêu cầu đổi ORM.
 
 Node cần >=20 để phù hợp dependency Tailwind đang cài, dù backend khai báo >=18. Frontend dev thường ở 5173, backend mặc định 5000; Vite proxy `/api` sang backend. Health check hiện là `GET /health`, không phải `/api/health`; Vite chỉ proxy `/api` nên kiểm tra `/health` trực tiếp trên cổng backend. Health handler không truy vấn DB trong mỗi request.
 
@@ -62,7 +62,7 @@ Node cần >=20 để phù hợp dependency Tailwind đang cài, dù backend kha
 
 Quyền đích: khách chỉ thao tác hồ sơ/lịch của mình; nhân viên chăm sóc chỉ xử lý lịch được giao; lễ tân tiếp nhận, điều phối, thu tiền và tiếp nhận khiếu nại; quản lý quản lý ca/dịch vụ, giải quyết khiếu nại và báo cáo; Admin quản trị tài khoản. Quyền bao hàm thêm cho quản lý/Admin phải được khai báo rõ ở backend.
 
-Hiện route đặt tại quầy cho toàn bộ NhanVien và Admin; route tra cứu khách mới yêu cầu đăng nhập. Hủy lịch cũng chưa phân biệt từng chức vụ nhân sự. Chặn trang frontend không thay thế kiểm tra quyền API. Cần hạn chế quyền trước nghiệm thu.
+Đã giới hạn tra khách/đặt tại quầy cho Lễ tân, Quản lý và Admin. Khách chỉ xem/hủy lịch của mình; chăm sóc chỉ đọc lịch và hồ sơ thú cưng được phân công, không được tra khách/đặt quầy/hủy. 37 kiểm thử RBAC cùng HTTP đạt. Những phân hệ chưa triển khai phải áp dụng quyền ở backend khi bổ sung.
 
 ## 3. Cây màn hình và trạng thái tích hợp
 
@@ -127,11 +127,11 @@ Các API /ca-lam-viec, /hoa-don, /khieu-nai, /bao-cao và thao tác xác nhận/
 - Lấy khóa phù hợp; kiểm tra công suất và ghi lịch/chi tiết bằng cùng transaction; lưu ChoXacNhan và giá dự kiến chụp từ danh mục.
 - Thông báo là thông báo trong ứng dụng theo phạm vi này; không mặc định đã tích hợp SMS/email.
 
-**Khoảng trống hiện tại:** CAPACITY=2; chưa dùng ca, kiểm tra giờ trống trước transaction; lịch mới chưa gán nhân viên nên EXCLUDE theo nhân viên không tự chặn vượt công suất. Tạo khách/thú cưng/lịch tại quầy hiện có thể commit riêng. Tài khoản tạm chưa có quy trình bàn giao/bắt đổi mật khẩu hoàn chỉnh.
+**Đã sửa/kiểm thử:** bỏ CAPACITY cố định; chỉ tính người chăm sóc và tài khoản đang hoạt động có một ca bao trọn khoảng phục vụ. Kiểm tra khả năng phân bổ cho các lịch chồng nhau (cả lịch chờ và lịch đã gán), không chỉ đếm tại giờ bắt đầu; không tự gán nhân viên khi đặt. Kiểm tra/ghi cùng transaction và khóa theo ngày, tạo khách/thú cưng/chi tiết tại quầy rollback cùng nhau. Ngày/giờ theo Asia/Ho_Chi_Minh. **Còn thiếu:** quy trình bàn giao/bắt đổi mật khẩu tài khoản tạm và thông báo ứng dụng. Không tự gộp ca kề nhau. Thao tác sửa ca/khóa nhân viên sau này phải kiểm tra ảnh hưởng lịch và dùng chung khóa nghiệp vụ; hiện chưa có API sửa ca.
 
 ### AD-03 / SD-03: Điều phối và phân công
 
-Ba nhánh loại trừ nhau: giữ ChoXacNhan và ghi chú; từ chối chuyển TuChoi kèm lý do; hoặc chọn nhân viên và kiểm tra lại ca/chồng giờ để gán nhân viên + DaXacNhan nguyên tử. Không để phân công chạy sau nhánh từ chối. TuChoi đã có trong SQL migration, nhưng API từ chối và ánh xạ nhãn tương ứng vẫn cần triển khai.
+Ba nhánh loại trừ nhau: giữ ChoXacNhan và ghi chú; từ chối chuyển TuChoi kèm lý do; hoặc chọn nhân viên và kiểm tra lại ca/chồng giờ để gán nhân viên + DaXacNhan nguyên tử. Không để phân công chạy sau nhánh từ chối. TuChoi đã có trong SQL migration và ánh xạ nhãn đọc lịch; API từ chối vẫn cần triển khai.
 
 Hủy bởi khách/lễ tân theo quyền dùng DaHuy, khác với từ chối lịch mới. Nếu muốn gộp trạng thái sau này phải có quyết định và sửa đồng bộ schema, API, sơ đồ, báo cáo.
 
@@ -172,28 +172,28 @@ Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tín
 ### Giai đoạn 3: Khung backend và lỗi tập trung
 
 - Có: Express, pg Pool, withTransaction, logger, 404 và error handler.
-- Cần làm: ánh xạ 23505/23P01 thành 409 theo ngữ cảnh, validation thành 400/422 có quy ước, 23514 thành lỗi dữ liệu; không lộ stack ở production.
+- Đã kiểm thử: 23505/23P01 -> 409; dữ liệu/CHECK -> 400; Zod -> 422; lỗi nội bộ -> 500 không lộ SQL/stack. HTTP ép lỗi ghi chi tiết xác nhận rollback và nội dung lỗi an toàn.
 - Nghiệm thu: JSON lỗi nhất quán; rollback đầy đủ khi một thao tác trong transaction thất bại. Repository/service nếu tách phải có mục đích rõ, không coi đã tồn tại.
 
 ### Giai đoạn 4: Xác thực và RBAC
 
 - Có: API đăng ký/đăng nhập/refresh/đăng xuất; hồ sơ và đổi mật khẩu; bảo vệ route theo vai trò.
-- Cần làm: phân quyền theo chức vụ trên server; refresh tự động phía frontend; luồng tài khoản tạm và bắt đổi mật khẩu; đồng bộ nhãn vai trò.
+- Cần làm: hoàn thiện quyền cho các phân hệ sau; refresh tự động phía frontend; luồng tài khoản tạm và bắt đổi mật khẩu; đồng bộ nhãn vai trò.
 - Nghiệm thu: đủ 5 nhóm quyền; tài khoản khóa bị chặn; không vượt quyền bằng gọi API trực tiếp; token hết hạn xử lý rõ.
 
 ### Giai đoạn 5: Hồ sơ thú cưng và tra cứu khách
 
 - Có: HoSoThuCung.jsx; API list/detail/create/update/status và tra SĐT.
-- Cần làm: chỉ nhân sự tiếp nhận được tra khách; thống nhất SĐT theo đặc tả (màn hình 10 số, API tra hiện nhận 9-11); kiểm thử sở hữu.
+- Đã siết quyền tra khách và SĐT đúng 10 số; test quyền sở hữu/hoạt động khi đặt lịch đạt. Ngừng theo dõi khóa dòng thú cưng trước kiểm tra lịch mở, không tranh chấp với đặt lịch; HTTP đồng thời đạt. CRUD hồ sơ đầy đủ vẫn cần nghiệm thu riêng.
 - Nghiệm thu: khách không xem/sửa thú cưng người khác; chó/mèo và cân nặng hợp lệ; không xóa lịch sử. Code hiện chặn ngừng theo dõi khi còn lịch đang mở; giữ quy tắc này hoặc cập nhật yêu cầu nhất quán.
 
 ### Giai đoạn 6: Đặt lịch và chống vượt công suất - ĐANG LÀM
 
 - Có: MH-02, MH-02b, danh mục API, tổng thời lượng và giá dự kiến, lưu lịch/chi tiết.
-- Làm tiếp theo thứ tự: dữ liệu ca tối thiểu 8A -> công suất theo ca -> khóa và kiểm tra lại bằng cùng client -> transaction nghiệp vụ tại quầy -> xử lý quyền và tài khoản tạm -> test đồng thời.
+- Đã kiểm thử: seed ca 8A, công suất khả thi suốt khoảng hẹn, khóa theo ngày/cùng client, transaction toàn bộ tại quầy, quyền, ngày/giờ và test đồng thời. Còn bàn giao tài khoản tạm/bắt đổi mật khẩu, thông báo ứng dụng, kiểm tra UI thực tế trước nghiệm thu trọn giai đoạn.
 - Công suất phải đúng trên mọi khoảng con của dịch vụ, không chỉ tại giờ bắt đầu. Kiểm tra nhân viên đang hoạt động, chức vụ chăm sóc và ca bao trọn thời lượng; xử lý ca kề nhau theo chính sách đã thống nhất.
 - Nghiệm thu: hai request tranh chỗ cuối có đúng một 201, một 409; lỗi ghi chi tiết không để lịch rỗng; không đặt vào quá khứ; kết thúc <=19:00. Tính ngày/giờ theo múi giờ nghiệp vụ Asia/Ho_Chi_Minh thống nhất, không trộn ngày UTC và giờ local.
-- test-concurrency.js hiện dùng tài khoản/ID/ngày cố định; cần fixture riêng, assertions và dọn dữ liệu, không chạy trên DB có dữ liệu thật.
+- test-concurrency.js nay gọi bộ HTTP có assertions, tài khoản/mật khẩu và ID fixture riêng, ngày tương lai; chỉ chạy khi TEST_DATABASE_URL chỉ định DB test mới, giữ dữ liệu kiểm thử để kiểm toán. Không DROP/DELETE. HTTP 14/14 đạt; thuật toán ca 14/14 (gồm đối chiếu vét cạn 200 lịch nhỏ).
 
 ### Giai đoạn 7: Quản lý và phân công lịch hẹn
 
@@ -227,7 +227,7 @@ Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tín
 
 ### Giai đoạn 12: Kiểm thử E2E và đóng gói
 
-- Có: một script thử concurrency, chưa đủ bộ nghiệm thu.
+- Có: unit RBAC/thuật toán/lỗi, DB tích hợp và HTTP đặt lịch; chưa đủ E2E toàn hệ thống.
 - Cần làm: E2E từ đăng ký -> thú cưng -> đặt -> phân công -> chăm sóc -> thu -> hoàn -> báo cáo; test quyền và lỗi; bỏ dữ liệu mock khỏi luồng vận hành; hướng dẫn setup, backup/restore và Docker Compose nếu giữ mục tiêu này.
 - Nghiệm thu: kiểm thử chạy lặp ổn định trên DB test; đủ tài khoản demo cho 5 nhóm; build và triển khai được từ hướng dẫn; không kèm .env, token hoặc mật khẩu thật.
 
@@ -247,10 +247,10 @@ Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tín
 ## 8. Danh sách ưu tiên ngay sau lần rà soát
 
 - [x] Sửa các lệnh DB trỏ tới script thiếu; chuẩn hóa migration/seed và log lỗi (18 kiểm thử đạt trên DB cô lập).
-- [ ] Hoàn thiện dữ liệu/kiểm tra ca 8A; thay CAPACITY cố định.
-- [ ] Gộp kiểm tra công suất và ghi lịch vào transaction có khóa theo tài nguyên/ngày phù hợp.
-- [ ] Siết quyền tra khách, đặt tại quầy, xem/hủy lịch theo chức vụ.
-- [ ] Nghiệm thu giai đoạn 6 bằng test đồng thời đáng tin cậy.
+- [x] Dữ liệu/kiểm tra ca 8A phục vụ đặt lịch; thay CAPACITY cố định (chưa có API/UI quản lý ca).
+- [x] Kiểm tra công suất và ghi lịch cùng transaction/khóa theo ngày; HTTP tranh chỗ/rollback đạt.
+- [x] Siết quyền tra khách, đặt tại quầy, xem/hủy lịch theo chức vụ; RBAC/HTTP đạt.
+- [ ] Nghiệm thu trọn giai đoạn 6: test đồng thời đã đạt; còn bàn giao tài khoản tạm, thông báo và UI thực tế.
 - [ ] Triển khai MH-05 và API giai đoạn 7, đồng bộ trạng thái/nhãn/thông báo.
 - [ ] Sau đó hoàn thiện 8B -> 9 -> 10 -> 11 -> 12, không đánh dấu hoàn thành chỉ vì có bảng SQL.
 
@@ -261,3 +261,5 @@ Tài liệu dữ liệu đồng hành: [02_THIET_KE_CO_SO_DU_LIEU.md](02_THIET_K
 Nguồn kiểm tra: dichvu/package.json, vite.config.js, src/App.jsx, src/pages, src/data; server/package.json, src/server.js, config/db.js, middleware, routes/controllers, scripts/init-db.js, scripts/test-concurrency.js; thu_cung.sql; migrations/001_schema_improvements.sql; bộ đặc tả MH-01..MH-11 và rà soát sơ đồ ở cuộc trao đổi này.
 
 Phiên bản 2.0 thay mô tả khẳng định đồng bộ 100% bằng hiện trạng có bằng chứng; chuẩn hóa 15 bảng, tên route/component thật, 12 giai đoạn và điều kiện nghiệm thu; giữ các sửa logic SD-03, SD-04, AD/SD-06; không đổi code hoặc chạy SQL. Ngày rà soát chỉ ghi nhận trạng thái tại thời điểm đọc, không đại diện cho kết quả kiểm thử runtime.
+
+Bản 2.1: hoàn thành công cụ DB phát triển/test; sửa lõi đặt lịch, quyền và lỗi, kiểm thử như nhật ký. Chưa thay các ảnh sơ đồ; chưa triển khai MH-05, chăm sóc, tài chính hoặc production.

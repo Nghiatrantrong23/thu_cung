@@ -24,3 +24,13 @@
 - Không suy ra database đang vận hành đã được nâng cấp. DB cũ thiếu lịch sử cần rà soát/baseline riêng; không tự áp SQL gốc. Không ghi mật khẩu demo vào source hoặc nhật ký.
 
 Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phần chưa đạt và rủi ro cần xử lý. Mã commit/link remote được báo sau push; không sửa commit vừa tạo chỉ để nhúng SHA của chính commit đó.
+
+## 23/10/2026 - Lõi đặt lịch, quyền và giờ nghiệp vụ (giai đoạn 3/4/5/6/8A)
+
+- Bỏ công suất 2 cố định, dùng người chăm sóc/tài khoản hoạt động và một ca đủ cả thời lượng. Thuật toán kiểm tra khả năng phân bổ các khoảng chồng nhau, giữ nguyên nhân viên đã gán; không tự phân công lịch mới. Tìm kiếm có giới hạn, quá tải trả 503.
+- Ngày/giờ theo Asia/Ho_Chi_Minh. Kiểm tra và ghi lịch cùng transaction/khóa theo ngày; khách mới/thú cưng/chi tiết tại quầy cùng rollback. Siết quyền theo chức vụ và sở hữu; chăm sóc chỉ đọc lịch/thú cưng được giao. Hủy kiểm tra số dòng cập nhật; ngừng theo dõi khóa dòng thú cưng trước kiểm tra lịch mở.
+- `npm test` tại server: **63 đạt, 2 nhóm tích hợp bỏ qua** khi không đặt TEST_DATABASE_URL. Không gọi kết quả này là đã chạy tích hợp.
+- `node --test test/booking.integration.test.js` với DB mới petcare_test_booking_20261023root2 trên cụm cô lập cổng 55439: **14/14 đạt**. Có login bcrypt thật, tranh chỗ cuối đúng 201/409, quyền/sở hữu, dữ liệu sai/quá khứ/không ca, rollback toàn bộ khi thiếu chỗ hoặc lỗi chi tiết, giấu lỗi SQL, trạng thái chờ không gán người và tranh chấp ngừng theo dõi/đặt lịch.
+- Frontend `node --test test/business-time.test.js`: **7/7 đạt**; `npm run build`: **đạt**, 55 modules. Chưa kiểm thử thao tác UI trình duyệt hoặc E2E đầy đủ.
+- DB tích hợp trước đó: **18/18** gồm 10 unit + 8 tích hợp; không cộng trùng 10 unit vào tổng 63. Test DB giữ lại, không xóa dữ liệu; không đọc/in bí mật .env.
+- Giai đoạn 6 chưa nghiệm thu toàn bộ: tài khoản mới tại quầy dùng hash ngẫu nhiên nhưng chưa có bàn giao/bắt đổi mật khẩu; thông báo ứng dụng chưa nối; UI thực tế chưa kiểm tra. API sửa ca/khóa nhân viên sau này cần bảo vệ ảnh hưởng lịch đã có.
