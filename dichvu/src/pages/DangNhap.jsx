@@ -72,12 +72,13 @@ export default function LoginPage() {
 
   const [form, setForm] = useState(EMPTY_REGISTER)
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
 
   if (user) return <Navigate to={homePath(user)} replace />
 
   const setField = (key) => (e) => {
     setForm((f) => ({ ...f, [key]: e.target.value }))
-    if (errors[key]) setErrors((er) => ({ ...er, [key]: undefined }))
+    setErrors((er) => ({ ...er, [key]: undefined, form: undefined }))
   }
 
   function switchTab(next) {
@@ -86,8 +87,6 @@ export default function LoginPage() {
     setErrors({})
     if (next === 'register') setNotice('')
   }
-
-  const [loading, setLoading] = useState(false)
 
   async function handleLogin(e) {
     e.preventDefault()
@@ -111,8 +110,7 @@ export default function LoginPage() {
     try {
       const res = await register(form)
       if (!res.ok) {
-        setErrors(res.errors || {})
-        if (res.message) setLoginError(res.message)
+        setErrors({ ...res.errors, ...(res.message ? { form: res.message } : {}) })
         return
       }
       setIdentifier(form.username.trim())
@@ -230,6 +228,12 @@ export default function LoginPage() {
               <button type="submit" disabled={loading} className="w-full rounded-full bg-brand-700 px-6 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-60">
                 {loading ? 'Đang xử lý...' : 'Đăng ký'}
               </button>
+
+              {errors.form && (
+                <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+                  <strong>Không thể đăng ký:</strong> {errors.form}
+                </p>
+              )}
 
               <p className="text-center text-sm text-slate-600">
                 Đã có tài khoản?{' '}

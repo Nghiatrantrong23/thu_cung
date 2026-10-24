@@ -34,3 +34,10 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Frontend `node --test test/business-time.test.js`: **7/7 đạt**; `npm run build`: **đạt**, 55 modules. Chưa kiểm thử thao tác UI trình duyệt hoặc E2E đầy đủ.
 - DB tích hợp trước đó: **18/18** gồm 10 unit + 8 tích hợp; không cộng trùng 10 unit vào tổng 63. Test DB giữ lại, không xóa dữ liệu; không đọc/in bí mật .env.
 - Giai đoạn 6 chưa nghiệm thu toàn bộ: tài khoản mới tại quầy dùng hash ngẫu nhiên nhưng chưa có bàn giao/bắt đổi mật khẩu; thông báo ứng dụng chưa nối; UI thực tế chưa kiểm tra. API sửa ca/khóa nhân viên sau này cần bảo vệ ảnh hưởng lịch đã có.
+
+## 23/10/2026 - MH-01: lỗi đăng ký bị ẩn
+
+- Log local xác nhận API đăng ký trả 400 vì trùng số điện thoại; frontend lưu message vào loginError nhưng chỉ render tại tab đăng nhập. Sửa để errors.form hiển thị ngay dưới nút đăng ký; sửa lỗi hook loading nằm sau return có điều kiện.
+- Tách registerAccount để kiểm thử, chặn mọi trường không hợp lệ trước gọi API, loại kiểm tra trùng dựa tài khoản mẫu. Backend/database không thay đổi.
+- `node --test test/*.test.js` tại dichvu: 11/11 đạt (4 test mới: lỗi trùng, validation mọi trường, hợp đồng request/success, lỗi mạng/JSON). Build frontend đạt, 56 modules.
+- Trình duyệt tại proxy local 5180: API mô phỏng 400 hiển thị lỗi dưới nút trong tab Đăng ký; API mô phỏng 201 chuyển Đăng nhập và hiển thị thành công. Không gửi thông tin người dùng, không ghi DB. Screenshot .cache/local-run/register-error-fixed.png là dữ liệu giả, không commit.

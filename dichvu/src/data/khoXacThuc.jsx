@@ -1,6 +1,7 @@
+import { registerAccount } from '../lib/dangKy.js'
 import { createContext, useCallback, useContext, useMemo, useState } from 'react'
 import { seedAccounts } from './duLieuMau.js'
-import { publicUser, validateRegister } from '../lib/tienIchXacThuc.js'
+import { publicUser } from '../lib/tienIchXacThuc.js'
 
 const AuthContext = createContext(null)
 const KEY_USER = 'petcare.session'
@@ -101,36 +102,7 @@ export function AuthProvider({ children }) {
     [],
   )
 
-  const register = useCallback(
-    async (form) => {
-      const clientErrors = validateRegister(form, accounts)
-      if (clientErrors.fullName || clientErrors.password || clientErrors.confirm) {
-        return { ok: false, errors: clientErrors }
-      }
-      try {
-        const res = await fetch('/api/auth/dang-ky', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            username: form.username,
-            fullName: form.fullName,
-            phone: form.phone,
-            email: form.email,
-            password: form.password,
-          }),
-        })
-        const data = await res.json()
-        if (!res.ok) {
-          return { ok: false, errors: { form: data.error }, message: data.error }
-        }
-        return { ok: true }
-      } catch (err) {
-        console.error('[auth] Lỗi kết nối server:', err)
-        return { ok: false, errors: { form: 'Không thể kết nối tới máy chủ backend.' }, message: 'Không thể kết nối tới máy chủ backend.' }
-      }
-    },
-    [accounts],
-  )
+  const register = useCallback((form) => registerAccount(form), [])
 
   const logout = useCallback(async () => {
     try {

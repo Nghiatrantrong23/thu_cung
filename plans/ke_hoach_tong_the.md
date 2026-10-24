@@ -263,3 +263,9 @@ Nguồn kiểm tra: dichvu/package.json, vite.config.js, src/App.jsx, src/pages,
 Phiên bản 2.0 thay mô tả khẳng định đồng bộ 100% bằng hiện trạng có bằng chứng; chuẩn hóa 15 bảng, tên route/component thật, 12 giai đoạn và điều kiện nghiệm thu; giữ các sửa logic SD-03, SD-04, AD/SD-06; không đổi code hoặc chạy SQL. Ngày rà soát chỉ ghi nhận trạng thái tại thời điểm đọc, không đại diện cho kết quả kiểm thử runtime.
 
 Bản 2.1: hoàn thành công cụ DB phát triển/test; sửa lõi đặt lịch, quyền và lỗi, kiểm thử như nhật ký. Chưa thay các ảnh sơ đồ; chưa triển khai MH-05, chăm sóc, tài chính hoặc production.
+
+### Sửa lỗi MH-01 khi chạy thử (23/10/2026)
+
+- Đăng ký bị API từ chối do trùng SĐT nhưng giao diện không hiện lỗi: đã sửa lỗi form chung xuất hiện ngay dưới nút Đăng ký, giữ riêng với lỗi đăng nhập.
+- Validation frontend kiểm tra tất cả trường; không dùng tài khoản mock làm nguồn xác định trùng. Giữ nguyên dữ liệu/API backend.
+- Frontend 11/11 test đạt; build đạt 56 modules. Kiểm tra trình duyệt qua proxy mô phỏng: lỗi trùng SĐT hiện đúng trong tab đăng ký; nhánh thành công chuyển sang đăng nhập kèm thông báo. Proxy không ghi DB; không tạo/sửa tài khoản thật trong kiểm thử này.
