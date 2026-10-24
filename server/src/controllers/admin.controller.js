@@ -12,7 +12,7 @@ export async function layDanhSachTaiKhoan(req, res, next) {
         const { q = '', vaiTro = '' } = req.query
 
         let sql = `
-            SELECT 
+            SELECT
                 nd.ma_nguoi_dung,
                 nd.ten_dang_nhap,
                 nd.email,
@@ -31,9 +31,9 @@ export async function layDanhSachTaiKhoan(req, res, next) {
 
         if (q) {
             params.push(`%${q}%`)
-            sql += ` AND (nd.ten_dang_nhap ILIKE $${params.length} 
-                     OR nv.ho_ten ILIKE $${params.length} 
-                     OR kh.ho_ten ILIKE $${params.length} 
+            sql += ` AND (nd.ten_dang_nhap ILIKE $${params.length}
+                     OR nv.ho_ten ILIKE $${params.length}
+                     OR kh.ho_ten ILIKE $${params.length}
                      OR nd.so_dien_thoai ILIKE $${params.length})`
         }
 
@@ -85,7 +85,7 @@ export async function taoTaiKhoan(req, res, next) {
         const result = await withTransaction(async (client) => {
             // Kiểm tra trùng
             const checkResult = await client.query(
-                `SELECT 
+                `SELECT
                     (SELECT COUNT(*) FROM nguoi_dung WHERE ten_dang_nhap = $1) as trung_ten,
                     (SELECT COUNT(*) FROM nguoi_dung WHERE so_dien_thoai = $2 AND so_dien_thoai IS NOT NULL) as trung_sdt,
                     (SELECT COUNT(*) FROM nguoi_dung WHERE email = $3 AND email IS NOT NULL) as trung_email`,
@@ -105,8 +105,8 @@ export async function taoTaiKhoan(req, res, next) {
 
             // Tạo nguoi_dung với vai_tro='NhanVien'
             const userResult = await client.query(
-                `INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau_hash, email, so_dien_thoai, vai_tro, trang_thai)
-                 VALUES ($1, $2, $3, $4, 'NhanVien', true)
+                `INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau_hash, email, so_dien_thoai, vai_tro, trang_thai, bat_doi_mat_khau)
+                 VALUES ($1, $2, $3, $4, 'NhanVien', true, true)
                  RETURNING ma_nguoi_dung`,
                 [tenDangNhap, matKhauHash, email || null, soDienThoai || null]
             )
@@ -176,7 +176,7 @@ export async function capNhatTaiKhoan(req, res, next) {
             // Kiểm tra trùng nếu có soDienThoai hoặc email
             if (soDienThoai || email) {
                 const checkResult = await client.query(
-                    `SELECT 
+                    `SELECT
                         (SELECT COUNT(*) FROM nguoi_dung WHERE so_dien_thoai = $1 AND ma_nguoi_dung != $2 AND so_dien_thoai IS NOT NULL) as trung_sdt,
                         (SELECT COUNT(*) FROM nguoi_dung WHERE email = $3 AND ma_nguoi_dung != $2 AND email IS NOT NULL) as trung_email`,
                     [soDienThoai || null, id, email || null]
@@ -270,12 +270,12 @@ export async function khoaTaiKhoan(req, res, next) {
 
         // Kiểm tra lịch hẹn
         const kiemTraLich = await query(
-            `SELECT 
+            `SELECT
                 ma_lich_hen,
                 trang_thai,
                 ngay_gio_hen
              FROM lich_hen
-             WHERE ma_nhan_vien = $1 
+             WHERE ma_nhan_vien = $1
              AND trang_thai IN ('DaXacNhan', 'DangThucHien')
              ORDER BY ngay_gio_hen`,
             [id]
@@ -380,7 +380,7 @@ export async function datLaiMatKhau(req, res, next) {
         const matKhauHash = await bcrypt.hash(matKhauTam, env.bcryptRounds)
 
         const result = await query(
-            'UPDATE nguoi_dung SET mat_khau_hash = $1 WHERE ma_nguoi_dung = $2 RETURNING ma_nguoi_dung, ten_dang_nhap',
+            'UPDATE nguoi_dung SET mat_khau_hash=$1,token_version=token_version+1,bat_doi_mat_khau=true WHERE ma_nguoi_dung=$2 RETURNING ma_nguoi_dung, ten_dang_nhap',
             [matKhauHash, id]
         )
 

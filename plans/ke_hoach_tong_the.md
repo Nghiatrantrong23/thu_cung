@@ -277,3 +277,13 @@ Bản 2.1: hoàn thành công cụ DB phát triển/test; sửa lõi đặt lị
 - Frontend 11/11 test đạt; build đạt 56 modules. Kiểm tra trình duyệt qua proxy mô phỏng: lỗi trùng SĐT hiện đúng trong tab đăng ký; nhánh thành công chuyển sang đăng nhập kèm thông báo. Proxy không ghi DB; không tạo/sửa tài khoản thật trong kiểm thử này.
 
 Bản 2.2: hoàn thành MH-05/phân công và thông báo với bằng chứng kiểm thử ở nhật ký; giữ các phần chưa làm của giai đoạn 6 và 8 rõ ràng.
+
+## 10. Đợt rà soát mở rộng và triển khai 8–11 (đang thực hiện)
+
+Người dùng đã yêu cầu triển khai tiếp cả giai đoạn 8–11 rồi kiểm thử toàn bộ; việc nghiệm thu giai đoạn 7 trước đó chỉ bao phủ điều phối, không đại diện cho chăm sóc/tài chính/báo cáo toàn hệ thống. Báo cáo hiện hành: [BAO_CAO_KIEM_THU_HE_THONG.md](BAO_CAO_KIEM_THU_HE_THONG.md).
+
+- Rà soát 1–6 bằng test mới tái hiện 6 nhóm lỗi: validation đăng ký/đăng nhập, mục đích/subject JWT, nhân viên ngừng hoạt động, quyền tạo hồ sơ khách qua thú cưng, validation CRUD thú cưng. Đã sửa; bổ sung thu hồi phiên khi logout/đổi mật khẩu, refresh frontend và mật khẩu tạm. Hàm sinh mật khẩu cũ chỉ sinh 3 ký tự khi yêu cầu 12: đã sửa và kiểm thử.
+- Migration 002 thêm token_version và bat_doi_mat_khau, không tự đổi mật khẩu tài khoản cũ. Tài khoản mới tại quầy được bàn giao mật khẩu tạm một lần và bắt đổi trước khi dùng; API đã kiểm chứng, UI có code/build, chờ nghiệm thu trình duyệt cùng quy trình đầy đủ.
+- Giai đoạn 8 đang nghiệm thu: migration 003 giữ ca hủy bằng trang_thai=false, EXCLUDE chỉ tính ca hoạt động; thêm yeu_cau_xu_ly và nhat_ky_lich_hen. MH-09 và MH-04 có code, frontend build đạt. API quản lý ca kiểm tra lại công suất/lịch đã gán trong khóa; chăm sóc chỉ người được giao, tiến độ từng dịch vụ và điều kiện hoàn thành đầy đủ; không đủ điều kiện báo lễ tân, không tự hủy. Đổi lịch về chờ phân công lại, giữ lịch sử. Các ca API đã đạt, chưa đánh dấu trọn giai đoạn 8 hoàn thành trước nghiệm thu UI.
+- Kết quả checkpoint: backend unit 66 PASS, 5 nhóm tích hợp skip mặc định; chạy riêng DB 8/8, auth/hồ sơ 10/10, đặt lịch 14/14, điều phối 14/14, ca/chăm sóc 6/6; frontend 13/13 và build 63 modules. Một test DB đã sửa fixture CURRENT_DATE lệch ngày seed Việt Nam; lần chạy lại đạt.
+- Chưa áp migration 002/003 lên DB người dùng; chỉ chạy trên DB test cô lập 55439. Giai đoạn 9–11 đang chờ triển khai. Người dùng chọn để cấu hình ngân hàng sau: thu tiền mặt/chuyển khoản vẫn triển khai, tạo VietQR chưa thể nghiệm thu với ngân hàng thật.

@@ -8,8 +8,8 @@ const CHARSET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%'
  * Luôn bảo đảm có chữ hoa, chữ thường và số.
  */
 export function generateMatKhauTam(length = 12) {
+    if (!Number.isInteger(length) || length < 1 || length > 72) throw new RangeError('Độ dài mật khẩu không hợp lệ.')
     const len = Math.max(8, length)
-    const soKyTuDacBiet = (len - 3) % 3
 
     const nhom = [
         'ABCDEFGHJKLMNPQRSTUVWXYZ',      // hoa (không I, O)
@@ -24,7 +24,7 @@ export function generateMatKhauTam(length = 12) {
     }
 
     const tatCa = CHARSET
-    for (let i = 0; i < soKyTuDacBiet; i++) {
+    while (chars.length < len) {
         chars.push(tatCa[crypto.randomInt(tatCa.length)])
     }
 

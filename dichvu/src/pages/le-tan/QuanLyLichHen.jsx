@@ -1,3 +1,4 @@
+import NhatKyLich from '../../components/NhatKyLich.jsx'
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
@@ -19,6 +20,7 @@ export default function QuanLyLichHen() {
   const [people, setPeople] = useState([])
   const [staff, setStaff] = useState('')
   const [note, setNote] = useState('')
+  const [newDay,setNewDay]=useState(''),[newTime,setNewTime]=useState('')
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [loading, setLoading] = useState(false)
@@ -44,6 +46,7 @@ export default function QuanLyLichHen() {
   useEffect(() => {
     let active = true
     setPeople([]); setStaff(''); setNote(''); setStaffError('')
+    setNewDay(selected?.date||'');setNewTime(selected?.start||'')
     if (!selected || selected.trangThaiDB !== 'ChoXacNhan') { setStaffLoading(false); return }
     setStaffLoading(true)
     apiCall(`/api/lich-hen/${selected.id}/nhan-vien-kha-dung`).then(result => {
@@ -60,9 +63,9 @@ export default function QuanLyLichHen() {
     if (action === 'phan-cong' && !staff) { setError('Vui lòng chọn nhân viên.'); return }
     if (action !== 'phan-cong' && !note.trim()) { setError('Vui lòng nhập lý do/ghi chú.'); return }
     setBusy(true)
-    const endpoint = action === 'huy' ? 'huy' : 'xu-ly'
+    const endpoint = action === 'doi-lich' ? 'doi-lich' : action === 'huy' ? 'huy' : 'xu-ly'
     const result = await apiCall(`/api/lich-hen/${selected.id}/${endpoint}`, { method: 'PATCH',
-      body: JSON.stringify({ hanhDong: action, nhanVienId: staff ? Number(staff) : undefined, lyDo: note.trim() || undefined }) })
+      body: JSON.stringify({ hanhDong: action, nhanVienId: staff ? Number(staff) : undefined, lyDo: note.trim() || undefined, ...(action==='doi-lich'?{ngay:newDay,gioStart:newTime}:{}) }) })
     setBusy(false)
     if (result.ok) { setNotice(result.data.message); reload() }
     else { setError(result.error); if (result.status === 409) reload() }
@@ -98,6 +101,7 @@ export default function QuanLyLichHen() {
       <section className="rounded-xl border border-slate-200 bg-white p-5">
         {!selected ? <p className="text-slate-500">Chọn lịch hẹn để xem chi tiết và xử lý.</p> : <>
           <h2 className="mb-4 text-lg font-extrabold">Chi tiết lịch hẹn #{selected.id}</h2>
+          {selected.careIssue&&<p className="my-3 rounded-lg bg-amber-50 p-3 text-amber-800">Cần xử lý từ nhân viên: {selected.careIssue}</p>}
           <dl className="space-y-3 text-sm">
             <div><dt className="font-bold">Khách hàng</dt><dd>{selected.customerName} · {selected.customerPhone}</dd></div>
             <div><dt className="font-bold">Thú cưng</dt><dd>{selected.petName} ({selected.species}){selected.weightKg ? ` · ${selected.weightKg} kg` : ''}</dd><dd>{selected.healthNote || 'Không có ghi chú sức khỏe.'}</dd></div>
@@ -117,15 +121,18 @@ export default function QuanLyLichHen() {
           {['ChoXacNhan', 'DaXacNhan'].includes(selected.trangThaiDB) && <div className="mt-4">
             <label htmlFor="dispatch-note" className="font-bold">Lý do / ghi chú</label>
             <textarea id="dispatch-note" value={note} onChange={e => setNote(e.target.value)} disabled={busy} maxLength={300} rows={3} className={`${input} mt-2`} />
-            <p className="mt-1 text-xs text-slate-500">Bắt buộc khi giữ chờ, từ chối hoặc hủy lịch. Tối đa 300 ký tự, tổng ghi chú 500 ký tự.</p>
+            <p className="mt-1 text-xs text-slate-500">Bắt buộc khi giữ chờ, từ chối hoặc hủy lịch. Tối đa 300 ký tự. Lý do được lưu trong nhật ký xử lý.</p>
             <div className="mt-4 flex flex-wrap gap-3">
               {selected.trangThaiDB === 'ChoXacNhan' ? <>
                 <button type="button" onClick={() => act('phan-cong')} disabled={busy || staffLoading || !staff} className={`${button} bg-brand-700 text-white`}>Xác nhận và phân công</button>
                 <button type="button" onClick={() => act('giu-cho')} disabled={busy} className={button}>Giữ chờ xác nhận</button>
                 <button type="button" onClick={() => act('tu-choi')} disabled={busy} className={`${button} text-red-700`}>Từ chối lịch hẹn</button>
               </> : <button type="button" onClick={() => act('huy')} disabled={busy} className={`${button} text-red-700`}>Hủy lịch</button>}
-            </div>{busy && <p role="status" className="mt-3">Đang lưu...</p>}
+            </div>
+            <div className="mt-4 grid gap-3"><label>Ngày mới<input type="date" value={newDay} onChange={e=>setNewDay(e.target.value)} className={input} disabled={busy}/></label><label>Giờ mới<input type="time" step="1800" value={newTime} onChange={e=>setNewTime(e.target.value)} className={input} disabled={busy}/></label><button type="button" className={button} disabled={busy} onClick={()=>act('doi-lich')}>Đổi giờ và chờ phân công lại</button></div>
+            {busy && <p role="status" className="mt-3">Đang lưu...</p>}
           </div>}
+          <NhatKyLich id={selected.id} version={version}/>
         </>}
       </section>
     </div>}

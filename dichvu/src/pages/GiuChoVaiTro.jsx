@@ -46,6 +46,8 @@ export default function RolePlaceholder() {
           </div>
         )}
 
+        {user.roleKey==='care'&&<Link to="/nhan-vien/lich-lam-viec" className="mt-4 block rounded-full bg-brand-700 p-3 font-bold text-white">Lịch làm việc và chăm sóc thú cưng</Link>}
+        {['manager','admin'].includes(user.roleKey)&&<Link to="/quan-ly/ca-lam-viec" className="mt-4 block rounded-full border border-brand-600 p-3 font-bold text-brand-800">Quản lý ca làm việc</Link>}
         <ThongBao />
         <div className="mt-6 pt-4 border-t border-slate-100 flex justify-center">
           <button

@@ -79,7 +79,7 @@ export const ROLE_LABEL = {
 }
 
 export function homePath(acc) {
-  return HOME[roleKey(acc)]
+  return acc.mustChangePassword ? '/doi-mat-khau' : HOME[roleKey(acc)]
 }
 
 // Không bao giờ giữ mật khẩu trong phiên đăng nhập.

@@ -1,6 +1,6 @@
 import { notifyReception } from './notifications.js'
 import bcrypt from 'bcrypt'
-import { randomBytes } from 'node:crypto'
+import { generateMatKhauTam } from '../utils/matKhau.js'
 import { query, withTransaction } from '../config/db.js'
 import { env } from '../config/env.js'
 import { businessNow, isValidDate, isValidTime, toMinutes, validateDuration, canSchedule } from '../lib/scheduling.js'
@@ -34,8 +34,8 @@ export async function readSchedule(db, date) {
         FLOOR(EXTRACT(EPOCH FROM ca.gio_ket_thuc)/60)::int AS end
         FROM ca_lam_viec ca JOIN nhan_vien nv ON nv.ma_nhan_vien=ca.ma_nhan_vien
         JOIN nguoi_dung nd ON nd.ma_nguoi_dung=nv.ma_nhan_vien
-        WHERE ca.ngay=$1::date AND nv.chuc_vu='Nhân viên chăm sóc'
-        AND nv.trang_thai=true AND nd.trang_thai=true AND nd.vai_tro='NhanVien'`, [date])
+        WHERE ca.ngay=$1::date AND ca.trang_thai=true AND nv.chuc_vu='Nhân viên chăm sóc'
+        AND nv.trang_thai=true AND nd.trang_thai=true AND nd.vai_tro='NhanVien' FOR SHARE OF ca,nv,nd`, [date])
     const bookings = await db.query(`SELECT ma_lich_hen AS id, ma_nhan_vien AS staff_id,
         FLOOR(EXTRACT(EPOCH FROM ngay_gio_hen::time)/60)::int AS start,
         CEIL(EXTRACT(EPOCH FROM ngay_gio_ket_thuc_du_kien::time)/60)::int AS end
@@ -67,6 +67,7 @@ export async function createBooking(body, user, { counter = false, now } = {}) {
         // Every creator uses the same day lock BEFORE reading capacity, on the same transaction client.
         await client.query('SELECT pg_advisory_xact_lock($1::int, $2::int)', [BOOKING_LOCK_NAMESPACE, Number(input.date.replaceAll('-', ''))])
         let ownerId = user.userId
+        let temporaryAccount = null
         if (counter) {
             const phone = text(body.sdt, 10, 'Số điện thoại')
             if (phone && !/^\d{10}$/.test(phone)) throw bookingError(400, 'Số điện thoại phải gồm 10 chữ số.')
@@ -80,10 +81,12 @@ export async function createBooking(body, user, { counter = false, now } = {}) {
                 if (existing.rows.length) ownerId = existing.rows[0].ma_nguoi_dung
                 else {
                     const fullName = text(body.hoTen, 100, 'Họ tên khách hàng', true)
-                    const hash = await bcrypt.hash(randomBytes(24).toString('base64url'), env.bcryptRounds)
-                    const result = await client.query(`INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau_hash, so_dien_thoai, vai_tro)
-                        VALUES ($1,$2,$1,'KhachHang') RETURNING ma_nguoi_dung`, [phone, hash])
+                    const temporaryPassword = generateMatKhauTam(12)
+                    const hash = await bcrypt.hash(temporaryPassword, env.bcryptRounds)
+                    const result = await client.query(`INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau_hash, so_dien_thoai, vai_tro, bat_doi_mat_khau)
+                        VALUES ($1,$2,$1,'KhachHang',true) RETURNING ma_nguoi_dung`, [phone, hash])
                     ownerId = result.rows[0].ma_nguoi_dung
+                    temporaryAccount = { username: phone, password: temporaryPassword }
                     await client.query('INSERT INTO khach_hang (ma_khach_hang,ho_ten) VALUES ($1,$2)', [ownerId, fullName])
                 }
             }
@@ -122,6 +125,6 @@ export async function createBooking(body, user, { counter = false, now } = {}) {
         for (const service of services.rows) await client.query(`INSERT INTO chi_tiet_lich_hen (ma_lich_hen,ma_dv,so_luong,gia_du_kien)
             VALUES ($1,$2,1,$3)`, [bookingId, service.ma_dv, service.gia_hien_hanh])
         await notifyReception(client, bookingId, 'Lịch hẹn mới chờ xác nhận', `Lịch #${bookingId}, ${input.date} ${input.time}.`)
-        return { id: bookingId, pet: pet.rows[0], services: services.rows, date: input.date, start: input.time, end: hhmm(end), note: input.note }
+        return { temporaryAccount, id: bookingId, pet: pet.rows[0], services: services.rows, date: input.date, start: input.time, end: hhmm(end), note: input.note }
     })
 }

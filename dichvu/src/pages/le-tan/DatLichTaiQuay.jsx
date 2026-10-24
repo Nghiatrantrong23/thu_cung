@@ -229,6 +229,7 @@ export default function DatLichTaiQuay() {
 
       setCreated({
         id: res.data.lichHenId,
+        temporaryAccount: res.data.taiKhoanTam,
         customerName: isNewCustomer ? newCustName : customer.hoTen,
         phone: phone.trim(),
         petName: isNewCustomer ? newPetName : pets.find((p) => String(p.id) === String(petId))?.name,
@@ -287,6 +288,12 @@ export default function DatLichTaiQuay() {
           ))}
         </dl>
 
+        {created.temporaryAccount && <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4">
+          <p className="font-bold">Bàn giao tài khoản mới cho khách</p>
+          <p>Tên đăng nhập: {created.temporaryAccount.username}</p>
+          <p>Mật khẩu tạm: <code>{created.temporaryAccount.password}</code></p>
+          <p className="mt-2 text-sm">Chỉ hiển thị trong lần tạo này. Khách phải đổi mật khẩu khi đăng nhập lần đầu.</p>
+        </div>}
         <div className="mt-6 flex flex-wrap gap-3">
           <button
             type="button"

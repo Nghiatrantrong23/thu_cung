@@ -1,3 +1,4 @@
+import { string, password as validatePassword, phone as validatePhone, email as validateEmail, validClaims } from '../lib/validation.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { query, withTransaction } from '../config/db.js'
@@ -11,7 +12,7 @@ export async function dangNhap(req, res, next) {
     try {
         const { tenDangNhap, matKhau } = req.body
 
-        if (!tenDangNhap || !matKhau) {
+        if (typeof tenDangNhap !== 'string' || !tenDangNhap.trim() || tenDangNhap.length > 100 || typeof matKhau !== 'string' || !matKhau || Buffer.byteLength(matKhau,'utf8') > 72) {
             console.warn(`[auth] Đăng nhập thất bại: Thiếu tên đăng nhập hoặc mật khẩu`)
             return res.status(400).json({
                 error: 'Thiếu tên đăng nhập hoặc mật khẩu',
@@ -20,9 +21,11 @@ export async function dangNhap(req, res, next) {
 
         // Get user with password hash (match username or email)
         const result = await query(
-            `SELECT nd.ma_nguoi_dung, nd.ten_dang_nhap, nd.mat_khau_hash, 
+            `SELECT nd.ma_nguoi_dung, nd.ten_dang_nhap, nd.mat_khau_hash,
                     nd.email, nd.vai_tro, nd.trang_thai,
-                    nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu,
+                    COALESCE((to_jsonb(nd)->>'token_version')::int,0) AS token_version,
+                    COALESCE((to_jsonb(nd)->>'bat_doi_mat_khau')::boolean,false) AS bat_doi_mat_khau,
+                    nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu, nv.trang_thai AS nhan_vien_active,
                     kh.ho_ten as khach_hang_ho_ten
              FROM nguoi_dung nd
              LEFT JOIN nhan_vien nv ON nd.ma_nguoi_dung = nv.ma_nhan_vien
@@ -40,14 +43,6 @@ export async function dangNhap(req, res, next) {
 
         const user = result.rows[0]
 
-        // Check if account is locked
-        if (!user.trang_thai) {
-            console.warn(`[auth] Đăng nhập thất bại: Tài khoản "${user.ten_dang_nhap}" đang bị khóa`)
-            return res.status(403).json({
-                error: 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên.',
-            })
-        }
-
         // Verify password
         const passwordMatch = await bcrypt.compare(matKhau, user.mat_khau_hash)
         if (!passwordMatch) {
@@ -57,17 +52,19 @@ export async function dangNhap(req, res, next) {
             })
         }
 
+        if (!user.trang_thai || (user.vai_tro === 'NhanVien' && user.nhan_vien_active !== true)) return res.status(403).json({ error: 'Tài khoản đã ngừng hoạt động.' })
+
         console.log(`[auth] Đăng nhập thành công: ${user.ten_dang_nhap} (Vai trò: ${user.vai_tro})`)
 
         // Generate JWT
         const accessToken = jwt.sign(
-            { userId: user.ma_nguoi_dung },
+            { userId: user.ma_nguoi_dung, type: 'access', version: user.token_version },
             env.jwt.secret,
             { expiresIn: env.jwt.expiresIn }
         )
 
         const refreshToken = jwt.sign(
-            { userId: user.ma_nguoi_dung },
+            { userId: user.ma_nguoi_dung, type: 'refresh', version: user.token_version },
             env.jwt.refreshSecret,
             { expiresIn: env.jwt.refreshExpiresIn }
         )
@@ -90,6 +87,7 @@ export async function dangNhap(req, res, next) {
                 vaiTro: user.vai_tro,
                 hoTen: user.nhan_vien_ho_ten || user.khach_hang_ho_ten,
                 chucVu: user.chuc_vu,
+                batDoiMatKhau: user.bat_doi_mat_khau,
             },
         })
     } catch (err) {
@@ -101,7 +99,14 @@ export async function dangNhap(req, res, next) {
  * Logout - clear refresh token cookie
  * POST /api/auth/dang-xuat
  */
-export async function dangXuat(req, res) {
+export async function dangXuat(req, res, next) {
+    try {
+        if (req.cookies?.refreshToken) {
+            let decoded
+            try { decoded = jwt.verify(req.cookies.refreshToken, env.jwt.refreshSecret) } catch { /* Clear expired cookie too. */ }
+            if (validClaims(decoded, 'refresh')) await query('UPDATE nguoi_dung SET token_version=token_version+1 WHERE ma_nguoi_dung=$1 AND token_version=$2', [decoded.userId, decoded.version])
+        }
+    } catch (err) { return next(err) }
     res.clearCookie('refreshToken')
     res.json({ message: 'Đăng xuất thành công' })
 }
@@ -119,10 +124,11 @@ export async function lamMoiToken(req, res, next) {
         }
 
         const decoded = jwt.verify(refreshToken, env.jwt.refreshSecret)
+        if (!validClaims(decoded, 'refresh')) return res.status(401).json({ error: 'Refresh token không hợp lệ.' })
 
         // Verify user still exists and is active
         const result = await query(
-            'SELECT ma_nguoi_dung, trang_thai FROM nguoi_dung WHERE ma_nguoi_dung = $1',
+            `SELECT nd.ma_nguoi_dung, nd.trang_thai, COALESCE((to_jsonb(nd)->>'token_version')::int,0) AS token_version, nv.trang_thai AS staff_active, nd.vai_tro FROM nguoi_dung nd LEFT JOIN nhan_vien nv ON nv.ma_nhan_vien=nd.ma_nguoi_dung WHERE nd.ma_nguoi_dung=$1`,
             [decoded.userId]
         )
 
@@ -130,13 +136,14 @@ export async function lamMoiToken(req, res, next) {
             return res.status(401).json({ error: 'Người dùng không tồn tại' })
         }
 
-        if (!result.rows[0].trang_thai) {
+        if (result.rows[0].token_version !== decoded.version) return res.status(401).json({ error: 'Phiên đăng nhập đã hết hiệu lực.' })
+        if (!result.rows[0].trang_thai || (result.rows[0].vai_tro === 'NhanVien' && result.rows[0].staff_active !== true)) {
             return res.status(403).json({ error: 'Tài khoản đã bị khóa' })
         }
 
         // Generate new access token
         const accessToken = jwt.sign(
-            { userId: decoded.userId },
+            { userId: decoded.userId, type: 'access', version: decoded.version },
             env.jwt.secret,
             { expiresIn: env.jwt.expiresIn }
         )
@@ -156,64 +163,23 @@ export async function lamMoiToken(req, res, next) {
  */
 export async function dangKy(req, res, next) {
     try {
-        const { username, fullName, phone, email, password } = req.body
-
-        if (!username || !password || !fullName || !phone) {
-            console.warn(`[auth] Đăng ký thất bại: Thiếu thông tin bắt buộc`)
-            return res.status(400).json({ error: 'Vui lòng điền đầy đủ các thông tin bắt buộc' })
-        }
-
-        // Check duplicate username, email, phone
-        const existingUser = await query(
-            `SELECT ma_nguoi_dung, ten_dang_nhap, email, so_dien_thoai 
-             FROM nguoi_dung 
-             WHERE LOWER(ten_dang_nhap) = LOWER($1) 
-                OR (email = $2 AND email IS NOT NULL AND email != '') 
-                OR so_dien_thoai = $3`,
-            [username.trim(), email?.trim() || null, phone.trim()]
-        )
-
-        if (existingUser.rows.length > 0) {
-            const found = existingUser.rows[0]
-            if (found.ten_dang_nhap.toLowerCase() === username.trim().toLowerCase()) {
-                console.warn(`[auth] Đăng ký thất bại: Tên đăng nhập "${username}" đã tồn tại`)
-                return res.status(400).json({ error: 'Tên đăng nhập đã được sử dụng' })
-            }
-            if (found.so_dien_thoai === phone.trim()) {
-                console.warn(`[auth] Đăng ký thất bại: Số điện thoại "${phone}" đã tồn tại`)
-                return res.status(400).json({ error: 'Số điện thoại đã được đăng ký' })
-            }
-            if (found.email && found.email === email?.trim()) {
-                console.warn(`[auth] Đăng ký thất bại: Email "${email}" đã tồn tại`)
-                return res.status(400).json({ error: 'Email đã được đăng ký' })
-            }
-        }
-
-        const hash = await bcrypt.hash(password, env.bcryptRounds)
-
-        const newId = await withTransaction(async (client) => {
-            const userRes = await client.query(
-                `INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau_hash, email, so_dien_thoai, vai_tro, trang_thai)
-                 VALUES ($1, $2, $3, $4, 'KhachHang', true)
-                 RETURNING ma_nguoi_dung`,
-                [username.trim(), hash, email?.trim() || null, phone.trim()]
-            )
-            const userId = userRes.rows[0].ma_nguoi_dung
-
-            await client.query(
-                `INSERT INTO khach_hang (ma_khach_hang, ho_ten) VALUES ($1, $2)`,
-                [userId, fullName.trim()]
-            )
-
-            return userId
+        const username = string(req.body?.username, 'Tên đăng nhập', 30)
+        if (!/^[A-Za-z0-9._]{4,30}$/.test(username)) return res.status(400).json({ error: 'Tên đăng nhập từ 4–30 ký tự: chữ, số, chấm, gạch dưới.' })
+        const fullName = string(req.body.fullName, 'Họ tên', 100)
+        const phone = validatePhone(req.body.phone)
+        const email = validateEmail(req.body.email)
+        const hash = await bcrypt.hash(validatePassword(req.body.password), env.bcryptRounds)
+        const newId = await withTransaction(async client => {
+            await client.query('SELECT pg_advisory_xact_lock(171719,hashtext(lower($1)))',[username])
+            const dup = await client.query('SELECT 1 FROM nguoi_dung WHERE LOWER(ten_dang_nhap)=LOWER($1) OR email=$2 OR so_dien_thoai=$3', [username,email,phone])
+            if (dup.rowCount) throw Object.assign(new Error('Tên đăng nhập, email hoặc số điện thoại đã được đăng ký.'),{status:409})
+            const result = await client.query("INSERT INTO nguoi_dung(ten_dang_nhap,mat_khau_hash,email,so_dien_thoai,vai_tro) VALUES($1,$2,$3,$4,'KhachHang') RETURNING ma_nguoi_dung",[username,hash,email,phone])
+            const id=result.rows[0].ma_nguoi_dung
+            await client.query('INSERT INTO khach_hang(ma_khach_hang,ho_ten) VALUES($1,$2)',[id,fullName])
+            return id
         })
-
-        console.log(`[auth] Đăng ký tài khoản khách hàng mới thành công: ${username.trim()} (ID: ${newId})`)
-        res.status(201).json({ message: 'Đăng ký thành công', userId: newId })
-    } catch (err) {
-        console.error('[auth] Lỗi khi đăng ký:', err)
-        next(err)
-    }
+        res.status(201).json({message:'Đăng ký thành công',userId:newId})
+    } catch(err) { next(err) }
 }
 
 /**
@@ -227,7 +193,8 @@ export async function layThongTinToi(req, res, next) {
         const result = await query(
             `SELECT nd.ma_nguoi_dung, nd.ten_dang_nhap, nd.email, nd.so_dien_thoai,
                     nd.vai_tro, nd.trang_thai, nd.ngay_tao,
-                    nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu,
+                    COALESCE((to_jsonb(nd)->>'bat_doi_mat_khau')::boolean,false) AS bat_doi_mat_khau,
+                    nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu, nv.trang_thai AS nhan_vien_active,
                     kh.ho_ten as khach_hang_ho_ten
              FROM nguoi_dung nd
              LEFT JOIN nhan_vien nv ON nd.ma_nguoi_dung = nv.ma_nhan_vien
@@ -251,6 +218,7 @@ export async function layThongTinToi(req, res, next) {
             hoTen: u.nhan_vien_ho_ten || u.khach_hang_ho_ten || '',
             chucVu: u.chuc_vu || '',
             trangThai: u.trang_thai,
+            batDoiMatKhau: u.bat_doi_mat_khau,
             ngayTao: u.ngay_tao,
         })
     } catch (err) {
@@ -268,6 +236,9 @@ export async function capNhatThongTin(req, res, next) {
         const userId = req.user.userId
         const { hoTen, email, soDienThoai } = req.body
 
+        string(hoTen,'Họ tên',100)
+        validateEmail(email)
+        validatePhone(soDienThoai,false)
         // Validate
         if (!hoTen || !hoTen.trim()) {
             return res.status(400).json({ error: 'Họ tên không được để trống' })
@@ -352,6 +323,9 @@ export async function doiMatKhau(req, res, next) {
         const userId = req.user.userId  // Lấy từ JWT, không từ body
         const { matKhauHienTai, matKhauMoi, xacNhanMatKhauMoi } = req.body
 
+        string(matKhauHienTai,'Mật khẩu hiện tại',72)
+        validatePassword(matKhauMoi)
+        string(xacNhanMatKhauMoi,'Xác nhận mật khẩu',72)
         // Validate đầu vào
         if (!matKhauHienTai || !matKhauMoi || !xacNhanMatKhauMoi) {
             return res.status(400).json({ error: 'Vui lòng điền đầy đủ tất cả các trường' })
@@ -384,11 +358,12 @@ export async function doiMatKhau(req, res, next) {
 
         // Băm mật khẩu mới và lưu
         const hashMoi = await bcrypt.hash(matKhauMoi, env.bcryptRounds)
-        await query(
-            'UPDATE nguoi_dung SET mat_khau_hash = $1 WHERE ma_nguoi_dung = $2',
-            [hashMoi, userId]
+        const changed = await query(
+            'UPDATE nguoi_dung SET mat_khau_hash=$1,token_version=token_version+1,bat_doi_mat_khau=false,ngay_cap_nhat=NOW() WHERE ma_nguoi_dung=$2 AND mat_khau_hash=$3 RETURNING ma_nguoi_dung',
+            [hashMoi, userId, result.rows[0].mat_khau_hash]
         )
 
+        if (!changed.rowCount) return res.status(409).json({error:'Mật khẩu đã thay đổi. Vui lòng đăng nhập lại.'})
         // Xóa refresh token để bắt đăng nhập lại (bảo mật)
         res.clearCookie('refreshToken')
 

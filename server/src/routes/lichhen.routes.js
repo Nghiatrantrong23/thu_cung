@@ -10,7 +10,9 @@ import {
 import {
     authenticate, requireRole, requireReception,
     requireCustomerOrReception, requireAppointmentReader,
+    requireCare,
 } from '../middleware/auth.middleware.js'
+import { updateCare, reschedule, history } from '../services/care.js'
 
 const router = express.Router()
 
@@ -31,6 +33,9 @@ router.post('/tai-quay', requireReception, datLichTaiQuay)
 
 router.get('/:id/nhan-vien-kha-dung', requireReception, nhanVienKhaDung)
 router.patch('/:id/xu-ly', requireReception, xuLyLichHen)
+router.patch('/:id/cham-soc',requireCare,async(req,res,next)=>{try{res.json(await updateCare(req.params.id,req.body,req.user))}catch(err){next(err)}})
+router.patch('/:id/doi-lich',requireReception,async(req,res,next)=>{try{res.json(await reschedule(req.params.id,req.body,req.user))}catch(err){next(err)}})
+router.get('/:id/nhat-ky',requireAppointmentReader,async(req,res,next)=>{try{res.json({nhatKy:await history(req.params.id,req.user)})}catch(err){next(err)}})
 
 // Huy lich hen (khach hang huy lich cua minh, le tan/quan ly huy bat ky)
 router.patch('/:id/huy', requireCustomerOrReception, huyLichHen)

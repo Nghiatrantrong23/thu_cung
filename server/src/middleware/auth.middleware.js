@@ -1,3 +1,4 @@
+import { validClaims } from '../lib/validation.js'
 import jwt from 'jsonwebtoken'
 import { env } from '../config/env.js'
 import { query } from '../config/db.js'
@@ -17,11 +18,14 @@ export async function authenticate(req, res, next) {
         }
 
         const decoded = jwt.verify(token, env.jwt.secret)
+        if (!validClaims(decoded, 'access')) return res.status(401).json({ error: 'Invalid token claims' })
 
         // Verify user still exists and is active
         const result = await query(
             `SELECT nd.ma_nguoi_dung, nd.ten_dang_nhap, nd.email, nd.vai_tro, nd.trang_thai,
-                    nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu,
+                    COALESCE((to_jsonb(nd)->>'token_version')::int,0) AS token_version,
+                    COALESCE((to_jsonb(nd)->>'bat_doi_mat_khau')::boolean,false) AS bat_doi_mat_khau,
+                    nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu, nv.trang_thai AS staff_active,
                     kh.ho_ten as khach_hang_ho_ten
              FROM nguoi_dung nd
              LEFT JOIN nhan_vien nv ON nd.ma_nguoi_dung = nv.ma_nhan_vien
@@ -36,7 +40,8 @@ export async function authenticate(req, res, next) {
 
         const user = result.rows[0]
 
-        if (!user.trang_thai) {
+        if (decoded.version !== user.token_version) return res.status(401).json({error:'Phiên đăng nhập đã hết hiệu lực.'})
+        if (!user.trang_thai || (user.vai_tro === 'NhanVien' && user.staff_active !== true)) {
             return res.status(403).json({ error: 'Account is locked' })
         }
 
@@ -49,6 +54,7 @@ export async function authenticate(req, res, next) {
             chucVu: user.chuc_vu,
         }
 
+        if (user.bat_doi_mat_khau && !['/toi','/doi-mat-khau'].includes(req.path)) return res.status(403).json({error:'Vui lòng đổi mật khẩu tạm trước khi sử dụng.',code:'PASSWORD_CHANGE_REQUIRED'})
         next()
     } catch (err) {
         if (err.name === 'JsonWebTokenError') {
@@ -108,6 +114,13 @@ function checkPermission(req, res, next, allowed) {
 
 export function requireReception(req, res, next) {
     return checkPermission(req, res, next, canManageAppointments(req.user))
+}
+
+export function requireManager(req, res, next) {
+    return checkPermission(req,res,next,req.user?.role==='Admin' || (req.user?.role==='NhanVien' && req.user.chucVu==='Quản lý'))
+}
+export function requireCare(req,res,next) {
+    return checkPermission(req,res,next,req.user?.role==='NhanVien' && req.user.chucVu==='Nhân viên chăm sóc')
 }
 
 // Customers still need ownership checks in the controller.

@@ -1,3 +1,5 @@
+import ChamSoc from './pages/nhan-vien/ChamSoc.jsx'
+import CaLamViec from './pages/quan-ly/CaLamViec.jsx'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import KhungKhachHang from './layouts/KhungKhachHang.jsx'
 import KiemTraQuyen from './components/KiemTraQuyen.jsx'
@@ -11,12 +13,14 @@ import ThongTinCaNhan from './pages/khach-hang/ThongTinCaNhan.jsx'
 import DatLichTaiQuay from './pages/le-tan/DatLichTaiQuay.jsx'
 import DangPhatTrien from './pages/DangPhatTrien.jsx'
 import QuanLyLichHen from './pages/le-tan/QuanLyLichHen.jsx'
+import DoiMatKhauTam from './pages/DoiMatKhauTam.jsx'
 
 export default function App() {
   return (
     <Routes>
       {/* Công khai */}
       <Route path="dang-nhap" element={<DangNhap />} />
+      <Route path="doi-mat-khau" element={<DoiMatKhauTam />} />
       <Route path="bang-gia" element={<BangGia />} />
       <Route
         path="quen-mat-khau"
@@ -49,6 +53,9 @@ export default function App() {
           </KiemTraQuyen>
         }
       />
+
+      <Route path="nhan-vien/lich-lam-viec" element={<KiemTraQuyen roleKey="care"><ChamSoc/></KiemTraQuyen>}/>
+      <Route path="quan-ly/ca-lam-viec" element={<KiemTraQuyen roleKey={['manager','admin']}><CaLamViec/></KiemTraQuyen>}/>
 
       {/* Nhân sự: giữ chỗ, sẽ làm các giao diện riêng sau */}
       {[

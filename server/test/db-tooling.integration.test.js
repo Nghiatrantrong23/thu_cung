@@ -21,10 +21,10 @@ test('database tooling on isolated PostgreSQL', { skip: !testUrl }, async (t) =>
     const sources = await loadMigrations()
     const password = randomBytes(24).toString('base64url')
     try {
-        await t.test('new database gets 15 business tables and version history; rerun is a no-op', async () => {
+        await t.test('new database gets business tables, care audit and version history; rerun is a no-op', async () => {
             assert.equal((await migrateDatabase(client, sources)).length, sources.length)
             const { rows } = await client.query("SELECT tablename FROM pg_tables WHERE schemaname='public'")
-            assert.equal(rows.length, 16)
+            assert.equal(rows.length, 17)
             assert.ok(rows.some((row) => row.tablename === 'petcare_schema_migrations'))
             assert.deepEqual(await migrateDatabase(client, sources), [])
         })
@@ -103,7 +103,7 @@ test('database tooling on isolated PostgreSQL', { skip: !testUrl }, async (t) =>
                 await client.query('ROLLBACK TO SAVEPOINT overlap')
                 await client.query('SAVEPOINT shift_overlap')
                 await assert.rejects(client.query(`INSERT INTO ca_lam_viec(ma_nhan_vien,ngay,gio_bat_dau,gio_ket_thuc)
-                    VALUES ($1,CURRENT_DATE,TIME '09:00',TIME '10:00')`, [staff]), (error) => error.code === '23P01')
+                    VALUES ($1,(SELECT MIN(ngay) FROM ca_lam_viec WHERE ma_nhan_vien=$1 AND trang_thai=true),TIME '09:00',TIME '10:00')`, [staff]), (error) => error.code === '23P01')
             } finally { await client.query('ROLLBACK') }
             assert.equal((await client.query('SELECT COUNT(*)::int AS total FROM lich_hen')).rows[0].total, 0)
         })

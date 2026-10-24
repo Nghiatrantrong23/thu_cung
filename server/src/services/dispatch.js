@@ -1,3 +1,4 @@
+import { audit } from './audit.js'
 import { withTransaction } from '../config/db.js'
 import { BOOKING_LOCK_NAMESPACE, bookingError, readSchedule } from './booking.js'
 import { canSchedule } from '../lib/scheduling.js'
@@ -14,7 +15,7 @@ export function reason(value, required = true) {
         throw bookingError(400, 'Nhập lý do/ghi chú từ 1 đến 300 ký tự.')
     return value.trim()
 }
-async function lockedBooking(client, value) {
+export async function lockedBooking(client, value) {
     const id = integerId(value)
     const first = await client.query("SELECT to_char(ngay_gio_hen,'YYYY-MM-DD') AS date FROM lich_hen WHERE ma_lich_hen=$1", [id])
     if (!first.rows.length) throw bookingError(404, 'Không tìm thấy lịch hẹn.')
@@ -38,7 +39,7 @@ async function availableStaff(client, booking) {
         to_char(ca.gio_bat_dau,'HH24:MI') AS start,to_char(ca.gio_ket_thuc,'HH24:MI') AS end
         FROM ca_lam_viec ca JOIN nhan_vien nv USING(ma_nhan_vien)
         JOIN nguoi_dung nd ON nd.ma_nguoi_dung=nv.ma_nhan_vien
-        WHERE ca.ngay=$1::date AND nd.vai_tro='NhanVien' AND nd.trang_thai=true
+        WHERE ca.ngay=$1::date AND ca.trang_thai=true AND nd.vai_tro='NhanVien' AND nd.trang_thai=true
         AND nv.trang_thai=true AND nv.chuc_vu='Nhân viên chăm sóc'
         AND ca.gio_bat_dau <= $2::timestamp::time AND ca.gio_ket_thuc >= $3::timestamp::time
         ORDER BY nv.ho_ten FOR SHARE OF ca,nv,nd`,
@@ -48,7 +49,8 @@ async function availableStaff(client, booking) {
 }
 function appendNote(current, label, note) {
     const result = [current, `${label}: ${note}`].filter(Boolean).join('\n')
-    if (result.length > 500) throw bookingError(400, 'Tổng ghi chú vượt 500 ký tự. Vui lòng rút gọn lý do.')
+    // Full processing reason is retained in the audit log; never truncate the customer's original note.
+    if (result.length > 500) return current
     return result
 }
 export async function getAvailableStaff(id) {
@@ -77,6 +79,7 @@ export async function processBooking(id, body, user) {
         await client.query(`UPDATE lich_hen SET trang_thai=$2,ma_nhan_vien=$3,ghi_chu=$4,ngay_cap_nhat=NOW()
             WHERE ma_lich_hen=$1`, [booking.ma_lich_hen, state, staffId, notes])
         if (action === 'tu-choi') await client.query("UPDATE chi_tiet_lich_hen SET trang_thai='DaHuy' WHERE ma_lich_hen=$1", [booking.ma_lich_hen])
+        await audit(client,booking,user,action,state,note || 'Xác nhận và phân công nhân viên')
         if (action !== 'giu-cho') {
             await notify(client, booking.ma_khach_hang, booking.ma_lich_hen, label === 'Từ chối' ? 'Lịch hẹn bị từ chối' : 'Lịch hẹn đã xác nhận',
                 `Lịch #${booking.ma_lich_hen}, ${booking.date} ${booking.start_time}.${note ? ` ${note}` : ''}`)
@@ -96,6 +99,7 @@ export async function cancelBooking(id, body, user) {
         await client.query("UPDATE lich_hen SET trang_thai='DaHuy',ghi_chu=$2,ngay_cap_nhat=NOW() WHERE ma_lich_hen=$1",
             [booking.ma_lich_hen, appendNote(booking.ghi_chu, 'Hủy lịch', note)])
         await client.query("UPDATE chi_tiet_lich_hen SET trang_thai='DaHuy' WHERE ma_lich_hen=$1", [booking.ma_lich_hen])
+        await audit(client,booking,user,'huy','DaHuy',note)
         await notify(client, booking.ma_khach_hang, booking.ma_lich_hen, 'Lịch hẹn đã hủy', `Lịch #${booking.ma_lich_hen}: ${note}`)
         if (booking.ma_nhan_vien) await notify(client, booking.ma_nhan_vien, booking.ma_lich_hen, 'Lịch được phân công đã hủy', `Lịch #${booking.ma_lich_hen}: ${note}`)
         return { message: 'Đã hủy lịch hẹn.', trangThaiDB: 'DaHuy' }

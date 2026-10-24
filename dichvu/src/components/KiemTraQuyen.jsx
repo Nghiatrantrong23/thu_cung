@@ -7,6 +7,7 @@ export default function RequireRole({ roleKey, children }) {
   const { user } = useAuth()
   const location = useLocation()
   if (!user) return <Navigate to="/dang-nhap" replace state={{ from: location.pathname }} />
+  if (user.mustChangePassword) return <Navigate to="/doi-mat-khau" replace />
   const allowed = Array.isArray(roleKey) ? roleKey.includes(user.roleKey) : user.roleKey === roleKey
   if (!allowed) return <Navigate to={homePath(user)} replace />
   return children

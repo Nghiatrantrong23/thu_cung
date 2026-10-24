@@ -1,10 +1,12 @@
+import { string, invalid } from '../lib/validation.js'
+import { isValidDate, businessNow } from '../lib/scheduling.js'
 import { query, withTransaction } from '../config/db.js'
 
 // -------------------------------------------------------
 // Helper: Chuẩn hóa loài và giới tính
 // -------------------------------------------------------
 function normalizeSpecies(species) {
-    if (!species) return null
+    if (typeof species !== 'string') return null
     const s = species.trim()
     if (s === 'Chó' || s.toLowerCase() === 'dog') return 'Chó'
     if (s === 'Mèo' || s.toLowerCase() === 'cat') return 'Mèo'
@@ -12,7 +14,7 @@ function normalizeSpecies(species) {
 }
 
 function normalizeGender(gender) {
-    if (!gender) return null
+    if (typeof gender !== 'string') return null
     const g = gender.trim()
     if (g === 'Đực' || g.toLowerCase() === 'male') return 'Đực'
     if (g === 'Cái' || g.toLowerCase() === 'female') return 'Cái'
@@ -26,7 +28,7 @@ function mapPetToFrontend(row) {
         species: row.loai_thu_cung,
         breed: row.giong ?? '',
         gender: row.gioi_tinh ?? '',
-        birthDate: row.ngay_sinh ? new Date(row.ngay_sinh).toISOString().slice(0, 10) : '',
+        birthDate: row.ngay_sinh ? (typeof row.ngay_sinh === 'string' ? row.ngay_sinh : `${row.ngay_sinh.getFullYear()}-${String(row.ngay_sinh.getMonth()+1).padStart(2,'0')}-${String(row.ngay_sinh.getDate()).padStart(2,'0')}`) : '',
         weightKg: row.can_nang != null ? Number(row.can_nang) : null,
         healthNote: row.ghi_chu_suc_khoe ?? '',
         active: Boolean(row.trang_thai),
@@ -96,127 +98,46 @@ export async function layChiTietThuCung(req, res, next) {
  * POST /api/thu-cung
  * Them thu cung moi cho khach hang.
  */
-export async function themThuCung(req, res, next) {
-    try {
-        const userId = req.user.userId
-        const { name, species, breed, gender, birthDate, weightKg, healthNote } = req.body
-
-        if (!name || !name.trim()) {
-            return res.status(400).json({ error: 'Vui lòng nhập tên thú cưng.' })
-        }
-
-        const loai = normalizeSpecies(species)
-        if (!loai) {
-            return res.status(400).json({ error: 'Loài không hợp lệ. Chỉ nhận Chó hoặc Mèo.' })
-        }
-
-        const gioiTinh = normalizeGender(gender)
-        const canNang = (weightKg != null && weightKg !== '') ? Number(weightKg) : null
-
-        // Dam bao da co record trong bang khach_hang
-        const checkKh = await query(`SELECT ma_khach_hang FROM khach_hang WHERE ma_khach_hang = $1`, [userId])
-        if (checkKh.rows.length === 0) {
-            const userRow = await query(`SELECT ten_dang_nhap FROM nguoi_dung WHERE ma_nguoi_dung = $1`, [userId])
-            const defaultName = userRow.rows[0]?.ten_dang_nhap || 'Khách hàng'
-            await query(`INSERT INTO khach_hang (ma_khach_hang, ho_ten) VALUES ($1, $2)`, [userId, defaultName])
-        }
-
-        // Kiem tra trung ten + loai cua cung mot chu nuoi
-        const dup = await query(
-            `SELECT ma_thu_cung FROM thu_cung
-             WHERE ma_khach_hang = $1 AND LOWER(ten_thu_cung) = LOWER($2) AND loai_thu_cung = $3`,
-            [userId, name.trim(), loai]
-        )
-        if (dup.rows.length > 0) {
-            return res.status(409).json({ error: 'Bạn đã có thú cưng cùng tên và loài này.' })
-        }
-
-        const result = await query(
-            `INSERT INTO thu_cung (ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, trang_thai)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, true)
-             RETURNING ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, trang_thai, ngay_tao`,
-            [
-                userId,
-                name.trim(),
-                loai,
-                breed?.trim() || null,
-                gioiTinh,
-                birthDate || null,
-                canNang,
-                healthNote?.trim() || null,
-            ]
-        )
-
-        const pet = mapPetToFrontend(result.rows[0])
-        console.log(`[pet] Thêm thú cưng mới: ${pet.name} (${pet.species}) - userId=${userId}`)
-        res.status(201).json({ pet, message: `Đã thêm thú cưng ${pet.name} thành công.` })
-    } catch (err) {
-        next(err)
+function petInput(body) {
+    const name=string(body?.name,'Tên thú cưng',50)
+    const species=normalizeSpecies(body.species)
+    if (!species) throw invalid('Chỉ nhận Chó hoặc Mèo.')
+    const gender=normalizeGender(body.gender)
+    if (body.gender != null && body.gender !== '' && !gender) throw invalid('Giới tính không hợp lệ.')
+    let weight=null
+    if (body.weightKg != null && body.weightKg !== '') {
+        if (!['number','string'].includes(typeof body.weightKg) || !/^\d+(?:\.\d{1,2})?$/.test(String(body.weightKg))) throw invalid('Cân nặng không hợp lệ.')
+        weight=Number(body.weightKg)
+        if (!Number.isFinite(weight) || weight<=0 || weight>999.99) throw invalid('Cân nặng phải lớn hơn 0, tối đa 999,99 kg.')
     }
+    const date=string(body.birthDate,'Ngày sinh',10,false)
+    if (date && (!isValidDate(date) || date>businessNow().date)) throw invalid('Ngày sinh không hợp lệ hoặc ở tương lai.')
+    return [name,species,string(body.breed,'Giống',50,false)||null,gender,date||null,weight,string(body.healthNote,'Ghi chú sức khỏe',500,false)||null]
 }
-
-/**
- * PUT /api/thu-cung/:id
- * Cap nhat thong tin thu cung.
- */
-export async function capNhatThuCung(req, res, next) {
-    try {
-        const { id } = req.params
-        const userId = req.user.userId
-        const { name, species, breed, gender, birthDate, weightKg, healthNote } = req.body
-
-        const existing = await query(
-            `SELECT ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, trang_thai FROM thu_cung WHERE ma_thu_cung = $1`,
-            [id]
-        )
-        if (existing.rows.length === 0) {
-            return res.status(404).json({ error: 'Không tìm thấy thú cưng.' })
+async function savePet(req, update) {
+    const values=petInput(req.body)
+    return withTransaction(async client=>{
+        // One owner's pet writes serialize, including duplicate-name checks.
+        const owner=await client.query('SELECT ma_khach_hang FROM khach_hang WHERE ma_khach_hang=$1 FOR UPDATE',[req.user.userId])
+        if (!owner.rowCount) throw Object.assign(new Error('Không tìm thấy hồ sơ khách hàng.'),{status:403})
+        if (update) {
+            const current=(await client.query('SELECT ma_khach_hang,trang_thai FROM thu_cung WHERE ma_thu_cung=$1 FOR UPDATE',[req.params.id])).rows[0]
+            if (!current) throw Object.assign(new Error('Không tìm thấy thú cưng.'),{status:404})
+            if (current.ma_khach_hang!==req.user.userId) throw Object.assign(new Error('Bạn không có quyền sửa thú cưng này.'),{status:403})
+            if (!current.trang_thai) throw invalid('Không thể sửa thú cưng đã ngừng theo dõi.')
         }
-        const current = existing.rows[0]
-        if (current.ma_khach_hang !== userId) {
-            return res.status(403).json({ error: 'Bạn không có quyền sửa thú cưng này.' })
-        }
-        if (!current.trang_thai) {
-            return res.status(400).json({ error: 'Không thể sửa thú cưng đang ở trạng thái Ngừng theo dõi.' })
-        }
-
-        if (!name || !name.trim()) {
-            return res.status(400).json({ error: 'Vui lòng nhập tên thú cưng.' })
-        }
-
-        const loai = normalizeSpecies(species)
-        if (!loai) {
-            return res.status(400).json({ error: 'Loài không hợp lệ. Chỉ nhận Chó hoặc Mèo.' })
-        }
-
-        const gioiTinh = normalizeGender(gender)
-        const canNang = (weightKg != null && weightKg !== '') ? Number(weightKg) : null
-
-        const dup = await query(
-            `SELECT ma_thu_cung FROM thu_cung
-             WHERE ma_khach_hang = $1 AND LOWER(ten_thu_cung) = LOWER($2) AND loai_thu_cung = $3 AND ma_thu_cung != $4`,
-            [userId, name.trim(), loai, id]
-        )
-        if (dup.rows.length > 0) {
-            return res.status(409).json({ error: 'Bạn đã có thú cưng cùng tên và loài này.' })
-        }
-
-        const result = await query(
-            `UPDATE thu_cung
-             SET ten_thu_cung = $1, loai_thu_cung = $2, giong = $3, gioi_tinh = $4,
-                 ngay_sinh = $5, can_nang = $6, ghi_chu_suc_khoe = $7,
-                 ngay_cap_nhat = NOW()
-             WHERE ma_thu_cung = $8
-             RETURNING ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, trang_thai, ngay_tao`,
-            [name.trim(), loai, breed?.trim() || null, gioiTinh, birthDate || null, canNang, healthNote?.trim() || null, id]
-        )
-
-        const pet = mapPetToFrontend(result.rows[0])
-        console.log(`[pet] Cập nhật thú cưng: ${pet.name} - userId=${userId}`)
-        res.json({ pet, message: 'Đã lưu thay đổi.' })
-    } catch (err) {
-        next(err)
-    }
+        const dup=await client.query('SELECT 1 FROM thu_cung WHERE ma_khach_hang=$1 AND LOWER(ten_thu_cung)=LOWER($2) AND loai_thu_cung=$3 AND ($4::int IS NULL OR ma_thu_cung<>$4)',[req.user.userId,values[0],values[1],update?req.params.id:null])
+        if (dup.rowCount) throw Object.assign(new Error('Bạn đã có thú cưng cùng tên và loài.'),{status:409})
+        const sql=update ? `UPDATE thu_cung SET ten_thu_cung=$1,loai_thu_cung=$2,giong=$3,gioi_tinh=$4,ngay_sinh=$5,can_nang=$6,ghi_chu_suc_khoe=$7,ngay_cap_nhat=NOW() WHERE ma_thu_cung=$8 RETURNING *`
+            : `INSERT INTO thu_cung(ten_thu_cung,loai_thu_cung,giong,gioi_tinh,ngay_sinh,can_nang,ghi_chu_suc_khoe,ma_khach_hang) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`
+        return mapPetToFrontend((await client.query(sql,[...values,update?req.params.id:req.user.userId])).rows[0])
+    })
+}
+export async function themThuCung(req,res,next) {
+    try {res.status(201).json({pet:await savePet(req,false),message:'Đã thêm thú cưng.'})}catch(err){next(err)}
+}
+export async function capNhatThuCung(req,res,next) {
+    try {res.json({pet:await savePet(req,true),message:'Đã lưu thay đổi.'})}catch(err){next(err)}
 }
 
 /**
@@ -251,7 +172,7 @@ export async function traCuuKhachHang(req, res, next) {
     try {
         const { sdt } = req.query
 
-        if (!sdt || !/^\d{10}$/.test(sdt.trim())) {
+        if (typeof sdt !== 'string' || !/^\d{10}$/.test(sdt.trim())) {
             return res.status(400).json({ error: 'Số điện thoại không hợp lệ (10 chữ số).' })
         }
 

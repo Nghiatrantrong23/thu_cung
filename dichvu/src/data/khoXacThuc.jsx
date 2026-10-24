@@ -1,5 +1,6 @@
+import { createApiClient } from '../lib/apiClient.js'
 import { registerAccount } from '../lib/dangKy.js'
-import { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { seedAccounts } from './duLieuMau.js'
 import { publicUser } from '../lib/tienIchXacThuc.js'
 
@@ -39,32 +40,17 @@ function saveSession(user, token) {
 }
 
 export function AuthProvider({ children }) {
-  const [accounts, setAccounts] = useState(seedAccounts)
+  const accounts = seedAccounts
   const [user, setUser] = useState(loadSession)
   const [token, setToken] = useState(loadToken)
 
-  const apiCall = useCallback(
-    async (url, options = {}) => {
-      try {
-        const currentToken = sessionStorage.getItem(KEY_TOKEN) || token || ''
-        const headers = {
-          'Content-Type': 'application/json',
-          ...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
-          ...options.headers,
-        }
-        const res = await fetch(url, { ...options, headers })
-        const data = await res.json()
-        if (!res.ok) {
-          return { ok: false, error: data.error || 'Có lỗi xảy ra', status: res.status }
-        }
-        return { ok: true, data, status: res.status }
-      } catch (err) {
-        console.error('[apiCall] Lỗi kết nối:', err)
-        return { ok: false, error: 'Không thể kết nối tới máy chủ.', status: 0 }
-      }
-    },
-    [token],
-  )
+  const userRef = useRef(user)
+  userRef.current = user
+  const apiCall = useMemo(() => createApiClient({
+    getToken: loadToken,
+    onToken: (value) => { setToken(value); saveSession(userRef.current, value) },
+    onExpired: () => { setUser(null); setToken(''); saveSession(null, '') },
+  }), [])
 
   const login = useCallback(
     async (identifier, password) => {
@@ -87,7 +73,7 @@ export function AuthProvider({ children }) {
           email: data.user.email,
           role: role,
           title: data.user.chucVu,
-          token: data.accessToken,
+          mustChangePassword: Boolean(data.user.batDoiMatKhau),
         }
         const u = publicUser(account)
         setUser(u)
@@ -122,7 +108,7 @@ export function AuthProvider({ children }) {
         body: JSON.stringify({ hoTen, email, soDienThoai }),
       })
       if (result.ok && user) {
-        const updated = { ...user, fullName: hoTen }
+        const updated = { ...user, fullName: hoTen, email }
         setUser(updated)
         saveSession(updated, token)
       }

@@ -38,6 +38,7 @@ function mapLichHen(row, dichVuList = []) {
         trangThaiDB: row.trang_thai,
         note: row.ghi_chu ?? '',
         ghiChu: row.ghi_chu ?? '',
+        careIssue: row.yeu_cau_xu_ly ?? '',
         ngayTao: row.ngay_tao,
         dichVu: dichVuList,
         serviceNames: dichVuList.map((d) => d.ten),
@@ -93,7 +94,7 @@ export async function layDanhSachLichHen(req, res, next) {
                     to_char(lh.ngay_gio_hen, 'YYYY-MM-DD') AS ngay_hen,
                     to_char(lh.ngay_gio_hen, 'HH24:MI') AS gio_hen,
                     to_char(lh.ngay_gio_ket_thuc_du_kien, 'HH24:MI') AS gio_ket_thuc,
-                    lh.trang_thai, lh.ghi_chu, lh.ngay_tao,
+                    lh.trang_thai, lh.ghi_chu, lh.ngay_tao, lh.yeu_cau_xu_ly,
                     tc.ten_thu_cung, tc.loai_thu_cung,
                     nv.ho_ten AS ten_nhan_vien,
                     nd.ten_dang_nhap, nd.so_dien_thoai, kh.ho_ten AS ten_khach_hang,
@@ -115,7 +116,7 @@ export async function layDanhSachLichHen(req, res, next) {
         let dichVuMap = {}
         if (lichHenIds.length > 0) {
             const dvResult = await query(
-                `SELECT ctlh.ma_lich_hen, ctlh.ma_dv, dv.ten_dv, ctlh.gia_du_kien, ctlh.so_luong, ctlh.trang_thai
+                `SELECT ctlh.ma_lich_hen, ctlh.ma_dv, dv.ten_dv, ctlh.gia_du_kien, ctlh.so_luong, ctlh.trang_thai, ctlh.ghi_chu_cham_soc
                  FROM chi_tiet_lich_hen ctlh
                  JOIN dich_vu dv ON ctlh.ma_dv = dv.ma_dv
                  WHERE ctlh.ma_lich_hen = ANY($1::int[])`,
@@ -129,6 +130,7 @@ export async function layDanhSachLichHen(req, res, next) {
                     gia: Number(dv.gia_du_kien),
                     soLuong: dv.so_luong,
                     trangThai: dv.trang_thai,
+                    careNote: dv.ghi_chu_cham_soc ?? '',
                 })
             }
         }
@@ -150,7 +152,7 @@ async function respondCreated(req, res, next, counter) {
             ngay_hen: created.date, gio_hen: created.start, gio_ket_thuc: created.end,
             trang_thai: 'ChoXacNhan', ghi_chu: created.note, ngay_tao: new Date(),
         }, serviceList)
-        res.status(201).json({ message: 'Đặt lịch thành công. Lịch đang chờ xác nhận.', lichHenId: created.id, booking, lichHen: booking })
+        res.status(201).json({ message: 'Đặt lịch thành công. Lịch đang chờ xác nhận.', lichHenId: created.id, booking, lichHen: booking, ...(created.temporaryAccount ? { taiKhoanTam: created.temporaryAccount } : {}) })
     } catch (err) { next(err) }
 }
 export async function datLichOnline(req, res, next) { return respondCreated(req, res, next, false) }
@@ -185,11 +187,12 @@ export async function danhGiaLichHen(req, res, next) {
         const userId = req.user.userId
         const role = req.user.role
 
-        const numStars = parseInt(stars, 10)
-        if (isNaN(numStars) || numStars < 1 || numStars > 5) {
+        const numStars = typeof stars === 'number' || (typeof stars === 'string' && /^[1-5]$/.test(stars)) ? Number(stars) : NaN
+        if (!Number.isInteger(numStars) || numStars < 1 || numStars > 5) {
             return res.status(400).json({ error: 'Số sao đánh giá phải từ 1 đến 5.' })
         }
 
+        if (comment != null && (typeof comment !== 'string' || comment.trim().length > 500)) return res.status(400).json({error:'Nhận xét tối đa 500 ký tự.'})
         const lhResult = await query(
             `SELECT lh.ma_lich_hen, lh.trang_thai, tc.ma_khach_hang
              FROM lich_hen lh

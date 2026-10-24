@@ -9,6 +9,7 @@ import petRoutes, { traCuuKhachHang } from './routes/pet.routes.js'
 import dichVuRoutes from './routes/dichvu.routes.js'
 import lichHenRoutes from './routes/lichhen.routes.js'
 import thongBaoRoutes from './routes/thongbao.routes.js'
+import caLamRoutes from './routes/calam.routes.js'
 import { authenticate, requireReception } from './middleware/auth.middleware.js'
 import { errorHandler } from './middleware/error.middleware.js'
 
@@ -47,6 +48,7 @@ app.use('/api/thu-cung', petRoutes)
 app.use('/api/dich-vu', dichVuRoutes)
 app.use('/api/lich-hen', lichHenRoutes)
 app.use('/api/thong-bao', thongBaoRoutes)
+app.use('/api/ca-lam-viec', caLamRoutes)
 app.get('/api/khach-hang/tra-cuu', authenticate, requireReception, traCuuKhachHang)
 
 

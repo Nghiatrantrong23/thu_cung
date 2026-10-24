@@ -99,7 +99,7 @@ test('booking HTTP acceptance on a new isolated PostgreSQL database', {
             await delay(100)
         }
         assert.ok(healthy, 'Test server did not become healthy.')
-        const token = (key) => jwt.sign({ userId: f[key], role: key.startsWith('customer') ? 'KhachHang' : 'NhanVien' }, jwtSecret, { expiresIn: '5m' })
+        const token = (key) => jwt.sign({ type: 'access', version: 0, userId: f[key], role: key.startsWith('customer') ? 'KhachHang' : 'NhanVien' }, jwtSecret, { expiresIn: '5m' })
         async function call(path, { as = 'customer1', method = 'GET', body, authToken } = {}) {
             const response = await fetch(`${base}${path}`, { method,
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken || token(as)}` },
