@@ -1,3 +1,9 @@
+import { string,phone as checkPhone,email as checkEmail } from '../lib/validation.js'
+import { integerId } from '../services/dispatch.js'
+import { BOOKING_LOCK_NAMESPACE,bookingError } from '../services/booking.js'
+import { validateDayCapacity } from '../services/shifts.js'
+import { notify,notifyReception } from '../services/notifications.js'
+import { audit } from '../services/audit.js'
 import bcrypt from 'bcrypt'
 import { query, withTransaction } from '../config/db.js'
 import { env } from '../config/env.js'
@@ -53,7 +59,7 @@ export async function layDanhSachTaiKhoan(req, res, next) {
             soDienThoai: row.so_dien_thoai || '',
             vaiTro: row.vai_tro,
             trangThai: row.trang_thai,
-            hoTen: row.nhan_vien_ho_ten || row.khach_hang_ho_ten || '',
+            hoTen: row.vai_tro==='NhanVien'?row.nhan_vien_ho_ten:row.vai_tro==='KhachHang'?row.khach_hang_ho_ten:row.ten_dang_nhap,
             chucVu: row.chuc_vu || '',
         }))
 
@@ -69,8 +75,13 @@ export async function layDanhSachTaiKhoan(req, res, next) {
  */
 export async function taoTaiKhoan(req, res, next) {
     try {
-        const { tenDangNhap, hoTen, soDienThoai, email, chucVu } = req.body
+        let { tenDangNhap, hoTen, soDienThoai, email, chucVu } = req.body
 
+        tenDangNhap=string(tenDangNhap,'Tên đăng nhập',30)
+        if(!/^[A-Za-z0-9._]{4,30}$/.test(tenDangNhap)) throw bookingError(400,'Tên đăng nhập không hợp lệ.')
+        hoTen=string(hoTen,'Họ tên',100)
+        soDienThoai=checkPhone(soDienThoai,false);email=checkEmail(email)
+        if(!['Lễ tân','Quản lý','Nhân viên chăm sóc'].includes(chucVu)) throw bookingError(400,'Chức vụ không hợp lệ.')
         // Validation
         if (!tenDangNhap || !hoTen || !chucVu) {
             return res.status(400).json({
@@ -83,10 +94,11 @@ export async function taoTaiKhoan(req, res, next) {
         const matKhauHash = await bcrypt.hash(matKhauTam, env.bcryptRounds)
 
         const result = await withTransaction(async (client) => {
+            await client.query('SELECT pg_advisory_xact_lock(171719,hashtext(lower($1)))',[tenDangNhap])
             // Kiểm tra trùng
             const checkResult = await client.query(
                 `SELECT
-                    (SELECT COUNT(*) FROM nguoi_dung WHERE ten_dang_nhap = $1) as trung_ten,
+                    (SELECT COUNT(*) FROM nguoi_dung WHERE LOWER(ten_dang_nhap)=LOWER($1)) as trung_ten,
                     (SELECT COUNT(*) FROM nguoi_dung WHERE so_dien_thoai = $2 AND so_dien_thoai IS NOT NULL) as trung_sdt,
                     (SELECT COUNT(*) FROM nguoi_dung WHERE email = $3 AND email IS NOT NULL) as trung_email`,
                 [tenDangNhap, soDienThoai || null, email || null]
@@ -146,199 +158,67 @@ export async function taoTaiKhoan(req, res, next) {
  * PATCH /api/admin/tai-khoan/:id
  * Cập nhật thông tin tài khoản
  */
-export async function capNhatTaiKhoan(req, res, next) {
-    try {
-        const { id } = req.params
-        const { hoTen, soDienThoai, email, vaiTro, chucVu } = req.body
-
-        await withTransaction(async (client) => {
-            // Lấy thông tin hiện tại
-            const current = await client.query(
-                'SELECT vai_tro FROM nguoi_dung WHERE ma_nguoi_dung = $1',
-                [id]
-            )
-
-            if (current.rows.length === 0) {
-                throw Object.assign(new Error('Tài khoản không tồn tại'), { status: 404 })
-            }
-
-            // Validate vaiTro
-            if (vaiTro) {
-                const vaiTroHopLe = ['Admin', 'NhanVien', 'KhachHang']
-                if (!vaiTroHopLe.includes(vaiTro)) {
-                    throw Object.assign(
-                        new Error(`vaiTro không hợp lệ. Giá trị hợp lệ: ${vaiTroHopLe.join(', ')}`),
-                        { status: 400 }
-                    )
-                }
-            }
-
-            // Kiểm tra trùng nếu có soDienThoai hoặc email
-            if (soDienThoai || email) {
-                const checkResult = await client.query(
-                    `SELECT
-                        (SELECT COUNT(*) FROM nguoi_dung WHERE so_dien_thoai = $1 AND ma_nguoi_dung != $2 AND so_dien_thoai IS NOT NULL) as trung_sdt,
-                        (SELECT COUNT(*) FROM nguoi_dung WHERE email = $3 AND ma_nguoi_dung != $2 AND email IS NOT NULL) as trung_email`,
-                    [soDienThoai || null, id, email || null]
-                )
-
-                const dup = checkResult.rows[0]
-                if (soDienThoai && parseInt(dup.trung_sdt) > 0) {
-                    throw Object.assign(new Error('Số điện thoại đã tồn tại'), { status: 409 })
-                }
-                if (email && parseInt(dup.trung_email) > 0) {
-                    throw Object.assign(new Error('Email đã tồn tại'), { status: 409 })
-                }
-            }
-
-            // Cập nhật nguoi_dung
-            const ndUpdates = []
-            const ndParams = []
-            let paramIndex = 1
-
-            if (vaiTro) {
-                ndUpdates.push(`vai_tro = $${paramIndex++}`)
-                ndParams.push(vaiTro)
-            }
-            if (email !== undefined) {
-                ndUpdates.push(`email = $${paramIndex++}`)
-                ndParams.push(email || null)
-            }
-            if (soDienThoai !== undefined) {
-                ndUpdates.push(`so_dien_thoai = $${paramIndex++}`)
-                ndParams.push(soDienThoai || null)
-            }
-
-            if (ndUpdates.length > 0) {
-                ndParams.push(id)
-                await client.query(
-                    `UPDATE nguoi_dung SET ${ndUpdates.join(', ')} WHERE ma_nguoi_dung = $${paramIndex}`,
-                    ndParams
-                )
-            }
-
-            // Cập nhật nhan_vien nếu có
-            if (hoTen || chucVu) {
-                const nvUpdates = []
-                const nvParams = []
-                let nvIndex = 1
-
-                if (hoTen) {
-                    nvUpdates.push(`ho_ten = $${nvIndex++}`)
-                    nvParams.push(hoTen)
-                }
-                if (chucVu) {
-                    nvUpdates.push(`chuc_vu = $${nvIndex++}`)
-                    nvParams.push(chucVu)
-                }
-
-                if (nvUpdates.length > 0) {
-                    nvParams.push(id)
-                    const updateResult = await client.query(
-                        `UPDATE nhan_vien SET ${nvUpdates.join(', ')} WHERE ma_nhan_vien = $${nvIndex}`,
-                        nvParams
-                    )
-                    // Nếu không có nhan_vien record, không báo lỗi (có thể là KhachHang)
-                }
-            }
-        })
-
-        res.json({
-            message: 'Cập nhật tài khoản thành công',
-            data: { maNguoiDung: parseInt(id) },
-        })
-    } catch (err) {
-        next(err)
-    }
+async function lockAccountDays(client,id) {
+    await client.query('SELECT pg_advisory_xact_lock(171720,$1::int)',[id])
+    const dates=await client.query(`SELECT DISTINCT day FROM (
+        SELECT ngay AS day FROM ca_lam_viec WHERE ma_nhan_vien=$1 AND trang_thai=true
+        UNION SELECT ngay_gio_hen::date FROM lich_hen WHERE ma_nhan_vien=$1 AND trang_thai IN ('ChoXacNhan','DaXacNhan','DangThucHien')
+        ) days ORDER BY day`,[id])
+    const days=dates.rows.map(row=>`${row.day.getFullYear()}-${String(row.day.getMonth()+1).padStart(2,'0')}-${String(row.day.getDate()).padStart(2,'0')}`)
+    for(const day of days)await client.query('SELECT pg_advisory_xact_lock($1::int,$2::int)',[BOOKING_LOCK_NAMESPACE,Number(day.replaceAll('-',''))])
+    const row=(await client.query('SELECT * FROM nguoi_dung WHERE ma_nguoi_dung=$1 FOR UPDATE',[id])).rows[0]
+    if(!row)throw bookingError(404,'Không tìm thấy tài khoản.')
+    return {row,days}
 }
-
-/**
- * POST /api/admin/tai-khoan/:id/khoa
- * Khóa tài khoản với logic:
- * - Nếu có lịch DangThucHien: chặn cứng (409)
- * - Nếu chỉ có lịch DaXacNhan: cần xacNhan=true trong body để khóa
- */
-export async function khoaTaiKhoan(req, res, next) {
+export async function capNhatTaiKhoan(req,res,next) {
     try {
-        const { id } = req.params
-        const { xacNhan } = req.body || {}
-
-        // Không được khóa chính mình
-        if (parseInt(id) === req.user.userId) {
-            return res.status(400).json({ error: 'Không thể khóa tài khoản của chính bạn' })
-        }
-
-        // Kiểm tra lịch hẹn
-        const kiemTraLich = await query(
-            `SELECT
-                ma_lich_hen,
-                trang_thai,
-                ngay_gio_hen
-             FROM lich_hen
-             WHERE ma_nhan_vien = $1
-             AND trang_thai IN ('DaXacNhan', 'DangThucHien')
-             ORDER BY ngay_gio_hen`,
-            [id]
-        )
-
-        const lichHen = kiemTraLich.rows
-        const lichDangThucHien = lichHen.filter(l => l.trang_thai === 'DangThucHien')
-        const lichDaXacNhan = lichHen.filter(l => l.trang_thai === 'DaXacNhan')
-
-        // Nếu có lịch DangThucHien: chặn cứng
-        if (lichDangThucHien.length > 0) {
-            return res.status(409).json({
-                error: 'Không thể khóa nhân viên đang có lịch hẹn DangThucHien',
-                lichDangThucHien: lichDangThucHien.map(l => ({
-                    maLichHen: l.ma_lich_hen,
-                    trangThai: l.trang_thai,
-                    ngayGioHen: l.ngay_gio_hen,
-                })),
-            })
-        }
-
-        // Nếu có lịch DaXacNhan và chưa xác nhận: yêu cầu xác nhận
-        if (lichDaXacNhan.length > 0 && xacNhan !== true) {
-            return res.status(409).json({
-                warning: true,
-                message: `Nhân viên có ${lichDaXacNhan.length} lịch hẹn DaXacNhan. Gửi {"xacNhan": true} trong body để khóa.`,
-                lichDaXacNhan: lichDaXacNhan.map(l => ({
-                    maLichHen: l.ma_lich_hen,
-                    trangThai: l.trang_thai,
-                    ngayGioHen: l.ngay_gio_hen,
-                })),
-            })
-        }
-
-        // Khóa tài khoản
-        const result = await query(
-            'UPDATE nguoi_dung SET trang_thai = false WHERE ma_nguoi_dung = $1 RETURNING ma_nguoi_dung',
-            [id]
-        )
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Tài khoản không tồn tại' })
-        }
-
-        const response = {
-            message: 'Khóa tài khoản thành công',
-            data: { maNguoiDung: parseInt(id), trangThai: false },
-        }
-
-        // Trả kèm danh sách lịch bị ảnh hưởng nếu có
-        if (lichDaXacNhan.length > 0) {
-            response.lichBiAnhHuong = lichDaXacNhan.map(l => ({
-                maLichHen: l.ma_lich_hen,
-                trangThai: l.trang_thai,
-                ngayGioHen: l.ngay_gio_hen,
-            }))
-            response.luuY = 'Các lịch hẹn DaXacNhan cần được phân công lại nhân viên khác'
-        }
-
-        res.json(response)
-    } catch (err) {
-        next(err)
-    }
+        const id=integerId(req.params.id),body=req.body||{}
+        const result=await withTransaction(async client=>{
+            const {row,days}=await lockAccountDays(client,id)
+            const role=body.vaiTro??row.vai_tro
+            if(!['Admin','NhanVien','KhachHang'].includes(role))throw bookingError(400,'Vai trò không hợp lệ.')
+            if(id===req.user.userId && role!==row.vai_tro)throw bookingError(400,'Không thể tự thay vai trò quản trị của chính mình.')
+            const currentStaff=(await client.query('SELECT chuc_vu,ho_ten FROM nhan_vien WHERE ma_nhan_vien=$1',[id])).rows[0]
+            const position=body.chucVu||currentStaff?.chuc_vu
+            if(role==='NhanVien'&&!['Lễ tân','Quản lý','Nhân viên chăm sóc'].includes(position))throw bookingError(400,'Chức vụ nhân viên không hợp lệ.')
+            const changed=role!==row.vai_tro || (role==='NhanVien'&&position!==currentStaff?.chuc_vu)
+            if(changed&&(await client.query("SELECT 1 FROM lich_hen WHERE ma_nhan_vien=$1 AND trang_thai IN ('DaXacNhan','DangThucHien') LIMIT 1",[id])).rowCount)throw bookingError(409,'Điều phối lịch đang mở trước khi đổi vai trò/chức vụ.')
+            const fullName=body.hoTen!==undefined?string(body.hoTen,'Họ tên',100):currentStaff?.ho_ten||row.ten_dang_nhap
+            const email=body.email!==undefined?checkEmail(body.email):row.email
+            const phone=body.soDienThoai!==undefined?(checkPhone(body.soDienThoai,false)||null):row.so_dien_thoai
+            await client.query('UPDATE nguoi_dung SET vai_tro=$2,email=$3,so_dien_thoai=$4,token_version=token_version+$5,ngay_cap_nhat=NOW() WHERE ma_nguoi_dung=$1',[id,role,email,phone,changed?1:0])
+            if(role==='NhanVien')await client.query('INSERT INTO nhan_vien(ma_nhan_vien,ho_ten,chuc_vu) VALUES($1,$2,$3) ON CONFLICT(ma_nhan_vien) DO UPDATE SET ho_ten=$2,chuc_vu=$3,ngay_cap_nhat=NOW()',[id,fullName,position])
+            if(role==='KhachHang')await client.query('INSERT INTO khach_hang(ma_khach_hang,ho_ten) VALUES($1,$2) ON CONFLICT(ma_khach_hang) DO UPDATE SET ho_ten=$2,ngay_cap_nhat=NOW()',[id,fullName])
+            // Keep old profiles for FK/history, but effective role controls access and capacity.
+            if(changed)for(const day of days)await validateDayCapacity(client,day)
+            return {maNguoiDung:id}
+        })
+        res.json({message:'Đã cập nhật tài khoản.',data:result})
+    } catch(err){next(err)}
+}
+export async function khoaTaiKhoan(req,res,next) {
+    try {
+        const id=integerId(req.params.id)
+        if(id===req.user.userId)throw bookingError(400,'Không thể khóa chính mình.')
+        const result=await withTransaction(async client=>{
+            const {row,days}=await lockAccountDays(client,id)
+            const appointments=await client.query(`SELECT lh.*,to_char(lh.ngay_gio_hen,'YYYY-MM-DD') AS date,tc.ma_khach_hang
+                FROM lich_hen lh JOIN thu_cung tc USING(ma_thu_cung) WHERE lh.ma_nhan_vien=$1 AND lh.trang_thai IN ('DaXacNhan','DangThucHien') FOR UPDATE OF lh`,[id])
+            if(appointments.rows.some(item=>item.trang_thai==='DangThucHien'))throw bookingError(409,'Không thể khóa nhân viên đang thực hiện dịch vụ.')
+            if(appointments.rowCount && req.body?.xacNhan!==true)return {warning:true,error:'Nhân viên có lịch đã xác nhận. Xác nhận để đưa về chờ phân công lại nếu vẫn đủ công suất.',lichDaXacNhan:appointments.rows.map(item=>({maLichHen:item.ma_lich_hen,trangThai:item.trang_thai,ngayGioHen:item.date}))}
+            if(!row.trang_thai)return {message:'Tài khoản đã khóa.',data:{maNguoiDung:id,trangThai:false}}
+            await client.query('UPDATE nguoi_dung SET trang_thai=false,token_version=token_version+1,ngay_cap_nhat=NOW() WHERE ma_nguoi_dung=$1',[id])
+            for(const booking of appointments.rows){
+                await client.query("UPDATE lich_hen SET ma_nhan_vien=NULL,trang_thai='ChoXacNhan',ngay_cap_nhat=NOW() WHERE ma_lich_hen=$1",[booking.ma_lich_hen])
+                await audit(client,booking,req.user,'tai-khoan-bi-khoa','ChoXacNhan','Nhân viên phụ trách bị khóa; chờ phân công lại.')
+                await notify(client,booking.ma_khach_hang,booking.ma_lich_hen,'Lịch chờ phân công lại',`Lịch #${booking.ma_lich_hen} cần đổi nhân viên phụ trách.`)
+                await notifyReception(client,booking.ma_lich_hen,'Cần phân công lại nhân viên',`Lịch #${booking.ma_lich_hen} do tài khoản phụ trách bị khóa.`)
+            }
+            for(const day of days)await validateDayCapacity(client,day)
+            return {message:'Đã khóa tài khoản, các lịch bị ảnh hưởng vẫn được bảo vệ công suất.',data:{maNguoiDung:id,trangThai:false}}
+        })
+        res.status(result.warning?409:200).json(result)
+    } catch(err){next(err)}
 }
 
 /**
@@ -347,7 +227,7 @@ export async function khoaTaiKhoan(req, res, next) {
  */
 export async function moKhoaTaiKhoan(req, res, next) {
     try {
-        const { id } = req.params
+        const id = integerId(req.params.id)
 
         const result = await query(
             'UPDATE nguoi_dung SET trang_thai = true WHERE ma_nguoi_dung = $1 RETURNING ma_nguoi_dung',
@@ -373,7 +253,7 @@ export async function moKhoaTaiKhoan(req, res, next) {
  */
 export async function datLaiMatKhau(req, res, next) {
     try {
-        const { id } = req.params
+        const id = integerId(req.params.id)
 
         // Sinh mật khẩu tạm mới
         const matKhauTam = generateMatKhauTam(12)

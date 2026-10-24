@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useAuth } from '../../data/khoXacThuc.jsx'
+import { Link } from 'react-router-dom'
+import { useCallback,useEffect,useState } from 'react'
 import HopThoaiXacNhan from '../../components/HopThoaiXacNhan.jsx'
 import HuyHieuTrangThai from '../../components/HuyHieuTrangThai.jsx'
 
-const API_BASE = 'http://localhost:5000/api'
+const API_BASE = '/api'
 
 // Tailwind utility classes
 const inputCls =
@@ -28,8 +30,6 @@ const POSITIONS = {
     'Lễ tân': 'Lễ tân',
     'Quản lý': 'Quản lý',
     'Nhân viên chăm sóc': 'Nhân viên chăm sóc',
-    'Bác sĩ thú y': 'Bác sĩ thú y',
-    Groomer: 'Groomer',
 }
 
 function Info({ label, children }) {
@@ -137,6 +137,8 @@ function WarningModal({ title, message, appointments, onConfirm, onClose }) {
 }
 
 export default function QuanLyTaiKhoan() {
+    const {apiCall}=useAuth()
+    const apiFetch=useCallback(async(url,options={})=>{const result=await apiCall(url,options);return {ok:result.ok,status:result.status,json:async()=>result.ok?result.data:(result.payload||{error:result.error})}},[apiCall])
     const [accounts, setAccounts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -151,7 +153,7 @@ export default function QuanLyTaiKhoan() {
     // Get access token from context or localStorage (simplified for demo)
     const getToken = () => localStorage.getItem('accessToken') || ''
 
-    const fetchAccounts = async () => {
+    const fetchAccounts = useCallback(async () => {
         try {
             setLoading(true)
             setError(null)
@@ -159,7 +161,7 @@ export default function QuanLyTaiKhoan() {
             if (search) params.set('q', search)
             if (roleFilter) params.set('vaiTro', roleFilter)
 
-            const res = await fetch(`${API_BASE}/admin/tai-khoan?${params}`, {
+            const res = await apiFetch(`${API_BASE}/admin/tai-khoan?${params}`, {
                 headers: { Authorization: `Bearer ${getToken()}` },
             })
 
@@ -169,17 +171,19 @@ export default function QuanLyTaiKhoan() {
             }
 
             const data = await res.json()
-            setAccounts(data.taiKhoan || [])
+            const rows=data.data||[]
+            setAccounts(rows)
+            return rows
         } catch (err) {
             setError(err.message)
         } finally {
             setLoading(false)
         }
-    }
+    },[apiFetch,search,roleFilter])
 
     useEffect(() => {
         fetchAccounts()
-    }, [search, roleFilter])
+    }, [fetchAccounts])
 
     const handleSelectAccount = (account) => {
         setSelected(account)
@@ -212,7 +216,7 @@ export default function QuanLyTaiKhoan() {
             setError(null)
             if (selected) {
                 // Update existing
-                const res = await fetch(`${API_BASE}/admin/tai-khoan/${selected.maNguoiDung}`, {
+                const res = await apiFetch(`${API_BASE}/admin/tai-khoan/${selected.maNguoiDung}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -226,13 +230,13 @@ export default function QuanLyTaiKhoan() {
                     throw new Error(err.error || 'Cập nhật thất bại')
                 }
 
-                await fetchAccounts()
+                const fresh=await fetchAccounts()
                 setEditing(false)
-                const updated = accounts.find((a) => a.maNguoiDung === selected.maNguoiDung)
+                const updated = (fresh||[]).find((a) => a.maNguoiDung === selected.maNguoiDung)
                 if (updated) handleSelectAccount(updated)
             } else {
                 // Create new
-                const res = await fetch(`${API_BASE}/admin/tai-khoan`, {
+                const res = await apiFetch(`${API_BASE}/admin/tai-khoan`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -247,7 +251,7 @@ export default function QuanLyTaiKhoan() {
                 }
 
                 const data = await res.json()
-                setTempPassword(data.matKhauTam)
+                setTempPassword(data.data.matKhauTam)
                 await fetchAccounts()
                 setEditing(false)
                 setSelected(null)
@@ -261,7 +265,7 @@ export default function QuanLyTaiKhoan() {
         if (!selected) return
         try {
             setError(null)
-            const res = await fetch(`${API_BASE}/admin/tai-khoan/${selected.maNguoiDung}/dat-lai-mat-khau`, {
+            const res = await apiFetch(`${API_BASE}/admin/tai-khoan/${selected.maNguoiDung}/dat-lai-mat-khau`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${getToken()}` },
             })
@@ -272,7 +276,7 @@ export default function QuanLyTaiKhoan() {
             }
 
             const data = await res.json()
-            setTempPassword(data.matKhauTam)
+            setTempPassword(data.data.matKhauTam)
         } catch (err) {
             setError(err.message)
         }
@@ -290,7 +294,7 @@ export default function QuanLyTaiKhoan() {
 
             const body = confirmed ? JSON.stringify({ xacNhan: true }) : undefined
 
-            const res = await fetch(endpoint, {
+            const res = await apiFetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -306,7 +310,7 @@ export default function QuanLyTaiKhoan() {
                     title: data.lichDangThucHien ? 'Không thể khóa tài khoản' : 'Xác nhận khóa tài khoản',
                     message: data.thongBao || data.error,
                     appointments: data.lichDangThucHien || data.lichDaXacNhan || data.lichBiAnhHuong || [],
-                    canConfirm: !data.lichDangThucHien,
+                    canConfirm: Boolean(data.warning),
                 })
                 return
             }
@@ -316,8 +320,8 @@ export default function QuanLyTaiKhoan() {
                 throw new Error(err.error || 'Thao tác thất bại')
             }
 
-            await fetchAccounts()
-            const updated = accounts.find((a) => a.maNguoiDung === selected.maNguoiDung)
+            const fresh=await fetchAccounts()
+            const updated = (fresh||[]).find((a) => a.maNguoiDung === selected.maNguoiDung)
             if (updated) handleSelectAccount(updated)
             setLockWarning(null)
         } catch (err) {
@@ -328,6 +332,7 @@ export default function QuanLyTaiKhoan() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6">
             <div className="mx-auto max-w-7xl">
+                <Link to="/admin" className="mb-4 inline-block font-bold text-sky-300">← Trang quản trị</Link>
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-3xl font-black tracking-tight text-slate-100">Quản lý tài khoản</h1>
@@ -466,6 +471,7 @@ export default function QuanLyTaiKhoan() {
                                             </label>
                                             <select
                                                 value={formData.vaiTro}
+                                                disabled={!selected}
                                                 onChange={(e) => setFormData({ ...formData, vaiTro: e.target.value })}
                                                 className={selectCls}
                                             >

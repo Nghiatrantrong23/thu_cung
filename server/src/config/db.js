@@ -22,6 +22,7 @@ const poolConfig = env.db.connectionString
 
 export const pool = new Pool({
     ...poolConfig,
+    options: '-c timezone=Asia/Ho_Chi_Minh',
     max: 10,
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 10_000,

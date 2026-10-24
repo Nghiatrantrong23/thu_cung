@@ -1,3 +1,10 @@
+import BaoCao from './pages/quan-ly/BaoCao.jsx'
+import DichVu from './pages/quan-ly/DichVu.jsx'
+import QuanLyTaiKhoan from './pages/admin/QuanLyTaiKhoan.jsx'
+import KhieuNai from './pages/le-tan/KhieuNai.jsx'
+import InHoanTien from './pages/le-tan/InHoanTien.jsx'
+import HoaDon from './pages/le-tan/HoaDon.jsx'
+import InHoaDon from './pages/le-tan/InHoaDon.jsx'
 import ChamSoc from './pages/nhan-vien/ChamSoc.jsx'
 import CaLamViec from './pages/quan-ly/CaLamViec.jsx'
 import { Navigate, Route, Routes } from 'react-router-dom'
@@ -56,6 +63,16 @@ export default function App() {
 
       <Route path="nhan-vien/lich-lam-viec" element={<KiemTraQuyen roleKey="care"><ChamSoc/></KiemTraQuyen>}/>
       <Route path="quan-ly/ca-lam-viec" element={<KiemTraQuyen roleKey={['manager','admin']}><CaLamViec/></KiemTraQuyen>}/>
+
+      <Route path="le-tan/hoa-don" element={<KiemTraQuyen roleKey={['reception','manager','admin']}><HoaDon/></KiemTraQuyen>}/>
+      <Route path="le-tan/hoa-don/:id/in" element={<KiemTraQuyen roleKey={['customer','reception','manager','admin']}><InHoaDon/></KiemTraQuyen>}/>
+
+      <Route path="le-tan/khieu-nai" element={<KiemTraQuyen roleKey={['reception','manager','admin']}><KhieuNai/></KiemTraQuyen>}/>
+      <Route path="le-tan/khieu-nai/:id/in" element={<KiemTraQuyen roleKey={['customer','reception','manager','admin']}><InHoanTien/></KiemTraQuyen>}/>
+
+      <Route path="quan-ly/bao-cao" element={<KiemTraQuyen roleKey={['manager','admin']}><BaoCao/></KiemTraQuyen>}/>
+      <Route path="quan-ly/dich-vu" element={<KiemTraQuyen roleKey={['manager','admin']}><DichVu/></KiemTraQuyen>}/>
+      <Route path="admin/tai-khoan" element={<KiemTraQuyen roleKey="admin"><QuanLyTaiKhoan/></KiemTraQuyen>}/>
 
       {/* Nhân sự: giữ chỗ, sẽ làm các giao diện riêng sau */}
       {[

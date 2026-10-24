@@ -1,10 +1,13 @@
+import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import BieuTuongDauChan from '../components/BieuTuongDauChan.jsx'
-import { services } from '../data/duLieuMau.js'
 import { formatVND } from '../lib/tinhGioTrong.js'
 
 // Bảng giá công khai, xem được mà không cần đăng nhập (use case "Tra cứu dịch vụ và bảng giá").
 export default function PricingPage() {
+  const [services,setServices]=useState([]),[error,setError]=useState(''),[loading,setLoading]=useState(true)
+  useEffect(()=>{let active=true;fetch('/api/dich-vu').then(async response=>{if(!response.ok)throw new Error();return response.json()}).then(data=>{if(active)setServices(data.dichVu.map(row=>({id:row.id,name:row.ten,durationMin:row.thoiLuongPhut,price:row.gia})))}).catch(()=>{if(active)setError('Không tải được bảng giá. Vui lòng thử lại.')}).finally(()=>{if(active)setLoading(false)});return()=>{active=false}},[])
+
   return (
     <div className="min-h-screen">
       <header className="border-b border-slate-200 bg-white">
@@ -25,6 +28,9 @@ export default function PricingPage() {
         <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl">Bảng giá dịch vụ</h1>
         <p className="mt-2 text-slate-600">Giờ mở cửa 08:00 đến 19:00 mỗi ngày. Giá tham khảo, thanh toán tại quầy sau khi hoàn thành dịch vụ.</p>
 
+        {error&&<p role="alert" className="mt-4 text-red-700">{error}</p>}
+        {loading&&<p role="status">Đang tải bảng giá...</p>}
+        {!loading&&!error&&!services.length&&<p>Chưa có dịch vụ đang kinh doanh.</p>}
         <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
           <table className="w-full min-w-[420px] text-sm">
             <thead className="bg-brand-50 text-left text-slate-600">

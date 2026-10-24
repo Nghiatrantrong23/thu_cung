@@ -1,289 +1,158 @@
 # KẾ HOẠCH TỔNG THỂ PHÁT TRIỂN HỆ THỐNG PETCARE
 
-> Phiên bản 2.2 - triển khai giai đoạn 7 và kiểm thử ngày 23/10/2026.
-> Phạm vi: bản mã nguồn tại `D:/dich_vu_thu_cung`, SQL và migration trong dự án.
-> Phiên bản 2.0 là mốc rà soát chỉ đọc. Phiên bản 2.1 ghi nhận code và kiểm thử trên PostgreSQL cô lập; không áp dụng lên database đang vận hành. Chi tiết tại NHAT_KY_KIEM_TRA.md.
+> Phiên bản 3.0 · nghiệm thu mã nguồn và môi trường test ngày 23–24/10/2026.
+> Kế hoạch triển khai chuẩn: file này. Giữ kiến trúc React/Express/pg/PostgreSQL hiện hữu.
+> Ngày trên máy kiểm thử là 23/10, ngày nghiệp vụ Việt Nam đã sang 24/10. Không quy đổi số giai đoạn thành phần trăm.
 
-## 0. Tiến độ hiện tại và cách đọc
+## 0. Tiến độ hiện tại
 
-**Mốc triển khai chính: giai đoạn 7/12 - Quản lý lịch và phân công, đã nghiệm thu trên môi trường test cô lập.** Chuyển sang giai đoạn 7 theo yêu cầu người dùng. Lõi đặt lịch giai đoạn 6 đã đạt; phần bàn giao/bắt đổi mật khẩu tài khoản tạm vẫn còn, không tự đánh dấu đã làm. Công việc tiếp theo: giai đoạn 8B (ca làm và chăm sóc).
+**Đã triển khai đến giai đoạn 11; đang ở giai đoạn 12 — nghiệm thu, đóng gói và chuẩn bị môi trường chạy.** API 8–11 và chuỗi nghiệp vụ đã đạt trên PostgreSQL 17 cô lập; giao diện chăm sóc, ca, thu/hoàn, chứng từ, báo cáo và danh mục đã thao tác trên trình duyệt. Không đồng nghĩa database ứng dụng cũ đã được nâng cấp hoặc production đã triển khai.
 
-Quy ước:
-
-- **Có mã:** đã thấy route, component hoặc hàm xử lý; chưa đồng nghĩa đã kiểm thử thành công.
-- **Có SQL:** có khai báo bảng/ràng buộc; chưa xác nhận đã được áp dụng vào DB đang chạy.
-- **Chưa tích hợp:** có file nhưng chưa nối vào luồng sử dụng.
-- **Kế hoạch:** đầu việc chưa triển khai hoặc cần hoàn thiện.
-- **Nghiệm thu:** chỉ đánh dấu hoàn thành sau khi có kết quả kiểm thử. Bản 2.0 chỉ đọc mã. Lần triển khai 2.1 đã chạy backend/HTTP, migration/seed trên PostgreSQL 17 cô lập và build frontend. Backend mặc định: 63 kiểm thử đạt, 2 nhóm tích hợp bỏ qua khi không khai báo DB; các nhóm tích hợp đã chạy riêng: DB 8/8 và HTTP đặt lịch 14/14. Frontend 7/7 và build 55 modules đạt. Chưa nghiệm thu E2E toàn hệ thống. Xem NHAT_KY_KIEM_TRA.md.
-
-| Giai đoạn | Trạng thái qua rà soát mã nguồn | Phần còn thiếu chính |
+| Giai đoạn | Kết quả có bằng chứng | Phần còn lại / giới hạn |
 | --- | --- | --- |
-| 1. Môi trường | Build frontend, backend /health và PostgreSQL 17 + btree_gist đạt trong test cô lập | Môi trường vận hành thực tế chưa nghiệm thu |
-| 2. Database và seed | **Đạt trên DB phát triển/test cô lập: 18 kiểm thử** | DB cũ chưa có lịch sử cần rà soát/baseline riêng trước khi áp dụng |
-| 3. Khung backend | Đã ánh xạ SQL/validation, giấu chi tiết lỗi và kiểm thử rollback HTTP | Tách thêm service khi có nghiệp vụ cần thiết |
-| 4. Xác thực/RBAC | Có đăng ký, đăng nhập, JWT, refresh API, hồ sơ, đổi mật khẩu | Phân quyền theo chức vụ phía server, tự refresh frontend, tài khoản tạm |
-| 5. Thú cưng/tra khách | Có giao diện/API hồ sơ và tra khách theo SĐT | Rà quyền tra cứu, kiểm thử sở hữu và trạng thái |
-| 6. Đặt lịch | Công suất theo ca, transaction/khóa và HTTP tranh chỗ đạt | Bàn giao tài khoản tạm, thông báo ứng dụng và kiểm tra UI thực tế |
-| 7. Điều phối/phân công | **Đạt: MH-05 + API, ba nhánh xử lý, hủy có lý do, thông báo** | 14 kiểm thử HTTP giai đoạn 7 đạt; chưa có sửa ca/đổi lịch (giai đoạn 8) |
-| 8. Ca làm/chăm sóc | Có bảng ca và trạng thái dịch vụ | API/UI MH-09, MH-04 và luồng chăm sóc |
-| 9. Hóa đơn/thanh toán | Có bảng hóa đơn, chi tiết, thanh toán | API/UI MH-06, thu nhiều lần, QR và in chứng từ |
-| 10. Khiếu nại/hoàn/đánh giá | Đánh giá đã có; bảng khiếu nại đã có | MH-10a/b, phê duyệt, thực chi, hoàn một phần |
-| 11. Báo cáo/quản trị | Có API tài khoản và file QuanLyTaiKhoan.jsx | Nối router Admin, báo cáo MH-07, API ghi danh mục dịch vụ |
-| 12. Kiểm thử/đóng gói | Có script test-concurrency.js | E2E, kiểm thử tự động có assertion, hướng dẫn triển khai, Docker Compose |
+| 1. Môi trường | PASS Node 24, frontend build, HTTP health/ready trên test | Docker runtime chưa có trên máy |
+| 2. Database/seed | PASS 8 tích hợp + 10 unit; backup/restore DB cũ, so schema và nâng cấp bản sao đạt | DB gốc và cấu hình chưa đổi; cần quyết định áp nâng cấp vào môi trường chạy |
+| 3. Backend/lỗi | PASS rollback, lỗi SQL/validation an toàn; phân biệt health và ready | Không tự migrate lúc khởi động |
+| 4. Xác thực/RBAC | PASS JWT purpose/version, khóa phiên, refresh, tài khoản tạm; 10 test auth/hồ sơ | UI bắt đổi mật khẩu tạm chưa QA trình duyệt riêng; quên mật khẩu còn trang chờ |
+| 5. Thú cưng/tra khách | PASS CRUD, quyền sở hữu/hoạt động/validation qua HTTP | CRUD UI chưa QA toàn bộ thiết bị |
+| 6. Đặt lịch | PASS 14 HTTP + hành trình HTTP; bàn giao tài khoản tạm có API/UI | Bước bàn giao tại quầy chưa QA trình duyệt riêng |
+| 7. Điều phối | PASS 14 HTTP, ba nhánh loại trừ, nhật ký/thông báo; UI đã kiểm tra | Đã nối vào hành trình giai đoạn 8–11 |
+| 8. Ca/chăm sóc | PASS 6 HTTP + hành trình + UI MH-04/MH-09 | Không hỗ trợ hủy sau khi làm một phần khi chưa có quy tắc quyết toán |
+| 9. Hóa đơn/thanh toán | PASS 8 HTTP + hành trình + UI thu nhiều lần/in hóa đơn | **VietQR để sau theo lựa chọn người dùng**; chuyển khoản ghi nhận thủ công khi đã nhận |
+| 10. Khiếu nại/hoàn/đánh giá | PASS 8 HTTP + hành trình + UI duyệt/chi thất bại/chi thành công/phiếu hoàn | Không có chuyển tiền ngân hàng tự động |
+| 11. Báo cáo/quản trị | PASS 7 HTTP + UI báo cáo/danh mục/danh sách Admin | Không tính lợi nhuận vì chưa có dữ liệu chi phí |
+| 12. E2E/đóng gói | PASS 8 test hành trình, frontend 13 test/build 71 modules; backup/restore/baseline/migrate bản sao đạt; có tài liệu/API/Docker config | **Chưa hoàn tất:** chưa build/run Docker; DB gốc chưa nâng cấp; chưa QA đủ mọi UI |
 
-Không quy đổi số giai đoạn sang phần trăm hoàn thành: khối lượng mỗi giai đoạn khác nhau và một số phần được làm không theo thứ tự.
+Tổng cuối: backend **67 PASS**, 9 nhóm tích hợp được skip khi chạy mặc định không có DB. Chín nhóm đã chạy riêng, mỗi nhóm DB mới: **83 PASS, 0 FAIL** (kể cả parent test của Node). Frontend **13 PASS**. Không gọi các nhóm skip là PASS. Chi tiết và lỗi trước sửa trong [báo cáo](BAO_CAO_KIEM_THU_HE_THONG.md) và [nhật ký](NHAT_KY_KIEM_TRA.md).
 
-## 1. Công nghệ và kiến trúc đang dùng
+## 1. Công nghệ và cấu trúc
 
-| Thành phần | Hiện trạng |
-| --- | --- |
-| Frontend | React 18, Vite 5, Tailwind CSS 4, JavaScript/JSX |
-| Điều hướng | React Router DOM 6, HashRouter |
-| Trạng thái/gọi API | React Context, hooks, fetch; phiên/token có lưu trình duyệt |
-| Backend | Node.js, Express 4, ES Modules |
-| Database | PostgreSQL, pg Pool, truy vấn SQL trực tiếp và withTransaction |
-| Xác thực | bcrypt, JWT access token, refresh token trong cookie HttpOnly |
-| Quyền | Middleware vai trò/chức vụ: tra khách, tại quầy, xem/hủy lịch đã kiểm thử |
-| Extension SQL | btree_gist; schema hiện tại không cần pgcrypto vì chưa dùng UUID |
+- Frontend: React 18, Vite 5, Tailwind CSS 4, JavaScript, HashRouter; Context và fetch có tự refresh phiên một lần khi 401.
+- Backend: Node.js/Express 4, ES modules, bcrypt/JWT, pg Pool/SQL trực tiếp, transaction và advisory lock. Không đổi ORM/kiến trúc.
+- Database: PostgreSQL 17 + btree_gist; migration 000–005 theo checksum, chạy riêng trên development/test được chỉ định.
+- `dichvu/src/pages`: trang chung, khách hàng, nhân viên, lễ tân, quản lý, Admin; `components`, `data`, `lib` dùng chung.
+- `server/src`: routes, controllers, services, middleware, config, lib; `server/scripts`: DB CLI; `server/test`: unit và HTTP tích hợp.
+- `thu_cung.sql`, `migrations/`: nguồn schema; `plans/`: kế hoạch, DB, báo cáo, nhật ký; `docs/API.md`: hợp đồng API; `deploy/`, Dockerfile và `compose.yaml`: đóng gói local.
 
-`zod` và `express-rate-limit` có trong package.json nhưng chưa thấy được dùng trong src. Chưa có Repository Pattern riêng; SQL còn trong controllers. Đặt lịch đã tách service dùng pg và transaction, thuật toán ca ở lib/scheduling.js. Tiếp tục dùng pg, không yêu cầu đổi ORM.
+## 2. Vai trò và quyền
 
-Node cần >=20 để phù hợp dependency Tailwind đang cài, dù backend khai báo >=18. Frontend dev thường ở 5173, backend mặc định 5000; Vite proxy `/api` sang backend. Health check hiện là `GET /health`, không phải `/api/health`; Vite chỉ proxy `/api` nên kiểm tra `/health` trực tiếp trên cổng backend. Health handler không truy vấn DB trong mỗi request.
-
-## 2. Vai trò, chức vụ và quyền
-
-| Nhóm | Giá trị DB vai_tro | nhan_vien.chuc_vu | roleKey frontend |
+| Nhóm | vai_tro | chuc_vu | roleKey |
 | --- | --- | --- | --- |
-| Khách hàng | KhachHang | Không có hồ sơ nhân viên | customer |
-| Nhân viên chăm sóc | NhanVien | Nhân viên chăm sóc | care |
+| Khách | KhachHang | Không bắt buộc | customer |
+| Chăm sóc | NhanVien | Nhân viên chăm sóc | care |
 | Lễ tân | NhanVien | Lễ tân | reception |
 | Quản lý | NhanVien | Quản lý | manager |
-| Admin | Admin | Không bắt buộc hồ sơ nhân viên | admin |
+| Admin | Admin | Không bắt buộc | admin |
 
-Quyền đích: khách chỉ thao tác hồ sơ/lịch của mình; nhân viên chăm sóc chỉ xử lý lịch được giao; lễ tân tiếp nhận, điều phối, thu tiền và tiếp nhận khiếu nại; quản lý quản lý ca/dịch vụ, giải quyết khiếu nại và báo cáo; Admin quản trị tài khoản. Quyền bao hàm thêm cho quản lý/Admin phải được khai báo rõ ở backend.
+Quyền được kiểm tra ở server từ DB, không tin vai trò trong request. Khách chỉ sở hữu hồ sơ/lịch/hóa đơn/khiếu nại của mình. Chăm sóc chỉ đọc/xử lý lịch được giao. Lễ tân/Quản lý/Admin tiếp nhận, điều phối, thu và ghi nhận thực chi. Quản lý/Admin duyệt hoàn, quản lý ca/danh mục/báo cáo. Chỉ Admin quản trị tài khoản. Khóa/đổi chức vụ không được làm mất công suất lịch đang mở; đang chăm sóc thì không khóa.
 
-Đã giới hạn tra khách/đặt tại quầy cho Lễ tân, Quản lý và Admin. Khách chỉ xem/hủy lịch của mình; chăm sóc chỉ đọc lịch và hồ sơ thú cưng được phân công, không được tra khách/đặt quầy/hủy. 37 kiểm thử RBAC cùng HTTP đạt. Những phân hệ chưa triển khai phải áp dụng quyền ở backend khi bổ sung.
+## 3. Màn hình và route thực tế
 
-## 3. Cây màn hình và trạng thái tích hợp
+Route nằm sau dấu `#`.
 
-```text
-Màn hình chung
-  MH-01 Đăng nhập / Đăng ký                 Có route
-  Bảng giá                                Có route, đang dùng dữ liệu mẫu
-  Thông tin cá nhân / Đổi mật khẩu          Có luồng khách hàng
-  Quên mật khẩu                           Trang đang phát triển
-Khách hàng
-  MH-11 Hồ sơ thú cưng                     Có route/API
-  MH-02 Đặt lịch                          Có route/API
-  MH-03 Danh sách lịch, hủy, đánh giá       Có route/API
-Nhân viên chăm sóc
-  MH-04 Lịch làm việc / Thực hiện dịch vụ   Kế hoạch
-Lễ tân / Quản lý theo quyền
-  MH-02b Đặt lịch tại quầy                 Có route/API
-  MH-05 Quản lý lịch / Phân công           Có route/API, đã kiểm thử
-  MH-06 Hóa đơn / Thanh toán               Kế hoạch
-  MH-10a Tiếp nhận khiếu nại               Kế hoạch
-  Quản lý khách hàng và thú cưng           Mới có tra cứu tại quầy
-Quản lý
-  MH-09 Ca làm việc                       Kế hoạch
-  MH-10b Giải quyết khiếu nại / Hoàn tiền   Kế hoạch
-  MH-07 Báo cáo                           Kế hoạch
-  Quản lý dịch vụ và bảng giá              Mới có API đọc
-Admin
-  MH-08 Tài khoản / Phân quyền             Có API và file UI, chưa nối router
-```
+| Mã/chức năng | Route | Trạng thái |
+| --- | --- | --- |
+| MH-01 đăng nhập/đăng ký | `/dang-nhap` | Có API/UI; lỗi đăng ký hiển thị ngay trong tab |
+| Đổi mật khẩu tạm | `/doi-mat-khau` | Có API/UI, bắt buộc trước nghiệp vụ |
+| Bảng giá | `/bang-gia` | Đã dùng API thật |
+| Hồ sơ cá nhân | `/thong-tin-ca-nhan` | API/UI |
+| Quên mật khẩu | `/quen-mat-khau` | Trang chờ; không tuyên bố đã tích hợp email/OTP |
+| MH-11 hồ sơ thú cưng | `/ho-so-thu-cung` | API/UI |
+| MH-02 đặt lịch | `/dat-lich` | API/UI |
+| MH-03 lịch, hủy, đánh giá | `/lich-hen` | API/UI |
+| MH-02b đặt tại quầy | `/le-tan/dat-lich-tai-quay` | API/UI, bàn giao tài khoản tạm khi mới tạo |
+| MH-05 điều phối | `/le-tan/lich-hen` | API/UI, giữ chờ/từ chối/phân công, đổi lịch/nhật ký |
+| MH-04 chăm sóc | `/nhan-vien/lich-lam-viec` | API/UI |
+| MH-09 quản lý ca | `/quan-ly/ca-lam-viec` | API/UI |
+| MH-06 thu tiền | `/le-tan/hoa-don` | API/UI |
+| In hóa đơn | `/le-tan/hoa-don/:id/in` | Bản in trình duyệt / lưu PDF |
+| MH-10a/b tiếp nhận, duyệt, thực chi | `/le-tan/khieu-nai` | Cùng trang, hiện chức năng theo quyền |
+| In phiếu hoàn | `/le-tan/khieu-nai/:id/in` | Chỉ có chứng từ khi đã thực chi thành công |
+| MH-07 báo cáo | `/quan-ly/bao-cao` | API/UI, theo ngày/kỳ |
+| Danh mục dịch vụ | `/quan-ly/dich-vu` | API/UI thêm/sửa/ngừng bán, tạo nhóm |
+| MH-08 tài khoản | `/admin/tai-khoan` | Đã nối router/API hiện có |
 
-`/admin`, `/quan-ly`, `/le-tan`, `/nhan-vien` vẫn dùng trang đầu nhân sự; các nhóm tiếp nhận có đường dẫn đến đặt tại quầy và MH-05 `/le-tan/lich-hen`. Trang đầu nhân sự và khung khách hàng có bảng thông báo trong ứng dụng.
+Thông báo trong ứng dụng ở khung khách và nhân sự; tải lại thủ công, 50 tin gần nhất, chỉ đánh dấu tin của mình. Không có SMS/email/realtime trong phạm vi đã nghiệm thu.
 
-## 4. Mapping route, component và API hiện có
+## 4. Quy trình, trạng thái và tiêu chí nghiệm thu
 
-Route dưới đây là phần sau dấu `#` vì frontend dùng HashRouter. Tên tiếng Việt là tên thực tế; không đổi sang tên tiếng Anh chỉ để khớp bản kế hoạch cũ.
+### Giai đoạn 1–3: môi trường, DB và backend
 
-| Chức năng | Route giao diện | Component trong dichvu/src/pages | API hiện có |
-| --- | --- | --- | --- |
-| Đăng nhập/đăng ký | /dang-nhap | DangNhap.jsx | POST /api/auth/dang-nhap, /api/auth/dang-ky |
-| Đăng xuất/refresh | Không có trang riêng | data/khoXacThuc.jsx là context ở src | POST /api/auth/dang-xuat, /api/auth/lam-moi-token |
-| Hồ sơ/đổi mật khẩu | /thong-tin-ca-nhan | khach-hang/ThongTinCaNhan.jsx | GET /api/auth/toi; PUT /api/auth/cap-nhat; POST /api/auth/doi-mat-khau |
-| Bảng giá | /bang-gia | BangGia.jsx | Trang dùng duLieuMau.js; API danh mục thật là GET /api/dich-vu |
-| Hồ sơ thú cưng | /ho-so-thu-cung | khach-hang/HoSoThuCung.jsx | GET/POST /api/thu-cung; GET/PUT /:id; PATCH /:id/trang-thai |
-| Đặt lịch online | /dat-lich | khach-hang/DatLich.jsx | GET /api/dich-vu; GET /api/lich-hen/khung-gio-trong; POST /api/lich-hen |
-| Xem/hủy/đánh giá | /lich-hen | khach-hang/DanhSachLichHen.jsx | GET /api/lich-hen; PATCH /api/lich-hen/:id/huy; POST /api/lich-hen/:id/danh-gia |
-| Đặt tại quầy | /le-tan/dat-lich-tai-quay | le-tan/DatLichTaiQuay.jsx | GET /api/khach-hang/tra-cuu?sdt=...; POST /api/lich-hen/tai-quay |
-| Điều phối MH-05 | /le-tan/lich-hen | le-tan/QuanLyLichHen.jsx | GET /api/lich-hen; GET /:id/nhan-vien-kha-dung; PATCH /:id/xu-ly, /:id/huy |
-| Thông báo ứng dụng | Khung khách/nhân sự, MH-05 | components/ThongBao.jsx | GET /api/thong-bao; PATCH /:id/da-doc |
-| Quản trị tài khoản | Chưa nối router | admin/QuanLyTaiKhoan.jsx | GET/POST /api/admin/tai-khoan; PATCH /:id; POST /:id/khoa, /:id/mo-khoa, /:id/dat-lai-mat-khau |
+- `npm ci` riêng hai thư mục; build frontend; `/health` xác nhận tiến trình, `/ready` xác nhận DB/migration 000–005. API trả 503 `MIGRATION_REQUIRED` khi schema cũ, không tự chạy SQL.
+- DB CLI không đọc `.env`; chỉ loopback, tên dev/test, `NODE_ENV` rõ và `PETCARE_ALLOW_DB_WRITE` khớp tên. Schema và lịch sử cùng transaction/khóa, checksum không khớp thì dừng. `db:reset` luôn từ chối.
+- Seed insert-only: 7 tài khoản/5 nhóm, 2 thú cưng, 3 dịch vụ, 14 ca trong 7 ngày Việt Nam. Không đổi mật khẩu/hồ sơ cũ. Mật khẩu demo nhập riêng qua môi trường.
+- SQL UNIQUE/EXCLUDE trả 409; validation 400/422; lỗi nội bộ không lộ SQL/stack. Lỗi ghi chi tiết/thông báo rollback toàn bộ.
 
-Các API /ca-lam-viec, /hoa-don, /khieu-nai, /bao-cao và cập nhật tiến độ chăm sóc là **đầu việc cần thiết kế**. Phân công/giữ chờ/từ chối và thông báo đã có endpoint ở bảng trên.
+### Giai đoạn 4 — AD-01/SD-01: xác thực
 
-## 5. Quy trình nghiệp vụ mục tiêu - giữ mã AD/SD của bộ sơ đồ gốc
+- Username 4–30 ký tự chữ/số/chấm/gạch dưới, SĐT 10 số, email tùy chọn, mật khẩu ít nhất 8 ký tự và tối đa 72 byte UTF-8; bcrypt trước lưu.
+- JWT access khác refresh, kiểm tra ID/type/version; profile nhân viên và tài khoản phải hoạt động. Logout/đổi mật khẩu/reset/khóa thu hồi phiên theo version.
+- Mật khẩu tạm 12 ký tự ngẫu nhiên, bàn giao một lần khi mới tạo, cờ bắt đổi; API nghiệp vụ chặn trước khi đổi. Không thay mật khẩu tài khoản sẵn có tại quầy.
+- Frontend nhiều request 401 dùng chung một refresh, retry một lần; hết refresh thì về đăng nhập. Không retry 403.
 
-### AD-01 / SD-01: Đăng ký và đăng nhập
+### Giai đoạn 5: thú cưng/tra khách
 
-Đăng ký: nhập username, họ tên, SĐT, email tùy chọn, mật khẩu và nhập lại; kiểm tra hợp lệ/trùng; bcrypt; lưu nguoi_dung và khach_hang trong transaction; báo thành công và chuyển tab. SD-01 đăng nhập kiểm tra hoạt động, mật khẩu, tạo token và điều hướng theo quyền. Hai mã mô tả hai góc nhìn/luồng khác nhau, không ép thành cùng một Use Case.
+CRUD chỉ khách, sở hữu đúng; chăm sóc chỉ đọc hồ sơ trong lịch được giao. Chó/mèo, ngày sinh không ở tương lai, cân nặng dương tối đa 999,99 kg. Ngừng theo dõi mềm, chặn khi còn lịch mở; khóa để không tranh chấp với tạo lịch. Tra khách theo SĐT chỉ bộ phận tiếp nhận.
 
-### AD-02 / SD-02: Đặt online và tại quầy
+### Giai đoạn 6 — AD/SD-02: đặt lịch
 
-- Online: khách đã đăng nhập chọn thú cưng thuộc mình, nhiều dịch vụ, ngày và giờ.
-- Tại quầy: nhân sự tra SĐT; nhập hồ sơ mới khi cần, hệ thống tạo tài khoản khách tạm và thú cưng. Sau đặt mở bước MH-05; chưa tự chuyển lịch sang đã xác nhận.
-- Kiểm tra dịch vụ hoạt động, tổng thời lượng >0, toàn khoảng nằm trong 08:00-19:00 và công suất theo nhân viên chăm sóc trong ca.
-- Lấy khóa phù hợp; kiểm tra công suất và ghi lịch/chi tiết bằng cùng transaction; lưu ChoXacNhan và giá dự kiến chụp từ danh mục.
-- Thông báo là thông báo trong ứng dụng theo phạm vi này; không mặc định đã tích hợp SMS/email.
+- 08:00 <= bắt đầu < kết thúc <=19:00, lưới bắt đầu 30 phút, không quá khứ, giờ Việt Nam. Cộng thời lượng dịch vụ thật, snapshot giá dự kiến.
+- Một ca hoạt động bao trọn lịch; không gộp hai ca kề nhau. Nhân viên chăm sóc hoạt động; solver kiểm tra toàn khoảng và lịch chờ, không dùng hằng số công suất.
+- Lịch/chi tiết/khách-thú cưng mới/thông báo trong một transaction có khóa ngày. Hai request tranh chỗ cuối phải có một 201, một 409. Tạo `ChoXacNhan`, chưa tự gán người.
 
-**Đã sửa/kiểm thử:** bỏ CAPACITY cố định; chỉ tính người chăm sóc và tài khoản đang hoạt động có một ca bao trọn khoảng phục vụ. Kiểm tra khả năng phân bổ cho các lịch chồng nhau (cả lịch chờ và lịch đã gán), không chỉ đếm tại giờ bắt đầu; không tự gán nhân viên khi đặt. Kiểm tra/ghi cùng transaction và khóa theo ngày, tạo khách/thú cưng/chi tiết tại quầy rollback cùng nhau. Ngày/giờ theo Asia/Ho_Chi_Minh. **Còn thiếu:** quy trình bàn giao/bắt đổi mật khẩu tài khoản tạm. Thông báo lịch mới cho bộ phận tiếp nhận đã bổ sung trong giai đoạn 7. Không tự gộp ca kề nhau. Thao tác sửa ca/khóa nhân viên sau này phải kiểm tra ảnh hưởng lịch và dùng chung khóa nghiệp vụ; hiện chưa có API sửa ca.
+### Giai đoạn 7 — AD/SD-03: điều phối
 
-### AD-03 / SD-03: Điều phối và phân công
+Ba nhánh loại trừ: giữ `ChoXacNhan` và lý do; từ chối `TuChoi`; hoặc gán người khả dụng và `DaXacNhan`. Không phân công sau từ chối. Hủy dùng `DaHuy`, có lý do cho nhân sự, quyền sở hữu cho khách; giữ lịch sử. Khóa chung với đặt/sửa ca, kiểm tra lại công suất cả lịch chờ khác. Ghi chú gốc đủ 500 ký tự không làm hủy thất bại: lý do đầy đủ nằm ở nhật ký.
 
-Ba nhánh loại trừ nhau: giữ ChoXacNhan và ghi chú; từ chối chuyển TuChoi kèm lý do; hoặc chọn nhân viên và kiểm tra lại ca/chồng giờ để gán nhân viên + DaXacNhan nguyên tử. Không để phân công chạy sau nhánh từ chối. TuChoi đã có trong SQL migration và ánh xạ nhãn đọc lịch; API xử lý ba nhánh đã triển khai và kiểm thử. Khi từ chối, lịch không còn giữ chỗ; không chạy phân công sau đó.
+### Giai đoạn 8 — AD/SD-04: ca và chăm sóc
 
-Hủy bởi khách/lễ tân theo quyền dùng DaHuy, khác với từ chối lịch mới. Nếu muốn gộp trạng thái sau này phải có quyết định và sửa đồng bộ schema, API, sơ đồ, báo cáo.
+- Quản lý tạo/sửa/hủy mềm ca; chặn chồng và mọi thay đổi làm thiếu chỗ/mất bao phủ lịch mở. Có nhật ký và đổi giờ an toàn về chờ phân công lại.
+- Người được giao bắt đầu lịch trong ngày Việt Nam. `DaXacNhan → DangThucHien → HoanThanh`; từng chi tiết `ChoThucHien → DangThucHien → HoanThanh`. Chỉ kết thúc khi tất cả xong.
+- Không đủ điều kiện: ghi vấn đề, báo lễ tân, giữ lịch chờ xử lý; không chạy hủy sau nhánh hoàn thành. Lễ tân quyết định hủy/đổi giờ; đổi giờ kiểm tra lại ca và bỏ gán cũ. Không tự hỗ trợ quyết toán dịch vụ làm dở.
 
-### AD-04 / SD-04: Chăm sóc thú cưng
+### Giai đoạn 9 — AD/SD-05: hóa đơn/thu
 
-Nhân viên mở lịch của mình, kiểm tra điều kiện trước khi bắt đầu. Nếu đủ: DangThucHien -> thực hiện/ghi chú từng chi tiết -> HoanThanh khi tất cả chi tiết xong. Nếu không đủ: ghi lý do, báo lễ tân/quản lý; lễ tân liên hệ khách và quyết định hủy hoặc đổi lịch. Mọi bước hủy phải ở trong nhánh không đủ điều kiện, không đặt sau end của alt chính.
+- Lịch và mọi chi tiết phải hoàn thành, một hóa đơn/lịch. Chụp tên/đơn giá/số lượng, không đổi khi cập nhật bảng giá sau đó.
+- Tổng = tổng dòng; thành tiền = tổng - giảm, 0 <= giảm <= tổng. Hóa đơn 0 đồng tất toán không sinh giao dịch 0.
+- Thu từng lần dương <= còn nợ, lưu `ThanhToanMotPhan` để thu sau. Tiền khách đưa khác số ghi nhận; tiền thừa = tiền đưa - số ghi nhận. Thu thành công đủ thì `DaThanhToan`, giao dịch thất bại không giảm nợ.
+- Khóa hóa đơn và khóa chống lặp unique; retry đúng nội dung trả giao dịch cũ, đổi nội dung cùng khóa trả 409. Chuyển khoản phải xác nhận đã nhận tiền.
+- **Ngân hàng để cấu hình sau theo người dùng.** Tạo QR trả 503 `QR_NOT_CONFIGURED`; không giả lập mã nhận tiền thật. In chứng từ bằng trình duyệt, chưa phải tích hợp hóa đơn điện tử thuế.
 
-Đổi lịch phải kiểm tra lại giờ/ca; không dùng nhãn DaHuy để đồng thời mang nghĩa hoãn. Dừng dịch vụ sau khi đã thực hiện một phần cần quy tắc quyết toán riêng; chưa tự cho phép hủy khi DangThucHien trong phạm vi tối thiểu.
+### Giai đoạn 10 — AD/SD-06: khiếu nại/hoàn/đánh giá
 
-### AD-05 / SD-05: Hóa đơn và thu tiền
+- Lễ tân ghi `DaTiepNhan`; đúng lịch/hóa đơn. Quản lý bác bỏ/khắc phục thì `DaXuLy`, hoặc duyệt hoàn thì `ChoHoanTien`.
+- Chỉ duyệt cho hóa đơn thu đủ và còn tiền hoàn. Số duyệt >0, <= tổng thu - tổng hoàn thành công - khoản duyệt khác đang chờ chi. Duyệt không ghi giao dịch thành công và không đánh dấu đã trả.
+- Lễ tân ghi nhận thực chi có xác nhận và chứng từ; thành công mới có giao dịch `HoanTien/ThanhCong`, ngày/người chi, `DaXuLy`, hóa đơn `HoanTienMotPhan` hoặc `DaHoanTien`.
+- Chi thất bại lưu riêng, vẫn chờ chi, không trừ tiền; khóa hóa đơn/khiếu nại, chống lặp và transaction toàn bộ. Hoàn 100.000/400.000 được thể hiện rõ và không hoàn vượt qua nhiều lần.
+- Khách chỉ đánh giá lịch hoàn thành thuộc mình, sao nguyên 1–5, một đánh giá/lịch.
 
-Chỉ lập từ lịch HoanThanh, tối đa một hóa đơn/lịch; chụp tên và đơn giá vào chi tiết hóa đơn. Kiểm tra giảm giá, lưu ChuaThanhToan. Thu tiền mặt hoặc QR thành nhiều lần; số ghi nhận khác tiền khách đưa. Cho phép lưu ThanhToanMotPhan và quay lại thu sau. QR phải có xác nhận nhận tiền, việc hiển thị mã không tự chứng minh đã thu. Hóa đơn thành tiền 0 cần tất toán không tạo giao dịch 0 đồng.
+### Giai đoạn 11: báo cáo/danh mục/Admin
 
-### AD-06 / SD-06: Khiếu nại và hoàn tiền
+Thu/hoàn theo ngày giao dịch thành công ở Việt Nam; thực thu = thu thành công - thực chi hoàn. Không nối nhiều dòng hóa đơn với nhiều thanh toán làm nhân số tiền. Giá trị dịch vụ trước giảm theo ngày lập hóa đơn tách riêng; trạng thái lịch theo ngày hẹn. Gắn cờ giao dịch hoàn kiểu cũ để đối soát, không tự chuyển đổi lịch sử.
 
-Lễ tân ghi DaTiepNhan. Quản lý lưu kết luận bác bỏ/khắc phục/duyệt hoàn; bác bỏ là kết luận trong ket_qua_xu_ly khi dùng hai trạng thái SQL hiện tại. Chỉ sau thực chi thành công mới ghi giao dịch HoanTien/ThanhCong, cập nhật hóa đơn và chuyển khiếu nại DaXuLy. Chi thất bại/chưa xác nhận không được báo đã hoàn.
+Admin không tự khóa/hạ vai trò. Đổi vai trò tạo đúng profile và giữ profile cũ phục vụ FK; thu hồi phiên khi đổi quyền. Khóa người đang làm bị chặn; đã phân công phải xác nhận, đưa về chờ phân công lại chỉ khi vẫn đủ công suất, nếu không rollback. Danh mục ngừng bán mềm và giữ giá lịch sử.
 
-Giữ yêu cầu hoàn một phần của MH-10: 100.000 trên 400.000 là hợp lệ nếu còn được hoàn. Đề xuất thêm HoanTienMotPhan và liên kết duyệt/thực chi/chống lặp trong migration tương lai. **Các trường/trạng thái này chưa tồn tại đầy đủ ở SQL hiện tại.**
+### Giai đoạn 12: kiểm thử/đóng gói — CHƯA HOÀN TẤT
 
-## 6. Lộ trình 12 giai đoạn và tiêu chí nghiệm thu
+- [x] Unit/RBAC/validation/timezone và frontend build.
+- [x] Chín nhóm tích hợp trên DB cô lập khác nhau; hành trình thật qua HTTP, đăng nhập thật theo quyền.
+- [x] QA trình duyệt MH-04/MH-09/MH-06/MH-10/MH-07/danh mục và đọc trang Admin; ảnh demo lưu riêng `.cache/local-run/`.
+- [x] API, hướng dẫn chạy/test và quy trình sao lưu riêng; cấu hình Docker local không mount dữ liệu đang dùng.
+- [ ] Docker build/up/health/seed/khởi động lại: BLOCKED vì chưa cài Docker; config mới chưa được nghiệm thu runtime.
+- [x] Theo lựa chọn người dùng, backup DB cũ, restore riêng, đối chiếu schema 000/001 và thử baseline/migrate 002–005 trên bản sao; hash mọi giá trị cột cũ giữ nguyên. DB gốc và `.env` không đổi.
+- [ ] Áp nâng cấp vào DB phát triển đang chạy sau khi xem kết quả bản sao; không tự chuyển sang cluster test hoặc sửa production.
+- [ ] QA trình duyệt tài khoản tạm/bắt đổi, CRUD hồ sơ đầy đủ và responsive mọi vai trò.
+- [ ] VietQR ngân hàng thật: DEFERRED theo người dùng, không phải kiểm thử đã đạt.
 
-Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tính công suất (8A) phải làm sớm để hoàn tất giai đoạn 6, dù toàn bộ giai đoạn 8 chưa bắt đầu.
+## 5. Công việc tiếp theo theo ưu tiên
 
-### Giai đoạn 1: Môi trường và khảo sát
+1. Xem kết quả backup/restore/baseline/migrate bản sao đã đạt trong báo cáo, quyết định nâng cấp DB phát triển đang chạy. Không reapply `thu_cung.sql`, không seed/test vào dữ liệu cũ. DB gốc và `.env` chưa thay đổi.
+2. Chạy Docker khi có Docker Desktop/Engine: `config --quiet`, build/up, ready, seed riêng và thử lưu volume; không `down -v` hoặc xóa dữ liệu.
+3. QA UI còn thiếu, hoàn tất tiêu chí giai đoạn 12. Chỉ sau các bước này mới đánh dấu 12 hoàn thành.
+4. Cấu hình nhận tiền/VietQR sau khi người dùng cung cấp lựa chọn ngân hàng, không yêu cầu mật khẩu ngân hàng.
 
-- Có: cấu hình Vite, backend, dependencies và lockfile.
-- Cần làm: xác nhận Node >=20, PostgreSQL, cấu hình server/.env riêng, extension btree_gist và frontend proxy.
-- Nghiệm thu: build frontend thành công; server kết nối DB; GET :5000/health trả JSON; không đưa .env hoặc secrets vào Git.
+## 6. Quy tắc lưu và nguồn bằng chứng
 
-### Giai đoạn 2: Đồng bộ 15 bảng và dữ liệu mẫu
+Sau công việc: cập nhật kế hoạch và [nhật ký](NHAT_KY_KIEM_TRA.md). Sau giai đoạn đạt nghiệm thu: commit/push theo [AGENTS.md](../AGENTS.md), so SHA remote trước khi báo đã lưu. Không force-push, không commit `.env`, token, dump, build hoặc log. Git không sao lưu dữ liệu PostgreSQL.
 
-- **Đã nghiệm thu trên PostgreSQL 17 cô lập:** 18/18 kiểm thử unit/tích hợp đạt; đủ 15 bảng nghiệp vụ và bảng kỹ thuật petcare_schema_migrations, PK/FK/CHECK/UNIQUE/EXCLUDE, ca/lịch chồng và lịch kề nhau.
-- db:init/db:migrate/db:seed/db:setup đã có script thật. Migration theo phiên bản/checksum SHA-256, cùng transaction và advisory lock; lỗi rollback, không bỏ qua hoặc áp lại SQL đã chạy.
-- Seed idempotent gồm 7 tài khoản thuộc 5 nhóm quyền (2 người chăm sóc, 1 khách bị khóa), 2 thú cưng, 3 dịch vụ và 14 ca trong 7 ngày theo giờ Việt Nam. Không phụ thuộc ID/ngày cố định; không ghi đè mật khẩu/hồ sơ.
-- Công cụ không đọc .env; yêu cầu NODE_ENV development/test, đích loopback dev/test và PETCARE_ALLOW_DB_WRITE khớp tên database. Mật khẩu demo nhập riêng qua môi trường. db:reset luôn từ chối và không kết nối DB.
-- Hướng dẫn: [server/scripts/README.md](../server/scripts/README.md). DB cũ có bảng nhưng thiếu lịch sử bị từ chối để baseline riêng; không tự sửa database đang dùng.
-
-### Giai đoạn 3: Khung backend và lỗi tập trung
-
-- Có: Express, pg Pool, withTransaction, logger, 404 và error handler.
-- Đã kiểm thử: 23505/23P01 -> 409; dữ liệu/CHECK -> 400; Zod -> 422; lỗi nội bộ -> 500 không lộ SQL/stack. HTTP ép lỗi ghi chi tiết xác nhận rollback và nội dung lỗi an toàn.
-- Nghiệm thu: JSON lỗi nhất quán; rollback đầy đủ khi một thao tác trong transaction thất bại. Repository/service nếu tách phải có mục đích rõ, không coi đã tồn tại.
-
-### Giai đoạn 4: Xác thực và RBAC
-
-- Có: API đăng ký/đăng nhập/refresh/đăng xuất; hồ sơ và đổi mật khẩu; bảo vệ route theo vai trò.
-- Cần làm: hoàn thiện quyền cho các phân hệ sau; refresh tự động phía frontend; luồng tài khoản tạm và bắt đổi mật khẩu; đồng bộ nhãn vai trò.
-- Nghiệm thu: đủ 5 nhóm quyền; tài khoản khóa bị chặn; không vượt quyền bằng gọi API trực tiếp; token hết hạn xử lý rõ.
-
-### Giai đoạn 5: Hồ sơ thú cưng và tra cứu khách
-
-- Có: HoSoThuCung.jsx; API list/detail/create/update/status và tra SĐT.
-- Đã siết quyền tra khách và SĐT đúng 10 số; test quyền sở hữu/hoạt động khi đặt lịch đạt. Ngừng theo dõi khóa dòng thú cưng trước kiểm tra lịch mở, không tranh chấp với đặt lịch; HTTP đồng thời đạt. CRUD hồ sơ đầy đủ vẫn cần nghiệm thu riêng.
-- Nghiệm thu: khách không xem/sửa thú cưng người khác; chó/mèo và cân nặng hợp lệ; không xóa lịch sử. Code hiện chặn ngừng theo dõi khi còn lịch đang mở; giữ quy tắc này hoặc cập nhật yêu cầu nhất quán.
-
-### Giai đoạn 6: Đặt lịch và chống vượt công suất - ĐANG LÀM
-
-- Có: MH-02, MH-02b, danh mục API, tổng thời lượng và giá dự kiến, lưu lịch/chi tiết.
-- Đã kiểm thử: seed ca 8A, công suất khả thi suốt khoảng hẹn, khóa theo ngày/cùng client, transaction toàn bộ tại quầy, quyền, ngày/giờ và test đồng thời. Còn bàn giao tài khoản tạm/bắt đổi mật khẩu và nghiệm thu UI đặt lịch đầy đủ. Thông báo đã bổ sung trong giai đoạn 7.
-- Công suất phải đúng trên mọi khoảng con của dịch vụ, không chỉ tại giờ bắt đầu. Kiểm tra nhân viên đang hoạt động, chức vụ chăm sóc và ca bao trọn thời lượng; xử lý ca kề nhau theo chính sách đã thống nhất.
-- Nghiệm thu: hai request tranh chỗ cuối có đúng một 201, một 409; lỗi ghi chi tiết không để lịch rỗng; không đặt vào quá khứ; kết thúc <=19:00. Tính ngày/giờ theo múi giờ nghiệp vụ Asia/Ho_Chi_Minh thống nhất, không trộn ngày UTC và giờ local.
-- test-concurrency.js nay gọi bộ HTTP có assertions, tài khoản/mật khẩu và ID fixture riêng, ngày tương lai; chỉ chạy khi TEST_DATABASE_URL chỉ định DB test mới, giữ dữ liệu kiểm thử để kiểm toán. Không DROP/DELETE. HTTP 14/14 đạt; thuật toán ca 14/14 (gồm đối chiếu vét cạn 200 lịch nhỏ).
-
-### Giai đoạn 7: Quản lý và phân công lịch hẹn
-
-- **Đã nghiệm thu trên test cô lập:** MH-05 có lọc ngày/trạng thái, chi tiết khách/thú cưng/dịch vụ/giờ, nhân viên khả dụng và ba nhánh loại trừ. Liên kết từ trang nhân sự và sau đặt tại quầy; nhãn Từ chối đồng bộ MH-03.
-- API GET /api/lich-hen/:id/nhan-vien-kha-dung; PATCH /:id/xu-ly nhận hanhDong phan-cong/giu-cho/tu-choi, nhanVienId khi phân công, lyDo khi giữ chờ/từ chối. Hủy dùng PATCH /:id/huy; nhân sự phải nhập lý do, khách vẫn hủy lịch của mình bằng request cũ.
-- Phân công dùng khóa theo ngày chung với tạo/hủy lịch, khóa dòng lịch và kiểm tra lại toàn bộ ca/công suất. Nhân viên phải hoạt động, đúng chức vụ, một ca bao trọn lịch; không làm mất khả năng phục vụ lịch chờ khác. Lịch đổi trạng thái trả 409, ngoài quyền trả 403.
-- Giữ chờ chỉ thêm ghi chú, không tự gán người. Từ chối chuyển TuChoi, hủy chuyển DaHuy; chi tiết chưa làm chuyển DaHuy, không xóa lịch sử. Lý do tối đa 300 ký tự; tổng ghi chú 500, vượt giới hạn báo lỗi và rollback, không cắt bỏ ghi chú cũ.
-- Thông báo lịch mới gửi lễ tân/quản lý/Admin; xác nhận gửi khách và người được giao; từ chối gửi khách; hủy gửi khách/người được giao. Thông báo và đổi trạng thái cùng transaction, lỗi rollback cả hai. Chỉ xem/đánh dấu đọc thông báo của mình; UI có tải lại và 50 tin gần nhất.
-- Kiểm thử: 65 backend unit/RBAC đạt (3 nhóm tích hợp bỏ qua khi không cấu hình DB); HTTP giai đoạn 7 **14/14**, hồi quy đặt lịch **14/14**; frontend **11/11**, build **58 modules**. Trình duyệt thực trên DB test: giữ chờ, phân công, lọc/xem lịch xác nhận, hủy, từ chối thiếu/có lý do, khách nhận/đánh dấu đọc thông báo đều đạt.
-- Không đổi kiến trúc hoặc schema, không chạy migration/seed trên database người dùng. Mới đọc metadata DB local xác nhận đủ bảng/column đang dùng. Quản lý ca và chăm sóc tiếp tục ở giai đoạn 8.
-
-### Giai đoạn 8: Ca làm và chăm sóc
-
-- **8A làm trước để hỗ trợ giai đoạn 6:** seed ca mẫu, API đọc/tính nhân viên khả dụng và kiểm tra ca.
-- **8B:** UI quản lý ca MH-09, tạo/sửa/hủy ca; MH-04 nhận lịch, kiểm tra điều kiện, bắt đầu/hoàn tất từng dịch vụ và nhật ký.
-- Nghiệm thu: không chồng ca; không xóa/thu hẹp ca làm mất phân công; nhân viên chỉ thao tác lịch của mình; không hoàn tất lịch khi chi tiết còn chưa xong; nhánh không đủ điều kiện không ảnh hưởng nhánh hoàn thành.
-
-### Giai đoạn 9: Hóa đơn và thanh toán
-
-- Có: SQL hoa_don, chi_tiet_hoa_don, thanh_toan.
-- Cần làm: API/UI MH-06, bảng giá thật thống nhất, snapshot giá, tính giảm, thu nhiều đợt, nhận QR và in chứng từ. Bổ sung cách lưu tiền khách đưa/thừa nếu cần tái in/đối soát; schema chưa có hai cột này.
-- Nghiệm thu: UNIQUE hóa đơn/lịch; giá cũ không đổi; 0 < số ghi nhận <= còn nợ; tiền thừa chính xác; cho lưu nợ/thoát; chống ghi nhận trùng, khóa khi thu đồng thời, có nhánh thanh toán thất bại.
-
-### Giai đoạn 10: Khiếu nại, hoàn tiền và đánh giá
-
-- Có trước: API/UI đánh giá, UNIQUE theo lịch; chỉ lịch HoanThanh của khách được đánh giá.
-- Cần làm: MH-10a/b, quyền tiếp nhận/quyết định/thực chi; migration hoàn một phần và chống hoàn lặp; thống nhất kết luận bác bỏ với DaXuLy.
-- Nghiệm thu: duyệt không tự ghi đã chi; số hoàn dương và <= tổng thu - tổng hoàn thành công; đúng hóa đơn của lịch; chi thất bại giữ chờ xử lý; cập nhật tiền và trạng thái nguyên tử, có mã chống lặp/bằng chứng.
-
-### Giai đoạn 11: Báo cáo và quản trị
-
-- Có trước: API admin list/create/update/lock/unlock/reset; QuanLyTaiKhoan.jsx chưa được App.jsx import/mount.
-- Cần làm: nối giao diện Admin; API/UI ghi danh mục; MH-07 theo quyền Quản lý; báo cáo theo ngày thu/hoàn, dịch vụ và trạng thái.
-- Nghiệm thu: Admin không tự khóa; dashboard đúng dữ liệu; thực thu = thu thành công - hoàn thành công; không cộng trùng hóa đơn với thanh toán. Doanh thu dịch vụ trước giảm giá ghi rõ khác thực thu; không gọi thực thu là lợi nhuận khi chưa có dữ liệu chi phí.
-
-### Giai đoạn 12: Kiểm thử E2E và đóng gói
-
-- Có: unit RBAC/thuật toán/lỗi, DB tích hợp và HTTP đặt lịch; chưa đủ E2E toàn hệ thống.
-- Cần làm: E2E từ đăng ký -> thú cưng -> đặt -> phân công -> chăm sóc -> thu -> hoàn -> báo cáo; test quyền và lỗi; bỏ dữ liệu mock khỏi luồng vận hành; hướng dẫn setup, backup/restore và Docker Compose nếu giữ mục tiêu này.
-- Nghiệm thu: kiểm thử chạy lặp ổn định trên DB test; đủ tài khoản demo cho 5 nhóm; build và triển khai được từ hướng dẫn; không kèm .env, token hoặc mật khẩu thật.
-
-## 7. Quy tắc dữ liệu và công thức thống nhất
-
-- Giờ nghiệp vụ: 08:00 <= bắt đầu < kết thúc <=19:00, cùng ngày, múi giờ thống nhất. Thời lượng từ danh sách dịch vụ đã chọn.
-- Chủ lịch hiện suy ra qua lich_hen -> thu_cung -> khach_hang; chưa có ma_khach_hang riêng trên lịch. Nếu cho chuyển chủ thú cưng phải có chính sách lưu chủ đặt lịch lịch sử.
-- Lịch đang giữ chỗ: ChoXacNhan, DaXacNhan, DangThucHien. Nhân viên phân công phải trong ca và không chồng khoảng phục vụ.
-- Tổng dự kiến = SUM(chi_tiet_lich_hen.so_luong * gia_du_kien).
-- Tổng hóa đơn = SUM(chi_tiet_hoa_don.thanh_tien); thanh_tien hóa đơn = tong_tien - giam_gia; 0 <= giảm <= tổng.
-- Tiền ghi nhận mỗi lần >0 và <= còn nợ; tiền mặt: tiền khách đưa >= số ghi nhận; tiền thừa = tiền khách đưa - số ghi nhận.
-- Tổng thu = SUM(so_tien) với trang_thai=ThanhCong, phuong_thuc thuộc TienMat/ChuyenKhoanQR.
-- Tổng hoàn = SUM(so_tien) với trang_thai=ThanhCong, phuong_thuc=HoanTien theo quy ước đích. SQL hiện còn cho trang_thai=HoanTien; phải chuẩn hóa/mapping dữ liệu trước khi dùng báo cáo, không cộng hoàn hai lần.
-- Số còn được hoàn = tổng thu - tổng hoàn; chỉ thực chi thành công mới cộng tổng hoàn. Chính sách hiện chỉ duyệt hoàn cho hóa đơn đã thu đủ; sau lần hoàn một phần tiếp tục xét trên số còn được hoàn.
-- Công thức chưa có trong API thì là quy tắc cần triển khai; không coi các CHECK hiện tại đã bảo vệ mọi phép tính liên bảng.
-
-## 8. Danh sách ưu tiên ngay sau lần rà soát
-
-- [x] Sửa các lệnh DB trỏ tới script thiếu; chuẩn hóa migration/seed và log lỗi (18 kiểm thử đạt trên DB cô lập).
-- [x] Dữ liệu/kiểm tra ca 8A phục vụ đặt lịch; thay CAPACITY cố định (chưa có API/UI quản lý ca).
-- [x] Kiểm tra công suất và ghi lịch cùng transaction/khóa theo ngày; HTTP tranh chỗ/rollback đạt.
-- [x] Siết quyền tra khách, đặt tại quầy, xem/hủy lịch theo chức vụ; RBAC/HTTP đạt.
-- [ ] Nghiệm thu trọn giai đoạn 6: test đồng thời đã đạt; còn bàn giao tài khoản tạm và nghiệm thu UI đặt lịch đầy đủ; thông báo đã bổ sung.
-- [x] Triển khai MH-05 và API giai đoạn 7, đồng bộ trạng thái/nhãn/thông báo; HTTP và trình duyệt đã đạt.
-- [ ] Sau đó hoàn thiện 8B -> 9 -> 10 -> 11 -> 12, không đánh dấu hoàn thành chỉ vì có bảng SQL.
-
-## 9. Tài liệu nguồn và lịch sử cập nhật
-
-Tài liệu dữ liệu đồng hành: [02_THIET_KE_CO_SO_DU_LIEU.md](02_THIET_KE_CO_SO_DU_LIEU.md). Kết quả kiểm tra và thiết lập Git: [NHAT_KY_KIEM_TRA.md](NHAT_KY_KIEM_TRA.md).
-
-Nguồn kiểm tra: dichvu/package.json, vite.config.js, src/App.jsx, src/pages, src/data; server/package.json, src/server.js, config/db.js, middleware, routes/controllers, scripts/init-db.js, scripts/test-concurrency.js; thu_cung.sql; migrations/001_schema_improvements.sql; bộ đặc tả MH-01..MH-11 và rà soát sơ đồ ở cuộc trao đổi này.
-
-Phiên bản 2.0 thay mô tả khẳng định đồng bộ 100% bằng hiện trạng có bằng chứng; chuẩn hóa 15 bảng, tên route/component thật, 12 giai đoạn và điều kiện nghiệm thu; giữ các sửa logic SD-03, SD-04, AD/SD-06; không đổi code hoặc chạy SQL. Ngày rà soát chỉ ghi nhận trạng thái tại thời điểm đọc, không đại diện cho kết quả kiểm thử runtime.
-
-Bản 2.1: hoàn thành công cụ DB phát triển/test; sửa lõi đặt lịch, quyền và lỗi, kiểm thử như nhật ký. Chưa thay các ảnh sơ đồ; chưa triển khai MH-05, chăm sóc, tài chính hoặc production.
-
-### Sửa lỗi MH-01 khi chạy thử (23/10/2026)
-
-- Đăng ký bị API từ chối do trùng SĐT nhưng giao diện không hiện lỗi: đã sửa lỗi form chung xuất hiện ngay dưới nút Đăng ký, giữ riêng với lỗi đăng nhập.
-- Validation frontend kiểm tra tất cả trường; không dùng tài khoản mock làm nguồn xác định trùng. Giữ nguyên dữ liệu/API backend.
-- Frontend 11/11 test đạt; build đạt 56 modules. Kiểm tra trình duyệt qua proxy mô phỏng: lỗi trùng SĐT hiện đúng trong tab đăng ký; nhánh thành công chuyển sang đăng nhập kèm thông báo. Proxy không ghi DB; không tạo/sửa tài khoản thật trong kiểm thử này.
-
-Bản 2.2: hoàn thành MH-05/phân công và thông báo với bằng chứng kiểm thử ở nhật ký; giữ các phần chưa làm của giai đoạn 6 và 8 rõ ràng.
-
-## 10. Đợt rà soát mở rộng và triển khai 8–11 (đang thực hiện)
-
-Người dùng đã yêu cầu triển khai tiếp cả giai đoạn 8–11 rồi kiểm thử toàn bộ; việc nghiệm thu giai đoạn 7 trước đó chỉ bao phủ điều phối, không đại diện cho chăm sóc/tài chính/báo cáo toàn hệ thống. Báo cáo hiện hành: [BAO_CAO_KIEM_THU_HE_THONG.md](BAO_CAO_KIEM_THU_HE_THONG.md).
-
-- Rà soát 1–6 bằng test mới tái hiện 6 nhóm lỗi: validation đăng ký/đăng nhập, mục đích/subject JWT, nhân viên ngừng hoạt động, quyền tạo hồ sơ khách qua thú cưng, validation CRUD thú cưng. Đã sửa; bổ sung thu hồi phiên khi logout/đổi mật khẩu, refresh frontend và mật khẩu tạm. Hàm sinh mật khẩu cũ chỉ sinh 3 ký tự khi yêu cầu 12: đã sửa và kiểm thử.
-- Migration 002 thêm token_version và bat_doi_mat_khau, không tự đổi mật khẩu tài khoản cũ. Tài khoản mới tại quầy được bàn giao mật khẩu tạm một lần và bắt đổi trước khi dùng; API đã kiểm chứng, UI có code/build, chờ nghiệm thu trình duyệt cùng quy trình đầy đủ.
-- Giai đoạn 8 đang nghiệm thu: migration 003 giữ ca hủy bằng trang_thai=false, EXCLUDE chỉ tính ca hoạt động; thêm yeu_cau_xu_ly và nhat_ky_lich_hen. MH-09 và MH-04 có code, frontend build đạt. API quản lý ca kiểm tra lại công suất/lịch đã gán trong khóa; chăm sóc chỉ người được giao, tiến độ từng dịch vụ và điều kiện hoàn thành đầy đủ; không đủ điều kiện báo lễ tân, không tự hủy. Đổi lịch về chờ phân công lại, giữ lịch sử. Các ca API đã đạt, chưa đánh dấu trọn giai đoạn 8 hoàn thành trước nghiệm thu UI.
-- Kết quả checkpoint: backend unit 66 PASS, 5 nhóm tích hợp skip mặc định; chạy riêng DB 8/8, auth/hồ sơ 10/10, đặt lịch 14/14, điều phối 14/14, ca/chăm sóc 6/6; frontend 13/13 và build 63 modules. Một test DB đã sửa fixture CURRENT_DATE lệch ngày seed Việt Nam; lần chạy lại đạt.
-- Chưa áp migration 002/003 lên DB người dùng; chỉ chạy trên DB test cô lập 55439. Giai đoạn 9–11 đang chờ triển khai. Người dùng chọn để cấu hình ngân hàng sau: thu tiền mặt/chuyển khoản vẫn triển khai, tạo VietQR chưa thể nghiệm thu với ngân hàng thật.
+Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [kiểm thử](../server/test/README.md), [API](../docs/API.md), [thiết kế DB](02_THIET_KE_CO_SO_DU_LIEU.md), [báo cáo](BAO_CAO_KIEM_THU_HE_THONG.md). Lịch sử mốc 2.0–2.2 và lỗi trước sửa được giữ trong nhật ký/Git. Bộ ảnh UML gốc chưa được vẽ lại trong đợt lập trình này; code đã áp dụng các sửa SD-03, SD-04 và AD/SD-06, không tuyên bố các PNG đã thay đổi.

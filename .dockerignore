@@ -1,0 +1,16 @@
+**/node_modules
+**/dist
+**/.env*
+**/.git
+.cache
+backups
+output
+**/*.log
+**/*.dump
+**/*.backup
+**/*.pem
+**/*.key
+**/.aws
+**/.ssh
+**/.codex
+**/.agents

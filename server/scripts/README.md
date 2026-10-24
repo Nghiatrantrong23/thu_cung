@@ -24,7 +24,7 @@ Nếu đã đặt `DATABASE_URL`, URL đó được ưu tiên hơn các biến `
 - `db:setup`: khởi tạo/migrate rồi seed.
 - `db:reset`: luôn từ chối, không kết nối PostgreSQL và không xóa dữ liệu.
 
-Schema/migration và SHA-256 được lưu trong `petcare_schema_migrations` (bảng kỹ thuật ngoài 15 bảng nghiệp vụ). Khóa advisory và transaction dùng chung cho toàn bộ lần migrate; lỗi dừng và rollback. Không sửa SQL đã ghi lịch sử; thêm file migration có số phiên bản mới. SQL không được chứa lệnh `BEGIN`/`COMMIT` riêng vì runner quản lý transaction. Database cũ có bảng nhưng chưa có lịch sử sẽ bị từ chối để rà soát/baseline riêng, không áp schema gốc lặp lên dữ liệu.
+Schema/migration và SHA-256 được lưu trong `petcare_schema_migrations` (bảng kỹ thuật ngoài 16 bảng nghiệp vụ sau migration 003). Khóa advisory và transaction dùng chung cho toàn bộ lần migrate; lỗi dừng và rollback. Không sửa SQL đã ghi lịch sử; thêm file migration có số phiên bản mới. SQL không được chứa lệnh `BEGIN`/`COMMIT` riêng vì runner quản lý transaction. Database cũ có bảng nhưng chưa có lịch sử sẽ bị từ chối để rà soát/baseline riêng, không áp schema gốc lặp lên dữ liệu.
 
 Dữ liệu demo có tiền tố `demo_`/`Demo -`, email `example.invalid`, gồm 7 tài khoản thuộc 5 nhóm quyền, 2 thú cưng, 3 dịch vụ và ca 08:00–19:00 trong 7 ngày tính từ ngày hiện tại ở Asia/Ho_Chi_Minh cho 2 nhân viên chăm sóc. Chạy lại không đổi mật khẩu hoặc ghi đè hồ sơ; không phụ thuộc ID cố định và không tạo lịch hẹn cố định. Username: `demo_admin`, `demo_quanly`, `demo_letan`, `demo_chamsoc1`, `demo_chamsoc2`, `demo_khach`, `demo_khoa` (khóa). Mật khẩu là giá trị bạn nhập, không in ra màn hình.
 

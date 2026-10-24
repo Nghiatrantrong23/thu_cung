@@ -30,7 +30,7 @@ export function createApiClient({ request = fetch, getToken, onToken, onExpired 
       const data = await response.json()
       if (response.status === 401) onExpired()
       return response.ok ? { ok: true, data, status: response.status }
-        : { ok: false, error: data.error || 'Có lỗi xảy ra.', code: data.code, status: response.status }
+        : { ok: false, error: data.error || 'Có lỗi xảy ra.', code: data.code, payload: data, status: response.status }
     } catch { return { ok: false, error: 'Không thể kết nối tới máy chủ.', status: 0 } }
   }
 }

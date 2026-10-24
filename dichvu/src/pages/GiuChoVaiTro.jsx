@@ -48,6 +48,10 @@ export default function RolePlaceholder() {
 
         {user.roleKey==='care'&&<Link to="/nhan-vien/lich-lam-viec" className="mt-4 block rounded-full bg-brand-700 p-3 font-bold text-white">Lịch làm việc và chăm sóc thú cưng</Link>}
         {['manager','admin'].includes(user.roleKey)&&<Link to="/quan-ly/ca-lam-viec" className="mt-4 block rounded-full border border-brand-600 p-3 font-bold text-brand-800">Quản lý ca làm việc</Link>}
+        {isStaffBookingAllowed&&<Link to="/le-tan/hoa-don" className="mt-4 block rounded-full border border-brand-600 p-3 font-bold text-brand-800">Hóa đơn và thanh toán</Link>}
+        {isStaffBookingAllowed&&<Link to="/le-tan/khieu-nai" className="mt-4 block rounded-full border border-brand-600 p-3 font-bold text-brand-800">Khiếu nại và hoàn tiền</Link>}
+        {['manager','admin'].includes(user.roleKey)&&<><Link to="/quan-ly/bao-cao" className="mt-4 block rounded-full border border-brand-600 p-3 font-bold text-brand-800">Thống kê và báo cáo</Link><Link to="/quan-ly/dich-vu" className="mt-4 block rounded-full border border-brand-600 p-3 font-bold text-brand-800">Dịch vụ và bảng giá</Link></>}
+        {user.roleKey==='admin'&&<Link to="/admin/tai-khoan" className="mt-4 block rounded-full border border-brand-600 p-3 font-bold text-brand-800">Quản lý tài khoản và phân quyền</Link>}
         <ThongBao />
         <div className="mt-6 pt-4 border-t border-slate-100 flex justify-center">
           <button
