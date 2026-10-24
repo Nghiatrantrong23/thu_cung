@@ -88,3 +88,12 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Cập nhật kế hoạch v3, thiết kế DB, báo cáo kiểm thử, README/API/DB/test guide. Giai đoạn12 còn Docker runtime, áp nâng cấp môi trường chạy và QA các UI còn thiếu. Không tuyên bố mọi tính năng/thiết bị/production đã đạt.
 
 - Xác nhận cuối: journey DB mới petcare_test_final_journey_20261024d 8/8 PASS; frontend sau chỉnh nhãn 13/13/build71 PASS. HTTP chỉ đọc bản sao nâng cấp: /ready200, danh mục200, hóa đơn chưa xác thực401; DB gốc /ready503 như dự kiến, không ghi nghiệp vụ.
+
+
+## 24/10/2026 — khắc phục không đăng nhập được trên web local
+
+- Tái hiện frontend200, backend health200 nhưng ready503/API503 MIGRATION_REQUIRED. Thiếu bước nâng cấp DB development khi bàn giao phiên trước, không phải lỗi frontend hay kết luận mật khẩu sai.
+- Backup mới backups/petcare_before_upgrade_20261024130112.dump, restore/test migration trên bản sao đạt; đối chiếu schema gốc với reference 000/001 khớp tuyệt đối. Bước so với roundtrip reference từ chối vì cách biểu diễn CHECK; kiểm tra lại reference chưa dump đúng phương pháp thì khớp, không bỏ guard.
+- Baseline 000/001 và migrate 002–005 trên đúng DB development loopback, không seed/test vào DB ứng dụng. Hash mọi giá trị cột cũ khớp trước/sau, password hash giữ nguyên; .env và production không thay đổi.
+- Sau sửa ready200, danh mục qua localhost5173 proxy200; login cố ý sai401 đúng hợp đồng, không còn503. Auth/hồ sơ trên DB test mới petcare_test_auth_loginfix_20261024a: 10/10 PASS, có login bcrypt thật, refresh/thu hồi phiên/đổi mật khẩu/tài khoản tạm. Không đọc hoặc đổi mật khẩu người dùng thật để kiểm chứng.
+- Tài liệu chi tiết docs/DB_LOCAL_RECOVERY.md. Chỉ lưu/push nhánh codex/sua-dang-nhap-db-local; không merge hoặc push main.

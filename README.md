@@ -6,7 +6,9 @@ React 18/Vite/Tailwind; Node.js/Express/pg; PostgreSQL 17 + btree_gist. Giữ ki
 
 Đã triển khai đến giai đoạn 11; đang nghiệm thu/đóng gói giai đoạn 12. API và chuỗi nghiệp vụ đạt trên DB test cô lập; không triển khai production. [Kế hoạch chuẩn](plans/ke_hoach_tong_the.md), [báo cáo kiểm thử](plans/BAO_CAO_KIEM_THU_HE_THONG.md), [API](docs/API.md).
 
-**DB local cũ chưa nâng cấp; bản sao đã được backup/restore, so schema và thử migration 002–005 thành công.** Dữ liệu cột cũ giữ nguyên qua kiểm tra hash; xem báo cáo kiểm thử. Không chạy lại `thu_cung.sql`, không chạy seed/test vào DB đang dùng. Backend mới trả 503 `MIGRATION_REQUIRED` khi schema chưa sẵn sàng. `/health` chỉ kiểm tra tiến trình; `/ready` kiểm tra DB và migration 000–005. DB gốc và `server/.env` chưa thay đổi; chưa tự áp baseline hoặc chuyển môi trường chạy sang bản sao.
+**Đã khôi phục đăng nhập trên DB development local ngày 24/10/2026.** Sau backup mới và thử restore/migration trên bản sao, schema gốc đã đối chiếu khớp nguồn 000/001 rồi baseline và áp 002–005. Hash toàn bộ giá trị cột cũ giữ nguyên, không reset mật khẩu, không đổi `.env`. `/ready` và danh mục qua frontend trả 200. Xem [biên bản khôi phục](docs/DB_LOCAL_RECOVERY.md). Không áp dụng thao tác này cho production hoặc DB khác chưa rà soát.
+
+Với môi trường mới hoặc DB khác: không chạy lại `thu_cung.sql`/seed lên dữ liệu cũ. `/health` kiểm tra tiến trình; `/ready` kiểm tra DB/migration. Nếu gặp 503 `MIGRATION_REQUIRED`, cần backup, đối chiếu schema và nâng cấp có kiểm soát, không bỏ middleware bảo vệ.
 
 VietQR chưa cấu hình theo lựa chọn người dùng; thu tiền mặt và ghi nhận chuyển khoản đã nhận hoạt động. Không có chuyển tiền tự động, email/SMS hay hóa đơn điện tử thuế. Quên mật khẩu còn là trang chờ.
 
@@ -111,6 +113,6 @@ pg_dump --format=custom --file=$taskBackup
 pg_restore --list $taskBackup
 ```
 
-Kiểm tra exit code và thử restore vào **DB mới khác tên**, không `--clean`/ghi đè DB đang dùng. Đợt này đã nghiệm thu backup/restore, so schema và baseline/migration trên **bản sao** DB local cũ; DB gốc chưa đổi. Không tự chuyển đổi timestamp/hoàn tiền lịch sử nếu chưa đối soát nguồn dữ liệu.
+Kiểm tra exit code và thử restore vào **DB mới khác tên**, không `--clean`/ghi đè DB đang dùng. Đợt này đã nghiệm thu backup/restore, so schema và baseline/migration trên **bản sao** DB local cũ; DB development gốc đã được nâng cấp có kiểm soát ngày 24/10/2026, dữ liệu cũ giữ nguyên. Không tự chuyển đổi timestamp/hoàn tiền lịch sử nếu chưa đối soát nguồn dữ liệu.
 
 Sau giai đoạn đạt: cập nhật kế hoạch, commit/push lên nhánh công việc riêng và đối chiếu SHA của đúng nhánh remote theo [AGENTS.md](AGENTS.md). Không push trực tiếp lên main; chỉ đưa thay đổi vào main khi người dùng yêu cầu rõ. Không force-push, không công khai `.env`, dump, token, log hoặc build.

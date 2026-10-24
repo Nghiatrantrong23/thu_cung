@@ -6,12 +6,12 @@
 
 ## 0. Tiến độ hiện tại
 
-**Đã triển khai đến giai đoạn 11; đang ở giai đoạn 12 — nghiệm thu, đóng gói và chuẩn bị môi trường chạy.** API 8–11 và chuỗi nghiệp vụ đã đạt trên PostgreSQL 17 cô lập; giao diện chăm sóc, ca, thu/hoàn, chứng từ, báo cáo và danh mục đã thao tác trên trình duyệt. Không đồng nghĩa database ứng dụng cũ đã được nâng cấp hoặc production đã triển khai.
+**Đã triển khai đến giai đoạn 11; đang ở giai đoạn 12 — nghiệm thu, đóng gói và chuẩn bị môi trường chạy.** API 8–11 và chuỗi nghiệp vụ đã đạt trên PostgreSQL 17 cô lập; giao diện chăm sóc, ca, thu/hoàn, chứng từ, báo cáo và danh mục đã thao tác trên trình duyệt. Database development local đã được nâng cấp có backup/đối chiếu và xác nhận giữ dữ liệu ngày 24/10/2026; không triển khai production.
 
 | Giai đoạn | Kết quả có bằng chứng | Phần còn lại / giới hạn |
 | --- | --- | --- |
 | 1. Môi trường | PASS Node 24, frontend build, HTTP health/ready trên test | Docker runtime chưa có trên máy |
-| 2. Database/seed | PASS 8 tích hợp + 10 unit; backup/restore DB cũ, so schema và nâng cấp bản sao đạt | DB gốc và cấu hình chưa đổi; cần quyết định áp nâng cấp vào môi trường chạy |
+| 2. Database/seed | PASS 8 tích hợp + 10 unit; backup/restore DB cũ, so schema và nâng cấp bản sao đạt | DB development đã nâng cấp, ready/proxy 200; dữ liệu và mật khẩu cũ giữ nguyên |
 | 3. Backend/lỗi | PASS rollback, lỗi SQL/validation an toàn; phân biệt health và ready | Không tự migrate lúc khởi động |
 | 4. Xác thực/RBAC | PASS JWT purpose/version, khóa phiên, refresh, tài khoản tạm; 10 test auth/hồ sơ | UI bắt đổi mật khẩu tạm chưa QA trình duyệt riêng; quên mật khẩu còn trang chờ |
 | 5. Thú cưng/tra khách | PASS CRUD, quyền sở hữu/hoạt động/validation qua HTTP | CRUD UI chưa QA toàn bộ thiết bị |
@@ -21,7 +21,7 @@
 | 9. Hóa đơn/thanh toán | PASS 8 HTTP + hành trình + UI thu nhiều lần/in hóa đơn | **VietQR để sau theo lựa chọn người dùng**; chuyển khoản ghi nhận thủ công khi đã nhận |
 | 10. Khiếu nại/hoàn/đánh giá | PASS 8 HTTP + hành trình + UI duyệt/chi thất bại/chi thành công/phiếu hoàn | Không có chuyển tiền ngân hàng tự động |
 | 11. Báo cáo/quản trị | PASS 7 HTTP + UI báo cáo/danh mục/danh sách Admin | Không tính lợi nhuận vì chưa có dữ liệu chi phí |
-| 12. E2E/đóng gói | PASS 8 test hành trình, frontend 13 test/build 71 modules; backup/restore/baseline/migrate bản sao đạt; có tài liệu/API/Docker config | **Chưa hoàn tất:** chưa build/run Docker; DB gốc chưa nâng cấp; chưa QA đủ mọi UI |
+| 12. E2E/đóng gói | PASS 8 test hành trình, frontend 13 test/build 71 modules; backup/restore/baseline/migrate bản sao đạt; có tài liệu/API/Docker config | **Chưa hoàn tất:** chưa build/run Docker; chưa QA đủ mọi UI |
 
 Tổng cuối: backend **67 PASS**, 9 nhóm tích hợp được skip khi chạy mặc định không có DB. Chín nhóm đã chạy riêng, mỗi nhóm DB mới: **83 PASS, 0 FAIL** (kể cả parent test của Node). Frontend **13 PASS**. Không gọi các nhóm skip là PASS. Chi tiết và lỗi trước sửa trong [báo cáo](BAO_CAO_KIEM_THU_HE_THONG.md) và [nhật ký](NHAT_KY_KIEM_TRA.md).
 
@@ -140,13 +140,13 @@ Admin không tự khóa/hạ vai trò. Đổi vai trò tạo đúng profile và 
 - [x] API, hướng dẫn chạy/test và quy trình sao lưu riêng; cấu hình Docker local không mount dữ liệu đang dùng.
 - [ ] Docker build/up/health/seed/khởi động lại: BLOCKED vì chưa cài Docker; config mới chưa được nghiệm thu runtime.
 - [x] Theo lựa chọn người dùng, backup DB cũ, restore riêng, đối chiếu schema 000/001 và thử baseline/migrate 002–005 trên bản sao; hash mọi giá trị cột cũ giữ nguyên. DB gốc và `.env` không đổi.
-- [ ] Áp nâng cấp vào DB phát triển đang chạy sau khi xem kết quả bản sao; không tự chuyển sang cluster test hoặc sửa production.
+- [x] Khôi phục đăng nhập trên DB development ngày 24/10/2026: backup mới, schema khớp 000/001, baseline và migration 002–005; dữ liệu/mật khẩu giữ nguyên, ready/proxy 200, không đổi production.
 - [ ] QA trình duyệt tài khoản tạm/bắt đổi, CRUD hồ sơ đầy đủ và responsive mọi vai trò.
 - [ ] VietQR ngân hàng thật: DEFERRED theo người dùng, không phải kiểm thử đã đạt.
 
 ## 5. Công việc tiếp theo theo ưu tiên
 
-1. Xem kết quả backup/restore/baseline/migrate bản sao đã đạt trong báo cáo, quyết định nâng cấp DB phát triển đang chạy. Không reapply `thu_cung.sql`, không seed/test vào dữ liệu cũ. DB gốc và `.env` chưa thay đổi.
+1. Theo dõi sau khôi phục đăng nhập DB development; không reapply schema gốc hoặc seed/test vào dữ liệu đang dùng. Chi tiết tại docs/DB_LOCAL_RECOVERY.md.
 2. Chạy Docker khi có Docker Desktop/Engine: `config --quiet`, build/up, ready, seed riêng và thử lưu volume; không `down -v` hoặc xóa dữ liệu.
 3. QA UI còn thiếu, hoàn tất tiêu chí giai đoạn 12. Chỉ sau các bước này mới đánh dấu 12 hoàn thành.
 4. Cấu hình nhận tiền/VietQR sau khi người dùng cung cấp lựa chọn ngân hàng, không yêu cầu mật khẩu ngân hàng.

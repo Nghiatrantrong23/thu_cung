@@ -1,5 +1,8 @@
 # Báo cáo kiểm thử và triển khai PetCare
 
+> Cập nhật 24/10/2026 — đã khôi phục đăng nhập: DB development local đã baseline/nâng cấp 002–005 sau backup mới và thử bản sao; dữ liệu/mật khẩu giữ nguyên. Ready và proxy frontend trả 200, hồi quy xác thực 10/10 PASS. Các ghi nhận bên dưới về DB gốc chưa nâng cấp là mốc trước lần sửa này. Chi tiết: [biên bản khôi phục](../docs/DB_LOCAL_RECOVERY.md).
+
+
 Ngày 23–24/10/2026. Phạm vi người dùng xác nhận: triển khai tiếp 8–11 rồi kiểm thử toàn bộ trên mã hiện hữu; ngân hàng cấu hình sau; sao lưu và rà soát bản sao DB cũ trước khi nâng cấp.
 
 ## 1. Kết luận theo phạm vi

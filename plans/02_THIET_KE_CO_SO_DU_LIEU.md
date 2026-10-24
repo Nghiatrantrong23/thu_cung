@@ -1,5 +1,8 @@
 # THIẾT KẾ CƠ SỞ DỮ LIỆU PETCARE
 
+> Cập nhật 24/10/2026 — đã khôi phục đăng nhập: DB development local đã baseline/nâng cấp 002–005 sau backup mới và thử bản sao; dữ liệu/mật khẩu giữ nguyên. Ready và proxy frontend trả 200, hồi quy xác thực 10/10 PASS. Các ghi nhận bên dưới về DB gốc chưa nâng cấp là mốc trước lần sửa này. Chi tiết: [biên bản khôi phục](../docs/DB_LOCAL_RECOVERY.md).
+
+
 > Phiên bản 3.0, đối chiếu migrations 000–005 và kiểm thử ngày 23–24/10/2026.
 > Nguồn: `thu_cung.sql` rồi các file `migrations/001..005` theo thứ tự. Không sửa schema đã có checksum; bổ sung migration mới khi cần.
 
