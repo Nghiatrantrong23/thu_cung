@@ -10,6 +10,7 @@ import HoSoThuCung from './pages/khach-hang/HoSoThuCung.jsx'
 import ThongTinCaNhan from './pages/khach-hang/ThongTinCaNhan.jsx'
 import DatLichTaiQuay from './pages/le-tan/DatLichTaiQuay.jsx'
 import DangPhatTrien from './pages/DangPhatTrien.jsx'
+import QuanLyLichHen from './pages/le-tan/QuanLyLichHen.jsx'
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
       </Route>
 
       {/* Lễ tân / Quản lý / Admin đặt lịch tại quầy (MH-02b) */}
+      <Route path="le-tan/lich-hen" element={<KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><QuanLyLichHen /></KiemTraQuyen>} />
       <Route
         path="le-tan/dat-lich-tai-quay"
         element={

@@ -1,3 +1,4 @@
+import { cancelBooking, getAvailableStaff, processBooking } from '../services/dispatch.js'
 import { query } from '../config/db.js'
 import { availableSlots, createBooking } from '../services/booking.js'
 
@@ -16,6 +17,10 @@ function mapLichHen(row, dichVuList = []) {
     return {
         id: row.ma_lich_hen,
         owner: row.ten_dang_nhap ?? null,
+        customerName: row.ten_khach_hang ?? row.ten_dang_nhap ?? '',
+        customerPhone: row.so_dien_thoai ?? '',
+        weightKg: row.can_nang == null ? null : Number(row.can_nang),
+        healthNote: row.ghi_chu_suc_khoe ?? '',
         thuCungId: row.ma_thu_cung,
         petId: row.ma_thu_cung,
         petName: row.ten_thu_cung ?? '',
@@ -91,11 +96,13 @@ export async function layDanhSachLichHen(req, res, next) {
                     lh.trang_thai, lh.ghi_chu, lh.ngay_tao,
                     tc.ten_thu_cung, tc.loai_thu_cung,
                     nv.ho_ten AS ten_nhan_vien,
-                    nd.ten_dang_nhap,
+                    nd.ten_dang_nhap, nd.so_dien_thoai, kh.ho_ten AS ten_khach_hang,
+                    tc.can_nang, tc.ghi_chu_suc_khoe,
                     dg.so_sao, dg.nhan_xet
              FROM lich_hen lh
              JOIN thu_cung tc ON lh.ma_thu_cung = tc.ma_thu_cung
              JOIN nguoi_dung nd ON tc.ma_khach_hang = nd.ma_nguoi_dung
+             JOIN khach_hang kh ON kh.ma_khach_hang = tc.ma_khach_hang
              LEFT JOIN nhan_vien nv ON lh.ma_nhan_vien = nv.ma_nhan_vien
              LEFT JOIN danh_gia dg ON lh.ma_lich_hen = dg.ma_lich_hen
              ${whereClause}
@@ -155,43 +162,16 @@ export async function datLichTaiQuay(req, res, next) { return respondCreated(req
  * NhanVien/Admin huy bat ky lich ChoXacNhan / DaXacNhan.
  */
 export async function huyLichHen(req, res, next) {
-    try {
-        const { id } = req.params
-        const userId = req.user.userId
-        const role = req.user.role
-
-        const lhResult = await query(
-            `SELECT lh.ma_lich_hen, lh.trang_thai, tc.ma_khach_hang
-             FROM lich_hen lh
-             JOIN thu_cung tc ON lh.ma_thu_cung = tc.ma_thu_cung
-             WHERE lh.ma_lich_hen = $1`,
-            [id]
-        )
-        if (lhResult.rows.length === 0) {
-            return res.status(404).json({ error: 'Không tìm thấy lịch hẹn.' })
-        }
-        const lh = lhResult.rows[0]
-
-        // Khach hang chi huy duoc lich cua minh
-        if (role === 'KhachHang' && lh.ma_khach_hang !== userId) {
-            return res.status(403).json({ error: 'Bạn không có quyền hủy lịch hẹn này.' })
-        }
-
-        if (!['ChoXacNhan', 'DaXacNhan'].includes(lh.trang_thai)) {
-            return res.status(400).json({ error: `Không thể hủy lịch đang ở trạng thái "${STATUS_DISPLAY[lh.trang_thai] ?? lh.trang_thai}".` })
-        }
-
-        const updated = await query(
-            `UPDATE lich_hen SET trang_thai = 'DaHuy', ngay_cap_nhat=NOW() WHERE ma_lich_hen = $1 AND trang_thai IN ('ChoXacNhan','DaXacNhan')`,
-            [id]
-        )
-        if (!updated.rowCount) return res.status(409).json({ error: 'Lịch hẹn đã đổi trạng thái. Vui lòng tải lại.' })
-
-        console.log(`[lichhen] Huy lich #${id} - user=${userId}`)
-        res.json({ message: `Đã hủy lịch hẹn #${id} thành công.` })
-    } catch (err) {
-        next(err)
-    }
+    try { res.json(await cancelBooking(req.params.id, req.body, req.user)) }
+    catch (err) { next(err) }
+}
+export async function nhanVienKhaDung(req, res, next) {
+    try { res.json({ nhanVien: await getAvailableStaff(req.params.id) }) }
+    catch (err) { next(err) }
+}
+export async function xuLyLichHen(req, res, next) {
+    try { res.json(await processBooking(req.params.id, req.body, req.user)) }
+    catch (err) { next(err) }
 }
 
 /**

@@ -4,6 +4,7 @@ const STYLES = {
   'Đang thực hiện': 'bg-indigo-100 text-indigo-800',
   'Hoàn thành': 'bg-emerald-100 text-emerald-800',
   'Đã hủy': 'bg-rose-100 text-rose-800',
+  'Từ chối': 'bg-slate-200 text-slate-700',
   'Đang theo dõi': 'bg-emerald-100 text-emerald-800',
   'Ngừng theo dõi': 'bg-slate-200 text-slate-600',
 }

@@ -1,3 +1,4 @@
+import { notifyReception } from './notifications.js'
 import bcrypt from 'bcrypt'
 import { randomBytes } from 'node:crypto'
 import { query, withTransaction } from '../config/db.js'
@@ -120,6 +121,7 @@ export async function createBooking(body, user, { counter = false, now } = {}) {
         const bookingId = result.rows[0].ma_lich_hen
         for (const service of services.rows) await client.query(`INSERT INTO chi_tiet_lich_hen (ma_lich_hen,ma_dv,so_luong,gia_du_kien)
             VALUES ($1,$2,1,$3)`, [bookingId, service.ma_dv, service.gia_hien_hanh])
+        await notifyReception(client, bookingId, 'Lịch hẹn mới chờ xác nhận', `Lịch #${bookingId}, ${input.date} ${input.time}.`)
         return { id: bookingId, pet: pet.rows[0], services: services.rows, date: input.date, start: input.time, end: hhmm(end), note: input.note }
     })
 }

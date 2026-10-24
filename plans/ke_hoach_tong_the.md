@@ -1,12 +1,12 @@
 # KẾ HOẠCH TỔNG THỂ PHÁT TRIỂN HỆ THỐNG PETCARE
 
-> Phiên bản 2.1 - triển khai và kiểm thử ngày 23/10/2026.
+> Phiên bản 2.2 - triển khai giai đoạn 7 và kiểm thử ngày 23/10/2026.
 > Phạm vi: bản mã nguồn tại `D:/dich_vu_thu_cung`, SQL và migration trong dự án.
 > Phiên bản 2.0 là mốc rà soát chỉ đọc. Phiên bản 2.1 ghi nhận code và kiểm thử trên PostgreSQL cô lập; không áp dụng lên database đang vận hành. Chi tiết tại NHAT_KY_KIEM_TRA.md.
 
 ## 0. Tiến độ hiện tại và cách đọc
 
-**Mốc triển khai chính: giai đoạn 6/12 - Đặt lịch dịch vụ; chưa đạt đủ điều kiện nghiệm thu giai đoạn 6.** Đã làm trước một phần giai đoạn 7 (xem/hủy lịch), 10 (đánh giá) và 11 (API quản trị tài khoản).
+**Mốc triển khai chính: giai đoạn 7/12 - Quản lý lịch và phân công, đã nghiệm thu trên môi trường test cô lập.** Chuyển sang giai đoạn 7 theo yêu cầu người dùng. Lõi đặt lịch giai đoạn 6 đã đạt; phần bàn giao/bắt đổi mật khẩu tài khoản tạm vẫn còn, không tự đánh dấu đã làm. Công việc tiếp theo: giai đoạn 8B (ca làm và chăm sóc).
 
 Quy ước:
 
@@ -24,7 +24,7 @@ Quy ước:
 | 4. Xác thực/RBAC | Có đăng ký, đăng nhập, JWT, refresh API, hồ sơ, đổi mật khẩu | Phân quyền theo chức vụ phía server, tự refresh frontend, tài khoản tạm |
 | 5. Thú cưng/tra khách | Có giao diện/API hồ sơ và tra khách theo SĐT | Rà quyền tra cứu, kiểm thử sở hữu và trạng thái |
 | 6. Đặt lịch | Công suất theo ca, transaction/khóa và HTTP tranh chỗ đạt | Bàn giao tài khoản tạm, thông báo ứng dụng và kiểm tra UI thực tế |
-| 7. Điều phối/phân công | Có xem/hủy lịch cho khách | MH-05, xác nhận/phân công, giữ chờ, từ chối, thông báo |
+| 7. Điều phối/phân công | **Đạt: MH-05 + API, ba nhánh xử lý, hủy có lý do, thông báo** | 14 kiểm thử HTTP giai đoạn 7 đạt; chưa có sửa ca/đổi lịch (giai đoạn 8) |
 | 8. Ca làm/chăm sóc | Có bảng ca và trạng thái dịch vụ | API/UI MH-09, MH-04 và luồng chăm sóc |
 | 9. Hóa đơn/thanh toán | Có bảng hóa đơn, chi tiết, thanh toán | API/UI MH-06, thu nhiều lần, QR và in chứng từ |
 | 10. Khiếu nại/hoàn/đánh giá | Đánh giá đã có; bảng khiếu nại đã có | MH-10a/b, phê duyệt, thực chi, hoàn một phần |
@@ -80,7 +80,7 @@ Nhân viên chăm sóc
   MH-04 Lịch làm việc / Thực hiện dịch vụ   Kế hoạch
 Lễ tân / Quản lý theo quyền
   MH-02b Đặt lịch tại quầy                 Có route/API
-  MH-05 Quản lý lịch / Phân công           Kế hoạch
+  MH-05 Quản lý lịch / Phân công           Có route/API, đã kiểm thử
   MH-06 Hóa đơn / Thanh toán               Kế hoạch
   MH-10a Tiếp nhận khiếu nại               Kế hoạch
   Quản lý khách hàng và thú cưng           Mới có tra cứu tại quầy
@@ -93,7 +93,7 @@ Admin
   MH-08 Tài khoản / Phân quyền             Có API và file UI, chưa nối router
 ```
 
-`/admin`, `/quan-ly`, `/le-tan`, `/nhan-vien` hiện dùng GiuChoVaiTro, không phải giao diện nghiệp vụ hoàn chỉnh. Chỉ trang đặt tại quầy có route nhân sự riêng.
+`/admin`, `/quan-ly`, `/le-tan`, `/nhan-vien` vẫn dùng trang đầu nhân sự; các nhóm tiếp nhận có đường dẫn đến đặt tại quầy và MH-05 `/le-tan/lich-hen`. Trang đầu nhân sự và khung khách hàng có bảng thông báo trong ứng dụng.
 
 ## 4. Mapping route, component và API hiện có
 
@@ -109,9 +109,11 @@ Route dưới đây là phần sau dấu `#` vì frontend dùng HashRouter. Tên
 | Đặt lịch online | /dat-lich | khach-hang/DatLich.jsx | GET /api/dich-vu; GET /api/lich-hen/khung-gio-trong; POST /api/lich-hen |
 | Xem/hủy/đánh giá | /lich-hen | khach-hang/DanhSachLichHen.jsx | GET /api/lich-hen; PATCH /api/lich-hen/:id/huy; POST /api/lich-hen/:id/danh-gia |
 | Đặt tại quầy | /le-tan/dat-lich-tai-quay | le-tan/DatLichTaiQuay.jsx | GET /api/khach-hang/tra-cuu?sdt=...; POST /api/lich-hen/tai-quay |
+| Điều phối MH-05 | /le-tan/lich-hen | le-tan/QuanLyLichHen.jsx | GET /api/lich-hen; GET /:id/nhan-vien-kha-dung; PATCH /:id/xu-ly, /:id/huy |
+| Thông báo ứng dụng | Khung khách/nhân sự, MH-05 | components/ThongBao.jsx | GET /api/thong-bao; PATCH /:id/da-doc |
 | Quản trị tài khoản | Chưa nối router | admin/QuanLyTaiKhoan.jsx | GET/POST /api/admin/tai-khoan; PATCH /:id; POST /:id/khoa, /:id/mo-khoa, /:id/dat-lai-mat-khau |
 
-Các API /ca-lam-viec, /hoa-don, /khieu-nai, /bao-cao và thao tác xác nhận/phân công/tiến độ dưới đây là **đầu việc cần thiết kế**, không phải endpoint đang chạy.
+Các API /ca-lam-viec, /hoa-don, /khieu-nai, /bao-cao và cập nhật tiến độ chăm sóc là **đầu việc cần thiết kế**. Phân công/giữ chờ/từ chối và thông báo đã có endpoint ở bảng trên.
 
 ## 5. Quy trình nghiệp vụ mục tiêu - giữ mã AD/SD của bộ sơ đồ gốc
 
@@ -127,11 +129,11 @@ Các API /ca-lam-viec, /hoa-don, /khieu-nai, /bao-cao và thao tác xác nhận/
 - Lấy khóa phù hợp; kiểm tra công suất và ghi lịch/chi tiết bằng cùng transaction; lưu ChoXacNhan và giá dự kiến chụp từ danh mục.
 - Thông báo là thông báo trong ứng dụng theo phạm vi này; không mặc định đã tích hợp SMS/email.
 
-**Đã sửa/kiểm thử:** bỏ CAPACITY cố định; chỉ tính người chăm sóc và tài khoản đang hoạt động có một ca bao trọn khoảng phục vụ. Kiểm tra khả năng phân bổ cho các lịch chồng nhau (cả lịch chờ và lịch đã gán), không chỉ đếm tại giờ bắt đầu; không tự gán nhân viên khi đặt. Kiểm tra/ghi cùng transaction và khóa theo ngày, tạo khách/thú cưng/chi tiết tại quầy rollback cùng nhau. Ngày/giờ theo Asia/Ho_Chi_Minh. **Còn thiếu:** quy trình bàn giao/bắt đổi mật khẩu tài khoản tạm và thông báo ứng dụng. Không tự gộp ca kề nhau. Thao tác sửa ca/khóa nhân viên sau này phải kiểm tra ảnh hưởng lịch và dùng chung khóa nghiệp vụ; hiện chưa có API sửa ca.
+**Đã sửa/kiểm thử:** bỏ CAPACITY cố định; chỉ tính người chăm sóc và tài khoản đang hoạt động có một ca bao trọn khoảng phục vụ. Kiểm tra khả năng phân bổ cho các lịch chồng nhau (cả lịch chờ và lịch đã gán), không chỉ đếm tại giờ bắt đầu; không tự gán nhân viên khi đặt. Kiểm tra/ghi cùng transaction và khóa theo ngày, tạo khách/thú cưng/chi tiết tại quầy rollback cùng nhau. Ngày/giờ theo Asia/Ho_Chi_Minh. **Còn thiếu:** quy trình bàn giao/bắt đổi mật khẩu tài khoản tạm. Thông báo lịch mới cho bộ phận tiếp nhận đã bổ sung trong giai đoạn 7. Không tự gộp ca kề nhau. Thao tác sửa ca/khóa nhân viên sau này phải kiểm tra ảnh hưởng lịch và dùng chung khóa nghiệp vụ; hiện chưa có API sửa ca.
 
 ### AD-03 / SD-03: Điều phối và phân công
 
-Ba nhánh loại trừ nhau: giữ ChoXacNhan và ghi chú; từ chối chuyển TuChoi kèm lý do; hoặc chọn nhân viên và kiểm tra lại ca/chồng giờ để gán nhân viên + DaXacNhan nguyên tử. Không để phân công chạy sau nhánh từ chối. TuChoi đã có trong SQL migration và ánh xạ nhãn đọc lịch; API từ chối vẫn cần triển khai.
+Ba nhánh loại trừ nhau: giữ ChoXacNhan và ghi chú; từ chối chuyển TuChoi kèm lý do; hoặc chọn nhân viên và kiểm tra lại ca/chồng giờ để gán nhân viên + DaXacNhan nguyên tử. Không để phân công chạy sau nhánh từ chối. TuChoi đã có trong SQL migration và ánh xạ nhãn đọc lịch; API xử lý ba nhánh đã triển khai và kiểm thử. Khi từ chối, lịch không còn giữ chỗ; không chạy phân công sau đó.
 
 Hủy bởi khách/lễ tân theo quyền dùng DaHuy, khác với từ chối lịch mới. Nếu muốn gộp trạng thái sau này phải có quyết định và sửa đồng bộ schema, API, sơ đồ, báo cáo.
 
@@ -190,16 +192,20 @@ Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tín
 ### Giai đoạn 6: Đặt lịch và chống vượt công suất - ĐANG LÀM
 
 - Có: MH-02, MH-02b, danh mục API, tổng thời lượng và giá dự kiến, lưu lịch/chi tiết.
-- Đã kiểm thử: seed ca 8A, công suất khả thi suốt khoảng hẹn, khóa theo ngày/cùng client, transaction toàn bộ tại quầy, quyền, ngày/giờ và test đồng thời. Còn bàn giao tài khoản tạm/bắt đổi mật khẩu, thông báo ứng dụng, kiểm tra UI thực tế trước nghiệm thu trọn giai đoạn.
+- Đã kiểm thử: seed ca 8A, công suất khả thi suốt khoảng hẹn, khóa theo ngày/cùng client, transaction toàn bộ tại quầy, quyền, ngày/giờ và test đồng thời. Còn bàn giao tài khoản tạm/bắt đổi mật khẩu và nghiệm thu UI đặt lịch đầy đủ. Thông báo đã bổ sung trong giai đoạn 7.
 - Công suất phải đúng trên mọi khoảng con của dịch vụ, không chỉ tại giờ bắt đầu. Kiểm tra nhân viên đang hoạt động, chức vụ chăm sóc và ca bao trọn thời lượng; xử lý ca kề nhau theo chính sách đã thống nhất.
 - Nghiệm thu: hai request tranh chỗ cuối có đúng một 201, một 409; lỗi ghi chi tiết không để lịch rỗng; không đặt vào quá khứ; kết thúc <=19:00. Tính ngày/giờ theo múi giờ nghiệp vụ Asia/Ho_Chi_Minh thống nhất, không trộn ngày UTC và giờ local.
 - test-concurrency.js nay gọi bộ HTTP có assertions, tài khoản/mật khẩu và ID fixture riêng, ngày tương lai; chỉ chạy khi TEST_DATABASE_URL chỉ định DB test mới, giữ dữ liệu kiểm thử để kiểm toán. Không DROP/DELETE. HTTP 14/14 đạt; thuật toán ca 14/14 (gồm đối chiếu vét cạn 200 lịch nhỏ).
 
 ### Giai đoạn 7: Quản lý và phân công lịch hẹn
 
-- Có trước: danh sách và hủy phía khách hàng (MH-03).
-- Cần làm: MH-05; API xác nhận/phân công, giữ chờ, từ chối; hủy có lý do theo quyền; thông báo trong ứng dụng.
-- Nghiệm thu: ba nhánh loại trừ; phân công ngoài ca/chồng giờ bị chặn cả khi request đồng thời; từ chối bắt buộc lý do; TuChoi/DaHuy không giữ công suất; lịch đã đổi trạng thái báo xung đột.
+- **Đã nghiệm thu trên test cô lập:** MH-05 có lọc ngày/trạng thái, chi tiết khách/thú cưng/dịch vụ/giờ, nhân viên khả dụng và ba nhánh loại trừ. Liên kết từ trang nhân sự và sau đặt tại quầy; nhãn Từ chối đồng bộ MH-03.
+- API GET /api/lich-hen/:id/nhan-vien-kha-dung; PATCH /:id/xu-ly nhận hanhDong phan-cong/giu-cho/tu-choi, nhanVienId khi phân công, lyDo khi giữ chờ/từ chối. Hủy dùng PATCH /:id/huy; nhân sự phải nhập lý do, khách vẫn hủy lịch của mình bằng request cũ.
+- Phân công dùng khóa theo ngày chung với tạo/hủy lịch, khóa dòng lịch và kiểm tra lại toàn bộ ca/công suất. Nhân viên phải hoạt động, đúng chức vụ, một ca bao trọn lịch; không làm mất khả năng phục vụ lịch chờ khác. Lịch đổi trạng thái trả 409, ngoài quyền trả 403.
+- Giữ chờ chỉ thêm ghi chú, không tự gán người. Từ chối chuyển TuChoi, hủy chuyển DaHuy; chi tiết chưa làm chuyển DaHuy, không xóa lịch sử. Lý do tối đa 300 ký tự; tổng ghi chú 500, vượt giới hạn báo lỗi và rollback, không cắt bỏ ghi chú cũ.
+- Thông báo lịch mới gửi lễ tân/quản lý/Admin; xác nhận gửi khách và người được giao; từ chối gửi khách; hủy gửi khách/người được giao. Thông báo và đổi trạng thái cùng transaction, lỗi rollback cả hai. Chỉ xem/đánh dấu đọc thông báo của mình; UI có tải lại và 50 tin gần nhất.
+- Kiểm thử: 65 backend unit/RBAC đạt (3 nhóm tích hợp bỏ qua khi không cấu hình DB); HTTP giai đoạn 7 **14/14**, hồi quy đặt lịch **14/14**; frontend **11/11**, build **58 modules**. Trình duyệt thực trên DB test: giữ chờ, phân công, lọc/xem lịch xác nhận, hủy, từ chối thiếu/có lý do, khách nhận/đánh dấu đọc thông báo đều đạt.
+- Không đổi kiến trúc hoặc schema, không chạy migration/seed trên database người dùng. Mới đọc metadata DB local xác nhận đủ bảng/column đang dùng. Quản lý ca và chăm sóc tiếp tục ở giai đoạn 8.
 
 ### Giai đoạn 8: Ca làm và chăm sóc
 
@@ -250,8 +256,8 @@ Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tín
 - [x] Dữ liệu/kiểm tra ca 8A phục vụ đặt lịch; thay CAPACITY cố định (chưa có API/UI quản lý ca).
 - [x] Kiểm tra công suất và ghi lịch cùng transaction/khóa theo ngày; HTTP tranh chỗ/rollback đạt.
 - [x] Siết quyền tra khách, đặt tại quầy, xem/hủy lịch theo chức vụ; RBAC/HTTP đạt.
-- [ ] Nghiệm thu trọn giai đoạn 6: test đồng thời đã đạt; còn bàn giao tài khoản tạm, thông báo và UI thực tế.
-- [ ] Triển khai MH-05 và API giai đoạn 7, đồng bộ trạng thái/nhãn/thông báo.
+- [ ] Nghiệm thu trọn giai đoạn 6: test đồng thời đã đạt; còn bàn giao tài khoản tạm và nghiệm thu UI đặt lịch đầy đủ; thông báo đã bổ sung.
+- [x] Triển khai MH-05 và API giai đoạn 7, đồng bộ trạng thái/nhãn/thông báo; HTTP và trình duyệt đã đạt.
 - [ ] Sau đó hoàn thiện 8B -> 9 -> 10 -> 11 -> 12, không đánh dấu hoàn thành chỉ vì có bảng SQL.
 
 ## 9. Tài liệu nguồn và lịch sử cập nhật
@@ -269,3 +275,5 @@ Bản 2.1: hoàn thành công cụ DB phát triển/test; sửa lõi đặt lị
 - Đăng ký bị API từ chối do trùng SĐT nhưng giao diện không hiện lỗi: đã sửa lỗi form chung xuất hiện ngay dưới nút Đăng ký, giữ riêng với lỗi đăng nhập.
 - Validation frontend kiểm tra tất cả trường; không dùng tài khoản mock làm nguồn xác định trùng. Giữ nguyên dữ liệu/API backend.
 - Frontend 11/11 test đạt; build đạt 56 modules. Kiểm tra trình duyệt qua proxy mô phỏng: lỗi trùng SĐT hiện đúng trong tab đăng ký; nhánh thành công chuyển sang đăng nhập kèm thông báo. Proxy không ghi DB; không tạo/sửa tài khoản thật trong kiểm thử này.
+
+Bản 2.2: hoàn thành MH-05/phân công và thông báo với bằng chứng kiểm thử ở nhật ký; giữ các phần chưa làm của giai đoạn 6 và 8 rõ ràng.

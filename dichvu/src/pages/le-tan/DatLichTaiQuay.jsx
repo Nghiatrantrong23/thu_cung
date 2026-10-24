@@ -297,10 +297,10 @@ export default function DatLichTaiQuay() {
           </button>
           <button
             type="button"
-            onClick={() => navigate('/le-tan')}
+            onClick={() => navigate('/le-tan/lich-hen')}
             className="rounded-full border border-slate-300 px-6 py-2.5 text-sm font-bold text-slate-600 hover:border-brand-600 hover:text-brand-700"
           >
-            Về trang Lễ tân
+            Quản lý lịch và phân công
           </button>
         </div>
       </div>

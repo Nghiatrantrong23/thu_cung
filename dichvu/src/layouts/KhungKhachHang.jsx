@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import BieuTuongDauChan from '../components/BieuTuongDauChan.jsx'
 import { useAuth } from '../data/khoXacThuc.jsx'
+import ThongBao from '../components/ThongBao.jsx'
 
 const NAV = [
   { to: '/ho-so-thu-cung', label: 'Hồ sơ thú cưng' },
@@ -91,6 +92,7 @@ export default function CustomerLayout() {
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
+        <ThongBao />
         <Outlet />
       </main>
 

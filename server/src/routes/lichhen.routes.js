@@ -5,7 +5,7 @@ import {
     datLichOnline,
     datLichTaiQuay,
     huyLichHen,
-    danhGiaLichHen,
+    danhGiaLichHen, nhanVienKhaDung, xuLyLichHen,
 } from '../controllers/lichhen.controller.js'
 import {
     authenticate, requireRole, requireReception,
@@ -28,6 +28,9 @@ router.post('/', requireRole('KhachHang'), datLichOnline)
 
 // Le tan dat lich ho khach tai quay
 router.post('/tai-quay', requireReception, datLichTaiQuay)
+
+router.get('/:id/nhan-vien-kha-dung', requireReception, nhanVienKhaDung)
+router.patch('/:id/xu-ly', requireReception, xuLyLichHen)
 
 // Huy lich hen (khach hang huy lich cua minh, le tan/quan ly huy bat ky)
 router.patch('/:id/huy', requireCustomerOrReception, huyLichHen)

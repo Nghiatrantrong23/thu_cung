@@ -41,3 +41,15 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Tách registerAccount để kiểm thử, chặn mọi trường không hợp lệ trước gọi API, loại kiểm tra trùng dựa tài khoản mẫu. Backend/database không thay đổi.
 - `node --test test/*.test.js` tại dichvu: 11/11 đạt (4 test mới: lỗi trùng, validation mọi trường, hợp đồng request/success, lỗi mạng/JSON). Build frontend đạt, 56 modules.
 - Trình duyệt tại proxy local 5180: API mô phỏng 400 hiển thị lỗi dưới nút trong tab Đăng ký; API mô phỏng 201 chuyển Đăng nhập và hiển thị thành công. Không gửi thông tin người dùng, không ghi DB. Screenshot .cache/local-run/register-error-fixed.png là dữ liệu giả, không commit.
+
+## 23/10/2026 - Giai đoạn 7: quản lý lịch và phân công
+
+- MH-05 `/le-tan/lich-hen`: bộ lọc ngày/trạng thái, chi tiết khách/thú cưng/dịch vụ, nhân viên khả dụng, ba nhánh phân công/giữ chờ/từ chối; hủy có lý do cho lịch xác nhận. Nối từ trang nhân sự và sau đặt quầy, thêm nhãn Từ chối cho khách.
+- Khóa ngày cùng namespace đặt lịch, khóa dòng lịch, kiểm tra lại ca/công suất và quyền. Gán người + DaXacNhan + thông báo trong một transaction. Từ chối/hủy không giữ chỗ, không xóa lịch sử; chi tiết chuyển DaHuy. Giữ ghi chú gốc, tổng tối đa 500 ký tự; vượt giới hạn trả lỗi, không cắt nội dung.
+- Thông báo trong ứng dụng: lịch mới tới bộ phận tiếp nhận, xác nhận/từ chối/hủy tới khách và nhân viên liên quan; GET list và PATCH đã đọc chỉ thao tác người nhận hiện tại. UI tải lại, hiển thị 50 tin gần nhất; chưa triển khai realtime/SMS/email.
+- `npm test` backend: **65 đạt, 3 nhóm tích hợp bỏ qua** khi không đặt TEST_DATABASE_URL. Hai route mới được kiểm tra ma trận quyền.
+- `node --test test/dispatch.integration.test.js` với DB mới petcare_test_dispatch_20261023b: **14/14 đạt** gồm tranh phân công cùng nhân viên, phân công/từ chối cùng lịch, ngoài/thiếu ca, chức vụ/tài khoản khóa, bảo toàn khả năng phục vụ lịch chờ khác, giữ chờ, từ chối giải phóng chỗ, hủy lý do/tranh chấp, quyền thông báo và rollback khi ép lỗi thông báo.
+- Hồi quy `node --test test/booking.integration.test.js` với DB mới petcare_test_booking_stage7regression_20261023a: **14/14 đạt**. Frontend `node --test test/*.test.js`: **11/11 đạt**, `npm run build`: **đạt**, 58 modules.
+- Trình duyệt qua proxy 5181 nối backend thật 5001 và DB petcare_test_stage7ui_20261023a trong cụm cô lập cổng 55439: login demo lễ tân -> MH-05 -> giữ chờ có ghi chú -> phân công -> lọc/xem đã xác nhận đúng người -> hủy có lý do; từ chối thiếu lý do bị chặn, có lý do thành công; login khách nhận 3 tin và đánh dấu đọc giảm còn 2. Screenshot `.cache/local-run/stage7-assigned.png` chỉ có dữ liệu demo, không commit.
+- Không đổi SQL/migration, không seed hoặc sửa DB đang dùng; chỉ SELECT metadata local xác nhận ca/thông báo/ngay_cap_nhat tồn tại. Khởi động lại đúng backend local đã bật ở cổng 5000 để nạp code mới. Bản test PostgreSQL giữ dữ liệu kiểm toán; các máy chủ test sẽ dừng sau nghiệm thu.
+- Giai đoạn 7 đạt trên môi trường test. Giai đoạn 8B chưa thực hiện; bàn giao/bắt đổi mật khẩu tài khoản tạm giai đoạn 6 vẫn chưa làm. Việc quản lý ca sau này cần dùng cùng khóa và bảo vệ lịch đã phân công.

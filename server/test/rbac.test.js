@@ -70,6 +70,8 @@ describe('Quyền theo vai trò và chức vụ đã xác thực', () => {
 
 describe('Route lịch hẹn áp dụng kiểm tra quyền trước controller', () => {
     const routePolicies = [
+        ['get', '/:id/nhan-vien-kha-dung', ['reception', 'manager', 'admin']],
+        ['patch', '/:id/xu-ly', ['reception', 'manager', 'admin']],
         ['post', '/', ['customer', 'forgedPosition']],
         ['post', '/tai-quay', ['reception', 'manager', 'admin']],
         ['patch', '/:id/huy', ['customer', 'forgedPosition', 'reception', 'manager', 'admin']],

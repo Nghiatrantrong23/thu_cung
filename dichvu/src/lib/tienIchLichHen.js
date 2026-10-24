@@ -1,6 +1,6 @@
 // Quy tắc nghiệp vụ cho màn hình Danh sách lịch hẹn (MH-03).
 // Vòng đời: Chờ xác nhận -> Đã xác nhận -> Đang thực hiện -> Hoàn thành, hoặc Đã hủy.
-export const STATUSES = ['Chờ xác nhận', 'Đã xác nhận', 'Đang thực hiện', 'Hoàn thành', 'Đã hủy']
+export const STATUSES = ['Chờ xác nhận', 'Đã xác nhận', 'Đang thực hiện', 'Hoàn thành', 'Đã hủy', 'Từ chối']
 
 // Hủy lịch chỉ áp dụng cho lịch "Chờ xác nhận" hoặc "Đã xác nhận".
 export function canCancel(b) {
