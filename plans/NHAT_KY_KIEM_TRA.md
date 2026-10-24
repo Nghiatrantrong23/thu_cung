@@ -16,4 +16,11 @@
 
 ## Quy tắc ghi tiếp
 
+## 23/10/2026 - Giai đoạn 2: migration và seed
+
+- Chỉ dùng cụm PostgreSQL 17 mới trong .cache/petcare-test-db, loopback cổng 55439; không kết nối/chỉnh database của dịch vụ PostgreSQL hiện có. Database test giữ lại, không DROP/DELETE.
+- Hoàn thiện db:init/migrate/seed/setup; reset từ chối. Đích local dev/test phải được chỉ định rõ, không đọc .env. Migration có checksum, lịch sử, transaction và advisory lock; seed không ghi đè dữ liệu demo cũ.
+- `node --test test/db-tooling.integration.test.js test/db-tooling.test.js` từ server với TEST_DATABASE_URL trỏ petcare_test_tooling_20261023c: **18/18 đạt**. Kiểm tra 15 bảng nghiệp vụ + bảng lịch sử, ràng buộc, migration lặp/checksum/lỗi rollback, seed idempotent, CLI và hai runner đồng thời.
+- Không suy ra database đang vận hành đã được nâng cấp. DB cũ thiếu lịch sử cần rà soát/baseline riêng; không tự áp SQL gốc. Không ghi mật khẩu demo vào source hoặc nhật ký.
+
 Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phần chưa đạt và rủi ro cần xử lý. Mã commit/link remote được báo sau push; không sửa commit vừa tạo chỉ để nhúng SHA của chính commit đó.

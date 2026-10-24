@@ -354,15 +354,15 @@ Thiết kế chính xác cột/bảng mới và migration phải được thực
 
 ## 8. Khởi tạo và dữ liệu mẫu
 
-Hiện `npm run db:init` chạy server/scripts/init-db.js: kết nối bằng DB_* từ server/.env, tạo DB nếu chưa có, đọc schema gốc rồi migration, seed tài khoản và dịch vụ khi bảng người dùng trống. Script chưa dùng DATABASE_URL như cấu hình kết nối runtime, nên môi trường hosted cần quy trình riêng.
+Ngày 23/10/2026 đã thay công cụ khởi tạo bằng runner version/checksum SHA-256 và transaction/advisory lock. `db:init` tạo DB mới và migrate; `db:migrate` áp phần còn thiếu; `db:seed` thêm demo; `db:setup` khởi tạo rồi seed. `db:reset` luôn từ chối, không kết nối và không xóa dữ liệu. Hướng dẫn đầy đủ tại [server/scripts/README.md](../server/scripts/README.md).
 
-Script bắt lỗi schema/migration rồi tiếp tục, không đủ bằng chứng khởi tạo thành công; cần sửa xử lý lỗi trước dùng làm quy trình triển khai. Schema gốc không idempotent; chỉ dùng với DB mới theo quy trình kiểm soát. Không dùng db:setup/db:migrate/db:seed/db:reset hiện tại vì script tham chiếu chưa tồn tại.
+Runner không tự đọc .env. Chỉ chấp nhận NODE_ENV development/test, DATABASE_URL hoặc DB_* tới loopback với tên dev/test, và PETCARE_ALLOW_DB_WRITE khớp tên DB. Bảng kỹ thuật `petcare_schema_migrations` ngoài 15 bảng nghiệp vụ lưu phiên bản/checksum. Lỗi rollback và dừng; SQL đã chạy không được sửa. DB cũ có bảng nhưng thiếu lịch sử bị từ chối, cần baseline riêng sau rà soát; không tự áp schema gốc lên dữ liệu cũ.
 
-init-db khai báo 6 tài khoản: admin, quanly01, letan01, nhanvien01, nguyenan và khachkhoa (bị khóa); không phải 7 tài khoản như tài liệu cũ. Có 3 dịch vụ tắm sấy/cắt tỉa/spa; chưa seed đầy đủ thú cưng và ca mẫu. Không ghi mật khẩu trong tài liệu; không xuất .env hoặc hash tài khoản thật. Seed demo chỉ chạy trên DB test, kiểm tra đầy đủ FK và tránh phụ thuộc ID/ngày cố định.
+Seed mới gồm 7 tài khoản tiền tố demo_ thuộc 5 nhóm quyền, 2 thú cưng, 3 dịch vụ và 14 ca cho 2 người chăm sóc trong 7 ngày theo Asia/Ho_Chi_Minh. Mật khẩu demo bắt buộc nhập qua môi trường, không in/ghi vào source; chạy lại không đổi mật khẩu/hồ sơ. FK dùng ID thực tế, không seed lịch hẹn cố định. 18 kiểm thử unit/PostgreSQL cô lập đạt, gồm khởi tạo, ràng buộc, migration/seed lặp, rollback lỗi và migrate đồng thời. Chưa áp dụng lên database đang vận hành.
 
 ## 9. Checklist nghiệm thu dữ liệu
 
-- [ ] Tạo DB mới đủ 15 bảng theo thứ tự schema -> migration, không bỏ qua lỗi.
+- [x] Tạo DB mới đủ 15 bảng theo thứ tự schema -> migration, không bỏ qua lỗi (PostgreSQL 17 cô lập, 23/10/2026).
 - [ ] Test trùng username/email/SĐT; email NULL; vai trò và chức vụ hợp lệ.
 - [ ] Test FK, cân nặng, thời lượng, giá, số lượng và số sao.
 - [ ] Test lịch cùng nhân viên chồng giờ bị chặn 23P01; hai lịch kề nhau hợp lệ.
@@ -373,7 +373,7 @@ init-db khai báo 6 tài khoản: admin, quanly01, letan01, nhanvien01, nguyenan
 - [ ] Test báo cáo theo ngày giao dịch, không cộng trùng và không tính giao dịch thất bại.
 - [ ] Test backup/restore; không kèm thông tin bí mật trong bộ tài liệu hoặc Git.
 
-Các checkbox là kế hoạch nghiệm thu, chưa được chạy trong lần cập nhật này.
+Chỉ checkbox đã kiểm chứng đầy đủ mới được đánh dấu. Các mục còn lại bao gồm kiểm thử nghiệp vụ ở giai đoạn sau, không suy ra hoàn thành từ việc CHECK/FK đã tồn tại.
 
 ## 10. Nguồn đối chiếu
 

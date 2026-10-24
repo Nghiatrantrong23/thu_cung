@@ -11,7 +11,8 @@
         "db:migrate": "node scripts/migrate.js",
         "db:seed": "node scripts/seed.js",
         "db:reset": "node scripts/reset-db.js",
-        "db:setup": "npm run db:init && npm run db:migrate && npm run db:seed"
+        "db:setup": "node scripts/init-db.js --seed",
+        "test": "node --test test/*.test.js"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",

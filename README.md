@@ -10,7 +10,7 @@ Website React/Vite/Tailwind, backend Node.js/Express và PostgreSQL.
 
 Node.js >=20, npm và PostgreSQL có btree_gist. Cài dependencies riêng trong dichvu/ và server/ bằng npm ci. Tạo cấu hình server/.env từ server/.env.example với thông tin riêng của bạn; không commit file .env.
 
-Trên database mới dành cho phát triển, đọc lưu ý trong kế hoạch trước khi chạy npm run db:init từ server/. Script này có thể tạo database và ghi dữ liệu mẫu; chưa dùng làm quy trình migration an toàn cho dữ liệu thật.
+Khởi tạo database phát triển riêng theo [hướng dẫn công cụ DB](server/scripts/README.md). Các lệnh DB không tự đọc .env: cần khai báo rõ mục tiêu local dev/test và PETCARE_ALLOW_DB_WRITE khớp tên database. `db:init` tạo schema/migrate, `db:setup` thêm seed demo với mật khẩu nhập riêng. `db:reset` luôn từ chối. Database cũ chưa có lịch sử migration cần rà soát riêng.
 
 Chạy npm run dev trong server/ và dichvu/ ở hai terminal. Backend mặc định cổng 5000; frontend cổng 5173 và proxy /api. Đăng nhập tại http://localhost:5173/#/dang-nhap. Frontend build bằng npm run build trong dichvu/.
 

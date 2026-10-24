@@ -1,8 +1,8 @@
 # KẾ HOẠCH TỔNG THỂ PHÁT TRIỂN HỆ THỐNG PETCARE
 
-> Phiên bản 2.0 - rà soát ngày 23/10/2026.
+> Phiên bản 2.1 - triển khai và kiểm thử ngày 23/10/2026.
 > Phạm vi: bản mã nguồn tại `D:/dich_vu_thu_cung`, SQL và migration trong dự án.
-> Nội dung phiên bản 2.0 cập nhật tài liệu, không sửa mã ứng dụng hoặc database. Việc thiết lập Git và lưu repo sau đó theo yêu cầu người dùng được ghi riêng trong NHAT_KY_KIEM_TRA.md.
+> Phiên bản 2.0 là mốc rà soát chỉ đọc. Phiên bản 2.1 ghi nhận code và kiểm thử trên PostgreSQL cô lập; không áp dụng lên database đang vận hành. Chi tiết tại NHAT_KY_KIEM_TRA.md.
 
 ## 0. Tiến độ hiện tại và cách đọc
 
@@ -19,7 +19,7 @@ Quy ước:
 | Giai đoạn | Trạng thái qua rà soát mã nguồn | Phần còn thiếu chính |
 | --- | --- | --- |
 | 1. Môi trường | Có cấu hình, lockfile; frontend build thành công khi chuẩn bị bản lưu Git | Xác nhận kết nối PostgreSQL và extension trên DB thực tế |
-| 2. Database và seed | Có 15 bảng trong SQL sau migration, có db:init | Hoàn thiện migration chạy có kiểm soát, seed đủ hồ sơ/ca và kiểm thử ràng buộc |
+| 2. Database và seed | **Đạt trên DB phát triển/test cô lập: 18 kiểm thử** | DB cũ chưa có lịch sử cần rà soát/baseline riêng trước khi áp dụng |
 | 3. Khung backend | Có Express, pg Pool, withTransaction và handler lỗi | Chuẩn hóa mã lỗi DB/validation, tách lớp truy cập dữ liệu khi cần |
 | 4. Xác thực/RBAC | Có đăng ký, đăng nhập, JWT, refresh API, hồ sơ, đổi mật khẩu | Phân quyền theo chức vụ phía server, tự refresh frontend, tài khoản tạm |
 | 5. Thú cưng/tra khách | Có giao diện/API hồ sơ và tra khách theo SĐT | Rà quyền tra cứu, kiểm thử sở hữu và trạng thái |
@@ -163,11 +163,11 @@ Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tín
 
 ### Giai đoạn 2: Đồng bộ 15 bảng và dữ liệu mẫu
 
-- Có: thu_cung.sql + migrations/001_schema_improvements.sql; server/scripts/init-db.js tự đọc cả hai SQL.
-- Cần làm: version hóa migration đáng tin cậy; không bỏ qua lỗi rồi báo thành công; seed đủ 5 nhóm người dùng, thú cưng và ca có thể demo.
-- init-db hiện khai báo 6 tài khoản và 3 dịch vụ, không phải 7 tài khoản; không seed đủ thú cưng/ca. Seed lịch riêng đang dùng ID và ngày cố định, cần tránh phụ thuộc dữ liệu không tồn tại.
-- db:migrate, db:seed, db:reset và db:setup đang trỏ tới script chưa tồn tại. Không dùng làm hướng dẫn chuẩn cho đến khi sửa.
-- Nghiệm thu: tạo DB mới đủ 15 bảng, test PK/FK/CHECK/UNIQUE/EXCLUDE; không chạy schema gốc lặp trên dữ liệu thật; lưu log kết quả.
+- **Đã nghiệm thu trên PostgreSQL 17 cô lập:** 18/18 kiểm thử unit/tích hợp đạt; đủ 15 bảng nghiệp vụ và bảng kỹ thuật petcare_schema_migrations, PK/FK/CHECK/UNIQUE/EXCLUDE, ca/lịch chồng và lịch kề nhau.
+- db:init/db:migrate/db:seed/db:setup đã có script thật. Migration theo phiên bản/checksum SHA-256, cùng transaction và advisory lock; lỗi rollback, không bỏ qua hoặc áp lại SQL đã chạy.
+- Seed idempotent gồm 7 tài khoản thuộc 5 nhóm quyền (2 người chăm sóc, 1 khách bị khóa), 2 thú cưng, 3 dịch vụ và 14 ca trong 7 ngày theo giờ Việt Nam. Không phụ thuộc ID/ngày cố định; không ghi đè mật khẩu/hồ sơ.
+- Công cụ không đọc .env; yêu cầu NODE_ENV development/test, đích loopback dev/test và PETCARE_ALLOW_DB_WRITE khớp tên database. Mật khẩu demo nhập riêng qua môi trường. db:reset luôn từ chối và không kết nối DB.
+- Hướng dẫn: [server/scripts/README.md](../server/scripts/README.md). DB cũ có bảng nhưng thiếu lịch sử bị từ chối để baseline riêng; không tự sửa database đang dùng.
 
 ### Giai đoạn 3: Khung backend và lỗi tập trung
 
@@ -246,7 +246,7 @@ Giữ nguyên số giai đoạn của bản cũ. Phần ca làm phục vụ tín
 
 ## 8. Danh sách ưu tiên ngay sau lần rà soát
 
-- [ ] Sửa các lệnh DB trỏ tới script thiếu; chuẩn hóa quy trình migration/seed và log lỗi.
+- [x] Sửa các lệnh DB trỏ tới script thiếu; chuẩn hóa migration/seed và log lỗi (18 kiểm thử đạt trên DB cô lập).
 - [ ] Hoàn thiện dữ liệu/kiểm tra ca 8A; thay CAPACITY cố định.
 - [ ] Gộp kiểm tra công suất và ghi lịch vào transaction có khóa theo tài nguyên/ngày phù hợp.
 - [ ] Siết quyền tra khách, đặt tại quầy, xem/hủy lịch theo chức vụ.
