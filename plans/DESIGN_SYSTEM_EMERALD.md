@@ -130,3 +130,9 @@ Sau mỗi đợt dùng template: (1)trước/sau; (2)file; (3)UI→API; (4)PASS/
 Giữ test ngàyVN, solver/overlap200cases, booking/dispatch14, care6, billing8, refund8, report-admin7, auth10, tooling8 vàjourney8 hiện có. Mỗi HTTPfile DB test mới, không seed/ghi DB người dùng. Frontend hiện14test, chưa có lintscript trong2package và chưa có harness testReactcomponent/browser tự động; ghi thiếu thật, không tạo snapshot mô phỏng rồi báo E2E.
 
 Trong1b thống nhất lint/harness phù hợp repo; không bật rule đại trà gây chỉnh mọi file ngoài phạm vi. Nếu thêm dependency phải giữ stack/lockfile và chứng minh nhu cầu. Test mới tập trung hành vi: transitions wizard/error/retry, ownership và read-only billing, statefilters, modal focus, role navigation. Build không chứng minh responsive hoặc chống vượt quyền.
+
+## 9. Triển khai nền tảng 1b đã kiểm — 24/10/2026
+
+Đã có StaffLayout (children, giữ guards), Button/FormField/Modal+Drawer/Confirm adapter/Feedback/Toast/StatusBadge, tokens/focus/reduced-motion, menu role, home thẻ công việc và lab chỉ development. Modal bổ sung vòng focus tường minh sau khi browser QA phát hiện Tab có thể thoát biên. Button primary nềnTeal700 cho chữ nhỏ. Lint correctness và frontend20test/build77modules đạt; shell/home/component375/768/1440 đạt, đủ5nhóm đăng nhập trênDBtest. Xem [báo cáo](BAO_CAO_UI_DOT_1.md).
+
+PetCard, HealthAlert, MetricCard, DataTable/filter, BillingSummary và Calendar là phần áp dụng theo đợt2–5; chưa có dashboard KPI hoặc kết nối API mới chỉ từ đợt1. Nội dung Admin tối giữ nguyên đếnđợt5. Mọi dòng “dự kiến” trong hợp đồng phải đối chiếu báo cáo, không coi tất cảcomponent của6đợt đã hoàn thành.

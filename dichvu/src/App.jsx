@@ -1,3 +1,5 @@
+import StaffLayout from './layouts/StaffLayout.jsx'
+import {lazy,Suspense} from 'react'
 import BaoCao from './pages/quan-ly/BaoCao.jsx'
 import DichVu from './pages/quan-ly/DichVu.jsx'
 import QuanLyTaiKhoan from './pages/admin/QuanLyTaiKhoan.jsx'
@@ -21,10 +23,12 @@ import DatLichTaiQuay from './pages/le-tan/DatLichTaiQuay.jsx'
 import DangPhatTrien from './pages/DangPhatTrien.jsx'
 import QuanLyLichHen from './pages/le-tan/QuanLyLichHen.jsx'
 import DoiMatKhauTam from './pages/DoiMatKhauTam.jsx'
+const ComponentLab=import.meta.env.DEV?lazy(()=>import('./pages/ComponentLab.jsx')):null
 
 export default function App() {
   return (
     <Routes>
+      {import.meta.env.DEV&&<Route path="__ui" element={<Suspense fallback={<p>Đang tải mẫu giao diện…</p>}><ComponentLab/></Suspense>}/>}
       {/* Công khai */}
       <Route path="dang-nhap" element={<DangNhap />} />
       <Route path="doi-mat-khau" element={<DoiMatKhauTam />} />
@@ -49,30 +53,30 @@ export default function App() {
       </Route>
 
       {/* Lễ tân / Quản lý / Admin đặt lịch tại quầy (MH-02b) */}
-      <Route path="le-tan/lich-hen" element={<KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><QuanLyLichHen /></KiemTraQuyen>} />
+      <Route path="le-tan/lich-hen" element={<KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><StaffLayout><QuanLyLichHen /></StaffLayout></KiemTraQuyen>} />
       <Route
         path="le-tan/dat-lich-tai-quay"
         element={
-          <KiemTraQuyen roleKey={['reception', 'manager', 'admin']}>
-            <div className="min-h-screen bg-slate-50 py-8 px-4">
+          <KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><StaffLayout>
+            <div className="bg-slate-50 py-8 px-4">
               <DatLichTaiQuay />
             </div>
-          </KiemTraQuyen>
+          </StaffLayout></KiemTraQuyen>
         }
       />
 
-      <Route path="nhan-vien/lich-lam-viec" element={<KiemTraQuyen roleKey="care"><ChamSoc/></KiemTraQuyen>}/>
-      <Route path="quan-ly/ca-lam-viec" element={<KiemTraQuyen roleKey={['manager','admin']}><CaLamViec/></KiemTraQuyen>}/>
+      <Route path="nhan-vien/lich-lam-viec" element={<KiemTraQuyen roleKey="care"><StaffLayout><ChamSoc/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="quan-ly/ca-lam-viec" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><CaLamViec/></StaffLayout></KiemTraQuyen>}/>
 
-      <Route path="le-tan/hoa-don" element={<KiemTraQuyen roleKey={['reception','manager','admin']}><HoaDon/></KiemTraQuyen>}/>
+      <Route path="le-tan/hoa-don" element={<KiemTraQuyen roleKey={['reception','manager','admin']}><StaffLayout><HoaDon/></StaffLayout></KiemTraQuyen>}/>
       <Route path="le-tan/hoa-don/:id/in" element={<KiemTraQuyen roleKey={['customer','reception','manager','admin']}><InHoaDon/></KiemTraQuyen>}/>
 
-      <Route path="le-tan/khieu-nai" element={<KiemTraQuyen roleKey={['reception','manager','admin']}><KhieuNai/></KiemTraQuyen>}/>
+      <Route path="le-tan/khieu-nai" element={<KiemTraQuyen roleKey={['reception','manager','admin']}><StaffLayout><KhieuNai/></StaffLayout></KiemTraQuyen>}/>
       <Route path="le-tan/khieu-nai/:id/in" element={<KiemTraQuyen roleKey={['customer','reception','manager','admin']}><InHoanTien/></KiemTraQuyen>}/>
 
-      <Route path="quan-ly/bao-cao" element={<KiemTraQuyen roleKey={['manager','admin']}><BaoCao/></KiemTraQuyen>}/>
-      <Route path="quan-ly/dich-vu" element={<KiemTraQuyen roleKey={['manager','admin']}><DichVu/></KiemTraQuyen>}/>
-      <Route path="admin/tai-khoan" element={<KiemTraQuyen roleKey="admin"><QuanLyTaiKhoan/></KiemTraQuyen>}/>
+      <Route path="quan-ly/bao-cao" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><BaoCao/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="quan-ly/dich-vu" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><DichVu/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="admin/tai-khoan" element={<KiemTraQuyen roleKey="admin"><StaffLayout><QuanLyTaiKhoan/></StaffLayout></KiemTraQuyen>}/>
 
       {/* Nhân sự: giữ chỗ, sẽ làm các giao diện riêng sau */}
       {[
@@ -85,9 +89,9 @@ export default function App() {
           key={path}
           path={path}
           element={
-            <KiemTraQuyen roleKey={key}>
+            <KiemTraQuyen roleKey={key}><StaffLayout>
               <GiuChoVaiTro />
-            </KiemTraQuyen>
+            </StaffLayout></KiemTraQuyen>
           }
         />
       ))}

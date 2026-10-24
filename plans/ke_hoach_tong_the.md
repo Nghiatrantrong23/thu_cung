@@ -167,7 +167,7 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 
 | Đợt nâng cấp | Phạm vi | Trạng thái |
 | --- | --- | --- |
-| 1 | Kiểm kê5vai trò và DS dùng chung | Đã xuất ma trận và đặc tả trước code; components/layout DS chưa triển khai |
+| 1 | Kiểm kê5vai trò và DS dùng chung | Hoàn thành nền tảng 1a/1b: StaffLayout, primitives, lint/test/build, keyboard và 3viewport; xem BAO_CAO_UI_DOT_1.md |
 | 2 | Khách: dashboard, Pet Cards, wizard, hóa đơn/KN, menu | Chưa triển khai nâng cấp |
 | 3 | Chăm sóc: hôm nay, timeline/progress/notes, profile | Chưa triển khai nâng cấp |
 | 4 | Lễ tân: dashboard/calendar/filter/POS | Chưa triển khai nâng cấp |
@@ -177,3 +177,5 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14PASS/build72modules. Lint chưa có script/config; UI mới/responsive chưa có để nghiệm thu, không báo PASS. Không thay runtime code/DB trong phần kiểm kê. Các kết quả cũ giữ rõ là mốc trước, không cộng trùng.
 
 Đã chốt với người dùng: bổ sung luồng khách tự gửi khiếu nại trên lịch sở hữu; không thay quyền endpoint tiếp nhận cũ, không cấp duyệt/chi cho khách. DS không tự phân loại bệnh từ ghi chú TEXT, không tính KPI tổng từ listLIMIT200 hoặc unread50tin. Bỏ fallback dịch vụ mock khi nâng cấp2/4. Ca local vẫn do người dùng tự xếp; không thêm tự động. OTP/email/cổng thanh toán/WebSocket P2 giữ để sau.
+
+Nghiệm thu 1b ngày24/10: frontend lint PASS,20/20test,build77modules; backend67PASS/9SKIP. Browser 5nhóm login/menu và guard trên DB test riêng đạt, modal Tab/ShiftTab/Escape/busy/restore focus đạt sau sửa; shell/home/component 375/768/1440 không tràn ngang. Chưa nghiệm thu mọi màn hình cũ hoặc toàn hành trình mới; các dashboard KPI và Admin light nội dung còn đợt3–5. Chi tiết và danh sách file/API: [Báo cáo đợt1](BAO_CAO_UI_DOT_1.md). Tiếp theo: đợt2 khách hàng, bao gồm endpoint khiếu nại sở hữu đã được người dùng chấp thuận.

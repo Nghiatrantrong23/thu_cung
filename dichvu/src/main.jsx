@@ -6,6 +6,7 @@ import App from './App.jsx'
 import { AuthProvider } from './data/khoXacThuc.jsx'
 import { PetProvider } from './data/khoThuCung.jsx'
 import { BookingProvider } from './data/khoLichHen.jsx'
+import {ToastProvider} from './components/ui/Toast.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,7 +14,7 @@ createRoot(document.getElementById('root')).render(
       <AuthProvider>
         <PetProvider>
           <BookingProvider>
-            <App />
+            <ToastProvider><App /></ToastProvider>
           </BookingProvider>
         </PetProvider>
       </AuthProvider>

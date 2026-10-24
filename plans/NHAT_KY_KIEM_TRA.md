@@ -116,3 +116,12 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Người dùng đã chọn thêm luồng khách tự gửi khiếu nại chỉ lịch sở hữu. Đặc tả endpoint riêng, giữ POSTtiếpnhận cũ và quyền duyệtQ/A/chiT/Q/A; chưa viết endpoint và không ghi giả đó là nhân viên đã tiếp nhận.
 - Baseline chạy mới: backend npmtest67PASS/9skip; frontend14/14PASS/build72modules. Lint BLOCKED vì chưa có script/config. Responsive/UI mới chưa nghiệm thu vì mới phần audit/design; không sử dụng kết quảQA cũ để gọi UI mớiPASS.
 - Trước/sau: hiện trạng và đích ghi trong DS; danh sách file chỉ4tài liệu mới/sửa; nguồn UI→API ghi từng dòng ma trận; responsive375/768/1440 là tiêu chí cần kiểm khi code1b, chưa là kết quả. Git nhánh codex/nang-cap-ui-dot-1, không main.
+
+## 24/10/2026 — Emerald 1b: shell và components dùng chung
+
+- Nhánh `codex/emerald-dot-1-components`, tiếp nối audit; thêm StaffLayout/sidebar/header/drawer/menu theo role, home thẻ công việc, tokens/focus, Button/Field/Modal/feedback/toast/badge; giữ guard và bản in riêng. Bỏ thông báo trùng ở care/dispatch. Không đổi API/DB nghiệp vụ.
+- Thêm ESLint correctness (không React hooks/a11y plugin), npm lint/test và6nhóm menu/status; tổng frontend20/20PASS, lintPASS,build77modules. Labdevelopment-only không nằm trong outputproduction. Backend67PASS/9SKIP; không gọi các HTTPskip là PASS.
+- Browser QA phát hiện Tab từ nút cuối modal đưa focus ra ngoài; bổ sung vòng Tab/ShiftTab, kiểm lại đạt; Escape/busy/restorefocus/scroll đạt. FieldARIA và toast đóng đạt.
+- Dùng DBtestmới `petcare_test_emerald_20261024b`, API5001/Vite5181, login/menu đủ5nhóm; care/lễtân→Admin vàkhách→nhânsự bị chuyển đúng, đọc carelịch/ca, invoiceempty vàAdminaccount đạt. ProxyQA ban đầu trắng/không kết nối đã sửa trước test đạt; không đổi server/dữ liệu thật.
+- Responsive shell/home/component375×812,768×1024,1440×900 đạt; ảnh local `.cache/local-run/emerald-*.png`. Không kết luận mọi trang cũ hoặc businessworkflow mới đã nghiệm thu; chưa làm KPI hoặcAdminlightnội dung.
+- Báo cáo5phần: `BAO_CAO_UI_DOT_1.md`; kế hoạch/ma trận/DS cập nhật phân biệt audit1a và triển khai1b. Tiếp theo đợt2 khách, endpointtựgửi khiếunại sởhữu theo lựa chọnđãchốt. Không pushmain/forcepush.

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { toISODate } from '../../lib/tinhGioTrong.js'
-import ThongBao from '../../components/ThongBao.jsx'
+
 import NhatKyLich from '../../components/NhatKyLich.jsx'
 import HuyHieuTrangThai from '../../components/HuyHieuTrangThai.jsx'
 const input='w-full rounded-lg border border-slate-300 bg-white p-2'
@@ -30,7 +30,7 @@ export default function ChamSoc() {
     if(result.ok){setMessage(result.data.message);setVersion(v=>v+1)}else {setError(result.error);if(result.status===409)setVersion(v=>v+1)}
   }
   return <main className="mx-auto max-w-5xl p-5">
-    <Link to="/nhan-vien" className="font-bold text-brand-700">← Trang nhân viên</Link><h1 className="my-4 text-2xl font-extrabold">Lịch làm việc và chăm sóc thú cưng</h1><ThongBao/>
+    <Link to="/nhan-vien" className="font-bold text-brand-700">← Trang nhân viên</Link><h1 className="my-4 text-2xl font-extrabold">Lịch làm việc và chăm sóc thú cưng</h1>
     <label className="block max-w-xs font-bold">Ngày làm việc<input aria-label="Ngày làm việc" type="date" value={day} disabled={busy} onChange={e=>{setSelected(null);setNote('');setDay(e.target.value)}} className={input}/></label>
     <p className="my-3 text-sm text-slate-600">Ca của bạn: {shifts.map(row=>`${row.start}–${row.end}`).join(', ')||'Không có ca'}</p>
     <button className={btn} disabled={busy||loading} onClick={()=>setVersion(v=>v+1)}>Tải lại</button>

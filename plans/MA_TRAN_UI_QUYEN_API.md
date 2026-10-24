@@ -103,3 +103,7 @@ Các kết quả tích hợp83PASS và QA trước đây được giữ trong nh
 Đầu ra: ma trận này, [đặc tả Design System](DESIGN_SYSTEM_EMERALD.md), cập nhật roadmap trong kế hoạch chuẩn. Đã hoàn tất **kiểm kê và thiết kế trước code** của đợt1. Phần triển khai components DS của đợt1 chưa làm và chưa đánh dấu hoàn thành; phải build/QA sandbox/keyboard/responsive trước khi chuyển2.
 
 Sau mỗi đợt báo cáo trước/sau, file, API thực, PASS/FAIL/BLOCKED và responsive riêng. Commit/push nhánh riêng có SHA xác nhận; chỉ merge main khi người dùng yêu cầu.
+
+## 9. Cập nhật sau triển khai 1b — 24/10/2026
+
+Các mô tả “chưa có StaffLayout/components/lint” phía trên là mốc audit1a. Hiện đã triển khai shell nhân sự, primitives/feedback, component lab development-only, lint và6nhóm test mới. Kết quả frontend20PASS/build77modules/lintPASS, backend67PASS/9SKIP; keyboard/modal và shell/component3viewport đạt. [Báo cáo nghiệm thu1b](BAO_CAO_UI_DOT_1.md) nêu phạm vi cụ thể. API/quyền/schema không đổi; dashboard KPI, nội dung Admin sáng, phân hệ khách mới và endpoint khách nộp khiếu nại chưa triển khai.

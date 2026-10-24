@@ -5,7 +5,7 @@ import { useAuth } from '../../data/khoXacThuc.jsx'
 import { homePath } from '../../lib/tienIchXacThuc.js'
 import { toISODate, formatDateVN, formatVND } from '../../lib/tinhGioTrong.js'
 import HuyHieuTrangThai from '../../components/HuyHieuTrangThai.jsx'
-import ThongBao from '../../components/ThongBao.jsx'
+
 
 const states = { ChoXacNhan: 'Chờ xác nhận', DaXacNhan: 'Đã xác nhận', DangThucHien: 'Đang thực hiện', HoanThanh: 'Hoàn thành', DaHuy: 'Đã hủy', TuChoi: 'Từ chối' }
 const input = 'w-full rounded-lg border border-slate-300 bg-white px-3 py-2'
@@ -75,7 +75,7 @@ export default function QuanLyLichHen() {
       <Link to={homePath(user)}>Trang nhân sự</Link><Link to="/le-tan/dat-lich-tai-quay">+ Đặt lịch hộ khách</Link>
     </nav>
     <h1 className="text-2xl font-extrabold text-slate-800">Quản lý lịch hẹn và phân công</h1>
-    <ThongBao />
+
     <div className="my-5 flex flex-wrap items-end gap-4 rounded-xl bg-white p-4 shadow-sm">
       <label>Ngày hẹn<input aria-label="Ngày hẹn" type="date" value={day} disabled={busy} onChange={e => setDay(e.target.value)} className={input} /></label>
       <label>Trạng thái<select aria-label="Trạng thái" value={status} disabled={busy} onChange={e => setStatus(e.target.value)} className={input}>
