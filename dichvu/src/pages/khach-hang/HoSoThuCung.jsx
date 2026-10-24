@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import PetIllustration from '../../components/PetIllustration.jsx'
+import './HoSoThuCung.css'
 import { usePets } from '../../data/khoThuCung.jsx'
 import { formatDateVN, toISODate } from '../../lib/tinhGioTrong.js'
 import {
@@ -133,51 +135,44 @@ export default function PetsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl">Hồ sơ thú cưng của tôi</h1>
-        <button type="button" onClick={startAdd} className={btnGhost}>+ Thêm thú cưng mới</button>
+    <div className="pet-profiles">
+      <div className="pet-profiles__heading">
+        <div>
+          <h1>Hồ sơ thú cưng</h1>
+          <p>Lưu thông tin sức khỏe và thói quen của từng bé để nhân viên chăm sóc đúng cách.</p>
+        </div>
+        <button type="button" onClick={startAdd} className="pet-profiles__add">+ Thêm thú cưng</button>
       </div>
 
-      <div className="mt-5 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <table className="w-full min-w-[680px] text-sm">
-          <thead className="bg-brand-50 text-left text-slate-600">
-            <tr>
-              <th className="px-4 py-3 font-bold">Tên</th>
-              <th className="px-4 py-3 font-bold">Loài</th>
-              <th className="px-4 py-3 font-bold">Giống</th>
-              <th className="px-4 py-3 font-bold">Giới tính</th>
-              <th className="px-4 py-3 font-bold">Ngày sinh</th>
-              <th className="px-4 py-3 text-right font-bold">Cân nặng (kg)</th>
-              <th className="px-4 py-3 font-bold">Trạng thái</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {pets.length === 0 && (
-              <tr><td colSpan={7} className="px-4 py-10 text-center text-slate-500">Bạn chưa có thú cưng nào. Hãy điền form bên dưới để thêm bé đầu tiên.</td></tr>
-            )}
-            {pets.map((p) => {
-              const isActive = mode === 'edit' && p.id === selectedId
-              return (
-                <tr key={p.id} onClick={() => selectPet(p)} aria-selected={isActive}
-                  className={`cursor-pointer transition ${isActive ? 'bg-brand-50' : 'hover:bg-slate-50'} ${p.active ? '' : 'text-slate-400'}`}>
-                  <td className="px-4 py-3">
-                    <button type="button" onClick={(e) => { e.stopPropagation(); selectPet(p) }}
-                      className={`font-extrabold underline-offset-2 hover:underline ${p.active ? 'text-brand-700' : 'text-slate-500'}`}>
-                      {p.name}
-                    </button>
-                  </td>
-                  <td className="px-4 py-3">{p.species}</td>
-                  <td className="px-4 py-3">{p.breed || '-'}</td>
-                  <td className="px-4 py-3">{p.gender || '-'}</td>
-                  <td className="whitespace-nowrap px-4 py-3 tabular-nums">{p.birthDate ? formatDateVN(p.birthDate) : '-'}</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{p.weightKg != null ? formatWeight(p.weightKg) : '-'}</td>
-                  <td className="px-4 py-3"><StatusBadge status={p.active ? 'Đang theo dõi' : 'Ngừng theo dõi'} /></td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+      <dl className="pet-profiles__summary">
+        <div><dt>Tổng số thú cưng</dt><dd>{pets.length}</dd></div>
+        <div><dt>Đang theo dõi</dt><dd>{pets.filter(p => p.active).length}</dd></div>
+        <div><dt>Ngừng theo dõi</dt><dd>{pets.filter(p => !p.active).length}</dd></div>
+      </dl>
+
+      <div className="pet-profiles__grid">
+        {pets.length === 0 && <p className="pet-profiles__empty">Bạn chưa có thú cưng nào. Hãy điền form bên dưới để thêm bé đầu tiên.</p>}
+        {pets.map((p) => {
+          const isActive = mode === 'edit' && p.id === selectedId
+          return <article key={p.id} onClick={() => selectPet(p)} aria-current={isActive ? 'true' : undefined}
+            className={`pet-profile-card ${isActive ? 'pet-profile-card--selected' : ''}`}>
+            <div className="pet-profile-card__top">
+              <div className={`pet-profile-card__avatar ${p.species === 'Mèo' ? 'pet-profile-card__avatar--cat' : ''}`}><PetIllustration species={p.species}/></div>
+              <div className="pet-profile-card__identity"><h2>{p.name}</h2><p>{p.species}{p.breed ? ` · ${p.breed}` : ''}</p></div>
+            </div>
+            <div className="pet-profile-card__status"><StatusBadge status={p.active ? 'Đang theo dõi' : 'Ngừng theo dõi'}/></div>
+            <dl className="pet-profile-card__details">
+              <div><dt>Giới tính</dt><dd>{p.gender || '—'}</dd></div>
+              <div><dt>Ngày sinh</dt><dd>{p.birthDate ? formatDateVN(p.birthDate) : '—'}</dd></div>
+              <div><dt>Cân nặng</dt><dd>{p.weightKg != null ? `${formatWeight(p.weightKg)} kg` : '—'}</dd></div>
+            </dl>
+            <div className="pet-profile-card__note">{p.healthNote && <span>Có ghi chú sức khỏe</span>}</div>
+            <div className="pet-profile-card__actions">
+              <button type="button" onClick={(e) => { e.stopPropagation(); selectPet(p) }}>Xem</button>
+              {p.active && <button type="button" onClick={(e) => { e.stopPropagation(); selectPet(p) }}>Chỉnh sửa</button>}
+            </div>
+          </article>
+        })}
       </div>
 
       {notice && (

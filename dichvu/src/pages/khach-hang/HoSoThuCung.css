@@ -1,0 +1,47 @@
+.pet-profiles {
+  color: #182b35;
+  background: #f8faf9;
+  border-radius: 24px;
+  padding: 28px;
+  font-family: "Be Vietnam Pro", "Nunito", system-ui, sans-serif;
+}
+.pet-profiles__heading { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 20px; margin-bottom: 28px; }
+.pet-profiles__heading h1 { margin: 0; font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -.6px; line-height: 1.3; }
+.pet-profiles__heading p { max-width: 560px; margin: 10px 0 0; color: #5b6b7f; font-size: 14px; line-height: 1.7; }
+.pet-profiles__add { flex-shrink: 0; min-height: 44px; padding: 11px 18px; border: 1px solid #00796f; border-radius: 12px; background: #00796f; color: white; font-size: 14px; font-weight: 700; }
+.pet-profiles__add:hover { background: #006b63; }
+.pet-profiles__summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0 0 24px; }
+.pet-profiles__summary > div { display: flex; flex-direction: column; padding: 20px; border: 1px solid #e2e8e6; border-radius: 16px; background: white; }
+.pet-profiles__summary dd { order: -1; margin: 0 0 6px; color: #006b63; font-size: 28px; font-weight: 800; line-height: 1.2; }
+.pet-profiles__summary dt { color: #5b6b7f; font-size: 13px; }
+.pet-profiles__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 18px; }
+.pet-profile-card { min-width: 0; display: flex; flex-direction: column; padding: 22px; border: 1px solid #e2e8e6; border-radius: 20px; background: white; transition: border-color .15s; }
+.pet-profile-card:hover { border-color: #b5d6d2; }
+.pet-profile-card--selected { border-color: #00796f; box-shadow: 0 0 0 1px #00796f; }
+.pet-profile-card__top { display: flex; align-items: center; gap: 14px; }
+.pet-profile-card__avatar { flex-shrink: 0; display: grid; place-items: center; width: 68px; height: 68px; border-radius: 18px; background: #ecf8f4; }
+.pet-profile-card__avatar--cat { background: #fff5e6; }
+.pet-profile-card__identity { min-width: 0; }
+.pet-profile-card__identity h2 { margin: 0; overflow-wrap: anywhere; font-size: 20px; font-weight: 800; line-height: 1.35; }
+.pet-profile-card__identity p { margin: 5px 0 0; overflow-wrap: anywhere; color: #5b6b7f; font-size: 13px; line-height: 1.6; }
+.pet-profile-card__status { margin: 16px 0; }
+.pet-profile-card__details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding-top: 16px; border-top: 1px solid #eef2f0; }
+.pet-profile-card__details dt { margin-bottom: 6px; color: #5b6b7f; font-size: 11px; }
+.pet-profile-card__details dd { margin: 0; overflow-wrap: anywhere; font-size: 12px; font-weight: 700; }
+.pet-profile-card__note { min-height: 40px; padding-top: 14px; }
+.pet-profile-card__note span { display: inline-block; padding: 4px 8px; border-radius: 6px; background: #fff4db; color: #79551d; font-size: 11px; font-weight: 600; }
+.pet-profile-card__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 16px; }
+.pet-profile-card__actions button { min-height: 42px; padding: 9px 16px; border: 1px solid #dce7e4; border-radius: 10px; background: white; color: #006b63; font-size: 13px; font-weight: 700; }
+.pet-profile-card__actions button:hover { background: #f0f9f6; border-color: #b5d6d2; }
+.pet-profiles__empty { grid-column: 1 / -1; margin: 0; padding: 32px 20px; border: 1px dashed #b5d6d2; border-radius: 20px; color: #5b6b7f; background: white; text-align: center; line-height: 1.7; }
+.pet-profiles > form { border-color: #e2e8e6; border-radius: 20px; box-shadow: none; }
+.pet-profiles > form input, .pet-profiles > form select, .pet-profiles > form textarea { border-radius: 10px; box-shadow: none; }
+.pet-profiles > form button { border-radius: 10px; letter-spacing: normal; text-transform: none; }
+@media (max-width: 600px) {
+  .pet-profiles { padding: 14px; border-radius: 18px; }
+  .pet-profiles__summary { gap: 8px; }
+  .pet-profiles__summary > div { padding: 14px 10px; }
+  .pet-profiles__summary dd { font-size: 24px; }
+  .pet-profiles__summary dt { font-size: 11px; }
+  .pet-profile-card { padding: 20px; }
+}
