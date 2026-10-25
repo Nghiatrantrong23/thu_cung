@@ -6,6 +6,8 @@
 
 ## 0. Tiến độ hiện tại
 
+> **25/10/2026 — dữ liệu demo và kiểm tra hồi quy:** có bản web thử riêng `http://127.0.0.1:5181/`, API 5001, DB `petcare_test_demo_20261024235410` trên cụm test 55439. Tạo 7 tài khoản, 2 thú cưng, 3 dịch vụ, 14 ca, 17 lịch, 8 hóa đơn, 7 khiếu nại, đánh giá/thông báo/nhật ký qua API; không đổi `.env` hoặc dữ liệu web 5173. Backend 67 unit PASS + 1 kiểm tra guard demo PASS; 9 nhóm tích hợp chạy mỗi nhóm DB mới: 83 PASS / 0 FAIL / 0 SKIP. Frontend 20 PASS, lint PASS, build 97 modules PASS. Đã đăng nhập và kiểm tra màn hình chính 5 nhóm vai trò trên trình duyệt, đối chiếu báo cáo thu 950.000 − hoàn thực chi 200.000 = 750.000 đồng. Script tạo demo từ chối DB không rỗng; có lệnh mở lại bằng đồng hồ thật. Chưa nghiệm thu mọi thao tác UI/thiết bị hay Docker; VietQR, email/OTP và luồng khách tự tạo khiếu nại vẫn còn giới hạn, không đánh dấu hoàn tất dự án. Hướng dẫn và mapping tình huống: [Dữ liệu demo](../docs/DU_LIEU_DEMO.md).
+
 **Đã triển khai đến giai đoạn 11; đang ở giai đoạn 12 — nghiệm thu, đóng gói và chuẩn bị môi trường chạy.** API 8–11 và chuỗi nghiệp vụ đã đạt trên PostgreSQL 17 cô lập; giao diện chăm sóc, ca, thu/hoàn, chứng từ, báo cáo và danh mục đã thao tác trên trình duyệt. Database development local đã được nâng cấp có backup/đối chiếu và xác nhận giữ dữ liệu ngày 24/10/2026; không triển khai production.
 
 | Giai đoạn | Kết quả có bằng chứng | Phần còn lại / giới hạn |
