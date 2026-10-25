@@ -11,6 +11,7 @@ import dichVuRoutes from './routes/dichvu.routes.js'
 import lichHenRoutes from './routes/lichhen.routes.js'
 import thongBaoRoutes from './routes/thongbao.routes.js'
 import caLamRoutes from './routes/calam.routes.js'
+import depositRoutes from './routes/deposits.routes.js'
 import paymentRoutes from './routes/payments.routes.js'
 import hoaDonRoutes from './routes/hoadon.routes.js'
 import khieuNaiRoutes from './routes/khieunai.routes.js'
@@ -68,6 +69,7 @@ app.use('/api/thong-bao', thongBaoRoutes)
 app.use('/api/ca-lam-viec', caLamRoutes)
 app.use('/api/hoa-don', hoaDonRoutes)
 app.use('/api/payments', paymentRoutes)
+app.use('/api/deposits', depositRoutes)
 app.use('/api/khieu-nai', khieuNaiRoutes)
 app.use('/api/bao-cao', baoCaoRoutes)
 app.get('/api/khach-hang/tra-cuu', authenticate, requireReception, traCuuKhachHang)

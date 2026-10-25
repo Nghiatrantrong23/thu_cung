@@ -1,3 +1,4 @@
+import { requirePaidDeposit,recordDepositReschedule } from './depositStore.js'
 import { audit } from './audit.js'
 import { withTransaction, query } from '../config/db.js'
 import { lockedBooking, integerId } from './dispatch.js'
@@ -20,6 +21,7 @@ export async function updateCare(id, body, user) {
             await client.query('UPDATE lich_hen SET yeu_cau_xu_ly=$2,ngay_cap_nhat=NOW() WHERE ma_lich_hen=$1',[booking.ma_lich_hen,note])
             await notifyReception(client,booking.ma_lich_hen,'Thú cưng không đủ điều kiện phục vụ',`Lịch #${booking.ma_lich_hen}: ${note}. Vui lòng liên hệ khách để hủy hoặc đổi lịch.`)
         } else if (action==='bat-dau') {
+            await requirePaidDeposit(client,booking.ma_lich_hen)
             if (state!=='DaXacNhan' || booking.yeu_cau_xu_ly) throw bookingError(409,'Lịch chưa sẵn sàng bắt đầu hoặc đang chờ lễ tân xử lý.')
             if (booking.date!==businessNow().date) throw bookingError(400,'Chỉ bắt đầu lịch của ngày hôm nay (giờ Việt Nam).')
             const schedule=await readSchedule(client,booking.date)
@@ -63,6 +65,9 @@ export async function reschedule(id, body, user) {
         for (const day of [...new Set([first.date,date])].sort()) await client.query('SELECT pg_advisory_xact_lock($1::int,$2::int)',[BOOKING_LOCK_NAMESPACE,Number(day.replaceAll('-',''))])
         const booking=await lockedBooking(client,idNumber)
         if (booking.date!==first.date || !['ChoXacNhan','DaXacNhan'].includes(booking.trang_thai)) throw bookingError(409,'Lịch đã thay đổi, không thể đổi giờ.')
+        if(user.role==='KhachHang'&&booking.ma_khach_hang!==user.userId)throw bookingError(403,'Bạn không có quyền đổi lịch này.')
+        if(body?.initiatedBy==='store'&&user.role!=='KhachHang'&&user.role!=='Admin'&&user.chucVu!=='Quản lý')throw bookingError(403,'Chỉ quản lý xác nhận đổi lịch do cửa hàng.')
+        await recordDepositReschedule(client,booking,user.role==='KhachHang'||body?.initiatedBy!=='store')
         const duration=(await client.query('SELECT EXTRACT(EPOCH FROM (ngay_gio_ket_thuc_du_kien-ngay_gio_hen))/60 AS duration FROM lich_hen WHERE ma_lich_hen=$1',[idNumber])).rows[0].duration
         const end=start+Number(duration)
         if (!Number.isInteger(end)||end<=start||end>1140) throw bookingError(400,'Thời lượng lịch không hợp lệ hoặc kết thúc quá 19:00.')

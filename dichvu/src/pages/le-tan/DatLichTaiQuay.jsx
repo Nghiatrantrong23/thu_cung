@@ -1,3 +1,4 @@
+import DepositPanel from '../../components/DepositPanel.jsx'
 import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -38,6 +39,8 @@ function Field({ label, required, htmlFor, error, hint, children }) {
 export default function DatLichTaiQuay() {
   const navigate = useNavigate()
   const { apiCall } = useAuth()
+  const [policy,setPolicy]=useState(null),[accepted,setAccepted]=useState(false)
+  useEffect(()=>{let active=true;apiCall('/api/deposits/policy').then(result=>{if(active&&result.ok)setPolicy(result.data)});return()=>{active=false}},[apiCall])
   const today = toISODate(new Date())
 
   // Tra cuu khach hang
@@ -179,6 +182,7 @@ export default function DatLichTaiQuay() {
 
   function validate() {
     const e = {}
+    if(policy?.enabled&&!accepted)e.policy='Cần xác nhận khách đã đồng ý chính sách cọc.'
     if (!customer && !isNewCustomer) {
       e.customer = 'Vui lòng tìm khách hoặc tạo hồ sơ khách mới.'
     }
@@ -216,6 +220,7 @@ export default function DatLichTaiQuay() {
         gioStart: start,
         dichVuIds: selected,
         ghiChu: note.trim(),
+        depositPolicyAccepted:accepted,
       }
 
       const res = await apiCall('/api/lich-hen/tai-quay', {
@@ -273,6 +278,7 @@ export default function DatLichTaiQuay() {
           </div>
         </div>
 
+        {policy?.enabled&&<DepositPanel bookingId={created.id}/>}
         <dl className="mt-6 divide-y divide-slate-100 rounded-xl border border-slate-200 text-sm">
           {[
             ['Mã lịch hẹn', `#${created.id}`],
@@ -434,6 +440,7 @@ export default function DatLichTaiQuay() {
 
         {/* Phan 2: Thong tin lich hen */}
         <form onSubmit={handleSubmit} noValidate className="space-y-6">
+          {policy?.enabled&&<div className="space-y-3 rounded-xl bg-brand-50 p-4"><p className="font-bold">Đặt cọc 30%: {formatVND(Math.ceil(total*0.3))} ₫</p><p className="text-sm leading-7">{policy.text}</p><label className="flex gap-2"><input type="checkbox" checked={accepted} onChange={e=>setAccepted(e.target.checked)}/>Khách đã được thông báo và đồng ý chính sách cọc.</label>{errors.policy&&<p role="alert" className="text-red-700">{errors.policy}</p>}</div>}
           <h2 className="text-lg font-bold text-slate-800">2. Thông tin lịch hẹn</h2>
 
           {!isNewCustomer && customer && (

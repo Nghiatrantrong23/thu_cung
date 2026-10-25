@@ -1,3 +1,4 @@
+import DepositPanel from '../../components/DepositPanel.jsx'
 import PageHeading from '../../components/ui/PageHeading.jsx'
 import CustomerEmptyState from '../../components/ui/CustomerEmptyState.jsx'
 import { DateInput } from '../../components/ui/DateTimeInput.jsx'
@@ -44,12 +45,14 @@ export default function BookingPage() {
   const navigate = useNavigate()
   const { addBooking, fetchAvailableSlots } = useBookings()
   const today = toISODate(new Date())
-  const { user } = useAuth()
+  const { user,apiCall } = useAuth()
   const { activePets } = usePets()
 
   const [servicesList, setServicesList] = useState([])
   const [loadingServices, setLoadingServices] = useState(true)
 
+  const [policy,setPolicy]=useState(null),[policyAccepted,setPolicyAccepted]=useState(false)
+  useEffect(()=>{let active=true;apiCall('/api/deposits/policy').then(result=>{if(active&&result.ok)setPolicy(result.data)});return()=>{active=false}},[apiCall])
   const [step, setStep] = useState(1)
   const [petId, setPetId] = useState('')
   const [date, setDate] = useState(() => addDays(3))
@@ -149,6 +152,7 @@ export default function BookingPage() {
 
   function validate() {
     const e = {}
+    if (policy?.enabled&&!policyAccepted) e.policy='Vui lòng đồng ý chính sách đặt cọc.'
     if (!petId) e.pet = 'Vui lòng chọn thú cưng.'
     if (!date) e.date = 'Vui lòng chọn ngày hẹn.'
     else if (date < today) e.date = 'Ngày hẹn không được ở quá khứ.'
@@ -181,6 +185,7 @@ export default function BookingPage() {
         dichVuIds: selected,
         serviceNames: chosen.map((s) => s.name),
         note: note.trim(),
+        depositPolicyAccepted:policyAccepted,
       })
 
       if (!result.ok) {
@@ -219,7 +224,7 @@ export default function BookingPage() {
           </span>
           <div>
             <h1 className="text-2xl font-extrabold text-slate-800">Đã gửi yêu cầu đặt lịch</h1>
-            <p className="text-slate-500">Lễ tân sẽ xác nhận và phân công nhân viên cho bé.</p>
+            <p className="text-slate-500">{created.depositRequired?'Đóng cọc 30% bên dưới để lễ tân xác nhận và phân công.':'Lễ tân sẽ xác nhận và phân công nhân viên cho bé.'}</p>
           </div>
         </div>
 
@@ -245,6 +250,7 @@ export default function BookingPage() {
           </div>
         </dl>
 
+        {created.depositRequired&&<DepositPanel bookingId={created.id}/>}
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             to="/lich-hen"
@@ -324,6 +330,7 @@ export default function BookingPage() {
           </p>
         )}
 
+        {policy?.enabled&&<div className="space-y-3 rounded-xl border border-brand-200 bg-brand-50 p-4"><p className="font-extrabold text-brand-900">Cần đặt cọc 30%: {formatVND(Math.ceil(total*0.3))} ₫</p><p className="text-sm leading-7">{policy.text}</p><label className="flex items-start gap-2"><input type="checkbox" checked={policyAccepted} onChange={e=>setPolicyAccepted(e.target.checked)}/>Tôi đã đọc và đồng ý chính sách đặt cọc, hủy và hoàn tiền.</label>{errors.policy&&<p role="alert" className="text-sm text-red-700">{errors.policy}</p>}</div>}
         {/* Ghi chú */}
         <Field label="Ghi chú:" htmlFor="note">
           <textarea
@@ -364,7 +371,7 @@ export default function BookingPage() {
             disabled={isSubmitting || loadingSlots || !startValid}
             className="rounded-full bg-brand-700 px-7 py-3 text-sm font-extrabold tracking-normal text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50"
           >
-            {isSubmitting ? 'Đang gửi yêu cầu...' : 'Xác nhận đặt lịch'}
+            {isSubmitting ? 'Đang gửi yêu cầu...' : policy?.enabled?'Xác nhận và đóng cọc 30%':'Xác nhận đặt lịch'}
           </button>
           <button
             type="button"

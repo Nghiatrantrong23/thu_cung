@@ -1,3 +1,4 @@
+import DepositPanel from '../../components/DepositPanel.jsx'
 import ScheduleGrid from '../../components/ui/ScheduleGrid.jsx'
 import { Drawer } from '../../components/ui/Modal.jsx'
 import PageHeading from '../../components/ui/PageHeading.jsx'
@@ -24,6 +25,7 @@ export default function QuanLyLichHen() {
   const [people, setPeople] = useState([])
   const [staff, setStaff] = useState('')
   const [note, setNote] = useState('')
+  const [cancelOrigin,setCancelOrigin]=useState('store')
   const [newDay,setNewDay]=useState(''),[newTime,setNewTime]=useState('')
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
@@ -49,7 +51,7 @@ export default function QuanLyLichHen() {
   }, [apiCall, day, status, version])
   useEffect(() => {
     let active = true
-    setPeople([]); setStaff(''); setNote(''); setStaffError('')
+    setPeople([]); setStaff(''); setNote(''); setStaffError('');setCancelOrigin('store')
     setNewDay(selected?.date||'');setNewTime(selected?.start||'')
     if (!selected || selected.trangThaiDB !== 'ChoXacNhan') { setStaffLoading(false); return }
     setStaffLoading(true)
@@ -69,7 +71,7 @@ export default function QuanLyLichHen() {
     setBusy(true)
     const endpoint = action === 'doi-lich' ? 'doi-lich' : action === 'huy' ? 'huy' : 'xu-ly'
     const result = await apiCall(`/api/lich-hen/${selected.id}/${endpoint}`, { method: 'PATCH',
-      body: JSON.stringify({ hanhDong: action, nhanVienId: staff ? Number(staff) : undefined, lyDo: note.trim() || undefined, ...(action==='doi-lich'?{ngay:newDay,gioStart:newTime}:{}) }) })
+      body: JSON.stringify({ cancelledBy:cancelOrigin,hanhDong: action, nhanVienId: staff ? Number(staff) : undefined, lyDo: note.trim() || undefined, ...(action==='doi-lich'?{ngay:newDay,gioStart:newTime}:{}) }) })
     setBusy(false)
     if (result.ok) { setNotice(result.data.message); reload() }
     else { setError(result.error); if (result.status === 409) reload() }
@@ -125,6 +127,7 @@ export default function QuanLyLichHen() {
             {!staffLoading && !staffError && !people.length && <p className="mt-2 text-amber-800">Chưa có nhân viên phù hợp. Bạn có thể giữ chờ xác nhận và ghi chú.</p>}
           </div>}
           {['ChoXacNhan', 'DaXacNhan'].includes(selected.trangThaiDB) && <div className="mt-4">
+            <label className="mb-3 block font-bold">Nguồn yêu cầu hủy (áp dụng chính sách hoàn cọc)<select value={cancelOrigin} disabled={busy} onChange={e=>setCancelOrigin(e.target.value)} className={input}><option value="store">Cửa hàng hủy — hoàn đủ cọc</option><option value="customer">Khách yêu cầu hủy — xét mốc 24 giờ</option></select></label>
             <label htmlFor="dispatch-note" className="font-bold">Lý do / ghi chú</label>
             <textarea id="dispatch-note" value={note} onChange={e => setNote(e.target.value)} disabled={busy} maxLength={300} rows={3} className={`${input} mt-2`} />
             <p className="mt-1 text-xs text-slate-500">Bắt buộc khi giữ chờ, từ chối hoặc hủy lịch. Tối đa 300 ký tự. Lý do được lưu trong nhật ký xử lý.</p>
@@ -138,6 +141,7 @@ export default function QuanLyLichHen() {
             <div className="mt-4 grid gap-3"><label>Ngày mới<DateInput  value={newDay} onChange={e=>setNewDay(e.target.value)} className={input} disabled={busy}/></label><label>Giờ mới<TimeInput step="1800" value={newTime} onChange={e=>setNewTime(e.target.value)} className={input} disabled={busy}/></label><button type="button" className={button} disabled={busy} onClick={()=>act('doi-lich')}>Đổi giờ và chờ phân công lại</button></div>
             {busy && <p role="status" className="mt-3">Đang lưu...</p>}
           </div>}
+          <DepositPanel key={selected.id} bookingId={selected.id} onChange={reload}/>
           <NhatKyLich id={selected.id} version={version}/>
         </>}
       </Drawer>

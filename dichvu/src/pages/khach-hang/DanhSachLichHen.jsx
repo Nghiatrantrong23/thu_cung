@@ -1,3 +1,4 @@
+import DepositPanel from '../../components/DepositPanel.jsx'
 import './DanhSachLichHen.css'
 import Modal from '../../components/ui/Modal.jsx'
 import PetIllustration from '../../components/PetIllustration.jsx'
@@ -62,7 +63,7 @@ function Stars({ value, onChange, readOnly = false }) {
 
 function ConfirmCancel({ booking, onConfirm, onClose, isProcessing }) {
   return <Modal open title={`Hủy lịch hẹn ${formatCode(booking.id)}?`} onClose={onClose} busy={isProcessing}>
-    <p className="text-sm leading-7 text-slate-600">{booking.petName}, {(booking.serviceNames || []).join(', ')}, {formatDateVN(booking.date)} {booking.start}. Lịch đã hủy không thể khôi phục, bạn cần đặt lại nếu vẫn muốn sử dụng dịch vụ.</p>
+    <p className="text-sm leading-7 text-slate-600">{booking.petName}, {(booking.serviceNames || []).join(', ')}, {formatDateVN(booking.date)} {booking.start}. Hủy trước ít nhất 24 giờ được hoàn đủ cọc; hủy dưới 24 giờ không hoàn cọc. Nếu muốn giữ cọc khi đổi lịch sát giờ, chọn “Đổi lịch và giữ cọc” trong chi tiết trước khi hủy. Lịch đã hủy không thể khôi phục.</p>
     <div className="mt-6 flex flex-wrap justify-end gap-3"><button type="button" onClick={onClose} disabled={isProcessing} className={btnGhost} autoFocus>Giữ lịch</button><button type="button" onClick={onConfirm} disabled={isProcessing} className="rounded-xl bg-rose-600 px-6 py-2.5 font-bold text-white hover:bg-rose-700 disabled:opacity-50">{isProcessing ? 'Đang hủy...' : 'Hủy lịch'}</button></div>
   </Modal>
 }
@@ -157,7 +158,7 @@ export default function AppointmentsPage() {
       setConfirming(false)
       setNotice(
         res.ok
-          ? { type: 'ok', text: `Đã hủy lịch hẹn ${formatCode(selected.id)} thành công.` }
+          ? { type: 'ok', text: res.message }
           : { type: 'error', text: res.message },
       )
     } finally {
@@ -203,6 +204,7 @@ export default function AppointmentsPage() {
           <button type="submit" disabled={!canReview(selected) || stars === 0 || isProcessing} className={btnPrimary}>{isProcessing ? 'Đang gửi...' : 'Gửi đánh giá'}</button>
         </>}
       </form>}
+      <DepositPanel key={selected.id} bookingId={selected.id} onChange={fetchBookings}/>
       <div className="mt-5 flex flex-wrap gap-3">{canCancel(selected) && <button type="button" disabled={isProcessing} className={btnDanger} onClick={() => { setDetailOpen(false); setConfirming(true) }}>Hủy lịch</button>}<button type="button" disabled={isProcessing} onClick={() => { setDetailOpen(false); select(null) }} className={btnGhost}>Đóng</button></div>
     </Modal>}
     {confirming && selected && <ConfirmCancel booking={selected} onConfirm={doCancel} onClose={() => setConfirming(false)} isProcessing={isProcessing}/>}

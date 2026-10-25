@@ -1,3 +1,5 @@
+import { snapshotDeposit } from './depositStore.js'
+import { cents } from '../lib/money.js'
 import { notifyReception } from './notifications.js'
 import bcrypt from 'bcrypt'
 import { generateMatKhauTam } from '../utils/matKhau.js'
@@ -128,7 +130,8 @@ export async function createBooking(body, user, { counter = false, now } = {}) {
         const bookingId = result.rows[0].ma_lich_hen
         for (const service of services.rows) await client.query(`INSERT INTO chi_tiet_lich_hen (ma_lich_hen,ma_dv,so_luong,gia_du_kien)
             VALUES ($1,$2,1,$3)`, [bookingId, service.ma_dv, service.gia_hien_hanh])
+        const deposit=await snapshotDeposit(client,bookingId,services.rows.reduce((sum,row)=>sum+cents(row.gia_hien_hanh),0),`${input.date} ${input.time}:00`,body.depositPolicyAccepted)
         await notifyReception(client, bookingId, 'Lịch hẹn mới chờ xác nhận', `Lịch #${bookingId}, ${input.date} ${input.time}.`)
-        return { temporaryAccount, id: bookingId, pet: pet.rows[0], services: services.rows, date: input.date, start: input.time, end: hhmm(end), note: input.note }
+        return { deposit, temporaryAccount, id: bookingId, pet: pet.rows[0], services: services.rows, date: input.date, start: input.time, end: hhmm(end), note: input.note }
     })
 }

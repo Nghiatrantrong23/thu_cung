@@ -1,3 +1,4 @@
+import { cancelDeposit,requirePaidDeposit } from './depositStore.js'
 import { audit } from './audit.js'
 import { withTransaction } from '../config/db.js'
 import { BOOKING_LOCK_NAMESPACE, bookingError, readSchedule } from './booking.js'
@@ -70,6 +71,7 @@ export async function processBooking(id, body, user) {
         const booking = await lockedBooking(client, id)
         if (booking.trang_thai !== 'ChoXacNhan') throw bookingError(409, 'Lịch đã đổi trạng thái. Vui lòng tải lại.')
         if (action === 'phan-cong') {
+            await requirePaidDeposit(client,booking.ma_lich_hen)
             const staff = await availableStaff(client, booking)
             if (!staff.some(s => s.id === staffId)) throw bookingError(409, 'Nhân viên không đủ ca, trùng lịch hoặc ảnh hưởng chỗ đã giữ. Vui lòng chọn lại.')
         }
@@ -78,6 +80,7 @@ export async function processBooking(id, body, user) {
         const notes = note ? appendNote(booking.ghi_chu, label, note) : booking.ghi_chu
         await client.query(`UPDATE lich_hen SET trang_thai=$2,ma_nhan_vien=$3,ghi_chu=$4,ngay_cap_nhat=NOW()
             WHERE ma_lich_hen=$1`, [booking.ma_lich_hen, state, staffId, notes])
+        if (action === 'tu-choi') await cancelDeposit(client,booking,{storeCancelled:true,actor:user.userId,reason:note})
         if (action === 'tu-choi') await client.query("UPDATE chi_tiet_lich_hen SET trang_thai='DaHuy' WHERE ma_lich_hen=$1", [booking.ma_lich_hen])
         await audit(client,booking,user,action,state,note || 'Xác nhận và phân công nhân viên')
         if (action !== 'giu-cho') {
@@ -96,12 +99,13 @@ export async function cancelBooking(id, body, user) {
         const booking = await lockedBooking(client, id)
         if (!staff && booking.ma_khach_hang !== user.userId) throw bookingError(403, 'Bạn không có quyền hủy lịch này.')
         if (!['ChoXacNhan', 'DaXacNhan'].includes(booking.trang_thai)) throw bookingError(409, 'Lịch đã đổi trạng thái, không thể hủy.')
+        const deposit=await cancelDeposit(client,booking,{storeCancelled:staff&&body?.cancelledBy!=='customer',actor:user.userId,reason:note})
         await client.query("UPDATE lich_hen SET trang_thai='DaHuy',ghi_chu=$2,ngay_cap_nhat=NOW() WHERE ma_lich_hen=$1",
             [booking.ma_lich_hen, appendNote(booking.ghi_chu, 'Hủy lịch', note)])
         await client.query("UPDATE chi_tiet_lich_hen SET trang_thai='DaHuy' WHERE ma_lich_hen=$1", [booking.ma_lich_hen])
         await audit(client,booking,user,'huy','DaHuy',note)
         await notify(client, booking.ma_khach_hang, booking.ma_lich_hen, 'Lịch hẹn đã hủy', `Lịch #${booking.ma_lich_hen}: ${note}`)
         if (booking.ma_nhan_vien) await notify(client, booking.ma_nhan_vien, booking.ma_lich_hen, 'Lịch được phân công đã hủy', `Lịch #${booking.ma_lich_hen}: ${note}`)
-        return { message: 'Đã hủy lịch hẹn.', trangThaiDB: 'DaHuy' }
+        return { message: 'Đã hủy lịch hẹn.'+(deposit?.status==='RefundPending'?' Cọc đủ điều kiện hoàn, đang chờ thực chi.':deposit?.status==='Forfeited'?' Cọc không hoàn theo chính sách.':''), deposit, trangThaiDB: 'DaHuy' }
     })
 }

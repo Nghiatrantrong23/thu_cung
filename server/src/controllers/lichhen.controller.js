@@ -152,7 +152,8 @@ async function respondCreated(req, res, next, counter) {
             ngay_hen: created.date, gio_hen: created.start, gio_ket_thuc: created.end,
             trang_thai: 'ChoXacNhan', ghi_chu: created.note, ngay_tao: new Date(),
         }, serviceList)
-        res.status(201).json({ message: 'Đặt lịch thành công. Lịch đang chờ xác nhận.', lichHenId: created.id, booking, lichHen: booking, ...(created.temporaryAccount ? { taiKhoanTam: created.temporaryAccount } : {}) })
+        booking.depositRequired=Boolean(created.deposit)
+        res.status(201).json({ message: created.deposit?'Đã tạo yêu cầu. Vui lòng đóng cọc 30% để được xác nhận.':'Đặt lịch thành công. Lịch đang chờ xác nhận.', lichHenId: created.id, booking, lichHen: booking, ...(created.temporaryAccount ? { taiKhoanTam: created.temporaryAccount } : {}) })
     } catch (err) { next(err) }
 }
 export async function datLichOnline(req, res, next) { return respondCreated(req, res, next, false) }

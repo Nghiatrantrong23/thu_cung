@@ -61,6 +61,7 @@ export function BookingProvider({ children }) {
         gioStart: data.start,
         dichVuIds: data.dichVuIds || [],
         ghiChu: data.note || data.ghiChu || '',
+        depositPolicyAccepted:data.depositPolicyAccepted===true,
       }
 
       const result = await apiCall('/api/lich-hen', {
@@ -89,11 +90,12 @@ export function BookingProvider({ children }) {
         setBookings((prev) =>
           prev.map((b) => (b.id === id ? { ...b, status: 'Đã hủy', trangThai: 'Đã hủy' } : b)),
         )
+        await fetchBookings()
         return { ok: true, message: result.data.message }
       }
       return { ok: false, message: result.error || 'Hủy lịch thất bại.' }
     },
-    [apiCall],
+    [apiCall,fetchBookings],
   )
 
   // Danh gia lich hen da hoan thanh: POST /api/lich-hen/:id/danh-gia

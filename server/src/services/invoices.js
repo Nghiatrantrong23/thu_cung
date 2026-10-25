@@ -1,3 +1,4 @@
+import { applyDeposit } from './depositStore.js'
 import { query,withTransaction } from '../config/db.js'
 import { integerId,lockedBooking } from './dispatch.js'
 import { bookingError } from './booking.js'
@@ -17,7 +18,8 @@ export async function totals(client,id) {
         COALESCE(SUM(so_tien) FILTER(WHERE phuong_thuc IN ('TienMat','ChuyenKhoanQR','MoMo') AND trang_thai='ThanhCong'),0) AS paid,
         COALESCE(SUM(so_tien) FILTER(WHERE phuong_thuc='HoanTien' AND trang_thai='ThanhCong'),0) AS refunded
         FROM thanh_toan WHERE ma_hoa_don=$1`,[id])).rows[0]
-    return {paid:cents(row.paid),refunded:cents(row.refunded)}
+    const credit=(await client.query("SELECT COALESCE((to_jsonb(hd)->>'deposit_credit')::numeric,0) AS credit FROM hoa_don hd WHERE ma_hoa_don=$1",[id])).rows[0]?.credit||0
+    return {paid:cents(row.paid)+cents(credit),refunded:cents(row.refunded)}
 }
 export async function createInvoice(body,user) {
     const id=integerId(body?.maLichHen),discount=cents(body?.giamGia??0,'Giảm giá')
@@ -36,8 +38,9 @@ export async function createInvoice(body,user) {
             VALUES($1,$2,$3,$4,$5,$6) RETURNING ma_hoa_don`,[id,decimal(total),decimal(discount),decimal(amount),state,user.userId])).rows[0].ma_hoa_don
         for(const row of details.rows)await client.query(`INSERT INTO chi_tiet_hoa_don(ma_hoa_don,ma_dv,ten_dv_luu_lai,so_luong,don_gia,thanh_tien)
             VALUES($1,$2,$3,$4,$5,$6)`,[bill,row.ma_dv,row.ten_dv,row.so_luong,decimal(cents(row.gia_du_kien)),decimal(cents(row.gia_du_kien)*row.so_luong)])
+        const depositCredit=await applyDeposit(client,booking.ma_lich_hen,bill,amount)
         await audit(client,booking,user,'lap-hoa-don',booking.trang_thai,`Hóa đơn #${bill}, thành tiền ${decimal(amount)}.`)
-        await notify(client,booking.ma_khach_hang,id,'Hóa đơn dịch vụ',`Hóa đơn #${bill}, cần thanh toán ${decimal(amount)} VNĐ.`)
+        await notify(client,booking.ma_khach_hang,id,'Hóa đơn dịch vụ',`Hóa đơn #${bill}, đã trừ cọc ${decimal(depositCredit)}, còn thanh toán ${decimal(amount-depositCredit)} VNĐ.`)
         return {message:amount===0?'Hóa đơn 0 đồng đã tất toán, không tạo giao dịch 0 đồng.':'Đã lập hóa đơn.',id:bill}
     })
 }

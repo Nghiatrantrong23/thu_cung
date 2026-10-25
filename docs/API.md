@@ -147,3 +147,19 @@ Chuyển khoản dùng `phuongThucChi:'ChuyenKhoan'`. Chi thất bại: `ketQua:
 Báo cáo `net = collected - refunded` chỉ giao dịch thành công theo ngày giao dịch VN. Duyệt chưa chi và thất bại không trừ tiền. Tổng dịch vụ trước giảm theo ngày lập hóa đơn, trạng thái lịch theo ngày hẹn; không phải lợi nhuận. `legacyRefundRows > 0` yêu cầu đối soát dữ liệu cũ, không tự diễn giải thành khoản chi đã xác minh.
 
 Admin tạo nhân viên chỉ chức vụ Lễ tân/Quản lý/Nhân viên chăm sóc. Không tự khóa/hạ vai trò; đổi quyền thu hồi phiên và giữ profile cũ cho lịch sử. Nhân viên đang làm không khóa; lịch đã giao chỉ đưa về chờ nếu vẫn đủ ca. Không có endpoint xóa dữ liệu trong phạm vi này.
+
+## Đặt cọc (25/10/2026)
+
+Chi tiết chính sách, môi trường và giới hạn: [Đặt cọc và hủy lịch](DAT_COC_VA_HUY_LICH.md).
+
+- Bật BOOKING_DEPOSIT_ENABLED sau migration 007; POST đặt lịch online/tại quầy yêu cầu depositPolicyAccepted=true. Không xác nhận/phân công hoặc bắt đầu lịch mới khi thiếu cọc; lịch cũ không áp hồi tố.
+- GET /api/deposits/policy: khách/tiếp nhận; enabled, rate, version, text, sandbox.
+- GET /api/deposits/:bookingId: cọc, transactions và intent; khách chỉ sở hữu, nhân sự tiếp nhận theo quyền.
+- POST /api/deposits/:bookingId/intent: method BankQR/MoMo; chỉ sandbox.
+- POST /api/deposits/:bookingId/simulate: result success/failed; chỉ sandbox và quyền sở hữu.
+- POST /api/deposits/sandbox/callback: x-payment-signature HMAC, schema giống callback sandbox; không dùng phiên người dùng, vẫn bắt buộc chữ ký và guard DB test.
+- POST /api/deposits/:bookingId/collect: lễ tân/quản lý/Admin; key, method, reference, received=true. Số tiền lấy từ snapshot cọc.
+- POST /api/deposits/:bookingId/refund: lễ tân/quản lý/Admin; key, method, reference, received=true (thực chi) hoặc sandbox=true trên DB sandbox; chỉ RefundPending.
+- POST /api/deposits/:bookingId/decision: chỉ quản lý/Admin; action no-show hoặc exception-refund, reason bắt buộc. No-show sau giờ hẹn; ngoại lệ duyệt chờ hoàn, chưa trả tiền.
+- POST /api/deposits/:bookingId/reschedule: khách sở hữu hoặc tiếp nhận; ngay, gioStart, lyDo. Đổi do khách sát giờ được giữ cọc một lần; sau đó không mở lại quyền hoàn khi hủy. Đổi do cửa hàng gửi initiatedBy=store, chỉ quản lý/Admin.
+- PATCH hủy lịch hiện có: nhân sự có thể gửi cancelledBy=customer để xét mốc 24 giờ; mặc định nhân sự hủy do cửa hàng sẽ đủ điều kiện hoàn. Khách không được dùng trường này để giả lý do cửa hàng.

@@ -118,3 +118,9 @@ Nguồn: [kế hoạch](ke_hoach_tong_the.md), [schema](../thu_cung.sql), [migra
 Migration mới `006_payment_sandbox.sql` bổ sung bảng `payment_intents`: UUID chuỗi, FK hóa đơn/người tạo/giao dịch; phương thức BankQR/MoMo/COD, mode bắt buộc sandbox, số tiền dương nguyên đồng, trạng thái và thời hạn. Unique partial một yêu cầu Pending/AwaitingCash cho mỗi hóa đơn; event_id và transaction_id UNIQUE. `thanh_toan` thêm phương thức MoMo; COD khi thực nhận ghi TienMat. Tổng đã thu/báo cáo tính cả MoMo; quy trình duyệt và thực chi hoàn giữ nguyên.
 
 000–005 được giữ nguyên checksum. 006 chỉ đã áp dụng trên các DB test mới; không áp dụng DB development/production đang dùng. Readiness chung vẫn yêu cầu 000–005 để không chặn nghiệp vụ cũ; endpoint sandbox kiểm tra bảng riêng và từ chối khi thiếu 006. Mô phỏng bị chặn ngoài NODE_ENV=test + kết nối loopback + tên DB test được opt-in chính xác. Chi tiết nghiệm thu/giới hạn: [Thanh toán sandbox](../docs/THANH_TOAN_SANDBOX.md).
+
+## 10. Bổ sung 25/10/2026 — đặt cọc 30%
+
+007 thêm booking_deposits, deposit_transactions, deposit_intents và hoa_don.deposit_credit. Một snapshot cọc/lịch; một giao dịch thu và một hoàn thành công/cọc; một intent Pending/lịch; callback event/transaction và idempotency key UNIQUE. Cọc được trừ vào tổng đã thu hóa đơn; báo cáo chỉ cộng khi thực nhận, không cộng lại lúc áp hóa đơn. Lịch cũ không có snapshot cọc được giữ quy trình cũ.
+
+Đã áp dụng 007 trên DB sandbox và nâng cấp 006–007 DB local Thu_cung sau backup/restore/thử bản sao; đối chiếu giá trị mọi cột nghiệp vụ cũ của 16 bảng giữ nguyên. Không seed/test ghi DB chính; flag đặt cọc chỉ áp cho lịch mới. Cổng thanh toán thật chưa cấu hình. Mô tả trạng thái, quy tắc 24 giờ và chứng cứ: [Đặt cọc](../docs/DAT_COC_VA_HUY_LICH.md).

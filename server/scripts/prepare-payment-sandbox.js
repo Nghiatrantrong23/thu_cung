@@ -5,7 +5,7 @@ import { demoConfig, createDemo } from './demo-scenarios.js'
 import { demoAccounts } from './seed.js'
 const config=demoConfig()
 const password=randomBytes(18).toString('base64url')
-await createDemo({...process.env,PETCARE_DEMO_PASSWORD:password,PAYMENT_MODE:'disabled'})
+await createDemo({...process.env,PETCARE_DEMO_PASSWORD:password,PAYMENT_MODE:'disabled',BOOKING_DEPOSIT_ENABLED:'false'})
 const directory=new URL('../../.cache/payment-sandbox/',import.meta.url)
 await mkdir(directory,{recursive:true})
 await writeFile(new URL(`${config.database}.txt`,directory),[

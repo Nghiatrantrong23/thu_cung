@@ -1,3 +1,4 @@
+import { depositsInstalled } from './depositStore.js'
 import { query } from '../config/db.js'
 import { isValidDate } from '../lib/scheduling.js'
 import { bookingError } from './booking.js'
@@ -9,10 +10,11 @@ export function reportPeriod(from,to) {
 export async function revenue(from,to) {
     const params=reportPeriod(from,to)
     // Payments are aggregated independently of invoice lines to avoid fan-out/double counting.
+    const depositSource=await depositsInstalled({query})?` UNION ALL SELECT created_at AT TIME ZONE 'Asia/Ho_Chi_Minh' AS ngay_thanh_toan,CASE WHEN kind='Refund' THEN 'HoanTien' ELSE method END AS phuong_thuc,amount AS so_tien,'ThanhCong'::text AS trang_thai FROM deposit_transactions`:''
     const daily=await query(`SELECT to_char(ngay_thanh_toan,'YYYY-MM-DD') AS date,
         COALESCE(SUM(so_tien) FILTER(WHERE phuong_thuc IN ('TienMat','ChuyenKhoanQR','MoMo')),0) AS collected,
         COALESCE(SUM(so_tien) FILTER(WHERE phuong_thuc='HoanTien'),0) AS refunded
-        FROM thanh_toan WHERE trang_thai='ThanhCong' AND ngay_thanh_toan >= $1::date AND ngay_thanh_toan < $2::date+INTERVAL '1 day'
+        FROM (SELECT ngay_thanh_toan,phuong_thuc,so_tien,trang_thai FROM thanh_toan ${depositSource}) all_money WHERE trang_thai='ThanhCong' AND ngay_thanh_toan >= $1::date AND ngay_thanh_toan < $2::date+INTERVAL '1 day'
         GROUP BY ngay_thanh_toan::date,to_char(ngay_thanh_toan,'YYYY-MM-DD') ORDER BY date`,params)
     const services=await query(`SELECT ct.ma_dv AS id,ct.ten_dv_luu_lai AS name,SUM(ct.so_luong) AS quantity,SUM(ct.thanh_tien) AS gross
         FROM chi_tiet_hoa_don ct JOIN hoa_don hd USING(ma_hoa_don) WHERE hd.trang_thai<>'DaHuy'

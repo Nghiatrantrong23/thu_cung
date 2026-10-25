@@ -3,7 +3,10 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const explicitDepositFlag=process.env.BOOKING_DEPOSIT_ENABLED
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
+// A local development .env must not change opt-in behavior of isolated tests.
+if(process.env.NODE_ENV==='test'&&explicitDepositFlag===undefined)process.env.BOOKING_DEPOSIT_ENABLED='false'
 
 function required(name, fallback = undefined) {
     const value = process.env[name] ?? fallback
@@ -16,6 +19,7 @@ function required(name, fallback = undefined) {
 export const env = {
     port: Number(process.env.PORT || 5000),
     nodeEnv: process.env.NODE_ENV || 'development',
+    bookingDepositEnabled: process.env.BOOKING_DEPOSIT_ENABLED === 'true',
     isProd: process.env.NODE_ENV === 'production',
 
     db: {
