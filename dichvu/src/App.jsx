@@ -62,9 +62,7 @@ export default function App() {
         path="le-tan/dat-lich-tai-quay"
         element={
           <KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><StaffLayout>
-            <div className="bg-slate-50 py-8 px-4">
-              <DatLichTaiQuay />
-            </div>
+            <DatLichTaiQuay />
           </StaffLayout></KiemTraQuyen>
         }
       />

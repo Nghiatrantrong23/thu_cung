@@ -196,4 +196,12 @@ Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14
 
 Đã chốt với người dùng: bổ sung luồng khách tự gửi khiếu nại trên lịch sở hữu; không thay quyền endpoint tiếp nhận cũ, không cấp duyệt/chi cho khách. DS không tự phân loại bệnh từ ghi chú TEXT, không tính KPI tổng từ listLIMIT200 hoặc unread50tin. Bỏ fallback dịch vụ mock khi nâng cấp2/4. Ca local vẫn do người dùng tự xếp; không thêm tự động. OTP/email/cổng thanh toán/WebSocket P2 giữ để sau.
 
+### Chỉnh giao diện theo báo cáo đánh giá — 24/10/2026
+
+- Đã sửa các mục P0 trong code: bỏ mã màn hình nội bộ và chữ hoa nút; chuẩn phần hiển thị ngày `dd/mm/yyyy`, giờ `HH:mm`, tiền `₫`; căn chung khung nội dung; lịch hẹn dùng toàn chiều ngang và mở drawer khi chọn; không còn panel hóa đơn/khiếu nại trống hoặc hai cột ca lệch nhau.
+- Đã áp dụng các mục P1 về cách trình bày: chuông thông báo ở header, icon SVG theo nghiệp vụ, nút tạo ở tiêu đề, form phụ và chi tiết trong drawer; badge dịch vụ/ca; báo cáo làm nổi thực thu, đưa nút in lên đầu, căn phải tiền, nhóm trạng thái và progress; tài khoản cuộn theo trang và cảnh báo khi xác nhận khóa/đổi quyền.
+- Tổng quan nhân sự đọc lịch hôm nay từ API hiện có; chỉ Quản lý/Admin đọc thêm báo cáo thực thu hôm nay. Không tính tổng hóa đơn từ danh sách giới hạn; số chưa đọc ghi rõ phạm vi 50 tin.
+- Kiểm tra lần này: `npm run build` frontend đúng một lần, **PASS 90 modules**, không có cảnh báo. Đối chiếu diff và payload hiện có; không chạy bộ kiểm thử hệ thống, không ghi database. **Chưa QA trình duyệt từng luồng/viewport**, không coi build là nghiệm thu nghiệp vụ.
+- Các mục P2 như lịch tuần, tùy chọn mật độ và QA ảnh 100% còn để sau. Không đánh dấu hoàn tất đợt 2–6 hoặc giai đoạn 12. Xem [bảng đối chiếu sửa UI](UI_SUA_THEO_DANH_GIA.md).
+
 Nghiệm thu 1b ngày24/10: frontend lint PASS,20/20test,build77modules; backend67PASS/9SKIP. Browser 5nhóm login/menu và guard trên DB test riêng đạt, modal Tab/ShiftTab/Escape/busy/restore focus đạt sau sửa; shell/home/component 375/768/1440 không tràn ngang. Chưa nghiệm thu mọi màn hình cũ hoặc toàn hành trình mới; các dashboard KPI và Admin light nội dung còn đợt3–5. Chi tiết và danh sách file/API: [Báo cáo đợt1](BAO_CAO_UI_DOT_1.md). Tiếp theo: đợt2 khách hàng, bao gồm endpoint khiếu nại sở hữu đã được người dùng chấp thuận.

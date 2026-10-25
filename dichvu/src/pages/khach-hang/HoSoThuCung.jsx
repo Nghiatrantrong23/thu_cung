@@ -1,3 +1,4 @@
+import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import PetIllustration from '../../components/PetIllustration.jsx'
@@ -17,11 +18,11 @@ import {
 const inputCls =
   'w-full rounded-xl border bg-white px-3.5 py-2.5 text-slate-800 shadow-sm outline-none transition focus:border-brand-600 focus:ring-2 focus:ring-brand-100 disabled:bg-slate-100 disabled:text-slate-400'
 const btnPrimary =
-  'rounded-full bg-brand-700 px-6 py-2.5 text-sm font-extrabold uppercase tracking-wide text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400'
+  'rounded-full bg-brand-700 px-6 py-2.5 text-sm font-extrabold tracking-normal text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400'
 const btnGhost =
-  'rounded-full border border-slate-300 px-6 py-2.5 text-sm font-extrabold uppercase tracking-wide text-slate-600 transition hover:border-brand-600 hover:text-brand-700'
+  'rounded-full border border-slate-300 px-6 py-2.5 text-sm font-extrabold tracking-normal text-slate-600 transition hover:border-brand-600 hover:text-brand-700'
 const btnDanger =
-  'rounded-full border border-rose-300 px-6 py-2.5 text-sm font-extrabold uppercase tracking-wide text-rose-700 transition hover:bg-rose-50'
+  'rounded-full border border-rose-300 px-6 py-2.5 text-sm font-extrabold tracking-normal text-rose-700 transition hover:bg-rose-50'
 
 function Field({ id, label, required, error, hint, children }) {
   return (
@@ -207,7 +208,7 @@ export default function PetsPage() {
               </select>
             </Field>
             <Field id="pet-birthDate" label="Ngày sinh:" error={errors.birthDate}>
-              <input id="pet-birthDate" type="date" max={today} value={form.birthDate} onChange={setField('birthDate')} className={`${inputCls} ${invalid('birthDate')}`} />
+              <DateInput id="pet-birthDate"  max={today} value={form.birthDate} onChange={setField('birthDate')} className={`${inputCls} ${invalid('birthDate')}`} />
             </Field>
             <Field id="pet-weight" label="Cân nặng (kg):" error={errors.weight}>
               <input id="pet-weight" inputMode="decimal" placeholder="Ví dụ: 4,2" value={form.weight} onChange={setField('weight')} className={`${inputCls} ${invalid('weight')}`} />

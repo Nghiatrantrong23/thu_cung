@@ -244,17 +244,17 @@ export default function ThongTinCaNhan() {
         <h2 className="mb-4 text-base font-bold text-slate-700">Thông tin tài khoản</h2>
         <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           <div>
-            <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">Tên đăng nhập</dt>
+            <dt className="text-xs font-semibold tracking-normal text-slate-400">Tên đăng nhập</dt>
             <dd className="mt-1 font-bold text-slate-800">{profile?.tenDangNhap}</dd>
           </div>
           <div>
-            <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">Vai trò</dt>
+            <dt className="text-xs font-semibold tracking-normal text-slate-400">Vai trò</dt>
             <dd className="mt-1 font-bold text-slate-800">
               {vaiTroLabel[profile?.vaiTro] || profile?.vaiTro}
             </dd>
           </div>
           <div>
-            <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">Ngày tạo tài khoản</dt>
+            <dt className="text-xs font-semibold tracking-normal text-slate-400">Ngày tạo tài khoản</dt>
             <dd className="mt-1 font-bold text-slate-800">{formatDate(profile?.ngayTao)}</dd>
           </div>
         </dl>

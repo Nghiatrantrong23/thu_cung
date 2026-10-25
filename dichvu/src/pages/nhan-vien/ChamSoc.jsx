@@ -1,3 +1,4 @@
+import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
@@ -29,9 +30,9 @@ export default function ChamSoc() {
     setBusy(false)
     if(result.ok){setMessage(result.data.message);setVersion(v=>v+1)}else {setError(result.error);if(result.status===409)setVersion(v=>v+1)}
   }
-  return <main className="mx-auto max-w-5xl p-5">
+  return <main className="pc-page">
     <Link to="/nhan-vien" className="font-bold text-brand-700">← Trang nhân viên</Link><h1 className="my-4 text-2xl font-extrabold">Lịch làm việc và chăm sóc thú cưng</h1>
-    <label className="block max-w-xs font-bold">Ngày làm việc<input aria-label="Ngày làm việc" type="date" value={day} disabled={busy} onChange={e=>{setSelected(null);setNote('');setDay(e.target.value)}} className={input}/></label>
+    <label className="block max-w-xs font-bold">Ngày làm việc<DateInput aria-label="Ngày làm việc"  value={day} disabled={busy} onChange={e=>{setSelected(null);setNote('');setDay(e.target.value)}} className={input}/></label>
     <p className="my-3 text-sm text-slate-600">Ca của bạn: {shifts.map(row=>`${row.start}–${row.end}`).join(', ')||'Không có ca'}</p>
     <button className={btn} disabled={busy||loading} onClick={()=>setVersion(v=>v+1)}>Tải lại</button>
     {message&&<p role="status" className="my-3 rounded-lg bg-emerald-50 p-3 text-emerald-800">{message}</p>}{error&&<p role="alert" className="my-3 rounded-lg bg-red-50 p-3 text-red-700">{error}</p>}

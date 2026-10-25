@@ -1,3 +1,4 @@
+import { displayDate } from '../../lib/displayDate.js'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { Link } from 'react-router-dom'
 import { useCallback,useEffect,useState } from 'react'
@@ -13,13 +14,13 @@ const inputCls =
 const selectCls =
     'rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-slate-900 shadow-sm outline-none transition focus:border-brand-600 focus:ring-2 focus:ring-brand-100'
 const btnPrimary =
-    'rounded-lg bg-[#00877d] px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-[#006b63] disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500'
+    'rounded-lg bg-[#00796f] px-4 py-2.5 text-sm font-bold tracking-normal text-white transition hover:bg-[#006b63] disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500'
 const btnSecondary =
-    'rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-slate-700 transition hover:border-brand-600 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400'
+    'rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold tracking-normal text-slate-700 transition hover:border-brand-600 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400'
 const btnDanger =
-    'rounded-lg border border-rose-200 bg-rose-50 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-rose-700 transition hover:bg-rose-100 hover:border-rose-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400 disabled:bg-slate-100'
+    'rounded-lg border border-rose-200 bg-rose-50 px-4 py-2.5 text-sm font-bold tracking-normal text-rose-700 transition hover:bg-rose-100 hover:border-rose-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400 disabled:bg-slate-100'
 const btnWarning =
-    'rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-amber-800 transition hover:bg-amber-100 hover:border-amber-500'
+    'rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-bold tracking-normal text-amber-800 transition hover:bg-amber-100 hover:border-amber-500'
 
 const ROLES = {
     Admin: 'Admin',
@@ -36,7 +37,7 @@ const POSITIONS = {
 function Info({ label, children }) {
     return (
         <div>
-            <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</dt>
+            <dt className="text-xs font-semibold tracking-normal text-slate-500">{label}</dt>
             <dd className="mt-1 font-bold text-slate-800">{children || <span className="text-slate-600">—</span>}</dd>
         </div>
     )
@@ -68,7 +69,7 @@ function TempPasswordModal({ password, onClose }) {
                     <button
                         type="button"
                         onClick={handleCopy}
-                        className="rounded-lg bg-brand-100 px-3 py-2 text-xs font-bold uppercase tracking-wide text-brand-800 transition hover:bg-brand-200"
+                        className="rounded-lg bg-brand-100 px-3 py-2 text-xs font-bold tracking-normal text-brand-800 transition hover:bg-brand-200"
                     >
                         {copied ? '✓ Đã sao' : 'Sao chép'}
                     </button>
@@ -83,7 +84,7 @@ function TempPasswordModal({ password, onClose }) {
     )
 }
 
-function WarningModal({ title, message, appointments, onConfirm, onClose }) {
+function WarningModal({ title, message, appointments, onConfirm, onClose, confirmLabel = 'Xác nhận khóa' }) {
     return (
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/40 p-4" onClick={onClose}>
             <div
@@ -110,7 +111,7 @@ function WarningModal({ title, message, appointments, onConfirm, onClose }) {
                                     <tr key={idx} className="text-slate-700">
                                         <td className="px-3 py-2 font-mono text-xs">{apt.maLichHen}</td>
                                         <td className="px-3 py-2">{apt.tenKhachHang}</td>
-                                        <td className="px-3 py-2">{apt.ngayGioHen}</td>
+                                        <td className="px-3 py-2">{displayDate(apt.ngayGioHen)}</td>
                                         <td className="px-3 py-2">
                                             <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
                                                 {apt.trangThai}
@@ -128,7 +129,7 @@ function WarningModal({ title, message, appointments, onConfirm, onClose }) {
                     </button>
                     {onConfirm && (
                         <button type="button" onClick={onConfirm} className={btnWarning}>
-                            Xác nhận khóa
+                            {confirmLabel}
                         </button>
                     )}
                 </div>
@@ -150,6 +151,7 @@ export default function QuanLyTaiKhoan() {
     const [formData, setFormData] = useState({})
     const [tempPassword, setTempPassword] = useState(null)
     const [lockWarning, setLockWarning] = useState(null)
+    const [pendingAction, setPendingAction] = useState(null)
 
     // Get access token from context or localStorage (simplified for demo)
     const getToken = () => localStorage.getItem('accessToken') || ''
@@ -331,21 +333,18 @@ export default function QuanLyTaiKhoan() {
     }
 
     return (
-        <div className="admin-accounts">
+        <div className="admin-accounts pc-page">
             <div className="mx-auto max-w-7xl">
                 <header className="admin-accounts__heading">
                     <div>
-                        <Link to="/admin" className="admin-accounts__breadcrumb">← Trang quản trị</Link>
+
                         <h1>Quản lý tài khoản</h1>
                         <p>Quản trị viên hệ thống</p>
                     </div>
                     <button type="button" onClick={handleCreateNew} className={btnPrimary}>+ Tạo tài khoản nhân viên</button>
                 </header>
 
-                <div className="admin-accounts__warning">
-                    <span aria-hidden="true" className="admin-accounts__warning-icon">!</span>
-                    <p>Khóa tài khoản hoặc đổi quyền nhân viên có thể ảnh hưởng đến các lịch hẹn đã phân công. Kiểm tra thông tin trước khi áp dụng.</p>
-                </div>
+
 
                 {error && (
                     <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
@@ -400,7 +399,7 @@ export default function QuanLyTaiKhoan() {
                     </div>
 
                     {/* Detail Panel */}
-                    <div className="admin-account-detail">
+                    {(selected || editing) && <div className="admin-account-detail">
                         {!selected && !editing ? (
                             <div className="flex items-center justify-center py-8 text-slate-500">
                                 Chọn tài khoản hoặc tạo mới
@@ -500,7 +499,7 @@ export default function QuanLyTaiKhoan() {
                                             >
                                                 Hủy
                                             </button>
-                                            <button type="button" onClick={handleSave} className={`${btnPrimary} flex-1`}>
+                                            <button type="button" onClick={() => selected && (formData.vaiTro !== selected.vaiTro || String(formData.chucVu || '') !== String(selected.chucVu || '')) ? setPendingAction('role') : handleSave()} className={`${btnPrimary} flex-1`}>
                                                 {selected ? 'Lưu thay đổi' : 'Tạo tài khoản'}
                                             </button>
                                         </div>
@@ -539,7 +538,7 @@ export default function QuanLyTaiKhoan() {
                                             </button>
                                             <button
                                                 type="button"
-                                                onClick={() => handleLockToggle(false)}
+                                                onClick={() => selected.trangThai ? setPendingAction('lock') : handleLockToggle(false)}
                                                 className={selected.trangThai ? btnDanger : btnWarning}
                                             >
                                                 {selected.trangThai ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
@@ -549,11 +548,13 @@ export default function QuanLyTaiKhoan() {
                                 )}
                             </div>
                         )}
-                    </div>
+                    </div>}
                 </div>
             </div>
 
             {/* Modals */}
+            {pendingAction && <WarningModal title={pendingAction === 'role' ? 'Xác nhận đổi quyền' : 'Xác nhận khóa tài khoản'} message="Thao tác này có thể ảnh hưởng đến lịch hẹn đã phân công và phiên đăng nhập của nhân viên. Hệ thống sẽ kiểm tra lại trước khi áp dụng." confirmLabel="Xác nhận" onConfirm={() => { const action = pendingAction; setPendingAction(null); if (action === 'role') handleSave(); else handleLockToggle(false) }} onClose={() => setPendingAction(null)} />}
+
             {tempPassword && <TempPasswordModal password={tempPassword} onClose={() => setTempPassword(null)} />}
             {lockWarning && (
                 <WarningModal

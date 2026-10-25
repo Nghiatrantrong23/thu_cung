@@ -37,7 +37,7 @@ export default function PricingPage() {
               <tr>
                 <th className="px-4 py-3 font-bold">Dịch vụ</th>
                 <th className="px-4 py-3 font-bold">Thời lượng</th>
-                <th className="px-4 py-3 text-right font-bold">Giá (VNĐ)</th>
+                <th className="px-4 py-3 text-right font-bold">Giá (₫)</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">

@@ -53,6 +53,7 @@ export default function CustomerLayout() {
             ))}
           </nav>
 
+          {!isOverview && <ThongBao compact/>}
           {/* Desktop: tên người dùng + đăng xuất */}
           <div className="hidden items-center gap-3 xl:flex">
             <span className="max-w-48 truncate text-sm text-slate-500" title={user.fullName}>
@@ -105,7 +106,7 @@ export default function CustomerLayout() {
       </header>
 
       <main className={`mx-auto w-full flex-1 px-4 py-8 ${isOverview ? 'max-w-7xl' : 'max-w-5xl'}`}>
-        {!isOverview && <ThongBao />}
+
         <Outlet />
       </main>
 

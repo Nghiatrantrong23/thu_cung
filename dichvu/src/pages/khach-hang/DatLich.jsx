@@ -1,3 +1,4 @@
+import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { services as defaultMockServices } from '../../data/duLieuMau.js'
@@ -239,7 +240,7 @@ export default function BookingPage() {
             ['Thú cưng', `${created.petName || pet?.name} (${created.species || pet?.species})`],
             ['Thời gian', `${formatDateVN(created.date || date)}, ${created.start || start} đến ${created.end || endTime}`],
             ['Dịch vụ', (created.serviceNames || chosen.map((s) => s.name)).join(', ')],
-            ['Tạm tính', `${formatVND(created.total || total)} VNĐ`],
+            ['Tạm tính', `${formatVND(created.total || total)} ₫`],
             ['Ghi chú', created.note || created.ghiChu || note || 'Không có'],
           ].map(([k, v]) => (
             <div key={k} className="grid grid-cols-3 gap-3 px-4 py-3">
@@ -306,7 +307,7 @@ export default function BookingPage() {
         {/* Ngày, giờ */}
         <div className="grid gap-5 sm:grid-cols-3">
           <Field label="Ngày hẹn:" required htmlFor="date" error={errors.date}>
-            <input id="date" type="date" min={today} value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
+            <DateInput id="date"  min={today} value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
           </Field>
 
           <Field label="Giờ hẹn:" required htmlFor="start" error={errors.start}>
@@ -366,7 +367,7 @@ export default function BookingPage() {
                     <th className="w-16 px-4 py-2.5 font-bold">Chọn</th>
                     <th className="px-4 py-2.5 font-bold">Tên dịch vụ</th>
                     <th className="px-4 py-2.5 font-bold">Thời lượng</th>
-                    <th className="px-4 py-2.5 text-right font-bold">Giá (VNĐ)</th>
+                    <th className="px-4 py-2.5 text-right font-bold">Giá (₫)</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -423,7 +424,7 @@ export default function BookingPage() {
             Tổng thời lượng dự kiến: <strong>{duration} phút</strong>
           </p>
           <p className="text-slate-700">
-            Tổng tạm tính: <strong className="text-lg text-accent-600">{formatVND(total)} VNĐ</strong>
+            Tổng tạm tính: <strong className="text-lg text-accent-600">{formatVND(total)} ₫</strong>
           </p>
         </div>
         <p className="-mt-3 text-sm text-slate-500">Sau khi gửi, lịch hẹn ở trạng thái “Chờ xác nhận”.</p>
@@ -438,14 +439,14 @@ export default function BookingPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-full bg-brand-700 px-7 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50"
+            className="rounded-full bg-brand-700 px-7 py-3 text-sm font-extrabold tracking-normal text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50"
           >
             {isSubmitting ? 'Đang gửi yêu cầu...' : 'Xác nhận đặt lịch'}
           </button>
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="rounded-full border border-slate-300 px-7 py-3 text-sm font-extrabold uppercase tracking-wide text-slate-600 transition hover:border-brand-600 hover:text-brand-700"
+            className="rounded-full border border-slate-300 px-7 py-3 text-sm font-extrabold tracking-normal text-slate-600 transition hover:border-brand-600 hover:text-brand-700"
           >
             Quay lại
           </button>

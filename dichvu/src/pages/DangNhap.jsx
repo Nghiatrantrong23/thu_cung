@@ -133,7 +133,7 @@ export default function LoginPage() {
   }
 
   const tabCls = (active) =>
-    `flex-1 rounded-full px-4 py-2.5 text-sm font-extrabold uppercase tracking-wide transition ${
+    `flex-1 rounded-full px-4 py-2.5 text-sm font-extrabold tracking-normal transition ${
       active ? 'bg-brand-700 text-white shadow-sm' : 'text-slate-500 hover:text-brand-700'
     }`
 
@@ -196,7 +196,7 @@ export default function LoginPage() {
                 </Link>
               </div>
 
-              <button type="submit" disabled={loading} className="w-full rounded-full bg-brand-700 px-6 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-60">
+              <button type="submit" disabled={loading} className="w-full rounded-full bg-brand-700 px-6 py-3 text-sm font-extrabold tracking-normal text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-60">
                 {loading ? 'Đang xử lý...' : 'Đăng nhập'}
               </button>
 
@@ -225,7 +225,7 @@ export default function LoginPage() {
               <PasswordField id="r-password" label="Mật khẩu:" required autoComplete="new-password" value={form.password} onChange={setField('password')} error={errors.password} hint="Tối thiểu 8 ký tự" />
               <PasswordField id="r-confirm" label="Nhập lại mật khẩu:" required autoComplete="new-password" value={form.confirm} onChange={setField('confirm')} error={errors.confirm} />
 
-              <button type="submit" disabled={loading} className="w-full rounded-full bg-brand-700 px-6 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-60">
+              <button type="submit" disabled={loading} className="w-full rounded-full bg-brand-700 px-6 py-3 text-sm font-extrabold tracking-normal text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-60">
                 {loading ? 'Đang xử lý...' : 'Đăng ký'}
               </button>
 
