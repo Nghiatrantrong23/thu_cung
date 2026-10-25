@@ -213,4 +213,10 @@ Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14
 - Frontend build đúng một lần: **PASS 93 modules**, không cảnh báo. Tính tĩnh tương phản màu chữ phụ `#5B6B7F`: 5,20:1 trên `#F8FAF9`, 5,45:1 trên trắng; chữ trắng trên nút `#00796F`: 5,30:1. Chưa QA trình duyệt/WCAG toàn trang hoặc kiểm thử lại nghiệp vụ; không đánh dấu hoàn tất đợt nâng cấp.
 - Biểu mẫu đặt lịch vẫn dùng luồng hiện có, chỉ thêm chỉ dẫn trình bày 3 nhóm thông tin, không tuyên bố đã làm wizard 5 bước. Chi tiết: [góp ý giao diện khách hàng](UI_KHACH_HANG_THEO_GOP_Y.md).
 
+### Bổ sung footer — 24/10/2026
+
+- Thêm `SiteFooter.jsx`/CSS dùng chung: footer đầy đủ cho khu khách hàng và bảng giá, bản gọn cho khu nhân sự và trang đăng nhập. Có thương hiệu, mô tả, giờ 08:00–19:00, liên kết tới các route sẵn có; không bịa địa chỉ/hotline. Bố cục linh hoạt theo màn hình, nằm sau nội dung, ẩn khi in.
+- Chỉ chỉnh component/layout và tài liệu; không thay API, dữ liệu hay nghiệp vụ. Giữ các thay đổi có sẵn ngoài phạm vi.
+- Build frontend đúng một lần: **PASS 95 modules**, không cảnh báo; chưa QA trình duyệt. Không chạy kiểm thử hệ thống hoặc đánh dấu hoàn tất giai đoạn.
+
 Nghiệm thu 1b ngày24/10: frontend lint PASS,20/20test,build77modules; backend67PASS/9SKIP. Browser 5nhóm login/menu và guard trên DB test riêng đạt, modal Tab/ShiftTab/Escape/busy/restore focus đạt sau sửa; shell/home/component 375/768/1440 không tràn ngang. Chưa nghiệm thu mọi màn hình cũ hoặc toàn hành trình mới; các dashboard KPI và Admin light nội dung còn đợt3–5. Chi tiết và danh sách file/API: [Báo cáo đợt1](BAO_CAO_UI_DOT_1.md). Tiếp theo: đợt2 khách hàng, bao gồm endpoint khiếu nại sở hữu đã được người dùng chấp thuận.

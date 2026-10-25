@@ -1,4 +1,5 @@
 import './KhungKhachHang.css'
+import SiteFooter from '../components/SiteFooter.jsx'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import BieuTuongDauChan from '../components/BieuTuongDauChan.jsx'
@@ -111,9 +112,7 @@ export default function CustomerLayout() {
         <Outlet />
       </main>
 
-      <footer className="customer-footer">
-        Hệ thống quản lý và đặt lịch dịch vụ chăm sóc thú cưng
-      </footer>
+      <SiteFooter customer />
     </div>
   )
 }

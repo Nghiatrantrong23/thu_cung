@@ -1,3 +1,4 @@
+import SiteFooter from '../components/SiteFooter.jsx'
 import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
 import BieuTuongDauChan from '../components/BieuTuongDauChan.jsx'
@@ -9,7 +10,7 @@ export default function PricingPage() {
   useEffect(()=>{let active=true;fetch('/api/dich-vu').then(async response=>{if(!response.ok)throw new Error();return response.json()}).then(data=>{if(active)setServices(data.dichVu.map(row=>({id:row.id,name:row.ten,durationMin:row.thoiLuongPhut,price:row.gia})))}).catch(()=>{if(active)setError('Không tải được bảng giá. Vui lòng thử lại.')}).finally(()=>{if(active)setLoading(false)});return()=>{active=false}},[])
 
   return (
-    <div className="min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
           <Link to="/dang-nhap" className="flex items-center gap-2 text-brand-700">
@@ -24,7 +25,7 @@ export default function PricingPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-4 py-10">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-4 py-10">
         <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl">Bảng giá dịch vụ</h1>
         <p className="mt-2 text-slate-600">Giờ mở cửa 08:00 đến 19:00 mỗi ngày. Giá tham khảo, thanh toán tại quầy sau khi hoàn thành dịch vụ.</p>
 
@@ -54,6 +55,7 @@ export default function PricingPage() {
 
         <p className="mt-4 text-sm text-slate-500">Hệ thống hiện nhận chó và mèo.</p>
       </main>
+      <SiteFooter/>
     </div>
   )
 }

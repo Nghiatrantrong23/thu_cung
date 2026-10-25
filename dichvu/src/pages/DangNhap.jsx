@@ -1,3 +1,4 @@
+import SiteFooter from '../components/SiteFooter.jsx'
 import { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import BieuTuongDauChan from '../components/BieuTuongDauChan.jsx'
@@ -138,7 +139,7 @@ export default function LoginPage() {
     }`
 
   return (
-    <div className="grid min-h-screen place-items-center px-4 py-10">
+    <div className="flex min-h-screen flex-col"><main className="grid flex-1 place-items-center px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-100 text-brand-700">
@@ -270,6 +271,7 @@ export default function LoginPage() {
           </details>
         )}
       </div>
+      </main><SiteFooter compact/>
     </div>
   )
 }
