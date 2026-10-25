@@ -1,11 +1,15 @@
+import './DanhSachLichHen.css'
+import Modal from '../../components/ui/Modal.jsx'
+import PetIllustration from '../../components/PetIllustration.jsx'
+import { Skeleton } from '../../components/ui/Feedback.jsx'
 import PageHeading from '../../components/ui/PageHeading.jsx'
 import CustomerEmptyState from '../../components/ui/CustomerEmptyState.jsx'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import HuyHieuTrangThai from '../../components/HuyHieuTrangThai.jsx'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { useBookings } from '../../data/khoLichHen.jsx'
-import { formatDateVN, formatVND } from '../../lib/tinhGioTrong.js'
+import { formatDateVN, formatVND, toMin } from '../../lib/tinhGioTrong.js'
 import { STATUSES, canCancel, canReview, filterByStatus, formatCode, sortNewestFirst } from '../../lib/tienIchLichHen.js'
 
 const inputCls =
@@ -57,44 +61,47 @@ function Stars({ value, onChange, readOnly = false }) {
 }
 
 function ConfirmCancel({ booking, onConfirm, onClose, isProcessing }) {
-  useEffect(() => {
-    const onKey = (e) => e.key === 'Escape' && onClose()
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  return <Modal open title={`Hủy lịch hẹn ${formatCode(booking.id)}?`} onClose={onClose} busy={isProcessing}>
+    <p className="text-sm leading-7 text-slate-600">{booking.petName}, {(booking.serviceNames || []).join(', ')}, {formatDateVN(booking.date)} {booking.start}. Lịch đã hủy không thể khôi phục, bạn cần đặt lại nếu vẫn muốn sử dụng dịch vụ.</p>
+    <div className="mt-6 flex flex-wrap justify-end gap-3"><button type="button" onClick={onClose} disabled={isProcessing} className={btnGhost} autoFocus>Giữ lịch</button><button type="button" onClick={onConfirm} disabled={isProcessing} className="rounded-xl bg-rose-600 px-6 py-2.5 font-bold text-white hover:bg-rose-700 disabled:opacity-50">{isProcessing ? 'Đang hủy...' : 'Hủy lịch'}</button></div>
+  </Modal>
+}
 
-  return (
-    <div className="fixed inset-0 z-20 grid place-items-center bg-slate-900/40 p-4" onClick={onClose}>
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="cancel-title"
-        className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2 id="cancel-title" className="text-xl font-extrabold text-slate-800">
-          Hủy lịch hẹn {formatCode(booking.id)}?
-        </h2>
-        <p className="mt-2 text-slate-600">
-          {booking.petName}, {(booking.serviceNames || []).join(', ')}, {formatDateVN(booking.date)} {booking.start}. Lịch đã hủy
-          không thể khôi phục, bạn cần đặt lại nếu vẫn muốn sử dụng dịch vụ.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-end gap-3">
-          <button type="button" onClick={onClose} disabled={isProcessing} className={btnGhost} autoFocus>
-            Giữ lịch
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            disabled={isProcessing}
-            className="rounded-full bg-rose-600 px-6 py-2.5 text-sm font-extrabold tracking-normal text-white hover:bg-rose-700 disabled:opacity-50"
-          >
-            {isProcessing ? 'Đang hủy...' : 'Hủy lịch'}
-          </button>
-        </div>
+// These helpers only choose how the existing customer records are presented.
+function isUpcoming(booking) {
+  return ['Chờ xác nhận', 'Đã xác nhận'].includes(booking.status)
+    && new Date(`${booking.date}T${booking.start}:00+07:00`).getTime() >= Date.now()
+}
+function timelineRank(booking) {
+  return booking.status === 'Đang thực hiện' ? 0 : isUpcoming(booking) ? 1 : 2
+}
+function TimelineDate({ date }) {
+  const [year, month, day] = date.split('-')
+  const weekday = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'][new Date(`${date}T00:00:00Z`).getUTCDay()]
+  return <time dateTime={date} className="at-date" aria-label={formatDateVN(date)} title={formatDateVN(date)}><span>{weekday}</span><strong>{day}</strong><span>Tháng {Number(month)}</span>{Number(year) !== new Date().getFullYear() && <span>{year}</span>}</time>
+}
+function AppointmentCard({ booking, busy, onView, onCancel, onReview }) {
+  const duration = toMin(booking.end || '') - toMin(booking.start || '')
+  const services = booking.dichVu?.length ? booking.dichVu : (booking.serviceNames || []).map(ten => ({ ten }))
+  const tone = booking.status === 'Chờ xác nhận' ? 'waiting' : ['Đã xác nhận', 'Hoàn thành'].includes(booking.status) ? 'success' : ['Đã hủy', 'Từ chối'].includes(booking.status) ? 'cancelled' : 'working'
+  return <article className="at-card" aria-label={`Lịch hẹn ${formatCode(booking.id)} của ${booking.petName}`}>
+    <header className="at-card-heading">
+      <div className="at-pet"><span className="at-avatar"><PetIllustration species={booking.species} className="h-10 w-10"/></span><div className="at-identity"><div className="at-title-line"><h2>{booking.start} · {booking.petName}</h2><span className={`at-status at-status--${tone}`}><HuyHieuTrangThai status={booking.status}/></span></div><p>{Number.isFinite(duration) && duration > 0 ? `${duration} phút · ` : ''}{booking.staff ? `Nhân viên: ${booking.staff}` : 'Chưa phân công'}</p></div></div>
+      <div className="at-total"><span>Tổng tiền dự kiến</span><strong>{booking.total != null ? `${formatVND(booking.total)} ₫` : '—'}</strong></div>
+    </header>
+    <ul className="at-services" aria-label="Dịch vụ đã đặt">{services.map((service, index) => <li key={service.id ?? index}><div><span>{service.ten}</span>{Number(service.soLuong) > 1 && <small> × {service.soLuong}</small>}{Number(service.thoiLuongPhut) > 0 && <small> · {service.thoiLuongPhut} phút</small>}</div><strong>{service.gia != null ? `${formatVND(Number(service.gia) * Number(service.soLuong ?? 1))} ₫` : '—'}</strong></li>)}{!services.length && <li>Chưa có chi tiết dịch vụ.</li>}</ul>
+    <footer className="at-card-actions">
+      <div className="at-primary-actions">
+        {canCancel(booking) && <><button type="button" className="at-cancel" disabled={busy} onClick={onCancel}>Hủy lịch</button><span className="at-muted">Có thể hủy khi lịch đang chờ hoặc đã xác nhận.</span></>}
+        {canReview(booking) && <button type="button" className="at-primary" disabled={busy} onClick={onReview}>Đánh giá dịch vụ</button>}
+        {booking.review && <span className="at-reviewed">Bạn đã đánh giá {booking.review.stars} /5</span>}
+        {booking.status === 'Đã hủy' && <span className="at-muted">Lịch hẹn đã hủy.</span>}
+        {booking.status === 'Từ chối' && <span className="at-muted">Lịch hẹn đã được từ chối.</span>}
+        {booking.status === 'Đang thực hiện' && <span className="at-muted">Dịch vụ đang được thực hiện.</span>}
       </div>
-    </div>
-  )
+      <button type="button" className="at-details" disabled={busy} onClick={onView} aria-label={`Xem chi tiết lịch hẹn ${formatCode(booking.id)}`}>Chi tiết <span aria-hidden="true">→</span></button>
+    </footer>
+  </article>
 }
 
 export default function AppointmentsPage() {
@@ -103,6 +110,8 @@ export default function AppointmentsPage() {
   const location = useLocation()
 
   const [filter, setFilter] = useState('Tất cả')
+  const [tab, setTab] = useState('Tất cả')
+  const [detailOpen, setDetailOpen] = useState(Boolean(location.state?.select))
   const [selectedId, setSelectedId] = useState(location.state?.select ?? null)
   const [stars, setStars] = useState(0)
   const [comment, setComment] = useState('')
@@ -114,7 +123,16 @@ export default function AppointmentsPage() {
     () => sortNewestFirst(bookings.filter((b) => !b.owner || !user?.username || b.owner === user.username)),
     [bookings, user?.username],
   )
-  const rows = useMemo(() => filterByStatus(mine, filter), [mine, filter])
+  const tabs = [
+    { label: 'Tất cả', count: mine.length },
+    { label: 'Sắp tới', count: mine.filter(isUpcoming).length },
+    { label: 'Hoàn thành', count: mine.filter(b => b.status === 'Hoàn thành').length },
+    { label: 'Đã hủy', count: mine.filter(b => b.status === 'Đã hủy').length },
+  ]
+  const rows = filterByStatus(mine, filter).filter(booking => tab === 'Tất cả' || (tab === 'Sắp tới' ? isUpcoming(booking) : booking.status === tab))
+    .sort((a, b) => timelineRank(a) - timelineRank(b) || (timelineRank(a) === 1
+      ? a.date.localeCompare(b.date) || a.start.localeCompare(b.start)
+      : b.date.localeCompare(a.date) || b.start.localeCompare(a.start)))
   const selected = mine.find((b) => b.id === selectedId) ?? null
 
   function select(id) {
@@ -125,6 +143,7 @@ export default function AppointmentsPage() {
   }
 
   function onFilterChange(value) {
+    setDetailOpen(false)
     setFilter(value)
     setSelectedId(null)
     setNotice(null)
@@ -162,179 +181,30 @@ export default function AppointmentsPage() {
     }
   }
 
-  return (
-    <div className="space-y-6">
-      <PageHeading title="Lịch hẹn của tôi" description="Theo dõi lịch chăm sóc, xem chi tiết và cập nhật các lịch hẹn của bé." actions={<Link to="/dat-lich" className="customer-primary-action">+ Đặt lịch mới</Link>}/>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-
-        <div className="flex items-center gap-2">
-          <label htmlFor="status" className="text-sm font-bold text-slate-700">
-            Trạng thái:
-          </label>
-          <select id="status" value={filter} onChange={(e) => onFilterChange(e.target.value)} className={inputCls}>
-            <option>Tất cả</option>
-            {STATUSES.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {rows.length === 0 ? <CustomerEmptyState title={filter === 'Tất cả' ? 'Chưa có lịch hẹn nào' : `Chưa có lịch ở trạng thái “${filter}”`} description="Chọn dịch vụ và khung giờ phù hợp để lên lịch chăm sóc cho bé." to="/dat-lich" action="Đặt lịch cho bé"/> : <div className="mt-5 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <table className="customer-appointments-table text-sm">
-          <thead className="bg-brand-50 text-left text-slate-600">
-            <tr>
-              <th className="px-4 py-3 font-bold">Mã</th>
-              <th className="px-4 py-3 font-bold">Thú cưng</th>
-              <th className="px-4 py-3 font-bold">Dịch vụ</th>
-              <th className="px-4 py-3 font-bold">Ngày giờ hẹn</th>
-              <th className="px-4 py-3 font-bold">Trạng thái</th><th className="px-4 py-3 font-bold">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {rows.map((b) => {
-              const active = b.id === selectedId
-              return (
-                <tr
-                  key={b.id}
-                  onClick={() => select(b.id)}
-                  className={`cursor-pointer transition ${active ? 'bg-brand-50' : 'hover:bg-slate-50'}`}
-                  aria-selected={active}
-                >
-                  <td className="px-4 py-3">
-                    <button
-                      type="button"
-                      className="font-extrabold text-brand-700 underline-offset-2 hover:underline"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        select(b.id)
-                      }}
-                      aria-label={`Xem chi tiết lịch hẹn ${formatCode(b.id)}`}
-                    >
-                      {formatCode(b.id)}
-                    </button>
-                  </td>
-                  <td className="px-4 py-3 font-semibold text-slate-800">
-                    {b.petName} ({b.species})
-                  </td>
-                  <td className="px-4 py-3 text-slate-700">{b.serviceNames.join(', ')}</td>
-                  <td className="whitespace-nowrap px-4 py-3 tabular-nums text-slate-700">
-                    {formatDateVN(b.date)} {b.start}
-                  </td>
-                  <td className="px-4 py-3">
-                    <HuyHieuTrangThai status={b.status} />
-                  </td><td className="px-4 py-3"><button type="button" className="customer-secondary-action whitespace-nowrap" onClick={e=>{e.stopPropagation();select(b.id)}} aria-label={`Xem chi tiết lịch hẹn ${formatCode(b.id)}`}>Chi tiết</button></td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>}
-
-      {notice && (
-        <p
-          role={notice.type === 'error' ? 'alert' : 'status'}
-          className={`mt-4 rounded-xl px-4 py-3 text-sm font-semibold ${
-            notice.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-emerald-50 text-emerald-800'
-          }`}
-        >
-          {notice.text}
-        </p>
-      )}
-
-      {selected ? (
-        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7" aria-live="polite">
-          <div className="flex flex-wrap items-center gap-3">
-            <h2 className="text-lg font-extrabold text-slate-800">Chi tiết lịch hẹn {formatCode(selected.id)}</h2>
-            <HuyHieuTrangThai status={selected.status} />
-          </div>
-
-          <dl className="mt-4 grid gap-4 sm:grid-cols-3">
-            <Info label="Thời gian:">
-              {formatDateVN(selected.date)}, {selected.start} đến {selected.end}
-            </Info>
-            <Info label="Nhân viên phụ trách:">
-              {selected.staff ?? <span className="font-semibold text-slate-500">Chưa phân công</span>}
-            </Info>
-            <Info label="Tạm tính:">{formatVND(selected.total)} ₫</Info>
-          </dl>
-          {selected.note && <p className="mt-3 text-sm text-slate-500">Ghi chú: {selected.note}</p>}
-
-          <form onSubmit={submitReview} className="mt-6 border-t border-slate-100 pt-5">
-            {selected.status === 'Hoàn thành' && (
-              <div className="space-y-4">
-                <h3 className="font-extrabold text-slate-800">Đánh giá dịch vụ (lịch hẹn {formatCode(selected.id)})</h3>
-                {selected.review ? (
-                  <>
-                    <Stars value={selected.review.stars} readOnly />
-                    <p className="text-slate-700">{selected.review.comment || 'Không có nhận xét.'}</p>
-                    <p className="text-sm text-slate-500">Lịch hẹn này đã được đánh giá, mỗi lịch chỉ đánh giá một lần.</p>
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <p className="mb-1.5 text-sm font-bold text-slate-700">
-                        Số sao: <span className="text-accent-600">*</span>
-                      </p>
-                      <Stars value={stars} onChange={setStars} />
-                    </div>
-                    <div>
-                      <label htmlFor="comment" className="mb-1.5 block text-sm font-bold text-slate-700">
-                        Nhận xét:
-                      </label>
-                      <textarea
-                        id="comment"
-                        rows={3}
-                        maxLength={500}
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        placeholder="Chia sẻ trải nghiệm của bạn và bé."
-                        className={`${inputCls} w-full`}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              <button
-                type="button"
-                disabled={!canCancel(selected) || isProcessing}
-                onClick={() => setConfirming(true)}
-                className={btnDanger}
-              >
-                Hủy lịch
-              </button>
-              <button
-                type="submit"
-                disabled={!canReview(selected) || stars === 0 || isProcessing}
-                className={btnPrimary}
-              >
-                {isProcessing ? 'Đang gửi...' : 'Gửi đánh giá'}
-              </button>
-              <button type="button" onClick={() => select(null)} className={btnGhost}>
-                Quay lại
-              </button>
-            </div>
-            <p className="mt-3 text-sm text-slate-500">
-              Hủy lịch chỉ áp dụng cho lịch “Chờ xác nhận” hoặc “Đã xác nhận”. Đánh giá chỉ áp dụng cho lịch “Hoàn thành”,
-              mỗi lịch một đánh giá.
-            </p>
-          </form>
-        </section>
-      ) : (
-        rows.length > 0 && <p className="mt-4 text-sm text-slate-500">Chọn một lịch hẹn trong bảng để xem chi tiết.</p>
-      )}
-
-      {confirming && selected && (
-        <ConfirmCancel
-          booking={selected}
-          onConfirm={doCancel}
-          onClose={() => setConfirming(false)}
-          isProcessing={isProcessing}
-        />
-      )}
+  return <div className="appointment-timeline">
+    <PageHeading title="Lịch hẹn của tôi" description="Theo dõi trạng thái, xem chi tiết dịch vụ và đánh giá sau khi hoàn thành." actions={<Link to="/dat-lich" className="at-primary">Đặt lịch mới</Link>}/>
+    <div className="at-filters">
+      <div className="at-tabs" role="group" aria-label="Nhóm lịch hẹn">{tabs.map(item => <button type="button" key={item.label} className={`at-tab ${tab === item.label ? 'at-tab--active' : ''}`} aria-pressed={tab === item.label} disabled={isProcessing} onClick={() => { setTab(item.label); onFilterChange('Tất cả') }}>{item.label}<span>{loading ? '…' : item.count}</span></button>)}</div>
+      <label className="at-status-filter" htmlFor="timeline-status">Trạng thái<select id="timeline-status" className={inputCls} value={filter} disabled={isProcessing} onChange={e => { setTab('Tất cả'); onFilterChange(e.target.value) }}><option>Tất cả</option>{STATUSES.map(status => <option key={status}>{status}</option>)}</select></label>
     </div>
-  )
+    {notice && <p role={notice.type === 'error' ? 'alert' : 'status'} className={`at-notice ${notice.type === 'error' ? 'at-notice--error' : ''}`}>{notice.text}</p>}
+    {loading ? <Skeleton label="Đang tải lịch hẹn" rows={3}/> : !rows.length ? <CustomerEmptyState title={tab === 'Tất cả' && filter === 'Tất cả' ? 'Chưa có lịch hẹn nào' : 'Không có lịch hẹn trong nhóm này'} description="Chọn nhóm hoặc trạng thái khác để xem lịch, hoặc đặt một buổi chăm sóc mới cho bé." to="/dat-lich" action="Đặt lịch cho bé"/> : <ol className="at-list" aria-label="Dòng thời gian lịch hẹn">{rows.map(booking => <li key={booking.id} className="at-item"><TimelineDate date={booking.date}/><AppointmentCard booking={booking} busy={isProcessing} onView={() => { select(booking.id); setDetailOpen(true) }} onCancel={() => { select(booking.id); setDetailOpen(false); setConfirming(true) }} onReview={() => { select(booking.id); setDetailOpen(true) }}/></li>)}</ol>}
+
+    {selected && <Modal open={detailOpen} title={`Chi tiết lịch hẹn ${formatCode(selected.id)}`} busy={isProcessing} onClose={() => { setDetailOpen(false); select(null) }}>
+      {notice && <p role={notice.type === 'error' ? 'alert' : 'status'} className={`at-notice ${notice.type === 'error' ? 'at-notice--error' : ''}`}>{notice.text}</p>}
+      <div className="mb-4 flex flex-wrap items-center gap-3"><h3 className="font-extrabold text-slate-800">{selected.petName}</h3><HuyHieuTrangThai status={selected.status}/></div>
+      <dl className="grid gap-4 sm:grid-cols-2"><Info label="Thời gian">{formatDateVN(selected.date)}, {selected.start}–{selected.end}</Info><Info label="Nhân viên phụ trách">{selected.staff || 'Chưa phân công'}</Info><Info label="Dịch vụ">{selected.serviceNames.join(', ')}</Info><Info label="Tổng tiền dự kiến">{formatVND(selected.total)} ₫</Info></dl>
+      {selected.note && <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-slate-600">Ghi chú: {selected.note}</p>}
+      {selected.status === 'Hoàn thành' && <form onSubmit={submitReview} className="mt-6 space-y-4 border-t border-slate-200 pt-5">
+        <h3 className="font-extrabold text-slate-800">Đánh giá dịch vụ</h3>
+        {selected.review ? <><Stars value={selected.review.stars} readOnly/><p className="text-slate-700">{selected.review.comment || 'Không có nhận xét.'}</p><p className="text-sm text-slate-600">Mỗi lịch hẹn chỉ đánh giá một lần.</p></> : <>
+          <div><p className="mb-2 text-sm font-bold text-slate-700">Số sao <span className="text-rose-700">*</span></p><Stars value={stars} onChange={setStars}/></div>
+          <div><label htmlFor="comment" className="mb-2 block text-sm font-bold text-slate-700">Nhận xét</label><textarea id="comment" rows={3} maxLength={500} value={comment} onChange={e => setComment(e.target.value)} disabled={isProcessing} placeholder="Chia sẻ trải nghiệm của bạn và bé." className={`${inputCls} w-full`}/></div>
+          <button type="submit" disabled={!canReview(selected) || stars === 0 || isProcessing} className={btnPrimary}>{isProcessing ? 'Đang gửi...' : 'Gửi đánh giá'}</button>
+        </>}
+      </form>}
+      <div className="mt-5 flex flex-wrap gap-3">{canCancel(selected) && <button type="button" disabled={isProcessing} className={btnDanger} onClick={() => { setDetailOpen(false); setConfirming(true) }}>Hủy lịch</button>}<button type="button" disabled={isProcessing} onClick={() => { setDetailOpen(false); select(null) }} className={btnGhost}>Đóng</button></div>
+    </Modal>}
+    {confirming && selected && <ConfirmCancel booking={selected} onConfirm={doCancel} onClose={() => setConfirming(false)} isProcessing={isProcessing}/>}
+  </div>
 }

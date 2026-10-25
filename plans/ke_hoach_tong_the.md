@@ -219,4 +219,12 @@ Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14
 - Chỉ chỉnh component/layout và tài liệu; không thay API, dữ liệu hay nghiệp vụ. Giữ các thay đổi có sẵn ngoài phạm vi.
 - Build frontend đúng một lần: **PASS 95 modules**, không cảnh báo; chưa QA trình duyệt. Không chạy kiểm thử hệ thống hoặc đánh dấu hoàn tất giai đoạn.
 
+### Lịch hẹn khách hàng dạng timeline theo ảnh — 24/10/2026
+
+- Chỉ đổi `DanhSachLichHen.jsx` và thêm CSS cùng trang: ngày/thứ/tháng bên trái, đường timeline, thẻ thú cưng và trạng thái, dòng dịch vụ/đơn giá đã đặt, tổng tiền dự kiến, nút hủy/đánh giá và điểm đã đánh giá. Giữ layout chung/footer.
+- Bốn tab Tất cả/Sắp tới/Hoàn thành/Đã hủy có số lượng thật; vẫn giữ lọc chi tiết đủ trạng thái hiện có. Lịch đang thực hiện trước, lịch sắp tới theo thời gian tăng dần, lịch cũ giảm dần. Dữ liệu sắp tới dùng mốc giờ Việt Nam.
+- Chi tiết và đánh giá mở modal hiện có; xác nhận hủy dùng Modal chung. Đối chiếu tĩnh xác nhận thân hàm `doCancel` và `submitReview` giữ nguyên; không sửa `canCancel`, `canReview`, API hoặc dữ liệu.
+- Tổng thời lượng lấy từ khoảng giờ của lịch; API hiện chưa trả thời lượng từng dòng nên không gán số minh họa. Không áp dụng quy định hủy trước `[X] giờ` từ ảnh vì nghiệp vụ hiện tại kiểm tra trạng thái; giữ nguyên điều kiện thật.
+- Build frontend đúng một lần: **PASS 97 modules**, không cảnh báo; chưa QA hành trình trên trình duyệt. Không chạy toàn bộ kiểm thử hoặc ghi DB.
+
 Nghiệm thu 1b ngày24/10: frontend lint PASS,20/20test,build77modules; backend67PASS/9SKIP. Browser 5nhóm login/menu và guard trên DB test riêng đạt, modal Tab/ShiftTab/Escape/busy/restore focus đạt sau sửa; shell/home/component 375/768/1440 không tràn ngang. Chưa nghiệm thu mọi màn hình cũ hoặc toàn hành trình mới; các dashboard KPI và Admin light nội dung còn đợt3–5. Chi tiết và danh sách file/API: [Báo cáo đợt1](BAO_CAO_UI_DOT_1.md). Tiếp theo: đợt2 khách hàng, bao gồm endpoint khiếu nại sở hữu đã được người dùng chấp thuận.
