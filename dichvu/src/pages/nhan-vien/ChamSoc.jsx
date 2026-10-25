@@ -1,3 +1,4 @@
+import ScheduleGrid from '../../components/ui/ScheduleGrid.jsx'
 import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -36,10 +37,12 @@ export default function ChamSoc() {
     <p className="my-3 text-sm text-slate-600">Ca của bạn: {shifts.map(row=>`${row.start}–${row.end}`).join(', ')||'Không có ca'}</p>
     <button className={btn} disabled={busy||loading} onClick={()=>setVersion(v=>v+1)}>Tải lại</button>
     {message&&<p role="status" className="my-3 rounded-lg bg-emerald-50 p-3 text-emerald-800">{message}</p>}{error&&<p role="alert" className="my-3 rounded-lg bg-red-50 p-3 text-red-700">{error}</p>}
+    {!loading&&<div className="my-5"><ScheduleGrid rows={rows.map(row=>({...row,staff:'Lịch của bạn'}))} busy={busy} onSelect={row=>{setSelected(row);setNote('');setError('')}}/></div>}
     {loading?<p>Đang tải...</p>:<div className="mt-4 grid gap-4 md:grid-cols-2"><section className="space-y-3">
       {!rows.length&&<p>Không có lịch được phân công trong ngày.</p>}{rows.map(row=><button disabled={busy} key={row.id} className={`block w-full rounded-xl border p-4 text-left ${selected?.id===row.id?'border-brand-600 bg-brand-50':'border-slate-200 bg-white'}`} onClick={()=>{setSelected(row);setNote('');setError('')}}><strong>#{row.id} · {row.start}–{row.end} · {row.petName}</strong><p className="my-2 text-sm">{row.serviceNames.join(', ')}</p><HuyHieuTrangThai status={row.status}/></button>)}
     </section><section className="rounded-xl border border-slate-200 bg-white p-5">{!selected?<p>Chọn lịch để tiếp nhận và cập nhật.</p>:<>
-      <h2 className="text-lg font-extrabold">Lịch #{selected.id} · {selected.petName}</h2><p className="my-2">{selected.species}{selected.weightKg?` · ${selected.weightKg} kg`:''}</p><p>Ghi chú sức khỏe: {selected.healthNote||'Không có'}</p>
+      <h2 className="text-lg font-extrabold">Lịch #{selected.id} · {selected.petName}</h2><p className="my-2">{selected.species}{selected.weightKg?` · ${selected.weightKg} kg`:''}</p><p className={selected.healthNote?'my-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900':'text-sm text-slate-500'}>Ghi chú sức khỏe: {selected.healthNote||'Không có'}</p>
+      <ol className="my-4 flex flex-wrap gap-2" aria-label="Tiến trình chăm sóc">{[['DaXacNhan','Tiếp nhận'],['DangThucHien','Đang chăm sóc'],['HoanThanh','Hoàn tất']].map(([code,label])=><li key={code} aria-current={selected.trangThaiDB===code?'step':undefined} className={`rounded-full px-3 py-2 text-sm font-bold ${selected.trangThaiDB===code?'bg-brand-700 text-white':'bg-slate-100 text-slate-600'}`}>{label}</li>)}</ol>
       {selected.careIssue&&<p className="my-3 rounded-lg bg-amber-50 p-3 text-amber-800">Đang chờ lễ tân xử lý: {selected.careIssue}</p>}
       {['DaXacNhan','DangThucHien'].includes(selected.trangThaiDB)&&<><label className="mt-4 block font-bold">Ghi chú chăm sóc / Lý do không đủ điều kiện<textarea aria-label="Ghi chú chăm sóc" value={note} maxLength={500} disabled={busy} onChange={e=>setNote(e.target.value)} className={input} rows={3}/></label>
       {selected.trangThaiDB==='DaXacNhan'&&<div className="my-3 flex flex-wrap gap-3"><button className={`${btn} bg-brand-700 text-white`} disabled={busy||!!selected.careIssue} onClick={()=>act('bat-dau')}>Bắt đầu thực hiện</button><button className={`${btn} text-red-700`} disabled={busy} onClick={()=>act('khong-du-dieu-kien')}>Không đủ điều kiện</button></div>}</>}

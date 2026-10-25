@@ -1,3 +1,4 @@
+import ScheduleGrid from '../../components/ui/ScheduleGrid.jsx'
 import { Drawer } from '../../components/ui/Modal.jsx'
 import PageHeading from '../../components/ui/PageHeading.jsx'
 import { DateInput, TimeInput } from '../../components/ui/DateTimeInput.jsx'
@@ -16,7 +17,8 @@ const button = 'rounded-full border border-slate-300 px-5 py-2 font-bold disable
 export default function QuanLyLichHen() {
   const { apiCall } = useAuth()
   const [day, setDay] = useState(toISODate(new Date()))
-  const [status, setStatus] = useState('ChoXacNhan')
+  const [status, setStatus] = useState('')
+  const [query,setQuery]=useState(''),[view,setView]=useState('calendar'),[staffFilter,setStaffFilter]=useState('')
   const [rows, setRows] = useState([])
   const [selected, setSelected] = useState(null)
   const [people, setPeople] = useState([])
@@ -72,6 +74,7 @@ export default function QuanLyLichHen() {
     if (result.ok) { setNotice(result.data.message); reload() }
     else { setError(result.error); if (result.status === 409) reload() }
   }
+  const visibleRows=rows.filter(row=>(!staffFilter||(row.staff||'Chưa phân công')===staffFilter)&&[row.id,row.customerName,row.customerPhone,row.petName,...row.serviceNames].join(' ').toLocaleLowerCase('vi').includes(query.trim().toLocaleLowerCase('vi')))
   return <div className="pc-page">
     <PageHeading title="Lịch hẹn và phân công" description="Theo dõi lịch hẹn, chọn một lịch để xem chi tiết và xử lý." actions={<Link to="/le-tan/dat-lich-tai-quay" className="pc-primary-action">+ Đặt lịch hộ khách</Link>} />
 
@@ -80,23 +83,26 @@ export default function QuanLyLichHen() {
       <label>Trạng thái<select aria-label="Trạng thái" value={status} disabled={busy} onChange={e => setStatus(e.target.value)} className={input}>
         <option value="">Tất cả</option>{Object.entries(states).map(([key, value]) => <option key={key} value={key}>{value}</option>)}
       </select></label>
+      <label className="flex-1">Tìm lịch hẹn<input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Tên khách, SĐT, mã lịch hoặc tên bé..." className={input}/></label>
+      <label>Nhân viên<select value={staffFilter} onChange={e=>setStaffFilter(e.target.value)} className={input}><option value="">Tất cả nhân viên</option>{[...new Set(rows.map(row=>row.staff||'Chưa phân công'))].map(name=><option key={name}>{name}</option>)}</select></label>
+      <div className="flex gap-2">{[['list','Danh sách'],['calendar','Lịch biểu']].map(([key,label])=><button type="button" key={key} aria-pressed={view===key} onClick={()=>setView(key)} className={`${button} ${view===key?'bg-brand-50 text-brand-800':''}`}>{label}</button>)}</div>
       <button type="button" disabled={busy || loading} onClick={reload} className={button}>Tải lại danh sách</button>
     </div>
     {notice && <p role="status" className="mb-4 rounded-xl bg-emerald-50 p-4 text-emerald-800">{notice}</p>}
     {error && <p role="alert" className="mb-4 rounded-xl bg-red-50 p-4 text-red-700">{error}</p>}
     {loading ? <p role="status">Đang tải lịch hẹn...</p> : <div className="grid gap-5">
-      <section className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+      {view==='calendar'?<ScheduleGrid rows={visibleRows} onSelect={row=>{setSelected(row);setError('');setNotice('')}} busy={busy}/>:<section className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
         <table className="w-full min-w-[760px] text-left text-sm"><caption className="p-3 text-left font-bold">Danh sách lịch hẹn</caption>
           <thead className="bg-slate-50"><tr>{['Mã / Khách hàng', 'Thú cưng / Dịch vụ', 'Ngày giờ', 'Trạng thái', ''].map((s, i) => <th key={i} className="p-3">{s}</th>)}</tr></thead>
-          <tbody>{rows.map(row => <tr key={row.id} className={`border-t border-slate-100 ${selected?.id === row.id ? 'bg-brand-50' : ''}`}>
+          <tbody>{visibleRows.map(row => <tr key={row.id} className={`border-t border-slate-100 ${selected?.id === row.id ? 'bg-brand-50' : ''}`}>
             <td className="p-3">#{row.id}<br />{row.customerName}</td>
             <td className="p-3">{row.petName}<br /><span className="text-slate-500">{row.serviceNames.join(', ')}</span></td>
             <td className="whitespace-nowrap p-3">{formatDateVN(row.date)}<br />{row.start}–{row.end}</td>
             <td className="p-3"><HuyHieuTrangThai status={row.status} /></td>
             <td className="p-3"><button type="button" disabled={busy} onClick={() => { setSelected(row); setError(''); setNotice('') }} className="whitespace-nowrap font-bold text-brand-700">Xem #{row.id}</button></td>
           </tr>)}</tbody>
-        </table>{!rows.length && <p className="p-4 text-slate-500">Không có lịch hẹn phù hợp.</p>}
-      </section>
+        </table>{!visibleRows.length && <p className="p-4 text-slate-500">Không có lịch hẹn phù hợp.</p>}
+      </section>}
       <Drawer open={!!selected} title={selected ? `Lịch hẹn #${selected.id}` : 'Chi tiết lịch hẹn'} onClose={() => setSelected(null)} busy={busy}>
         {error && <p role="alert" className="pc-detail-notice">{error}</p>}
         {!selected ? <p className="text-slate-500">Chọn lịch hẹn để xem chi tiết và xử lý.</p> : <>

@@ -439,13 +439,7 @@ export default function DatLichTaiQuay() {
           {!isNewCustomer && customer && (
             <Field label="Thú cưng:" required htmlFor="pet" error={errors.pet}>
               {pets.length > 0 ? (
-                <select id="pet" value={petId} onChange={(e) => setPetId(e.target.value)} className={inputCls}>
-                  {pets.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.name} ({p.species})
-                    </option>
-                  ))}
-                </select>
+                <div id="pet" role="group" aria-label="Thú cưng của khách" className="flex flex-wrap gap-3">{pets.map(p=><button type="button" key={p.id} aria-pressed={String(p.id)===String(petId)} onClick={()=>setPetId(String(p.id))} className={`rounded-xl border px-5 py-3 text-left ${String(p.id)===String(petId)?'border-brand-600 bg-brand-50':'border-slate-200'}`}><strong>{p.name}</strong><span className="block text-sm text-slate-500">{p.species}</span></button>)}</div>
               ) : (
                 <p className="text-sm text-amber-700">Khách chưa có thú cưng nào. Vui lòng chuyển sang Tạo hồ sơ khách mới.</p>
               )}

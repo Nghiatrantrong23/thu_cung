@@ -44,3 +44,21 @@
 .pc-report-print { display: flex; justify-content: flex-end; margin: 0 0 20px; }
 @media (max-width: 640px) { .pc-page-heading h1 { font-size: 24px; } .pc-page-actions { width: 100%; } .pc-date-field { min-width: 150px; } }
 @media print { .pc-staff-sidebar, .pc-staff-header, .print-hide { display: none !important; } .pc-staff-body { padding-left: 0 !important; } .pc-report-kpi:last-child { background: white; color: #182b35; } .pc-report-kpi:last-child h2, .pc-report-kpi:last-child p { color: #182b35; } }
+
+.pc-schedule { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 16px; background: white; }
+.pc-schedule-inner { min-width: 1050px; }
+.pc-schedule-row { display: grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid #e2e8f0; }
+.pc-schedule-row > strong { padding: 18px 12px; background: #f8fafc; overflow-wrap: anywhere; }
+.pc-schedule-hours { display: flex; justify-content: space-between; padding: 16px 5px; background: #e8f5f3; font-size: 12px; }
+.pc-schedule-track { display: grid; grid-template-columns: repeat(22,minmax(0,1fr)); gap: 4px 0; padding: 6px 0; background: repeating-linear-gradient(90deg, transparent 0,transparent calc(100% / 22 - 1px),#e2e8f0 calc(100% / 22 - 1px),#e2e8f0 calc(100% / 22)); }
+.pc-schedule-event { margin: 2px; padding: 10px 6px; border-radius: 10px; border: 1px solid #a7d9d0; background: #e8f5f3; color: #065f56; text-align: left; font-size: 12px; overflow-wrap: anywhere; }
+.pc-schedule-event:hover { border-color: #00796f; }
+.pc-schedule-event--cancelled { opacity: .6; text-decoration: line-through; }
+.pc-revenue-chart { display: flex; gap: 14px; overflow-x: auto; padding: 16px 0; }
+.pc-revenue-day { min-width: 85px; flex: 1; font-size: 11px; text-align: center; }
+.pc-revenue-bars { height: 190px; display: flex; align-items: flex-end; justify-content: center; gap: 4px; border-bottom: 1px solid #cbd5e1; margin-bottom: 10px; }
+.pc-revenue-bar { width: 22px; min-height: 1px; border-radius: 5px 5px 0 0; background: #00796f; }
+.pc-revenue-bar--refunded { background: #e99b43; }
+.pc-page-empty { border-style: solid; background: linear-gradient(140deg,#f0fdfa,white); }
+
+.pc-staff-header { position: sticky; top: 0; z-index: 30; }

@@ -3,7 +3,7 @@ import CustomerEmptyState from '../../components/ui/CustomerEmptyState.jsx'
 import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { services as defaultMockServices } from '../../data/duLieuMau.js'
+
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { usePets } from '../../data/khoThuCung.jsx'
 import { useBookings } from '../../data/khoLichHen.jsx'
@@ -50,6 +50,7 @@ export default function BookingPage() {
   const [servicesList, setServicesList] = useState([])
   const [loadingServices, setLoadingServices] = useState(true)
 
+  const [step, setStep] = useState(1)
   const [petId, setPetId] = useState('')
   const [date, setDate] = useState(() => addDays(3))
   const [start, setStart] = useState('09:00')
@@ -84,15 +85,11 @@ export default function BookingPage() {
           setServicesList(list)
           setSelected([list[0].id])
         } else if (!cancelled) {
-          setServicesList(defaultMockServices)
-          setSelected([defaultMockServices[0].id])
+          setServicesList([])
         }
       })
       .catch(() => {
-        if (!cancelled) {
-          setServicesList(defaultMockServices)
-          setSelected([defaultMockServices[0].id])
-        }
+        if (!cancelled) setSubmitError('Không tải được danh mục dịch vụ. Vui lòng tải lại trang.')
       })
       .finally(() => {
         if (!cancelled) setLoadingServices(false)
@@ -162,6 +159,7 @@ export default function BookingPage() {
 
   async function handleSubmit(ev) {
     ev.preventDefault()
+    if (step !== 3) return
     setSubmitError('')
     const errs = validate()
     setErrors(errs)
@@ -196,6 +194,7 @@ export default function BookingPage() {
   }
 
   function resetForm() {
+    setStep(1)
     setCreated(null)
     if (servicesList.length > 0) {
       setSelected([servicesList[0].id])
@@ -269,23 +268,18 @@ export default function BookingPage() {
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-6">
       <PageHeading title="Đặt lịch dịch vụ" description="Chọn thú cưng, thời gian và dịch vụ chăm sóc phù hợp."/>
-      <ol className="customer-booking-guide" aria-label="Các nội dung trong biểu mẫu đặt lịch"><li><span>1</span>Chọn thú cưng</li><li><span>2</span>Chọn ngày và giờ</li><li><span>3</span>Dịch vụ và xác nhận</li></ol>
+      <ol className="customer-booking-guide" aria-label="Các bước đặt lịch">{['Chọn thú cưng', 'Chọn dịch vụ', 'Chọn giờ và xác nhận'].map((label,index)=><li key={label} aria-current={step===index+1?'step':undefined} className={step===index+1?'font-bold text-brand-800':''}><span>{index+1}</span>{label}</li>)}</ol>
       <p className="mt-2 rounded-xl bg-brand-50 px-4 py-3 text-sm text-brand-800">
         Giờ mở cửa {toHHMM(OPEN)} đến {toHHMM(CLOSE)}. Lịch hẹn phải kết thúc trước {toHHMM(CLOSE)}. Chỉ hiển thị các
         giờ còn trống và đủ thời lượng theo ca trực.
       </p>
 
       <div className="mt-6 space-y-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+<section hidden={step!==1}>
         {/* Thú cưng */}
         <Field label="Thú cưng:" required htmlFor="pet" error={errors.pet}>
           <div className="flex items-center gap-3">
-            <select id="pet" value={petId} onChange={(e) => setPetId(e.target.value)} className={inputCls}>
-              {activePets.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name} ({p.species})
-                </option>
-              ))}
-            </select>
+            <div id="pet" className="grid flex-1 gap-3 sm:grid-cols-2" role="group" aria-label="Chọn thú cưng">{activePets.map(p=><button type="button" key={p.id} aria-pressed={String(p.id)===petId} onClick={()=>setPetId(String(p.id))} className={`rounded-xl border p-4 text-left ${String(p.id)===petId?'border-brand-600 bg-brand-50':'border-slate-200'}`}><strong>{p.name}</strong><span className="block text-sm text-slate-500">{p.species}</span></button>)}</div>
             <Link to="/ho-so-thu-cung" state={{ new: true }} className="shrink-0 text-sm font-bold text-brand-700 hover:underline">
               + Thêm thú cưng
             </Link>
@@ -295,6 +289,14 @@ export default function BookingPage() {
           )}
         </Field>
 
+</section>
+<section hidden={step!==2}>
+        <fieldset><legend className="mb-3 font-bold">Chọn dịch vụ chăm sóc</legend>
+          {loadingServices ? <p role="status">Đang tải dịch vụ...</p> : <div className="grid gap-3 sm:grid-cols-2">{servicesList.map(service=><label key={service.id} className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 ${selected.includes(service.id)?'border-brand-600 bg-brand-50':'border-slate-200'}`}><input type="checkbox" checked={selected.includes(service.id)} onChange={()=>toggleService(service.id)}/><span><strong className="block">{service.name}</strong><span className="mt-2 block text-sm text-slate-600">{service.durationMin} phút · {formatVND(service.price)} ₫</span></span></label>)}</div>}
+          {!loadingServices&&!servicesList.length&&<p role="alert">Chưa có dịch vụ để đặt lịch.</p>}
+        </fieldset>
+</section>
+<section hidden={step!==3}>
         {/* Ngày, giờ */}
         <div className="grid gap-5 sm:grid-cols-3">
           <Field label="Ngày hẹn:" required htmlFor="date" error={errors.date}>
@@ -302,28 +304,7 @@ export default function BookingPage() {
           </Field>
 
           <Field label="Giờ hẹn:" required htmlFor="start" error={errors.start}>
-            <select
-              id="start"
-              value={startValid ? start : ''}
-              onChange={(e) => setStart(e.target.value)}
-              disabled={loadingSlots || slots.length === 0}
-              className={inputCls}
-            >
-              <option value="">
-                {duration === 0
-                  ? 'Chọn dịch vụ trước'
-                  : loadingSlots
-                  ? 'Đang kiểm tra giờ...'
-                  : slots.length === 0
-                  ? slotError ? 'Không tải được giờ hẹn' : slotReason==='NO_SHIFTS' ? 'Chưa có ca làm' : 'Chưa có giờ phù hợp'
-                  : 'Chọn giờ'}
-              </option>
-              {slots.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+            <div id="start" role="group" aria-label="Giờ hẹn còn trống" className="flex flex-wrap gap-2">{loadingSlots?<p role="status">Đang kiểm tra giờ...</p>:slots.map(t=><button key={t} type="button" aria-pressed={start===t} onClick={()=>setStart(t)} className={`rounded-full border px-4 py-2 font-bold ${start===t?'border-brand-700 bg-brand-700 text-white':'border-slate-200 bg-white text-slate-700'}`}>{t}</button>)}</div>
           </Field>
 
           <Field label="Giờ kết thúc dự kiến:" htmlFor="end">
@@ -343,59 +324,6 @@ export default function BookingPage() {
           </p>
         )}
 
-        {/* Dịch vụ */}
-        <fieldset>
-          <legend className="mb-1.5 text-sm font-bold text-slate-700">
-            Chọn dịch vụ: <span className="text-accent-600">*</span>
-          </legend>
-          {loadingServices ? (
-            <p className="text-sm text-slate-500 py-3">Đang tải danh mục dịch vụ...</p>
-          ) : (
-            <div className="overflow-hidden rounded-xl border border-slate-200">
-              <table className="w-full text-sm">
-                <thead className="bg-brand-50 text-left text-slate-600">
-                  <tr>
-                    <th className="w-16 px-4 py-2.5 font-bold">Chọn</th>
-                    <th className="px-4 py-2.5 font-bold">Tên dịch vụ</th>
-                    <th className="px-4 py-2.5 font-bold">Thời lượng</th>
-                    <th className="px-4 py-2.5 text-right font-bold">Giá (₫)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {servicesList.map((s) => {
-                    const checked = selected.includes(s.id)
-                    return (
-                      <tr key={s.id} className={checked ? 'bg-brand-50/60' : 'bg-white'}>
-                        <td className="px-4 py-3">
-                          <input
-                            id={`svc-${s.id}`}
-                            type="checkbox"
-                            checked={checked}
-                            onChange={() => toggleService(s.id)}
-                            className="h-4 w-4 cursor-pointer accent-brand-700"
-                          />
-                        </td>
-                        <td className="px-4 py-3">
-                          <label htmlFor={`svc-${s.id}`} className="cursor-pointer font-bold text-slate-800">
-                            {s.name}
-                          </label>
-                        </td>
-                        <td className="px-4 py-3 text-slate-600">{s.durationMin} phút</td>
-                        <td className="px-4 py-3 text-right tabular-nums text-slate-800">{formatVND(s.price)}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          )}
-          {errors.services && (
-            <p role="alert" className="mt-1.5 text-sm font-semibold text-red-600">
-              {errors.services}
-            </p>
-          )}
-        </fieldset>
-
         {/* Ghi chú */}
         <Field label="Ghi chú:" htmlFor="note">
           <textarea
@@ -409,6 +337,7 @@ export default function BookingPage() {
           />
         </Field>
 
+        </section>
         {/* Tổng kết */}
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-brand-50 px-4 py-3">
           <p className="text-slate-700">
@@ -427,9 +356,12 @@ export default function BookingPage() {
         )}
 
         <div className="flex flex-wrap gap-3">
+          {step>1&&<button type="button" className="rounded-full border px-6 py-3 font-bold" onClick={()=>setStep(step-1)}>Bước trước</button>}
+          {step<3&&<button type="button" className="rounded-full bg-brand-700 px-6 py-3 font-bold text-white disabled:opacity-50" disabled={step===1?!petId:loadingServices||!selected.length} onClick={()=>setStep(step+1)}>Tiếp tục →</button>}
           <button
             type="submit"
-            disabled={isSubmitting}
+            hidden={step!==3}
+            disabled={isSubmitting || loadingSlots || !startValid}
             className="rounded-full bg-brand-700 px-7 py-3 text-sm font-extrabold tracking-normal text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50"
           >
             {isSubmitting ? 'Đang gửi yêu cầu...' : 'Xác nhận đặt lịch'}

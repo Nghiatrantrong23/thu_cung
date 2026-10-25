@@ -1,3 +1,4 @@
+import Modal, { Drawer } from '../../components/ui/Modal.jsx'
 import PageHeading from '../../components/ui/PageHeading.jsx'
 import CustomerEmptyState from '../../components/ui/CustomerEmptyState.jsx'
 import { DateInput } from '../../components/ui/DateTimeInput.jsx'
@@ -53,6 +54,7 @@ export default function PetsPage() {
   const location = useLocation()
 
   const startNew = Boolean(location.state?.new) || (initialized && pets.length === 0)
+  const [formOpen, setFormOpen] = useState(startNew)
   const [mode, setMode] = useState(startNew ? 'new' : 'edit')
   const [selectedId, setSelectedId] = useState(startNew ? null : (pets[0]?.id ?? null))
   const [form, setForm] = useState(() => (startNew || !pets[0] ? emptyForm() : toForm(pets[0])))
@@ -72,10 +74,10 @@ export default function PetsPage() {
   const invalid = (key) => (errors[key] ? 'border-red-400' : 'border-slate-300')
 
   function selectPet(pet) {
-    setMode('edit'); setSelectedId(pet.id); setForm(toForm(pet)); setErrors({}); setNotice(null)
+    setFormOpen(true); setMode('edit'); setSelectedId(pet.id); setForm(toForm(pet)); setErrors({}); setNotice(null)
   }
   function startAdd() {
-    setMode('new'); setSelectedId(null); setForm(emptyForm()); setErrors({}); setNotice(null)
+    setFormOpen(true); setMode('new'); setSelectedId(null); setForm(emptyForm()); setErrors({}); setNotice(null)
   }
 
   async function handleSubmit(e) {
@@ -182,6 +184,8 @@ export default function PetsPage() {
         </p>
       )}
 
+      <Drawer open={formOpen} title={mode==='new'?'Thêm thú cưng':'Hồ sơ thú cưng'} onClose={()=>setFormOpen(false)} busy={saving}>
+      {notice&&<p role={notice.type==='error'?'alert':'status'} className="mb-4 rounded-xl bg-slate-50 p-3">{notice.text}</p>}
       {(mode === 'new' || selected) && <form onSubmit={handleSubmit} noValidate className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="text-lg font-extrabold text-slate-800">
           {mode === 'new' ? 'Thêm thú cưng mới' : `Thông tin thú cưng: ${selected?.name ?? ''}`}
@@ -228,7 +232,7 @@ export default function PetsPage() {
           {mode === 'new' ? (
             <>
               <button type="submit" disabled={saving} className={btnPrimary}>{saving ? 'Đang lưu...' : 'Thêm thú cưng mới'}</button>
-              {pets.length > 0 && <button type="button" onClick={() => selectPet(pets[0])} className={btnGhost}>Hủy</button>}
+              {pets.length > 0 && <button type="button" onClick={() => setFormOpen(false)} className={btnGhost}>Hủy</button>}
             </>
           ) : (
             <>
@@ -242,9 +246,10 @@ export default function PetsPage() {
         </div>
         <p className="mt-3 text-sm text-slate-500">Thú cưng đã có lịch hẹn không xóa được, chỉ chuyển sang Ngừng theo dõi.</p>
       </form>}
+      </Drawer>
 
       {confirmStop && selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+        <Modal open title="Xác nhận ngừng theo dõi" onClose={()=>setConfirmStop(false)} busy={saving}>
           <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
             <h3 className="text-lg font-extrabold text-slate-800">Ngừng theo dõi {selected.name}?</h3>
             <p className="mt-2 text-sm text-slate-600">Hồ sơ và lịch sử chăm sóc vẫn được giữ lại. Bạn có thể theo dõi lại bất cứ lúc nào.</p>
@@ -256,7 +261,7 @@ export default function PetsPage() {
               <button type="button" onClick={() => setConfirmStop(false)} className={`flex-1 ${btnGhost}`}>Hủy</button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   )
