@@ -3,22 +3,23 @@ import { Link } from 'react-router-dom'
 import { useCallback,useEffect,useState } from 'react'
 import HopThoaiXacNhan from '../../components/HopThoaiXacNhan.jsx'
 import HuyHieuTrangThai from '../../components/HuyHieuTrangThai.jsx'
+import './QuanLyTaiKhoan.css'
 
 const API_BASE = '/api'
 
 // Tailwind utility classes
 const inputCls =
-    'rounded-lg border border-slate-700/30 bg-slate-800/50 px-3.5 py-2.5 text-slate-100 placeholder:text-slate-500 shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20'
+    'rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-slate-900 placeholder:text-slate-500 shadow-sm outline-none transition focus:border-brand-600 focus:ring-2 focus:ring-brand-100'
 const selectCls =
-    'rounded-lg border border-slate-700/30 bg-slate-800/50 px-3.5 py-2.5 text-slate-100 shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20'
+    'rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-slate-900 shadow-sm outline-none transition focus:border-brand-600 focus:ring-2 focus:ring-brand-100'
 const btnPrimary =
-    'rounded-lg bg-sky-600 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-500'
+    'rounded-lg bg-[#00877d] px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-white transition hover:bg-[#006b63] disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500'
 const btnSecondary =
-    'rounded-lg border border-slate-600 bg-slate-800/50 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-slate-300 transition hover:border-sky-500 hover:text-sky-400 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-600'
+    'rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-slate-700 transition hover:border-brand-600 hover:text-brand-700 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400'
 const btnDanger =
-    'rounded-lg border border-rose-600/50 bg-rose-900/20 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-rose-400 transition hover:bg-rose-900/40 hover:border-rose-500 disabled:cursor-not-allowed disabled:border-slate-700 disabled:text-slate-600 disabled:bg-slate-800/30'
+    'rounded-lg border border-rose-200 bg-rose-50 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-rose-700 transition hover:bg-rose-100 hover:border-rose-300 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400 disabled:bg-slate-100'
 const btnWarning =
-    'rounded-lg border border-amber-600/50 bg-amber-900/20 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-amber-400 transition hover:bg-amber-900/40 hover:border-amber-500'
+    'rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm font-bold uppercase tracking-wide text-amber-800 transition hover:bg-amber-100 hover:border-amber-500'
 
 const ROLES = {
     Admin: 'Admin',
@@ -36,7 +37,7 @@ function Info({ label, children }) {
     return (
         <div>
             <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">{label}</dt>
-            <dd className="mt-1 font-bold text-slate-200">{children || <span className="text-slate-600">—</span>}</dd>
+            <dd className="mt-1 font-bold text-slate-800">{children || <span className="text-slate-600">—</span>}</dd>
         </div>
     )
 }
@@ -51,23 +52,23 @@ function TempPasswordModal({ password, onClose }) {
     }
 
     return (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/80 p-4" onClick={onClose}>
+        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/40 p-4" onClick={onClose}>
             <div
                 role="dialog"
                 aria-modal="true"
-                className="w-full max-w-md rounded-2xl border border-slate-700/50 bg-slate-900 p-6 shadow-2xl"
+                className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="text-xl font-extrabold text-slate-100">Mật khẩu tạm thời</h2>
-                <p className="mt-2 text-sm text-slate-400">
+                <h2 className="text-xl font-extrabold text-slate-900">Mật khẩu tạm thời</h2>
+                <p className="mt-2 text-sm text-slate-500">
                     Lưu mật khẩu này ngay. Mật khẩu chỉ hiển thị một lần và không thể khôi phục.
                 </p>
-                <div className="mt-4 flex items-center gap-3 rounded-lg border border-sky-700/50 bg-sky-950/30 p-4">
-                    <code className="flex-1 select-all font-mono text-lg font-bold text-sky-300">{password}</code>
+                <div className="mt-4 flex items-center gap-3 rounded-lg border border-brand-200 bg-brand-50 p-4">
+                    <code className="flex-1 select-all font-mono text-lg font-bold text-brand-800">{password}</code>
                     <button
                         type="button"
                         onClick={handleCopy}
-                        className="rounded-lg bg-sky-700/50 px-3 py-2 text-xs font-bold uppercase tracking-wide text-sky-200 transition hover:bg-sky-600"
+                        className="rounded-lg bg-brand-100 px-3 py-2 text-xs font-bold uppercase tracking-wide text-brand-800 transition hover:bg-brand-200"
                     >
                         {copied ? '✓ Đã sao' : 'Sao chép'}
                     </button>
@@ -84,34 +85,34 @@ function TempPasswordModal({ password, onClose }) {
 
 function WarningModal({ title, message, appointments, onConfirm, onClose }) {
     return (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/80 p-4" onClick={onClose}>
+        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/40 p-4" onClick={onClose}>
             <div
                 role="dialog"
                 aria-modal="true"
-                className="w-full max-w-2xl rounded-2xl border border-rose-700/50 bg-slate-900 p-6 shadow-2xl"
+                className="w-full max-w-2xl rounded-2xl border border-rose-200 bg-white p-6 shadow-sm"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="text-xl font-extrabold text-rose-400">{title}</h2>
-                <p className="mt-2 text-slate-300">{message}</p>
+                <h2 className="text-xl font-extrabold text-rose-700">{title}</h2>
+                <p className="mt-2 text-slate-700">{message}</p>
                 {appointments && appointments.length > 0 && (
-                    <div className="mt-4 max-h-64 overflow-auto rounded-lg border border-slate-700/50 bg-slate-950/50">
+                    <div className="mt-4 max-h-64 overflow-auto rounded-lg border border-slate-200 bg-slate-50">
                         <table className="w-full text-sm">
-                            <thead className="sticky top-0 bg-slate-900 text-left">
-                                <tr className="border-b border-slate-700/50">
-                                    <th className="px-3 py-2 font-semibold text-slate-400">Mã lịch</th>
-                                    <th className="px-3 py-2 font-semibold text-slate-400">Khách hàng</th>
-                                    <th className="px-3 py-2 font-semibold text-slate-400">Ngày giờ</th>
-                                    <th className="px-3 py-2 font-semibold text-slate-400">Trạng thái</th>
+                            <thead className="sticky top-0 bg-white text-left">
+                                <tr className="border-b border-slate-200">
+                                    <th className="px-3 py-2 font-semibold text-slate-500">Mã lịch</th>
+                                    <th className="px-3 py-2 font-semibold text-slate-500">Khách hàng</th>
+                                    <th className="px-3 py-2 font-semibold text-slate-500">Ngày giờ</th>
+                                    <th className="px-3 py-2 font-semibold text-slate-500">Trạng thái</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-800/50">
+                            <tbody className="divide-y divide-slate-100">
                                 {appointments.map((apt, idx) => (
-                                    <tr key={idx} className="text-slate-300">
+                                    <tr key={idx} className="text-slate-700">
                                         <td className="px-3 py-2 font-mono text-xs">{apt.maLichHen}</td>
                                         <td className="px-3 py-2">{apt.tenKhachHang}</td>
                                         <td className="px-3 py-2">{apt.ngayGioHen}</td>
                                         <td className="px-3 py-2">
-                                            <span className="rounded-full bg-amber-900/30 px-2 py-0.5 text-xs font-semibold text-amber-400">
+                                            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
                                                 {apt.trangThai}
                                             </span>
                                         </td>
@@ -330,31 +331,38 @@ export default function QuanLyTaiKhoan() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6">
+        <div className="admin-accounts">
             <div className="mx-auto max-w-7xl">
-                <Link to="/admin" className="mb-4 inline-block font-bold text-sky-300">← Trang quản trị</Link>
-                {/* Header */}
-                <div className="mb-6">
-                    <h1 className="text-3xl font-black tracking-tight text-slate-100">Quản lý tài khoản</h1>
-                    <p className="mt-1 text-sm text-slate-400">Quản trị viên hệ thống</p>
+                <header className="admin-accounts__heading">
+                    <div>
+                        <Link to="/admin" className="admin-accounts__breadcrumb">← Trang quản trị</Link>
+                        <h1>Quản lý tài khoản</h1>
+                        <p>Quản trị viên hệ thống</p>
+                    </div>
+                    <button type="button" onClick={handleCreateNew} className={btnPrimary}>+ Tạo tài khoản nhân viên</button>
+                </header>
+
+                <div className="admin-accounts__warning">
+                    <span aria-hidden="true" className="admin-accounts__warning-icon">!</span>
+                    <p>Khóa tài khoản hoặc đổi quyền nhân viên có thể ảnh hưởng đến các lịch hẹn đã phân công. Kiểm tra thông tin trước khi áp dụng.</p>
                 </div>
 
                 {error && (
-                    <div className="mb-4 rounded-lg border border-rose-700/50 bg-rose-950/30 px-4 py-3 text-sm text-rose-300">
+                    <div className="mb-4 rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
                         <strong className="font-bold">Lỗi:</strong> {error}
                     </div>
                 )}
 
-                <div className="grid gap-6 lg:grid-cols-[1fr_1.5fr]">
+                <div className="admin-accounts__content">
                     {/* Account List */}
-                    <div className="rounded-2xl border border-slate-800/50 bg-slate-900/50 p-6 shadow-2xl backdrop-blur">
-                        <div className="mb-4 flex items-center gap-3">
+                    <div className="admin-accounts__list">
+                        <div className="admin-accounts__filters">
                             <input
                                 type="text"
                                 placeholder="Tìm tên, SĐT..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className={`${inputCls} flex-1`}
+                                className={`${inputCls} admin-accounts__search`}
                             />
                             <select value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)} className={selectCls}>
                                 <option value="">Tất cả vai trò</option>
@@ -366,67 +374,48 @@ export default function QuanLyTaiKhoan() {
                             </select>
                         </div>
 
-                        <button type="button" onClick={handleCreateNew} className={`${btnPrimary} mb-4 w-full`}>
-                            + Thêm tài khoản
-                        </button>
-
                         {loading ? (
                             <div className="py-12 text-center text-slate-500">Đang tải...</div>
                         ) : accounts.length === 0 ? (
                             <div className="py-12 text-center text-slate-500">Không tìm thấy tài khoản</div>
                         ) : (
-                            <div className="space-y-2 overflow-auto" style={{ maxHeight: 'calc(100vh - 24rem)' }}>
-                                {accounts.map((acc) => (
-                                    <button
-                                        key={acc.maNguoiDung}
-                                        type="button"
-                                        onClick={() => handleSelectAccount(acc)}
-                                        className={`w-full rounded-lg border p-4 text-left transition ${selected?.maNguoiDung === acc.maNguoiDung
-                                                ? 'border-sky-500 bg-sky-950/30'
-                                                : 'border-slate-700/30 bg-slate-800/30 hover:border-slate-600'
-                                            }`}
-                                    >
-                                        <div className="flex items-start justify-between">
-                                            <div>
-                                                <div className="font-bold text-slate-200">{acc.hoTen || acc.tenDangNhap}</div>
-                                                <div className="mt-0.5 text-xs text-slate-500">@{acc.tenDangNhap}</div>
-                                            </div>
-                                            <div className="flex flex-col items-end gap-1">
-                                                <span className="rounded-full bg-slate-700/50 px-2 py-0.5 text-xs font-semibold text-slate-300">
-                                                    {ROLES[acc.vaiTro] || acc.vaiTro}
-                                                </span>
-                                                {!acc.trangThai && (
-                                                    <span className="rounded-full bg-rose-900/30 px-2 py-0.5 text-xs font-semibold text-rose-400">
-                                                        Đã khóa
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                        {acc.chucVu && <div className="mt-2 text-xs text-slate-400">{acc.chucVu}</div>}
-                                        {acc.soDienThoai && <div className="mt-1 text-xs text-slate-400">{acc.soDienThoai}</div>}
-                                    </button>
-                                ))}
+                            <div className="admin-accounts__table-scroll">
+                                <table className="admin-accounts__table">
+                                    <thead><tr><th>Họ tên / Email</th><th>Vai trò</th><th>Liên hệ</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+                                    <tbody>{accounts.map((acc) => (
+                                        <tr key={acc.maNguoiDung} className={selected?.maNguoiDung === acc.maNguoiDung ? 'admin-accounts__row--selected' : ''}>
+                                            <td>
+                                                <button type="button" onClick={() => handleSelectAccount(acc)} className="admin-accounts__name">{acc.hoTen || acc.tenDangNhap}</button>
+                                                <p className="admin-accounts__muted">{acc.email || `@${acc.tenDangNhap}`}</p>
+                                            </td>
+                                            <td><span className="admin-accounts__role">{ROLES[acc.vaiTro] || acc.vaiTro}</span>{acc.chucVu && <p className="admin-accounts__muted">{acc.chucVu}</p>}</td>
+                                            <td><p>{acc.soDienThoai || '—'}</p><p className="admin-accounts__muted">@{acc.tenDangNhap}</p></td>
+                                            <td><span className={`admin-accounts__status ${acc.trangThai ? 'admin-accounts__status--active' : 'admin-accounts__status--locked'}`}><span aria-hidden="true"/>{acc.trangThai ? 'Hoạt động' : 'Đã khóa'}</span></td>
+                                            <td><button type="button" onClick={() => handleSelectAccount(acc)} className="admin-accounts__detail-button">Chi tiết</button></td>
+                                        </tr>
+                                    ))}</tbody>
+                                </table>
                             </div>
                         )}
                     </div>
 
                     {/* Detail Panel */}
-                    <div className="rounded-2xl border border-slate-800/50 bg-slate-900/50 p-6 shadow-2xl backdrop-blur">
+                    <div className="admin-account-detail">
                         {!selected && !editing ? (
-                            <div className="flex h-full items-center justify-center py-24 text-slate-500">
+                            <div className="flex items-center justify-center py-8 text-slate-500">
                                 Chọn tài khoản hoặc tạo mới
                             </div>
                         ) : (
                             <div>
-                                <h2 className="mb-6 text-xl font-extrabold text-slate-100">
+                                <h2 className="mb-6 text-xl font-extrabold text-slate-900">
                                     {editing && !selected ? 'Tạo tài khoản mới' : editing ? 'Chỉnh sửa tài khoản' : 'Chi tiết tài khoản'}
                                 </h2>
 
                                 {editing ? (
-                                    <div className="space-y-4">
+                                    <div className="admin-account-detail__form">
                                         <div>
-                                            <label className="mb-1 block text-sm font-semibold text-slate-300">
-                                                Tên đăng nhập <span className="text-rose-400">*</span>
+                                            <label className="mb-1 block text-sm font-semibold text-slate-700">
+                                                Tên đăng nhập <span className="text-rose-700">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -437,8 +426,8 @@ export default function QuanLyTaiKhoan() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="mb-1 block text-sm font-semibold text-slate-300">
-                                                Họ tên <span className="text-rose-400">*</span>
+                                            <label className="mb-1 block text-sm font-semibold text-slate-700">
+                                                Họ tên <span className="text-rose-700">*</span>
                                             </label>
                                             <input
                                                 type="text"
@@ -448,7 +437,7 @@ export default function QuanLyTaiKhoan() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="mb-1 block text-sm font-semibold text-slate-300">Email</label>
+                                            <label className="mb-1 block text-sm font-semibold text-slate-700">Email</label>
                                             <input
                                                 type="email"
                                                 value={formData.email}
@@ -457,7 +446,7 @@ export default function QuanLyTaiKhoan() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="mb-1 block text-sm font-semibold text-slate-300">Số điện thoại</label>
+                                            <label className="mb-1 block text-sm font-semibold text-slate-700">Số điện thoại</label>
                                             <input
                                                 type="tel"
                                                 value={formData.soDienThoai}
@@ -466,8 +455,8 @@ export default function QuanLyTaiKhoan() {
                                             />
                                         </div>
                                         <div>
-                                            <label className="mb-1 block text-sm font-semibold text-slate-300">
-                                                Vai trò <span className="text-rose-400">*</span>
+                                            <label className="mb-1 block text-sm font-semibold text-slate-700">
+                                                Vai trò <span className="text-rose-700">*</span>
                                             </label>
                                             <select
                                                 value={formData.vaiTro}
@@ -484,8 +473,8 @@ export default function QuanLyTaiKhoan() {
                                         </div>
                                         {formData.vaiTro === 'NhanVien' && (
                                             <div>
-                                                <label className="mb-1 block text-sm font-semibold text-slate-300">
-                                                    Chức vụ <span className="text-rose-400">*</span>
+                                                <label className="mb-1 block text-sm font-semibold text-slate-700">
+                                                    Chức vụ <span className="text-rose-700">*</span>
                                                 </label>
                                                 <select
                                                     value={formData.chucVu}
@@ -518,7 +507,7 @@ export default function QuanLyTaiKhoan() {
                                     </div>
                                 ) : (
                                     <div>
-                                        <dl className="space-y-4">
+                                        <dl className="admin-account-detail__fields">
                                             <Info label="Mã người dùng">{selected.maNguoiDung}</Info>
                                             <Info label="Tên đăng nhập">{selected.tenDangNhap}</Info>
                                             <Info label="Họ tên">{selected.hoTen}</Info>
@@ -528,12 +517,12 @@ export default function QuanLyTaiKhoan() {
                                             {selected.chucVu && <Info label="Chức vụ">{selected.chucVu}</Info>}
                                             <Info label="Trạng thái">
                                                 {selected.trangThai ? (
-                                                    <span className="inline-flex items-center gap-1.5 text-emerald-400">
+                                                    <span className="inline-flex items-center gap-1.5 text-emerald-700">
                                                         <span className="h-2 w-2 rounded-full bg-emerald-400"></span>
                                                         Hoạt động
                                                     </span>
                                                 ) : (
-                                                    <span className="inline-flex items-center gap-1.5 text-rose-400">
+                                                    <span className="inline-flex items-center gap-1.5 text-rose-700">
                                                         <span className="h-2 w-2 rounded-full bg-rose-400"></span>
                                                         Đã khóa
                                                     </span>
@@ -541,17 +530,17 @@ export default function QuanLyTaiKhoan() {
                                             </Info>
                                         </dl>
 
-                                        <div className="mt-8 space-y-3">
-                                            <button type="button" onClick={() => setEditing(true)} className={`${btnPrimary} w-full`}>
+                                        <div className="admin-account-detail__actions">
+                                            <button type="button" onClick={() => setEditing(true)} className={btnPrimary}>
                                                 Chỉnh sửa
                                             </button>
-                                            <button type="button" onClick={handleResetPassword} className={`${btnSecondary} w-full`}>
+                                            <button type="button" onClick={handleResetPassword} className={btnSecondary}>
                                                 Đặt lại mật khẩu
                                             </button>
                                             <button
                                                 type="button"
                                                 onClick={() => handleLockToggle(false)}
-                                                className={`${selected.trangThai ? btnDanger : btnWarning} w-full`}
+                                                className={selected.trangThai ? btnDanger : btnWarning}
                                             >
                                                 {selected.trangThai ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
                                             </button>
