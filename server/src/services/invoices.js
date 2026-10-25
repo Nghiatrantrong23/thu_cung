@@ -14,7 +14,7 @@ export async function lockedInvoice(client,id) {
 }
 export async function totals(client,id) {
     const row=(await client.query(`SELECT
-        COALESCE(SUM(so_tien) FILTER(WHERE phuong_thuc IN ('TienMat','ChuyenKhoanQR') AND trang_thai='ThanhCong'),0) AS paid,
+        COALESCE(SUM(so_tien) FILTER(WHERE phuong_thuc IN ('TienMat','ChuyenKhoanQR','MoMo') AND trang_thai='ThanhCong'),0) AS paid,
         COALESCE(SUM(so_tien) FILTER(WHERE phuong_thuc='HoanTien' AND trang_thai='ThanhCong'),0) AS refunded
         FROM thanh_toan WHERE ma_hoa_don=$1`,[id])).rows[0]
     return {paid:cents(row.paid),refunded:cents(row.refunded)}

@@ -15,7 +15,9 @@
         "demo:start": "node scripts/start-demo.js",
         "db:reset": "node scripts/reset-db.js",
         "db:setup": "node scripts/init-db.js --seed",
-        "test": "node --test test/*.test.js"
+        "test": "node --test test/*.test.js",
+        "payments:prepare": "node scripts/prepare-payment-sandbox.js",
+        "payments:sandbox": "node scripts/start-payment-sandbox.js"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
@@ -26,6 +28,7 @@
         "express-rate-limit": "^7.4.0",
         "jsonwebtoken": "^9.0.2",
         "pg": "^8.12.0",
+        "qrcode": "^1.5.4",
         "zod": "^3.23.8"
     },
     "devDependencies": {},

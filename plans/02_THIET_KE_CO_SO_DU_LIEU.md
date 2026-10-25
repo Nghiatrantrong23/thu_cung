@@ -112,3 +112,9 @@ Nếu dữ liệu cũ từng ghi theo timezone khác, cần đối soát timesta
 Còn: lựa chọn áp nâng cấp vào môi trường chạy sau khi duyệt kết quả bản sao; không đổi DB production. Docker runtime chưa có; UI tài khoản tạm/CRUD đầy đủ còn QA riêng; VietQR để cấu hình sau. Dump trong `backups/` bị gitignore, báo cáo chi tiết private trong `.cache/local-run/database-audit.json`; không đưa dữ liệu thực hoặc mật khẩu vào Git.
 
 Nguồn: [kế hoạch](ke_hoach_tong_the.md), [schema](../thu_cung.sql), [migrations](../migrations), [DB CLI](../server/scripts/README.md), [API](../docs/API.md), [nhật ký](NHAT_KY_KIEM_TRA.md).
+
+## 9. Bổ sung 25/10/2026 — thanh toán sandbox
+
+Migration mới `006_payment_sandbox.sql` bổ sung bảng `payment_intents`: UUID chuỗi, FK hóa đơn/người tạo/giao dịch; phương thức BankQR/MoMo/COD, mode bắt buộc sandbox, số tiền dương nguyên đồng, trạng thái và thời hạn. Unique partial một yêu cầu Pending/AwaitingCash cho mỗi hóa đơn; event_id và transaction_id UNIQUE. `thanh_toan` thêm phương thức MoMo; COD khi thực nhận ghi TienMat. Tổng đã thu/báo cáo tính cả MoMo; quy trình duyệt và thực chi hoàn giữ nguyên.
+
+000–005 được giữ nguyên checksum. 006 chỉ đã áp dụng trên các DB test mới; không áp dụng DB development/production đang dùng. Readiness chung vẫn yêu cầu 000–005 để không chặn nghiệp vụ cũ; endpoint sandbox kiểm tra bảng riêng và từ chối khi thiếu 006. Mô phỏng bị chặn ngoài NODE_ENV=test + kết nối loopback + tên DB test được opt-in chính xác. Chi tiết nghiệm thu/giới hạn: [Thanh toán sandbox](../docs/THANH_TOAN_SANDBOX.md).
