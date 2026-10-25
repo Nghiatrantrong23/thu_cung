@@ -1,3 +1,5 @@
+import PageHeading from '../../components/ui/PageHeading.jsx'
+import CustomerEmptyState from '../../components/ui/CustomerEmptyState.jsx'
 import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -204,19 +206,7 @@ export default function BookingPage() {
   }
 
   if (activePets.length === 0) {
-    return (
-      <div className="mx-auto max-w-xl rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
-        <h1 className="text-2xl font-extrabold text-slate-800">Bạn chưa có thú cưng để đặt lịch</h1>
-        <p className="mt-2 text-slate-500">Hãy thêm hồ sơ thú cưng trước, sau đó quay lại đặt lịch cho bé.</p>
-        <Link
-          to="/ho-so-thu-cung"
-          state={{ new: true }}
-          className="mt-6 inline-block rounded-full bg-brand-700 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-800"
-        >
-          Thêm thú cưng
-        </Link>
-      </div>
-    )
+    return <div className="space-y-6"><PageHeading title="Đặt lịch dịch vụ" description="Chọn thú cưng, thời gian và dịch vụ chăm sóc phù hợp."/><CustomerEmptyState title="Thêm hồ sơ thú cưng để đặt lịch" description="Bạn chưa có thú cưng đang theo dõi. Hãy thêm hồ sơ hoặc theo dõi lại một bé, sau đó quay lại chọn giờ chăm sóc." to="/ho-so-thu-cung" state={{new:true}} action="Thêm thú cưng"/></div>
   }
 
   if (created) {
@@ -277,8 +267,9 @@ export default function BookingPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="mx-auto max-w-3xl">
-      <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl">Đặt lịch dịch vụ</h1>
+    <form onSubmit={handleSubmit} noValidate className="space-y-6">
+      <PageHeading title="Đặt lịch dịch vụ" description="Chọn thú cưng, thời gian và dịch vụ chăm sóc phù hợp."/>
+      <ol className="customer-booking-guide" aria-label="Các nội dung trong biểu mẫu đặt lịch"><li><span>1</span>Chọn thú cưng</li><li><span>2</span>Chọn ngày và giờ</li><li><span>3</span>Dịch vụ và xác nhận</li></ol>
       <p className="mt-2 rounded-xl bg-brand-50 px-4 py-3 text-sm text-brand-800">
         Giờ mở cửa {toHHMM(OPEN)} đến {toHHMM(CLOSE)}. Lịch hẹn phải kết thúc trước {toHHMM(CLOSE)}. Chỉ hiển thị các
         giờ còn trống và đủ thời lượng theo ca trực.

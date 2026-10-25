@@ -1,3 +1,4 @@
+import './KhungKhachHang.css'
 import { useState } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import BieuTuongDauChan from '../components/BieuTuongDauChan.jsx'
@@ -33,7 +34,7 @@ export default function CustomerLayout() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="pc-customer flex min-h-screen flex-col">
       <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
           {/* Logo */}
@@ -105,12 +106,12 @@ export default function CustomerLayout() {
         )}
       </header>
 
-      <main className={`mx-auto w-full flex-1 px-4 py-8 ${isOverview ? 'max-w-7xl' : 'max-w-5xl'}`}>
+      <main className="customer-content mx-auto w-full max-w-7xl flex-1 px-4 py-8">
 
         <Outlet />
       </main>
 
-      <footer className="border-t border-slate-200 py-4 text-center text-xs text-slate-400">
+      <footer className="customer-footer">
         Hệ thống quản lý và đặt lịch dịch vụ chăm sóc thú cưng
       </footer>
     </div>

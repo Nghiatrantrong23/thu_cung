@@ -1,3 +1,5 @@
+import PageHeading from '../../components/ui/PageHeading.jsx'
+import CustomerEmptyState from '../../components/ui/CustomerEmptyState.jsx'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import HuyHieuTrangThai from '../../components/HuyHieuTrangThai.jsx'
@@ -161,9 +163,10 @@ export default function AppointmentsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="space-y-6">
+      <PageHeading title="Lịch hẹn của tôi" description="Theo dõi lịch chăm sóc, xem chi tiết và cập nhật các lịch hẹn của bé." actions={<Link to="/dat-lich" className="customer-primary-action">+ Đặt lịch mới</Link>}/>
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl">Danh sách lịch hẹn của tôi</h1>
+
         <div className="flex items-center gap-2">
           <label htmlFor="status" className="text-sm font-bold text-slate-700">
             Trạng thái:
@@ -177,28 +180,18 @@ export default function AppointmentsPage() {
         </div>
       </div>
 
-      <div className="mt-5 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <table className="w-full min-w-[640px] text-sm">
+      {rows.length === 0 ? <CustomerEmptyState title={filter === 'Tất cả' ? 'Chưa có lịch hẹn nào' : `Chưa có lịch ở trạng thái “${filter}”`} description="Chọn dịch vụ và khung giờ phù hợp để lên lịch chăm sóc cho bé." to="/dat-lich" action="Đặt lịch cho bé"/> : <div className="mt-5 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <table className="customer-appointments-table text-sm">
           <thead className="bg-brand-50 text-left text-slate-600">
             <tr>
               <th className="px-4 py-3 font-bold">Mã</th>
               <th className="px-4 py-3 font-bold">Thú cưng</th>
               <th className="px-4 py-3 font-bold">Dịch vụ</th>
               <th className="px-4 py-3 font-bold">Ngày giờ hẹn</th>
-              <th className="px-4 py-3 font-bold">Trạng thái</th>
+              <th className="px-4 py-3 font-bold">Trạng thái</th><th className="px-4 py-3 font-bold">Thao tác</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {rows.length === 0 && (
-              <tr>
-                <td colSpan={5} className="px-4 py-10 text-center text-slate-500">
-                  Không có lịch hẹn nào{filter !== 'Tất cả' ? ` ở trạng thái “${filter}”` : ''}.{' '}
-                  <Link to="/dat-lich" className="font-bold text-brand-700 hover:underline">
-                    Đặt lịch mới
-                  </Link>
-                </td>
-              </tr>
-            )}
             {rows.map((b) => {
               const active = b.id === selectedId
               return (
@@ -230,13 +223,13 @@ export default function AppointmentsPage() {
                   </td>
                   <td className="px-4 py-3">
                     <HuyHieuTrangThai status={b.status} />
-                  </td>
+                  </td><td className="px-4 py-3"><button type="button" className="customer-secondary-action whitespace-nowrap" onClick={e=>{e.stopPropagation();select(b.id)}} aria-label={`Xem chi tiết lịch hẹn ${formatCode(b.id)}`}>Chi tiết</button></td>
                 </tr>
               )
             })}
           </tbody>
         </table>
-      </div>
+      </div>}
 
       {notice && (
         <p

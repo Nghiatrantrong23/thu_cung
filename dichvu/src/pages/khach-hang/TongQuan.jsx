@@ -1,3 +1,4 @@
+import ServiceIcon from '../../components/ui/ServiceIcon.jsx'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
@@ -127,7 +128,7 @@ export default function TongQuan() {
 
     <section aria-labelledby="ov-services-title">
       <div className="ov-section-heading"><div><p className="ov-kicker">DÀNH CHO CÁC BÉ</p><h2 id="ov-services-title">Dịch vụ hiện có</h2><p className="ov-muted">Thời lượng và giá từ bảng giá dịch vụ hiện tại.</p></div><Link to="/bang-gia">Xem bảng giá<Icon type="arrow" /></Link></div>
-      {services.loading ? <LoadingCards count={3} /> : services.error ? <DataError resource={services} /> : services.items.length ? <div className="ov-services">{services.items.slice(0, 3).map(service => <article key={service.id} className="ov-service-card"><span className="ov-service-icon"><Icon type="service" /></span><h3>{service.ten}</h3><p>{service.moTa || 'Chăm sóc thú cưng tại PetCare.'}</p><div className="ov-service-footer"><div><span>{service.thoiLuongPhut} phút</span><strong>{formatVND(service.gia)} ₫</strong></div><Link to="/dat-lich" className="ov-button ov-button-soft">Đặt lịch<Icon type="arrow" /></Link></div></article>)}</div> : <p className="ov-panel ov-muted">Chưa có dịch vụ đang kinh doanh.</p>}
+      {services.loading ? <LoadingCards count={3} /> : services.error ? <DataError resource={services} /> : services.items.length ? <div className="ov-services">{services.items.slice(0, 3).map(service => <article key={service.id} className="ov-service-card"><span className="ov-service-icon"><ServiceIcon name={service.ten}/></span><h3>{service.ten}</h3><p>{service.moTa || 'Chăm sóc thú cưng tại PetCare.'}</p><div className="ov-service-footer"><div><span>{service.thoiLuongPhut} phút</span><strong>{formatVND(service.gia)} ₫</strong></div><Link to="/dat-lich" className="ov-button ov-button-primary">Đặt lịch<Icon type="arrow" /></Link></div></article>)}</div> : <p className="ov-panel ov-muted">Chưa có dịch vụ đang kinh doanh.</p>}
     </section>
     <div className="ov-bottom-note"><Icon type="paw" /><p>Giờ chăm sóc <strong>08:00–19:00</strong> · Giờ đặt lịch phụ thuộc ca làm và chỗ trống thực tế.</p></div>
   </div>

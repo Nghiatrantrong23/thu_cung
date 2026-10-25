@@ -204,4 +204,13 @@ Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14
 - Kiểm tra lần này: `npm run build` frontend đúng một lần, **PASS 90 modules**, không có cảnh báo. Đối chiếu diff và payload hiện có; không chạy bộ kiểm thử hệ thống, không ghi database. **Chưa QA trình duyệt từng luồng/viewport**, không coi build là nghiệm thu nghiệp vụ.
 - Các mục P2 như lịch tuần, tùy chọn mật độ và QA ảnh 100% còn để sau. Không đánh dấu hoàn tất đợt 2–6 hoặc giai đoạn 12. Xem [bảng đối chiếu sửa UI](UI_SUA_THEO_DANH_GIA.md).
 
+### Góp ý bổ sung phần khách hàng — 24/10/2026
+
+- Dùng chung khung 1280px cho header/nội dung; tiêu đề và mô tả các trang khách thống nhất. Chữ phụ, nhãn/footer tăng độ rõ, thẻ có viền nhẹ thống nhất; giữ DateInput và chuông đã có.
+- Dịch vụ ở Tổng quan có icon theo loại nội dung và CTA teal đậm; bỏ tím trang trí ở thẻ thống kê/dịch vụ, trả badge lịch hẹn về màu dùng chung; cân chiều cao cột thông báo.
+- Lịch hẹn/hóa đơn/đặt lịch thiếu hồ sơ có empty state với minh họa và hướng dẫn; thêm nút Chi tiết gọi đúng thao tác xem lịch hiện có. Hóa đơn không giữ cột chi tiết trống khi chưa chọn.
+- Thú cưng không hiển thị ba thống kê 0 khi chưa có dữ liệu, tránh nút Thêm bị lặp khi form tạo mở. Tài khoản chia hai cột form trên desktop, nút đổi mật khẩu dùng teal; dữ liệu tên khách và các hàm xử lý được giữ.
+- Frontend build đúng một lần: **PASS 93 modules**, không cảnh báo. Tính tĩnh tương phản màu chữ phụ `#5B6B7F`: 5,20:1 trên `#F8FAF9`, 5,45:1 trên trắng; chữ trắng trên nút `#00796F`: 5,30:1. Chưa QA trình duyệt/WCAG toàn trang hoặc kiểm thử lại nghiệp vụ; không đánh dấu hoàn tất đợt nâng cấp.
+- Biểu mẫu đặt lịch vẫn dùng luồng hiện có, chỉ thêm chỉ dẫn trình bày 3 nhóm thông tin, không tuyên bố đã làm wizard 5 bước. Chi tiết: [góp ý giao diện khách hàng](UI_KHACH_HANG_THEO_GOP_Y.md).
+
 Nghiệm thu 1b ngày24/10: frontend lint PASS,20/20test,build77modules; backend67PASS/9SKIP. Browser 5nhóm login/menu và guard trên DB test riêng đạt, modal Tab/ShiftTab/Escape/busy/restore focus đạt sau sửa; shell/home/component 375/768/1440 không tràn ngang. Chưa nghiệm thu mọi màn hình cũ hoặc toàn hành trình mới; các dashboard KPI và Admin light nội dung còn đợt3–5. Chi tiết và danh sách file/API: [Báo cáo đợt1](BAO_CAO_UI_DOT_1.md). Tiếp theo: đợt2 khách hàng, bao gồm endpoint khiếu nại sở hữu đã được người dùng chấp thuận.

@@ -8,7 +8,7 @@ export default function ThongBao({ defaultOpen = false, compact = false }) {
   const [open, setOpen] = useState(false)
   const [items, setItems] = useState([])
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const load = useCallback(async () => {
     setLoading(true)
     const result = await apiCall('/api/thong-bao')
@@ -39,7 +39,7 @@ export default function ThongBao({ defaultOpen = false, compact = false }) {
       <WorkIcon name="bell"/>
       <span className="absolute -right-1 -top-1 min-w-5 rounded-full bg-brand-700 px-1 text-center text-xs font-bold leading-5 text-white">{error ? '!' : loading ? '…' : unread}</span>
     </button>
-    <Drawer open={open} title="Thông báo" onClose={() => setOpen(false)}><p className="text-sm text-slate-600">{loading ? 'Đang tải...' : error ? 'Chưa xác định số tin chưa đọc.' : `${unread} chưa đọc trong 50 tin gần nhất`}</p>{content}</Drawer>
+    <Drawer open={open} title="Thông báo" onClose={() => setOpen(false)}><p className="text-sm text-slate-600">{loading ? 'Đang tải...' : error ? 'Chưa xác định số tin chưa đọc.' : `Có ${unread} tin chưa đọc trong danh sách này.`}</p><p className="mt-1 text-xs text-slate-600">Hiển thị tối đa 50 thông báo gần nhất.</p>{content}</Drawer>
   </>
-  return <details open={defaultOpen || undefined} className="my-4 rounded-xl border border-slate-200 bg-white p-4"><summary className="cursor-pointer font-bold text-brand-800">Thông báo ({unread} chưa đọc trong 50 tin gần nhất)</summary>{content}</details>
+  return <details open={defaultOpen || undefined} className="my-4 rounded-xl border border-slate-200 bg-white p-4"><summary className="flex cursor-pointer flex-wrap items-center justify-between gap-3 font-bold text-brand-800"><span>Thông báo mới</span><span className="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-semibold">{loading ? 'Đang tải...' : error ? 'Chưa tải được' : `${unread} chưa đọc`}</span></summary><p className="mt-2 text-xs text-slate-600">Hiển thị tối đa 50 thông báo gần nhất.</p>{content}</details>
 }

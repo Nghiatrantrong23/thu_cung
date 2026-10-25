@@ -1,3 +1,5 @@
+import PageHeading from '../../components/ui/PageHeading.jsx'
+import CustomerEmptyState from '../../components/ui/CustomerEmptyState.jsx'
 import { DateInput } from '../../components/ui/DateTimeInput.jsx'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -40,8 +42,8 @@ function Field({ id, label, required, error, hint, children }) {
 function StatusBadge({ status }) {
   const ok = status === 'Dang theo doi' || status === 'Đang theo dõi'
   return (
-    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold ${ok ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
-      {ok ? 'Đang theo dõi' : 'Ngừng theo dõi'}
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold ${ok ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+      <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-current"/>{ok ? 'Đang theo dõi' : 'Ngừng theo dõi'}
     </span>
   )
 }
@@ -137,22 +139,19 @@ export default function PetsPage() {
 
   return (
     <div className="pet-profiles">
-      <div className="pet-profiles__heading">
-        <div>
-          <h1>Hồ sơ thú cưng</h1>
-          <p>Lưu thông tin sức khỏe và thói quen của từng bé để nhân viên chăm sóc đúng cách.</p>
-        </div>
-        <button type="button" onClick={startAdd} className="pet-profiles__add">+ Thêm thú cưng</button>
-      </div>
+      <PageHeading title="Hồ sơ thú cưng" description="Lưu thông tin sức khỏe và thói quen của từng bé để nhân viên chăm sóc đúng cách." actions={mode !== 'new' && pets.length > 0 ? <button type="button" onClick={startAdd} className="pet-profiles__add">+ Thêm thú cưng</button> : null}/>
 
-      <dl className="pet-profiles__summary">
+
+      {pets.length > 0 && <dl className="pet-profiles__summary">
         <div><dt>Tổng số thú cưng</dt><dd>{pets.length}</dd></div>
         <div><dt>Đang theo dõi</dt><dd>{pets.filter(p => p.active).length}</dd></div>
         <div><dt>Ngừng theo dõi</dt><dd>{pets.filter(p => !p.active).length}</dd></div>
-      </dl>
+      </dl>}
 
       <div className="pet-profiles__grid">
-        {pets.length === 0 && <p className="pet-profiles__empty">Bạn chưa có thú cưng nào. Hãy điền form bên dưới để thêm bé đầu tiên.</p>}
+        {pets.length === 0 && (mode === 'new'
+          ? <div className="customer-inline-hint"><PetIllustration species="Mèo"/><p>Thêm người bạn nhỏ đầu tiên bằng thông tin bên dưới. Bạn có thể cập nhật hồ sơ của bé sau.</p></div>
+          : <CustomerEmptyState title="Chào đón người bạn nhỏ đầu tiên" description="Tạo hồ sơ cho bé để đặt lịch và lưu lại thông tin chăm sóc." action={<button type="button" className="customer-primary-action" onClick={startAdd}>Thêm thú cưng</button>}/>)}
         {pets.map((p) => {
           const isActive = mode === 'edit' && p.id === selectedId
           return <article key={p.id} onClick={() => selectPet(p)} aria-current={isActive ? 'true' : undefined}
@@ -183,7 +182,7 @@ export default function PetsPage() {
         </p>
       )}
 
-      <form onSubmit={handleSubmit} noValidate className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+      {(mode === 'new' || selected) && <form onSubmit={handleSubmit} noValidate className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
         <h2 className="text-lg font-extrabold text-slate-800">
           {mode === 'new' ? 'Thêm thú cưng mới' : `Thông tin thú cưng: ${selected?.name ?? ''}`}
         </h2>
@@ -242,7 +241,7 @@ export default function PetsPage() {
           )}
         </div>
         <p className="mt-3 text-sm text-slate-500">Thú cưng đã có lịch hẹn không xóa được, chỉ chuyển sang Ngừng theo dõi.</p>
-      </form>
+      </form>}
 
       {confirmStop && selected && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">

@@ -1,3 +1,4 @@
+import PageHeading from '../../components/ui/PageHeading.jsx'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
@@ -43,7 +44,6 @@ function PasswordField({ id, label, value, onChange, error, disabled, placeholde
           type="button"
           onClick={() => setShow((v) => !v)}
           className="absolute inset-y-0 right-2 my-auto h-8 rounded-lg px-2 text-xs font-bold text-brand-700 hover:bg-brand-50"
-          tabIndex={-1}
         >
           {show ? 'Ẩn' : 'Hiện'}
         </button>
@@ -231,18 +231,13 @@ export default function ThongTinCaNhan() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8">
-      <div>
-        <h1 className="text-2xl font-extrabold text-slate-800">Thông tin cá nhân</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Xem và cập nhật thông tin tài khoản của bạn.
-        </p>
-      </div>
+    <div className="space-y-6">
+      <PageHeading title="Tài khoản của tôi" description="Xem thông tin tài khoản, cập nhật hồ sơ và quản lý mật khẩu."/>
 
       {/* Thẻ thông tin tổng quan (chỉ đọc) */}
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="mb-4 text-base font-bold text-slate-700">Thông tin tài khoản</h2>
-        <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <dl className="customer-account-summary grid grid-cols-2 gap-4 sm:grid-cols-3">
           <div>
             <dt className="text-xs font-semibold tracking-normal text-slate-400">Tên đăng nhập</dt>
             <dd className="mt-1 font-bold text-slate-800">{profile?.tenDangNhap}</dd>
@@ -260,6 +255,7 @@ export default function ThongTinCaNhan() {
         </dl>
       </section>
 
+      <div className="customer-account-grid">
       {/* Form cập nhật thông tin cá nhân */}
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 className="mb-4 text-base font-bold text-slate-700">Cập nhật thông tin</h2>
@@ -359,13 +355,14 @@ export default function ThongTinCaNhan() {
             <button
               type="submit"
               disabled={savingMk}
-              className="rounded-xl bg-accent-600 px-6 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-accent-500 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-xl bg-brand-700 px-6 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {savingMk ? 'Đang xử lý...' : 'Đổi mật khẩu'}
             </button>
           </div>
         </form>
       </section>
+      </div>
     </div>
   )
 }
