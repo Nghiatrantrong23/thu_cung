@@ -54,11 +54,6 @@
 .pc-schedule-event { margin: 2px; padding: 10px 6px; border-radius: 10px; border: 1px solid #a7d9d0; background: #e8f5f3; color: #065f56; text-align: left; font-size: 12px; overflow-wrap: anywhere; }
 .pc-schedule-event:hover { border-color: #00796f; }
 .pc-schedule-event--cancelled { opacity: .6; text-decoration: line-through; }
-.pc-revenue-chart { display: flex; gap: 14px; overflow-x: auto; padding: 16px 0; }
-.pc-revenue-day { min-width: 85px; flex: 1; font-size: 11px; text-align: center; }
-.pc-revenue-bars { height: 190px; display: flex; align-items: flex-end; justify-content: center; gap: 4px; border-bottom: 1px solid #cbd5e1; margin-bottom: 10px; }
-.pc-revenue-bar { width: 22px; min-height: 1px; border-radius: 5px 5px 0 0; background: #00796f; }
-.pc-revenue-bar--refunded { background: #e99b43; }
 .pc-page-empty { border-style: solid; background: linear-gradient(140deg,#f0fdfa,white); }
 
 .pc-staff-header { position: sticky; top: 0; z-index: 30; }

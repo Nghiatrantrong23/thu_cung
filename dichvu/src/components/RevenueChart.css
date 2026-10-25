@@ -1,0 +1,28 @@
+.revenue-visual { margin: 24px 0; padding: 24px; border: 1px solid #e2e8f0; border-radius: 18px; background: white; }
+.revenue-visual-heading { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+.revenue-visual-heading h2 { font-size: 18px; font-weight: 800; color: #182b35; }
+.revenue-visual-heading p, .revenue-hint { margin-top: 8px; color: #5b6b7f; font-size: 13px; line-height: 1.7; }
+.revenue-legend { display: flex; gap: 18px; flex-wrap: wrap; padding-top: 4px; font-size: 13px; color: #475569; }
+.revenue-legend li { display: flex; align-items: center; gap: 7px; }
+.revenue-swatch { display: block; height: 10px; width: 10px; border-radius: 3px; }
+.revenue-swatch.collected { background: #00796f; }
+.revenue-swatch.refunded { background: #e99b43; }
+.revenue-swatch.net { background: #6366f1; border-radius: 50%; }
+.revenue-scroll { overflow-x: auto; margin: 14px 0 0; border-radius: 10px; }
+.revenue-scroll:focus-visible { outline: 2px solid #00796f; outline-offset: 3px; }
+.revenue-scroll svg { width: 100%; height: auto; display: block; font-family: inherit; }
+.revenue-axis { fill: #64748b; font-size: 11px; }
+.revenue-point { cursor: pointer; outline: none; }
+.revenue-point:focus-visible .revenue-hit { stroke: #00796f; stroke-width: 2; fill-opacity: .1; }
+.revenue-point:hover .revenue-hit { fill: #00796f; fill-opacity: .07; }
+.revenue-inspect { padding: 16px 18px; border-radius: 12px; background: #f0fdfa; border: 1px solid #cce9e3; }
+.revenue-inspect > strong { font-size: 14px; }
+.revenue-inspect dl { display: flex; flex-wrap: wrap; gap: 14px 40px; margin-top: 12px; }
+.revenue-inspect dt { color: #5b6b7f; font-size: 12px; }
+.revenue-inspect dd { margin-top: 4px; font-weight: 800; font-size: 16px; color: #065f56; }
+.revenue-empty { margin-top: 14px; font-size: 13px; color: #5b6b7f; background: #f8fafc; padding: 10px 14px; border-radius: 10px; }
+.revenue-period-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.revenue-period-tabs button { padding: 10px 18px; border-radius: 10px; border: 1px solid #cbd5e1; font-weight: 700; color: #475569; background: white; }
+.revenue-period-tabs button[aria-pressed=true] { color: white; background: #00796f; border-color: #00796f; }
+@media (max-width: 640px) { .revenue-visual { padding: 16px; } .revenue-inspect dl { gap: 14px 22px; } }
+@media print { .revenue-scroll { overflow: visible; } .revenue-scroll > div { min-width: 0 !important; } .revenue-hint { display: none; } .revenue-visual { break-inside: avoid; } }
