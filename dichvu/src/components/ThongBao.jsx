@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../data/khoXacThuc.jsx'
 
-export default function ThongBao() {
+export default function ThongBao({ defaultOpen = false }) {
   const { apiCall } = useAuth()
   const [items, setItems] = useState([])
   const [error, setError] = useState('')
@@ -20,7 +20,7 @@ export default function ThongBao() {
     else setError(result.error)
   }
   return (
-    <details className="my-4 rounded-xl border border-slate-200 bg-white p-4">
+    <details open={defaultOpen || undefined} className="my-4 rounded-xl border border-slate-200 bg-white p-4">
       <summary className="cursor-pointer font-bold text-brand-800">Thông báo ({items.filter(item => !item.read).length} chưa đọc trong 50 tin gần nhất)</summary>
       <button type="button" onClick={load} disabled={loading} className="my-3 font-semibold text-brand-700 disabled:opacity-50">{loading ? 'Đang tải...' : 'Tải lại thông báo'}</button>
       {error && <p role="alert" className="text-red-700">{error}</p>}

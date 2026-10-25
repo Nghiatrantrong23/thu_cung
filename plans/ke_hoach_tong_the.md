@@ -174,7 +174,23 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 | 5 | Quản lý/Admin: KPIs/charts/alerts/lighttheme | Chưa triển khai nâng cấp |
 | 6 | Hồi quy/responsive/nghiệm thu mới | Chưa chạy nghiệm thu UI mới |
 
-Tiến độ đợt 2 ngày 24/10/2026: đã bổ sung trang khách `/hoa-don-cua-toi` dùng API hóa đơn theo quyền sở hữu, xem chi tiết, lịch sử giao dịch và mở bản in. Đây là một phần của đợt 2; dashboard, Pet Cards, wizard và khiếu nại khách còn thiếu nên **chưa đánh dấu hoàn thành đợt 2**. Frontend lint PASS, 20 test PASS, build PASS (80 modules); chưa QA trình duyệt theo nhiều viewport.
+Tiến độ đợt 2 ngày 24/10/2026:
+
+**Quyết định thiết kế đã chốt (từ tài liệu canvas):**
+- Token màu mới: Primary `#00877D`, nút `#00796F` (5.3:1), Accent kem `#FFF0D9`, Background `#F8FAF9`; thay bộ Teal Emerald cũ.
+- Font: Be Vietnam Pro (Google Fonts) thay Nunito; `@import` đặt đúng thứ tự trước `@import tailwindcss`.
+- Trang Home công khai (hero, dịch vụ, đánh giá): nằm trong phạm vi, chưa implement.
+
+**Đã triển khai:**
+- `index.css`: token màu đầy đủ, font Be Vietnam Pro, focus ring `#00796F`, chuẩn bị cho trạng thái và biểu đồ.
+- `Button.jsx`: primary dùng `brand-600` (#00796F), hover `brand-700`, active `brand-800`.
+- `KhungKhachHang.jsx`: thêm mục Tổng quan đầu nav, logo link → `/tong-quan`, màu đồng bộ token mới.
+- `TongQuan.jsx` + `TongQuan.css` (C1): bố cục theo tài liệu thiết kế gộp: lời chào theo giờ VN, minh họa SVG chó/mèo, 3 thẻ thống kê, lịch hẹn sắp tới (hiển thị tối đa 3 nhưng đếm toàn bộ), thông báo hiện có, thú cưng đang theo dõi (tối đa 4), dịch vụ hiện bán từ API. Có skeleton, trạng thái trống/lỗi và nút thử lại; không dùng số liệu minh họa.
+- `App.jsx`: route `/tong-quan` trong nhóm Khách hàng.
+
+**Kết quả kiểm tra bản nháp trước:** frontend 20/20 PASS, build 84 modules theo ghi nhận của mốc trước. **Kiểm tra riêng lần hoàn thiện C1:** chạy `npm run build` đúng một lần, PASS 85 modules, không có cảnh báo. Không chạy lại bộ kiểm thử hệ thống hoặc QA trình duyệt trong lần này; không dùng build để kết luận toàn bộ hành trình đã nghiệm thu.
+
+**Còn thiếu đợt 2:** wizard đặt lịch 5 bước (C3), Pet Cards + modal (C2), khiếu nại của tôi + gửi sở hữu, trang Home công khai. Chưa QA trình duyệt 3 viewport. **Chưa đánh dấu hoàn thành đợt 2.**
 
 Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14PASS/build72modules. Lint chưa có script/config; UI mới/responsive chưa có để nghiệm thu, không báo PASS. Không thay runtime code/DB trong phần kiểm kê. Các kết quả cũ giữ rõ là mốc trước, không cộng trùng.
 

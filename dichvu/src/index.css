@@ -1,32 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  /* ── Font ── */
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
 
-  --color-cream: #fff9f2;
+  /* ── Brand (canvas 24/10/2026) ── */
+  /* Primary #00877D — dùng cho nhận diện, icon, biểu đồ            */
+  /* Primary 600 #00796F — nền nút (chữ trắng đạt 5.3:1)            */
+  /* Primary Dark #006B63 — hover, link                              */
+  /* Sidebar teal đậm #0B5A54                                        */
+  --color-brand-50:  #E8F5F3;
+  --color-brand-100: #C5E8E4;
+  --color-brand-200: #9DD6D0;
+  --color-brand-300: #6DC3BB;
+  --color-brand-400: #3AB0A9;
+  --color-brand-500: #00877D;   /* Primary */
+  --color-brand-600: #00796F;   /* Nút chính — đạt tương phản 5.3:1 với trắng */
+  --color-brand-700: #006B63;   /* Hover, link, Primary Dark */
+  --color-brand-800: #005B54;
+  --color-brand-900: #0B5A54;   /* Sidebar teal đậm */
 
-  --color-brand-50: #f0fdfa;
-  --color-brand-100: #ccfbf1;
-  --color-brand-200: #99f6e4;
-  --color-brand-300: #5eead4;
-  --color-brand-500: #14b8a6;
-  --color-brand-600: #0d9488;
-  --color-brand-700: #0f766e;
-  --color-brand-800: #115e59;
-  --color-brand-900: #134e4a;
+  /* ── Accent kem ấm ── */
+  --color-accent-50:  #FFF0D9;   /* Banner lưu ý, điểm nhấn ấm */
+  --color-accent-100: #FFE4B8;
+  --color-accent-500: #C96A12;   /* Màu biểu đồ thứ hai (cam) */
+  --color-accent-600: #A8560F;
 
-  --color-accent-100: #ffedd5;
-  --color-accent-500: #f97316;
-  --color-accent-600: #ea580c;
+  /* ── Page / Surface ── */
+  --color-surface: #FFFFFF;
+  --color-page:    #F8FAF9;
+
+  /* ── Text ── */
+  --color-text-primary:   #182B35;
+  --color-text-secondary: #5B6B7F;  /* Tinh chỉnh để đạt 4.5:1 */
+  --color-text-muted:     #8898AA;
+
+  /* ── Border ── */
+  --color-border: #E2E8F0;
+  --color-border-input: #CBD5E1;
+
+  /* ── Trạng thái ── */
+  --color-success-text: #0F6B3F;
+  --color-success-bg:   #E3F5EA;
+  --color-warning-text: #8A5300;
+  --color-warning-bg:   #FFF1D6;
+  --color-error-text:   #B42318;
+  --color-error-bg:     #FDECEA;
+  --color-pending-text: #3A4AA0;
+  --color-pending-bg:   #E9ECFB;
+  --color-neutral-text: #475569;
+  --color-neutral-bg:   #EEF2F1;
+
+  /* ── Biểu đồ ── */
+  --color-chart-1: #00877D;  /* Teal thương hiệu */
+  --color-chart-2: #C96A12;  /* Cam */
+  --color-chart-3: #3D63D9;  /* Xanh chàm */
 }
 
 body {
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: var(--color-page, #F8FAF9);
+  color: var(--color-text-primary, #182B35);
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-:where(button,a,input,select,textarea,summary,[tabindex]):focus-visible { outline: 2px solid #0d9488; outline-offset: 3px; }
+:where(button,a,input,select,textarea,summary,[tabindex]):focus-visible { outline: 2px solid #00796F; outline-offset: 3px; }
 .pc-dialog { position: fixed; inset: 0; margin: auto; width: min(36rem, calc(100% - 2rem)); max-width: none; max-height: 90dvh; padding: 0; border: 1px solid #e2e8f0; border-radius: 1rem; background: white; color: #1e293b; box-shadow: 0 24px 64px #0f172a26; }
 .pc-dialog::backdrop { background: #0f172a66; backdrop-filter: blur(2px); }
 .pc-dialog.pc-drawer { inset: 0 0 0 auto; margin: 0; width: min(27rem, 100%); height: 100dvh; max-height: 100dvh; border-radius: 1rem 0 0 1rem; }

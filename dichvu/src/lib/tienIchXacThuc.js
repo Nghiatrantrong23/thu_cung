@@ -69,7 +69,7 @@ export function roleKey(acc) {
   return 'customer'
 }
 
-const HOME = { customer: '/dat-lich', admin: '/admin', manager: '/quan-ly', reception: '/le-tan', care: '/nhan-vien' }
+const HOME = { customer: '/tong-quan', admin: '/admin', manager: '/quan-ly', reception: '/le-tan', care: '/nhan-vien' }
 export const ROLE_LABEL = {
   customer: 'Khách hàng',
   admin: 'Quản trị viên',

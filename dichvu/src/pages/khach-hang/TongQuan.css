@@ -1,0 +1,111 @@
+.customer-overview { --ov-ink: #182b35; --ov-muted: #5b6b7f; display: grid; gap: 32px; color: var(--ov-ink); font-family: "Be Vietnam Pro", Inter, system-ui, sans-serif; }
+.customer-overview svg { width: 20px; height: 20px; flex-shrink: 0; }
+.customer-overview h1, .customer-overview h2, .customer-overview h3, .customer-overview p { margin: 0; }
+.customer-overview a, .customer-overview button { transition: background-color .18s, border-color .18s, box-shadow .18s; }
+.customer-overview a:focus-visible, .customer-overview button:focus-visible, .customer-overview summary:focus-visible { outline: 3px solid #00796f; outline-offset: 4px; }
+.ov-hero { position: relative; display: grid; grid-template-columns: 1.25fr 1fr; align-items: center; gap: 24px; padding: 32px; overflow: hidden; border: 1px solid #cde6df; border-radius: 16px; background: linear-gradient(110deg, #e8f5f3 0%, #eff7ed 58%, #fff0d9 100%); }
+.ov-hero-content { position: relative; z-index: 1; }
+.ov-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #32675c; font-size: 12px; font-weight: 700; letter-spacing: .06em; }
+.ov-eyebrow svg { width: 16px; height: 16px; }
+.customer-overview .ov-hero h1 { margin-top: 16px; font-size: clamp(28px, 3vw, 36px); font-weight: 800; line-height: 1.25; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.ov-hero h1 span { color: #006b63; }
+.customer-overview .ov-hero-content > p { max-width: 480px; margin-top: 16px; color: #526a63; font-size: 16px; line-height: 1.625; }
+.ov-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.ov-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 12px 16px; border: 1px solid transparent; border-radius: 12px; font-size: 13px; font-weight: 700; text-decoration: none; }
+.ov-button svg { width: 16px; height: 16px; }
+.ov-button-primary { background: #00796f; color: white; box-shadow: 0 4px 10px #00796f20; }
+.ov-button-primary:hover { background: #006b63; }
+.ov-button-outline { border-color: #bfd9ce; background: #ffffffb3; color: #006b63; }
+.ov-button-outline:hover, .ov-button-soft:hover { background: #d5eee6; }
+.ov-button-soft { background: #e8f5f3; color: #006b63; }
+.ov-hero-art { position: relative; min-height: 256px; }
+.ov-art-circle { position: absolute; width: 224px; height: 224px; top: 0; left: calc(50% - 112px); border-radius: 50%; background: #dcebd9; box-shadow: 0 0 0 20px #ffffff40; }
+.ov-pet-sticker { position: absolute; display: grid; place-items: center; width: 144px; height: 160px; padding: 16px; border: 4px solid white; border-radius: 32px; box-shadow: 0 12px 24px #384d4020; }
+.ov-dog { top: 16px; left: calc(50% - 132px); transform: rotate(-10deg); background: #fff0d9; }
+.ov-cat { top: 48px; left: calc(50% - 4px); transform: rotate(10deg); background: #edf6f3; }
+.customer-overview .ov-pet-drawing { width: 100%; height: 100%; }
+.ov-art-caption { position: absolute; display: flex; align-items: center; justify-content: center; gap: 8px; bottom: 0; left: 0; right: 0; padding: 8px; color: #486558; font-size: 12px; line-height: 1.5; font-weight: 600; text-align: center; }
+.ov-art-caption svg { width: 16px; height: 16px; }
+.ov-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.ov-metric { display: flex; align-items: center; gap: 12px; padding: 20px 16px; border: 1px solid #e2e8f0; border-radius: 16px; background: white; text-decoration: none; }
+.ov-metric:hover { border-color: #94c8b8; box-shadow: 0 4px 16px #123e2b08; }
+.ov-metric-icon { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; background: #e8f5f3; color: #00877d; }
+.ov-metric:nth-child(2) .ov-metric-icon { background: #fff0d9; color: #8a5300; }
+.ov-metric:nth-child(3) .ov-metric-icon { background: #e9ecfb; color: #3a4aa0; }
+.customer-overview .ov-metric p { color: var(--ov-muted); font-size: 12px; font-weight: 600; line-height: 1.5; }
+.ov-metric strong { font-size: 28px; line-height: 1.4; }
+.customer-overview .ov-metric-arrow { width: 16px; height: 16px; margin-left: auto; color: #71877e; }
+.ov-main-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.ov-panel { padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: white; }
+.ov-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; }
+.ov-section-heading h2 { font-size: 20px; line-height: 1.4; font-weight: 800; letter-spacing: -.025em; }
+.customer-overview .ov-kicker { margin-bottom: 4px; color: #526c60; font-size: 12px; letter-spacing: .06em; font-weight: 700; }
+.ov-section-heading > a { display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 44px; flex-shrink: 0; font-size: 12px; font-weight: 700; color: #006b63; }
+.ov-section-heading > a:hover { text-decoration: underline; }
+.ov-section-heading > a svg { width: 16px; height: 16px; }
+.ov-muted { color: var(--ov-muted); font-size: 12px; line-height: 1.75; }
+.ov-bookings { display: grid; gap: 12px; }
+.ov-booking { display: flex; align-items: flex-start; gap: 12px; padding: 16px 0; border-top: 1px solid #edf1ee; }
+.ov-booking:first-child { border-top: 0; padding-top: 0; }
+.ov-date { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 64px; min-height: 88px; flex-shrink: 0; border: 1px solid #d5e9de; border-radius: 12px; background: #eff8f2; color: #356350; }
+.ov-date span { font-size: 12px; font-weight: 600; }
+.ov-date strong { font-size: 28px; font-weight: 800; line-height: 1.25; }
+.ov-booking-info { min-width: 0; flex: 1; }
+.ov-booking-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.ov-booking-heading h3 { font-size: 16px; font-weight: 700; overflow-wrap: anywhere; }
+.ov-booking-heading > span { font-size: 12px; padding: 4px 8px; }
+.ov-booking-heading > .bg-amber-100 { background: #e9ecfb; color: #3a4aa0; }
+.ov-booking-heading > .bg-sky-100 { background: #e3f5ea; color: #0f6b3f; }
+.ov-booking-heading > .bg-indigo-100 { background: #fff1d6; color: #8a5300; }
+.customer-overview .ov-service-names { margin: 8px 0 4px; color: #44594e; font-size: 14px; line-height: 1.6; }
+.customer-overview .ov-price { margin-top: 8px; color: #006b63; font-size: 12px; font-weight: 700; }
+.ov-icon-link { display: grid; place-items: center; width: 44px; min-height: 44px; flex-shrink: 0; border-radius: 12px; color: #00796f; }
+.ov-icon-link:hover { background: #e8f5f3; }
+.ov-notifications { min-width: 0; }
+.ov-notifications > details { margin: 0; padding: 24px; border-color: #e2e8f0; border-radius: 16px; }
+.ov-notifications summary { min-height: 44px; color: #182b35; font-size: 14px; line-height: 1.6; }
+.ov-notifications ul { max-height: 320px; }
+.ov-notifications li > p:first-child { font-size: 14px; line-height: 1.6; }
+.ov-notifications li > p + p { margin-top: 4px; font-size: 12px; line-height: 1.7; }
+.ov-notifications button { min-height: 44px; font-size: 12px; }
+.ov-pets { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.ov-pet-card { display: flex; align-items: center; gap: 16px; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: white; }
+.ov-pet-avatar { display: grid; place-items: center; width: 80px; height: 80px; flex-shrink: 0; background: #fff0d9; border-radius: 16px; }
+.ov-pet-card:nth-child(even) .ov-pet-avatar { background: #e8f5f3; }
+.customer-overview .ov-pet-avatar svg { width: 64px; height: 64px; }
+.ov-pet-info { min-width: 0; flex: 1; }
+.ov-pet-info h3 { font-weight: 800; font-size: 16px; overflow-wrap: anywhere; }
+.customer-overview .ov-pet-info p { margin-top: 4px; color: var(--ov-muted); font-size: 13px; overflow-wrap: anywhere; }
+.ov-pet-status { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; color: #0f6b3f; font-size: 12px; font-weight: 600; }
+.ov-pet-status i { width: 6px; height: 6px; background: #0f6b3f; border-radius: 50%; }
+.ov-add-pet { display: flex; align-items: center; justify-content: center; gap: 8px; grid-column: 1 / -1; min-height: 56px; border: 1px dashed #bdd2c7; border-radius: 12px; color: #006b63; font-size: 13px; font-weight: 700; }
+.ov-add-pet:hover { background: #e8f5f3; }
+.ov-services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.ov-service-card { display: flex; flex-direction: column; padding: 24px; border: 1px solid #e2e8f0; border-radius: 16px; background: white; }
+.ov-service-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 16px; border-radius: 12px; background: #e8f5f3; color: #00877d; }
+.ov-service-card:nth-child(2) .ov-service-icon { background: #fff0d9; color: #8a5300; }
+.ov-service-card:nth-child(3) .ov-service-icon { background: #e9ecfb; color: #3a4aa0; }
+.ov-service-card h3 { font-size: 16px; font-weight: 700; overflow-wrap: anywhere; }
+.customer-overview .ov-service-card > p { flex: 1; margin-top: 12px; margin-bottom: 24px; color: var(--ov-muted); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.ov-service-footer { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 16px; border-top: 1px solid #edf1ee; }
+.ov-service-footer > div { display: flex; flex-direction: column; gap: 4px; }
+.ov-service-footer span { font-size: 12px; color: var(--ov-muted); }
+.ov-service-footer strong { font-size: 16px; color: #006b63; }
+.ov-bottom-note { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 4px; color: #526c60; text-align: center; }
+.ov-bottom-note p { font-size: 12px; line-height: 1.6; }
+.ov-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 32px 16px; text-align: center; }
+.ov-empty-icon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 16px; background: #e8f5f3; color: #00877d; }
+.ov-empty h3 { font-size: 16px; font-weight: 700; }
+.ov-empty p { max-width: 360px; font-size: 14px; line-height: 1.6; color: var(--ov-muted); }
+.ov-error { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border: 1px solid #f0d4d1; border-radius: 12px; background: #fdecea; color: #b42318; font-size: 14px; line-height: 1.6; }
+.ov-error button { flex-shrink: 0; min-height: 44px; padding: 8px 12px; border-radius: 12px; font-weight: 700; }
+.ov-error button:hover { background: #fad8d3; }
+.ov-loading { display: grid; gap: 12px; }
+.ov-skeleton { display: grid; gap: 12px; padding: 24px; border: 1px solid #edf1ee; border-radius: 16px; background: white; }
+.ov-skeleton span { width: 75%; height: 12px; border-radius: 8px; background: #eaf0ec; animation: ov-pulse 1.5s ease-in-out infinite alternate; }
+.ov-skeleton span:first-child { width: 45%; height: 20px; }
+.ov-skeleton span:last-child { width: 60%; }
+@keyframes ov-pulse { to { opacity: .4; } }
+@media (max-width: 900px) { .ov-hero { grid-template-columns: 1.3fr 1fr; padding: 24px; } .ov-main-grid { grid-template-columns: 1fr; } .ov-metrics { gap: 12px; } .ov-metric { padding: 16px 12px; gap: 8px; } .customer-overview .ov-metric-arrow { display: none; } .ov-service-card { padding: 16px; } }
+@media (max-width: 640px) { .customer-overview { gap: 24px; } .ov-hero { display: flex; flex-direction: column; align-items: stretch; padding: 24px 20px 12px; } .ov-hero-art { min-height: 208px; max-width: 300px; width: 100%; margin: auto; } .ov-art-circle { width: 160px; height: 160px; left: calc(50% - 80px); } .ov-pet-sticker { width: 112px; height: 120px; padding: 8px; border-radius: 24px; } .ov-dog { top: 8px; left: calc(50% - 104px); } .ov-cat { top: 28px; } .ov-hero-actions { gap: 8px; } .ov-hero-actions .ov-button { padding: 12px; } .ov-metrics { grid-template-columns: 1fr; } .ov-metric { padding: 16px; } .ov-metric > div { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 12px; } .ov-panel, .ov-notifications > details { padding: 16px; } .ov-section-heading h2 { font-size: 20px; } .ov-pets, .ov-services { grid-template-columns: 1fr; } .ov-date { width: 56px; min-height: 80px; } .ov-booking { gap: 8px; flex-wrap: wrap; } .ov-booking-info { flex-basis: calc(100% - 64px); } .ov-booking > .ov-icon-link { margin-left: auto; } .ov-pet-card { padding: 16px; } .ov-pet-avatar { width: 64px; height: 64px; } .ov-section-heading { flex-wrap: wrap; gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { .customer-overview *, .customer-overview *::before, .customer-overview *::after { animation: none !important; transition: none !important; } }

@@ -20,6 +20,7 @@ import DanhSachLichHen from './pages/khach-hang/DanhSachLichHen.jsx'
 import HoSoThuCung from './pages/khach-hang/HoSoThuCung.jsx'
 import ThongTinCaNhan from './pages/khach-hang/ThongTinCaNhan.jsx'
 import HoaDonCuaToi from './pages/khach-hang/HoaDonCuaToi.jsx'
+import TongQuan from './pages/khach-hang/TongQuan.jsx'
 import DatLichTaiQuay from './pages/le-tan/DatLichTaiQuay.jsx'
 import DangPhatTrien from './pages/DangPhatTrien.jsx'
 import QuanLyLichHen from './pages/le-tan/QuanLyLichHen.jsx'
@@ -47,6 +48,7 @@ export default function App() {
           </KiemTraQuyen>
         }
       >
+        <Route path="tong-quan" element={<TongQuan />} />
         <Route path="dat-lich" element={<DatLich />} />
         <Route path="lich-hen" element={<DanhSachLichHen />} />
         <Route path="ho-so-thu-cung" element={<HoSoThuCung />} />
