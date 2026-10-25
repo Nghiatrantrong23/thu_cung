@@ -21,3 +21,31 @@
 @media (max-width: 768px) { .site-footer__content { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px; padding-top: 28px; padding-bottom: 28px; } .site-footer__brand { grid-column: 1 / -1; } .site-footer__brand .site-footer__description { max-width: none; } .site-footer__links a { min-height: 44px; } .site-footer--compact .site-footer__content, .site-footer--compact .site-footer__bottom { padding-left: 16px; padding-right: 16px; } }
 @media (max-width: 480px) { .site-footer__content { grid-template-columns: 1fr; gap: 24px; } }
 @media print { .site-footer { display: none !important; } }
+
+/* A quiet, useful footer for the workspace and sign-in surface. */
+.site-footer--compact { position: relative; background: linear-gradient(115deg,#f0f9f6 0%,#f8fcfb 48%,#fff 100%); border-top-color: #cce4df; }
+.site-footer--compact::before { content: ''; position: absolute; inset: 0 0 auto; height: 3px; background: linear-gradient(90deg,#00796f,#97d6c6 50%,transparent); }
+.site-footer--compact .site-footer__workspace { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr) minmax(0,1.1fr); align-items: center; gap: 36px; padding: 32px 28px 28px; }
+.site-footer--compact .site-footer__logo { gap: 12px; }
+.site-footer--compact .site-footer__logo > span { width: 46px; height: 46px; border: 1px solid #cbe5df; border-radius: 15px; background: white; box-shadow: 0 4px 12px #00796f09; }
+.site-footer--compact .site-footer__logo strong { display: block; line-height: 1.25; font-size: 25px; }
+.site-footer__logo small { display: block; margin-top: 4px; color: #49756a; font-size: 9px; font-weight: 700; letter-spacing: 1.8px; }
+.site-footer__identity > p { margin: 14px 0 10px; color: #5b6b7f; font-size: 14px; line-height: 1.75; }
+.site-footer__identity > p > strong { color: #215c53; font-weight: 700; }
+.site-footer__pet-note { display: inline-flex; align-items: center; gap: 6px; color: #49756a; font-size: 11px; }
+.site-footer__time-card { display: flex; align-items: flex-start; gap: 12px; padding: 20px; border: 1px solid #d4e8e1; border-radius: 16px; background: #ffffffa6; }
+.site-footer__time-icon { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border-radius: 11px; background: #e8f5ef; color: #00796f; }
+.site-footer__time-card h2 { margin: 0 0 5px; color: #56766e; font-size: 12px; font-weight: 600; }
+.site-footer__time-card strong { display: block; color: #006b63; font-size: clamp(17px,1.7vw,22px); font-weight: 800; white-space: nowrap; }
+.site-footer__time-card strong span { padding: 0 3px; color: #94b8af; font-size: 16px; }
+.site-footer__time-card p { margin-top: 7px; color: #567168; font-size: 11px; line-height: 1.7; }
+.site-footer__quick h2 { margin-bottom: 9px; color: #56766e; font-size: 12px; }
+.site-footer__quick a { display: flex; align-items: center; gap: 9px; min-height: 38px; margin-top: 5px; padding: 7px 10px; border: 1px solid transparent; border-radius: 9px; color: #385d55; font-size: 12px; text-decoration: none; transition: background .15s,border-color .15s; }
+.site-footer__quick a > svg { flex-shrink: 0; color: #00796f; }
+.site-footer__quick a > span:last-child { margin-left: auto; color: #649b8e; }
+.site-footer__quick a:hover { border-color: #cbe5df; background: white; color: #006b63; }
+.site-footer__quick a:focus-visible { outline: 2px solid #00796f; outline-offset: 2px; }
+.site-footer--compact .site-footer__bottom { border-top-color: #dcebe5; color: #526f66; font-size: 11px; }
+.site-footer__bottom-dot { padding: 0 6px; color: #93b5aa; }
+@media (max-width: 1050px) { .site-footer--compact .site-footer__workspace { gap: 24px; grid-template-columns: 1fr 1fr; } .site-footer__identity { grid-row: span 2; } .site-footer__quick { grid-column: 2; } }
+@media (max-width: 600px) { .site-footer--compact .site-footer__workspace { padding: 26px 20px 22px; gap: 22px; grid-template-columns: 1fr; } .site-footer__identity { grid-row: auto; } .site-footer__identity > p br { display: none; } .site-footer__identity > p strong::before { content: ' '; } .site-footer__quick { grid-column: auto; } .site-footer__quick a { min-height: 44px; } .site-footer__time-card { padding: 16px; } .site-footer--compact .site-footer__bottom { padding: 16px 20px; } }
