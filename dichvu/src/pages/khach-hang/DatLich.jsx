@@ -296,7 +296,7 @@ export default function BookingPage() {
           {!loadingServices&&!servicesList.length&&<p role="alert">Chưa có dịch vụ để đặt lịch.</p>}
         </fieldset>
 </section>
-<section hidden={step!==3}>
+<section hidden={step!==3} className="space-y-5">
         {/* Ngày, giờ */}
         <div className="grid gap-5 sm:grid-cols-3">
           <Field label="Ngày hẹn:" required htmlFor="date" error={errors.date}>
@@ -313,13 +313,13 @@ export default function BookingPage() {
         </div>
 
         {duration > 0 && !loadingSlots && slots.length === 0 && date >= today && (
-          <div className="-mt-3 space-y-2 text-sm font-semibold text-amber-800">
+          <div className="space-y-2 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold leading-relaxed text-amber-800">
             <p role={slotError?'alert':'status'}>{availabilityMessage({error:slotError,reason:slotReason,duration})}</p>
             <button type="button" className="font-bold text-brand-700 underline" onClick={()=>setSlotVersion(v=>v+1)}>Kiểm tra lại giờ hẹn</button>
           </div>
         )}
         {slots.length > 0 && start && !startValid && (
-          <p className="-mt-3 text-sm font-semibold text-amber-700">
+          <p className="text-sm font-semibold leading-relaxed text-amber-700">
             Giờ {start} không còn trống với lựa chọn hiện tại. Vui lòng chọn giờ khác.
           </p>
         )}
