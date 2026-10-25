@@ -1,3 +1,6 @@
+import {ThemeProvider} from './data/khoGiaoDien.jsx'
+import './theme-components.css'
+import './theme.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
@@ -10,7 +13,7 @@ import {ToastProvider} from './components/ui/Toast.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <HashRouter>
+    <ThemeProvider><HashRouter>
       <AuthProvider>
         <PetProvider>
           <BookingProvider>
@@ -18,6 +21,6 @@ createRoot(document.getElementById('root')).render(
           </BookingProvider>
         </PetProvider>
       </AuthProvider>
-    </HashRouter>
+    </HashRouter></ThemeProvider>
   </StrictMode>,
 )

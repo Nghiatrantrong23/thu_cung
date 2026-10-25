@@ -1,3 +1,4 @@
+import ThemeToggle from '../components/ThemeToggle.jsx'
 import SiteFooter from '../components/SiteFooter.jsx'
 import { useEffect,useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -19,6 +20,7 @@ export default function PricingPage() {
             </span>
             <span className="text-lg font-extrabold tracking-tight">PetCare</span>
           </Link>
+          <ThemeToggle/>
           <Link to="/dang-nhap" className="rounded-full bg-brand-700 px-5 py-2 text-sm font-bold text-white hover:bg-brand-800">
             Đăng nhập để đặt lịch
           </Link>

@@ -1,3 +1,4 @@
+import ThemeToggle from '../components/ThemeToggle.jsx'
 import './KhungKhachHang.css'
 import SiteFooter from '../components/SiteFooter.jsx'
 import { useState } from 'react'
@@ -55,6 +56,7 @@ export default function CustomerLayout() {
             ))}
           </nav>
 
+          <ThemeToggle/>
           {!isOverview && <ThongBao compact/>}
           {/* Desktop: tên người dùng + đăng xuất */}
           <div className="hidden items-center gap-3 xl:flex">
