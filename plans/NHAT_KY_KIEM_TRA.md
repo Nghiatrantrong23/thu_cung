@@ -125,3 +125,9 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Dùng DBtestmới `petcare_test_emerald_20261024b`, API5001/Vite5181, login/menu đủ5nhóm; care/lễtân→Admin vàkhách→nhânsự bị chuyển đúng, đọc carelịch/ca, invoiceempty vàAdminaccount đạt. ProxyQA ban đầu trắng/không kết nối đã sửa trước test đạt; không đổi server/dữ liệu thật.
 - Responsive shell/home/component375×812,768×1024,1440×900 đạt; ảnh local `.cache/local-run/emerald-*.png`. Không kết luận mọi trang cũ hoặc businessworkflow mới đã nghiệm thu; chưa làm KPI hoặcAdminlightnội dung.
 - Báo cáo5phần: `BAO_CAO_UI_DOT_1.md`; kế hoạch/ma trận/DS cập nhật phân biệt audit1a và triển khai1b. Tiếp theo đợt2 khách, endpointtựgửi khiếunại sởhữu theo lựa chọnđãchốt. Không pushmain/forcepush.
+# 24/10/2026 — Giao diện hóa đơn khách hàng (một phần đợt 2)
+
+- Thêm route/menu `/hoa-don-cua-toi`, danh sách tối đa 200 hóa đơn gần nhất theo API sở hữu, chi tiết, giao dịch và bản in chỉ đọc.
+- Frontend: `npm run lint` PASS; `npm test` 20 PASS; `npm run build` PASS (80 modules). Chưa QA trình duyệt, chưa nghiệm thu toàn đợt 2.
+- Không thay backend, database hoặc quyền thanh toán; file `TIEN_DO_GIAO_DIEN.md` chưa theo dõi là ghi chú sẵn có và không đưa vào commit.
+

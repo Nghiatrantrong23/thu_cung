@@ -24,7 +24,7 @@ K = Khách hàng, C = Chăm sóc, T = Lễ tân, Q = Quản lý, A = Admin. Pref
 | Đặt lịch `/dat-lich` | K; tài khoản tạm phải đổi mật khẩu | GET dich-vu; GET lich-hen/khung-gio-trong; POST lich-hen | Form một trang, nhiều dịch vụ, tổng tiền/giờ | Wizard4 bước, giữ validation/API;2 |
 | Lịch `/lich-hen` | K sở hữu | GET lich-hen; PATCH :id/huy; POST :id/danh-gia | Bảng lọc trạng thái, chi tiết, hủy và đánh giá | Giữ trạng thái/chặn hành động không hợp lệ;2 |
 | Cá nhân `/thong-tin-ca-nhan` | UI chỉ K; API authenticated mọi vai trò | GET auth/toi; PUT auth/cap-nhat; POST auth/doi-mat-khau | Thông tin/cập nhật/đổi mật khẩu | Đưa vào menu Tài khoản;2 |
-| Hóa đơn của tôi | Chưa có trang list riêng | GET hoa-don; GET hoa-don/:id kiểm sở hữu | Có trang in :id nhưng chưa có menu/list khách | List/detail/payment history/read-only/in;2 |
+| Hóa đơn của tôi | `/hoa-don-cua-toi`, menu khách | GET hoa-don; GET hoa-don/:id kiểm sở hữu | Đã có list/detail/lịch sử giao dịch và bản in, tối đa 200 hóa đơn gần nhất; chưa QA trình duyệt | Read-only/in;2 |
 | Khiếu nại của tôi | GET đã cho K sở hữu; POST hiện chỉ T/Q/A | GET khieu-nai, GET :id | Chưa có trang khách; có trang in phiếu theo id | List/trạng thái/form gửi riêng theo quyết định mục5;2 |
 | Thông báo | Đã đăng nhập, chỉ người nhận | GET thong-bao; PATCH :id/da-doc | details,50 tin gần nhất,tải lại | Header/badge/accessibility;không realtime |
 | Quên mật khẩu `/quen-mat-khau` | Trang công khai | Chưa có email/OTP API | Trang đang phát triển | P2, không tự triển khai |

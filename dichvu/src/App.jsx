@@ -19,6 +19,7 @@ import DatLich from './pages/khach-hang/DatLich.jsx'
 import DanhSachLichHen from './pages/khach-hang/DanhSachLichHen.jsx'
 import HoSoThuCung from './pages/khach-hang/HoSoThuCung.jsx'
 import ThongTinCaNhan from './pages/khach-hang/ThongTinCaNhan.jsx'
+import HoaDonCuaToi from './pages/khach-hang/HoaDonCuaToi.jsx'
 import DatLichTaiQuay from './pages/le-tan/DatLichTaiQuay.jsx'
 import DangPhatTrien from './pages/DangPhatTrien.jsx'
 import QuanLyLichHen from './pages/le-tan/QuanLyLichHen.jsx'
@@ -50,6 +51,7 @@ export default function App() {
         <Route path="lich-hen" element={<DanhSachLichHen />} />
         <Route path="ho-so-thu-cung" element={<HoSoThuCung />} />
         <Route path="thong-tin-ca-nhan" element={<ThongTinCaNhan />} />
+        <Route path="hoa-don-cua-toi" element={<HoaDonCuaToi />} />
       </Route>
 
       {/* Lễ tân / Quản lý / Admin đặt lịch tại quầy (MH-02b) */}

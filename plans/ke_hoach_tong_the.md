@@ -174,6 +174,8 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 | 5 | Quản lý/Admin: KPIs/charts/alerts/lighttheme | Chưa triển khai nâng cấp |
 | 6 | Hồi quy/responsive/nghiệm thu mới | Chưa chạy nghiệm thu UI mới |
 
+Tiến độ đợt 2 ngày 24/10/2026: đã bổ sung trang khách `/hoa-don-cua-toi` dùng API hóa đơn theo quyền sở hữu, xem chi tiết, lịch sử giao dịch và mở bản in. Đây là một phần của đợt 2; dashboard, Pet Cards, wizard và khiếu nại khách còn thiếu nên **chưa đánh dấu hoàn thành đợt 2**. Frontend lint PASS, 20 test PASS, build PASS (80 modules); chưa QA trình duyệt theo nhiều viewport.
+
 Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14PASS/build72modules. Lint chưa có script/config; UI mới/responsive chưa có để nghiệm thu, không báo PASS. Không thay runtime code/DB trong phần kiểm kê. Các kết quả cũ giữ rõ là mốc trước, không cộng trùng.
 
 Đã chốt với người dùng: bổ sung luồng khách tự gửi khiếu nại trên lịch sở hữu; không thay quyền endpoint tiếp nhận cũ, không cấp duyệt/chi cho khách. DS không tự phân loại bệnh từ ghi chú TEXT, không tính KPI tổng từ listLIMIT200 hoặc unread50tin. Bỏ fallback dịch vụ mock khi nâng cấp2/4. Ca local vẫn do người dùng tự xếp; không thêm tự động. OTP/email/cổng thanh toán/WebSocket P2 giữ để sau.

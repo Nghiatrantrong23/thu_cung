@@ -8,6 +8,7 @@ const NAV = [
   { to: '/ho-so-thu-cung', label: 'Hồ sơ thú cưng' },
   { to: '/dat-lich', label: 'Đặt lịch' },
   { to: '/lich-hen', label: 'Lịch hẹn' },
+  { to: '/hoa-don-cua-toi', label: 'Hóa đơn' },
   { to: '/thong-tin-ca-nhan', label: 'Thông tin cá nhân' },
 ]
 
