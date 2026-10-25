@@ -1,6 +1,38 @@
 # Dữ liệu demo để thử PetCare
 
-## Bản đang chạy ngày 25/10/2026 (giờ Việt Nam)
+## Bộ tài khoản mới đang chạy — 25/10/2026
+
+Web vẫn là http://127.0.0.1:5181/ ; API 5001. DB đang dùng: `petcare_test_demo_accounts_20261025001704` trên cụm test 55439. Bộ này thay bộ 7 tài khoản trước theo yêu cầu người dùng, gồm **18 tài khoản hoạt động**:
+
+| Nhóm | Tên đăng nhập | Số lượng |
+| --- | --- | --- |
+| Chăm sóc | `chamsoc01` đến `chamsoc05` | 5 |
+| Lễ tân | `letan01` đến `letan05` | 5 |
+| Quản lý | `quanly01`, `quanly02` | 2 |
+| Khách | `khach01` đến `khach05` | 5 |
+| Admin giữ nguyên | `demo_admin` | 1 |
+
+Mật khẩu demo mới được gửi trong tin nhắn bàn giao, không lưu trong source. Mật khẩu và toàn bộ các trường tài khoản Admin được đối chiếu giữ nguyên. Các tên cũ `demo_quanly`, `demo_letan`, `demo_chamsoc1`, `demo_chamsoc2`, `demo_khach`, `demo_khoa` không có trong DB đang dùng và đăng nhập trả 401.
+
+Có sẵn 5 hồ sơ khách, mỗi khách 1 thú cưng; 5 nhân viên chăm sóc, mỗi người 7 ca 08:00–19:00 (35 ca); giữ danh mục 3 dịch vụ. Lịch hẹn/hóa đơn/khiếu nại bắt đầu trống cho các tài khoản mới, không gán lịch sử người cũ sang người mới. Bản chính 5173, `.env`, API/kiến trúc/phân quyền không đổi.
+
+Database cũ được giữ riêng làm bản lưu; thêm file backup `.cache/demo/truoc-thay-tai-khoan-20261025.dump` đã kiểm tra danh sách archive bằng pg_restore. Không công khai backup lên GitHub. Không xóa vật lý bản lưu. Chỉ bộ mới được phục vụ trên 5181.
+
+Kiểm tra bộ mới: 18 đăng nhập thành công qua proxy frontend; 6 tên cũ bị từ chối; 5 khách thấy đúng thú cưng của mình; API lịch/ca/hóa đơn tải được theo quyền; khách và quản lý không truy cập được API Admin. Ba kiểm tra an toàn của tooling PASS. Không chạy lại build frontend vì lần này chỉ thay dữ liệu/tooling.
+
+Mở lại bộ mới:
+
+```powershell
+cd D:\dich_vu_thu_cung\server
+$env:NODE_ENV='test'
+$env:DATABASE_URL='postgres://petcare_test@127.0.0.1:55439/petcare_test_demo_accounts_20261025001704'
+$env:PETCARE_ALLOW_DB_WRITE='petcare_test_demo_accounts_20261025001704'
+npm run demo:start
+```
+
+Lệnh `npm run db:demo-accounts` chỉ chuẩn bị bộ mới trên DB chưa có schema. Ngoài 3 biến target bên trên, cần `DEMO_SOURCE_DATABASE_URL` và `DEMO_SOURCE_DATABASE` trỏ cùng cụm test đến bản demo trước, cùng `PETCARE_DEMO_PASSWORD` (nhập kín như ví dụ bên dưới). Không dùng lại tên DB target đang có dữ liệu. Nguồn được mở trong transaction READ ONLY; script không DELETE/TRUNCATE/DROP. Manifest không chứa mật khẩu nằm trong `.cache/demo/<database>.json`.
+
+## Bản 7 tài khoản trước — đã lưu riêng, không còn chạy trên 5181
 
 - Web: http://127.0.0.1:5181/ ; API: http://127.0.0.1:5001/ready .
 - PostgreSQL test riêng: `127.0.0.1:55439`, DB `petcare_test_demo_20261024235410`.
