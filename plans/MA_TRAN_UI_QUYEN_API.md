@@ -25,7 +25,7 @@ K = Khách hàng, C = Chăm sóc, T = Lễ tân, Q = Quản lý, A = Admin. Pref
 | Lịch `/lich-hen` | K sở hữu | GET lich-hen; PATCH :id/huy; POST :id/danh-gia | Bảng lọc trạng thái, chi tiết, hủy và đánh giá | Giữ trạng thái/chặn hành động không hợp lệ;2 |
 | Cá nhân `/thong-tin-ca-nhan` | UI chỉ K; API authenticated mọi vai trò | GET auth/toi; PUT auth/cap-nhat; POST auth/doi-mat-khau | Thông tin/cập nhật/đổi mật khẩu | Đưa vào menu Tài khoản;2 |
 | Hóa đơn của tôi | `/hoa-don-cua-toi`, menu khách | GET hoa-don; GET hoa-don/:id kiểm sở hữu | Đã có list/detail/lịch sử giao dịch và bản in, tối đa 200 hóa đơn gần nhất; chưa QA trình duyệt | Read-only/in;2 |
-| Khiếu nại của tôi | GET đã cho K sở hữu; POST hiện chỉ T/Q/A | GET khieu-nai, GET :id | Chưa có trang khách; có trang in phiếu theo id | List/trạng thái/form gửi riêng theo quyết định mục5;2 |
+| Khiếu nại của tôi `/khieu-nai-cua-toi` | K chỉ xem khiếu nại của mình; POST hiện chỉ T/Q/A | GET khieu-nai, GET :id | Đã có danh sách, lọc trạng thái, phản hồi, khoản chờ hoàn và phiếu sau thực chi; tối đa 200 gần nhất | Form khách tự gửi và endpoint riêng theo quyết định mục5 còn thiếu;2 |
 | Thông báo | Đã đăng nhập, chỉ người nhận | GET thong-bao; PATCH :id/da-doc | details,50 tin gần nhất,tải lại | Header/badge/accessibility;không realtime |
 | Quên mật khẩu `/quen-mat-khau` | Trang công khai | Chưa có email/OTP API | Trang đang phát triển | P2, không tự triển khai |
 

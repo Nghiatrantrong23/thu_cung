@@ -6,6 +6,8 @@
 
 ## 0. Tiến độ hiện tại
 
+> **25/10/2026 — giao diện khiếu nại khách:** thêm route/menu `/khieu-nai-cua-toi`, dùng GET danh sách/chi tiết có lọc sở hữu tại server; hiển thị trạng thái, nội dung, phản hồi, tiền chờ hoàn và phiếu khi đã thực chi. Có loading/error/empty, lọc trạng thái, tải lại và ghi rõ giới hạn 200 bản ghi. Frontend 20 test PASS, lint/build 86 modules PASS. Chưa QA trình duyệt với DB đang chạy; endpoint/form khách tự gửi theo quyết định đợt 2 chưa triển khai. **Đợt 2 và giai đoạn 12 chưa hoàn tất.**
+
 **Đã triển khai đến giai đoạn 11; đang ở giai đoạn 12 — nghiệm thu, đóng gói và chuẩn bị môi trường chạy.** API 8–11 và chuỗi nghiệp vụ đã đạt trên PostgreSQL 17 cô lập; giao diện chăm sóc, ca, thu/hoàn, chứng từ, báo cáo và danh mục đã thao tác trên trình duyệt. Database development local đã được nâng cấp có backup/đối chiếu và xác nhận giữ dữ liệu ngày 24/10/2026; không triển khai production.
 
 | Giai đoạn | Kết quả có bằng chứng | Phần còn lại / giới hạn |

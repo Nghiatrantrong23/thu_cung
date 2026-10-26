@@ -10,6 +10,7 @@ const NAV = [
   { to: '/dat-lich',          label: 'Đặt lịch' },
   { to: '/lich-hen',          label: 'Lịch hẹn' },
   { to: '/hoa-don-cua-toi',   label: 'Hóa đơn' },
+  { to: '/khieu-nai-cua-toi', label: 'Khiếu nại' },
   { to: '/thong-tin-ca-nhan', label: 'Tài khoản' },
 ]
 
