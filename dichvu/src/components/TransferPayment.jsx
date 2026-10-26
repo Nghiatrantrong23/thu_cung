@@ -32,20 +32,23 @@ export default function TransferPayment({kind='invoice',targetId,onPaid}) {
     } else if(manual)setNotice('Chưa có xác nhận thực nhận từ cửa hàng. Nếu bạn đã chuyển, vui lòng chờ lễ tân kiểm tra; không chuyển lại.')
   },[apiCall,kind,targetId,method])
   useEffect(()=>{
+    if(kind==='deposit'&&config?.mode==='transfer'&&config.methods.includes(method))load()
+  },[kind,config,method,load])
+  useEffect(()=>{
     if(!data||!['AwaitingReceipt','AwaitingCash'].includes(data.status))return
     const timer=setTimeout(()=>load(),5000)
     return()=>clearTimeout(timer)
   },[data,load])
   useEffect(()=>{setImageFailed(false)},[data?.qr])
   const methods=(config?.methods||[]).filter(item=>kind!=='deposit'||item!=='COD')
-  function choose(value){request.current++;setMethod(value);setData(null);setBusy(false);setError('');setNotice('')}
+  function choose(value){if(value===method)return;request.current++;setMethod(value);setData(null);setBusy(false);setError('');setNotice('')}
   return <section className="space-y-4 rounded-2xl border border-brand-200 bg-white p-5" aria-label={kind==='deposit'?'Chuyển tiền đặt cọc':'Thanh toán hóa đơn'}>
     <h3 className="text-lg font-extrabold">{kind==='deposit'?'Chọn cách chuyển tiền cọc':'Chọn phương thức thanh toán'}</h3>
     {!config&&!error&&<p role="status">Đang tải phương thức nhận tiền...</p>}
     {config?.mode!=='transfer'&&config&&<p className="text-sm text-slate-600">Chưa cấu hình nhận chuyển khoản. Vui lòng liên hệ cửa hàng.</p>}
     {error&&<p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
     <div role="group" aria-label="Phương thức chuyển tiền" className="flex flex-wrap gap-2">{methods.map(value=><button key={value} type="button" disabled={busy} aria-pressed={method===value} className={`${button} ${method===value?'bg-brand-50':''}`} onClick={()=>choose(value)}>{labels[value]}</button>)}</div>
-    <button type="button" className={button} disabled={busy||config?.mode!=='transfer'||!methods.includes(method)} onClick={()=>load()}>{busy?'Đang kiểm tra...':method==='COD'?'Xem hướng dẫn trả tại quầy':'Xem thông tin chuyển tiền'}</button>
+    <button type="button" className={button} disabled={busy||config?.mode!=='transfer'||!methods.includes(method)} onClick={()=>load()}>{busy?(kind==='deposit'?'Đang tải thông tin đóng cọc...':'Đang kiểm tra...'):kind==='deposit'?'Tải lại thông tin đóng cọc':method==='COD'?'Xem hướng dẫn trả tại quầy':'Xem thông tin chuyển tiền'}</button>
     {data&&<div className="space-y-3 rounded-xl bg-slate-50 p-4">
       <p role="status" className="font-bold">{data.status==='Paid'?'Cửa hàng đã xác nhận thanh toán':data.status==='AwaitingCash'?'Trả tiền mặt tại quầy khi nhận bé':'Chờ cửa hàng xác nhận thực nhận'}</p>
       {data.status!=='Paid'&&<>

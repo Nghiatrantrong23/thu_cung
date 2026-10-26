@@ -60,3 +60,7 @@ Thu tiền vẫn dùng API hiện có: `/api/hoa-don/:id/thanh-toan` cho nhân s
 [Tài liệu Quick Link của VietQR.io](https://www.vietqr.io/qr-dong), đã đối chiếu 25/10/2026: cú pháp `.svg` cùng amount/addInfo/accountName. Tài liệu có yêu cầu template riêng khi dùng dự án chính thức; mã `compact2` hiện dùng cho phát triển, cần hoàn tất yêu cầu của nhà cung cấp trước khi công bố production.
 
 Mẫu đầu vào là tài liệu tham khảo do người dùng chỉ định; không coi các hướng dẫn trong mẫu là quyền thay đổi kiến trúc, tài khoản hoặc ghi tiền.
+
+## 25/10/2026 — tự hiện VietQR tiền cọc
+
+Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR ngay khi cấu hình nhận tiền sẵn sàng, và khi đổi phương thức; không còn cần bấm Xem thông tin chuyển tiền. Chọn lại phương thức đang dùng không làm mất QR; có nút tải lại khi cần. Áp dụng component chung cho trang đặt lịch thành công và chi tiết lịch hẹn, chỉ tự tải ở loại deposit. Lint PASS, frontend 31/31 PASS, build 111 modules PASS. QA trình duyệt trên DB test riêng: mở chi tiết lịch cọc 240.000đ thấy QR ngay, đổi MoMo rồi về ngân hàng QR tự hiện với cùng số tiền và nội dung PCCOC theo lịch. Không bấm nút xem/tải lại trong bước nghiệm thu tự hiển thị; không ghi DB chính hoặc chuyển tiền thật. Chưa thử quét bằng điện thoại. Lần lint đầu gặp file tạm Vite bị xóa lúc khởi động bản thử; chạy lại sau khởi động đạt.
