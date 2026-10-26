@@ -246,3 +246,7 @@ Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14
 - Build frontend đúng một lần: **PASS 97 modules**, không cảnh báo; chưa QA hành trình trên trình duyệt. Không chạy toàn bộ kiểm thử hoặc ghi DB.
 
 Nghiệm thu 1b ngày24/10: frontend lint PASS,20/20test,build77modules; backend67PASS/9SKIP. Browser 5nhóm login/menu và guard trên DB test riêng đạt, modal Tab/ShiftTab/Escape/busy/restore focus đạt sau sửa; shell/home/component 375/768/1440 không tràn ngang. Chưa nghiệm thu mọi màn hình cũ hoặc toàn hành trình mới; các dashboard KPI và Admin light nội dung còn đợt3–5. Chi tiết và danh sách file/API: [Báo cáo đợt1](BAO_CAO_UI_DOT_1.md). Tiếp theo: đợt2 khách hàng, bao gồm endpoint khiếu nại sở hữu đã được người dùng chấp thuận.
+
+## Tích hợp thanh toán ngân hàng và MoMo — 25/10/2026
+
+Đã tích hợp VietQR và hướng dẫn MoMo cá nhân theo thông tin mẫu được người dùng xác nhận, vào hóa đơn và cọc 30% trên React/Express hiện có; lễ tân xác nhận thực nhận, COD chỉ trả cuối tại quầy. Không sao chép Stripe secret, không thêm migration hoặc ghi DB đang vận hành. Backend 83 PASS/13 tích hợp SKIP mặc định; bốn bộ tích hợp riêng 38 PASS/0 FAIL/0 SKIP; frontend 31 PASS, lint/build 111 modules PASS. UI hóa đơn/VietQR/MoMo và nút khách kiểm tra xác nhận đạt trên bản test 5182. MoMo QR cần liên kết nhận tiền xuất từ ví; chưa nghiệm thu quét điện thoại/cổng tự đối soát hoặc toàn bộ UI cọc. Chi tiết: [Thanh toán chuyển khoản](../docs/THANH_TOAN_CHUYEN_KHOAN.md). Không đánh dấu toàn bộ giai đoạn 12 hoàn tất.

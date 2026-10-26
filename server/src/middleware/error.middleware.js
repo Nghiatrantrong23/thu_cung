@@ -11,6 +11,7 @@ const databaseErrors = {
     '40P01': [409, 'Yêu cầu đồng thời bị xung đột. Vui lòng thử lại.'],
 }
 export function publicError(err) {
+    if(err.status===503&&['QR_NOT_CONFIGURED','PAYMENT_NOT_CONFIGURED'].includes(err.code))return {status:503,message:err.message,code:err.code}
     if (databaseErrors[err.code]) {
         const [status, message] = databaseErrors[err.code]
         return { status, message }
@@ -26,5 +27,5 @@ export function errorHandler(err, req, res, next) {
     const result = publicError(err)
     // Do not log SQL, connection strings, submitted data, password hashes or stacks.
     console.error('[error]', result.status, err.code || err.name || 'Error')
-    res.status(result.status).json({ error: result.message })
+    res.status(result.status).json({ error: result.message, ...(result.code?{code:result.code}:{}) })
 }

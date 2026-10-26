@@ -1,3 +1,4 @@
+import TransferPayment from './TransferPayment.jsx'
 import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../data/khoXacThuc.jsx'
 import { formatVND } from '../lib/tinhGioTrong.js'
@@ -45,6 +46,7 @@ export default function PaymentOptions({invoiceId,remaining,onPaid}) {
     if(!mounted.current||currentInvoice.current!==id)return
     if(latest.ok){setIntent(latest.data);if(latest.data.status==='Paid')paidRef.current?.()}else setError(latest.error)
   }
+  if(config?.mode!=='sandbox')return <TransferPayment key={invoiceId} targetId={invoiceId} onPaid={onPaid}/>
   return <section className="space-y-4 rounded-2xl border border-brand-200 bg-white p-5">
     <h2 className="text-lg font-extrabold">Chọn phương thức thanh toán</h2>
     <p className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">Bản thử nghiệm sandbox. QR và MoMo được mô phỏng, không chuyển tiền thật. COD là trả tiền tại quầy khi nhận bé.</p>

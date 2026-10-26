@@ -46,13 +46,14 @@ export async function createInvoice(body,user) {
 }
 export async function collectPayment(id,body,user) {
     const key=paymentKey(body?.khoaChongLap),amount=cents(body?.soTien),method=body?.phuongThuc
-    if(!amount||!['TienMat','ChuyenKhoanQR'].includes(method))throw bookingError(400,'Số tiền phải dương, phương thức tiền mặt hoặc chuyển khoản.')
+    if(!amount||!['TienMat','ChuyenKhoanQR','MoMo'].includes(method))throw bookingError(400,'Số tiền phải dương, phương thức tiền mặt, chuyển khoản hoặc MoMo.')
     const cash=method==='TienMat'?cents(body.tienKhachDua,'Tiền khách đưa'):null
     if(cash!==null&&cash<amount)throw bookingError(400,'Tiền khách đưa phải đủ số tiền ghi nhận.')
     const state=body.ketQua==='ThatBai'?'ThatBai':'ThanhCong'
     if(body.ketQua!=null&&!['ThatBai','ThanhCong'].includes(body.ketQua))throw bookingError(400,'Kết quả giao dịch không hợp lệ.')
-    if(method==='ChuyenKhoanQR'&&state==='ThanhCong'&&body.daNhanTien!==true)throw bookingError(400,'Phải xác nhận thực tế đã nhận tiền chuyển khoản.')
+    if(['ChuyenKhoanQR','MoMo'].includes(method)&&state==='ThanhCong'&&body.daNhanTien!==true)throw bookingError(400,'Phải xác nhận thực tế đã nhận tiền chuyển khoản hoặc MoMo.')
     const reference=string(body.maGiaoDich,'Mã tham chiếu',100,false)||null
+    if(method==='MoMo'&&state==='ThanhCong'&&!reference)throw bookingError(400,'Cần mã giao dịch MoMo đã thực nhận.')
     return withTransaction(async client=>{
         const bill=await lockedInvoice(client,id)
         const existing=(await client.query('SELECT * FROM thanh_toan WHERE khoa_chong_lap=$1',[key])).rows[0]

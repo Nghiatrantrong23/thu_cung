@@ -131,3 +131,6 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Frontend: `npm run lint` PASS; `npm test` 20 PASS; `npm run build` PASS (80 modules). Chưa QA trình duyệt, chưa nghiệm thu toàn đợt 2.
 - Không thay backend, database hoặc quyền thanh toán; file `TIEN_DO_GIAO_DIEN.md` chưa theo dõi là ghi chú sẵn có và không đưa vào commit.
 
+## 25/10/2026 — tích hợp chuyển khoản từ mẫu web cây cảnh
+
+Triển khai trên nhánh riêng codex/tich-hop-thanh-toan-chuyen-khoan. Dùng số nợ/cọc từ DB và kiểm tra sở hữu/RBAC; VietQR tải ảnh SVG, MoMo theo số điện thoại và QR chỉ khi có receive link thực tế; không giả lập thanh toán thành công. Cấu hình người nhận theo xác nhận trực tiếp của người dùng trong .env riêng. Không thay schema hoặc ghi dữ liệu web chính. Backend cuối 83 PASS/13 tích hợp SKIP; chuyển khoản 9 + hóa đơn 8 + cọc 12 + sandbox 9 = 38 tích hợp PASS trên DB mới riêng; frontend lint/31 test/build 111 modules PASS. Đã sửa hồi quy QR chưa cấu hình về 503/QR_NOT_CONFIGURED sau khi bộ hóa đơn phát hiện; giữ lỗi 5xx khác không lộ nội bộ. UI test 5182: đúng VietQR/MB/người nhận/số tiền/nội dung, đổi MoMo, nút khách chỉ tải trạng thái. Không thử chuyển tiền thật hoặc giả gọi đó là nghiệm thu MoMo merchant. Hướng dẫn/giới hạn: [Thanh toán chuyển khoản](../docs/THANH_TOAN_CHUYEN_KHOAN.md).

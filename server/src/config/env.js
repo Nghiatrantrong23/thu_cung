@@ -4,9 +4,11 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const explicitDepositFlag=process.env.BOOKING_DEPOSIT_ENABLED
+const explicitPaymentMode=process.env.PAYMENT_MODE
 dotenv.config({ path: path.resolve(__dirname, '../../.env') })
 // A local development .env must not change opt-in behavior of isolated tests.
 if(process.env.NODE_ENV==='test'&&explicitDepositFlag===undefined)process.env.BOOKING_DEPOSIT_ENABLED='false'
+if(process.env.NODE_ENV==='test'&&explicitPaymentMode===undefined)process.env.PAYMENT_MODE='disabled'
 
 function required(name, fallback = undefined) {
     const value = process.env[name] ?? fallback
