@@ -113,6 +113,7 @@ Chỉ lập từ lịch và mọi chi tiết đã hoàn thành, một hóa đơn
 | GET `/khieu-nai` | K/T/Q/A | `{khieuNai:[...]}`; K chỉ của mình |
 | GET `/khieu-nai/:id` | K sở hữu/T/Q/A | `{khieuNai:row}`; không thuộc mình 404 |
 | POST `/khieu-nai` | T/Q/A | `maLichHen,maHoaDon?,noiDung` → 201 `{id}` |
+| POST `/khieu-nai/cua-toi` | K | `maLichHen,noiDung` → 201 `{id}`; server kiểm sở hữu lịch, tự lấy hóa đơn và người gửi; lịch không thuộc khách trả 404 |
 | PATCH `/khieu-nai/:id/quyet-dinh` | Q/A | `quyetDinh:'TuChoi'/'KhacPhuc'/'HoanTien',phuongAn,soTienHoan?` |
 | POST `/khieu-nai/:id/chi-hoan` | T/Q/A | Body dưới; thành công mới đóng khiếu nại và đổi tiền |
 

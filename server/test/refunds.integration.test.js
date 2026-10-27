@@ -146,6 +146,22 @@ test('complaints and refunds stage 10 on isolated PostgreSQL', {
             assert.equal((await decide(id,100000,'HoanTien','customer1')).status,403)
             assert.deepEqual((await call('/api/khieu-nai',{as:'customer2'})).body.khieuNai,[])
         })
+        await t.test('customer submits only for an owned booking; invoice and actor come from server',async()=>{
+            const {booking,bill}=await paidBill()
+            const path='/api/khieu-nai/cua-toi'
+            const body={maLichHen:booking,noiDung:'Cần kiểm tra lại dịch vụ',maHoaDon:999999,nguoiTiepNhan:f.manager,trangThai:'DaXuLy'}
+            assert.equal((await call(path,{as:'customer2',method:'POST',body})).status,404)
+            assert.equal((await call(path,{as:'reception',method:'POST',body})).status,403)
+            assert.equal((await call(path,{method:'POST',body:{maLichHen:booking,noiDung:'   '}})).status,400)
+            const submitted=await call(path,{method:'POST',body})
+            assert.equal(submitted.status,201)
+            const row=(await db.query('SELECT ma_lich_hen,ma_hoa_don,nguoi_tiep_nhan,trang_thai FROM khieu_nai WHERE ma_khieu_nai=$1',[submitted.body.id])).rows[0]
+            assert.equal(row.ma_lich_hen,booking)
+            assert.equal(row.ma_hoa_don,bill)
+            assert.equal(row.nguoi_tiep_nhan,f.customer1)
+            assert.equal(row.trang_thai,'DaTiepNhan')
+            assert.equal((await call(`/api/khieu-nai/${submitted.body.id}`,{as:'customer2'})).status,404)
+        })
         await t.test('rejected and nonrefund complaints close without financial transactions',async()=>{
             const a=await paidBill()
             for(const decision of ['TuChoi','KhacPhuc']) {

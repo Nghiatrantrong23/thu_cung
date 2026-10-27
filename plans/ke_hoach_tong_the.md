@@ -192,7 +192,7 @@ Tiến độ đợt 2 ngày 24/10/2026:
 
 **Kết quả kiểm tra bản nháp trước:** frontend 20/20 PASS, build 84 modules theo ghi nhận của mốc trước. **Kiểm tra riêng lần hoàn thiện C1:** chạy `npm run build` đúng một lần, PASS 85 modules, không có cảnh báo. Không chạy lại bộ kiểm thử hệ thống hoặc QA trình duyệt trong lần này; không dùng build để kết luận toàn bộ hành trình đã nghiệm thu.
 
-**Còn thiếu đợt 2:** wizard đặt lịch 5 bước (C3), Pet Cards + modal (C2), khiếu nại của tôi + gửi sở hữu, trang Home công khai. Chưa QA trình duyệt 3 viewport. **Chưa đánh dấu hoàn thành đợt 2.**
+**Còn thiếu đợt 2:** wizard đặt lịch 5 bước (C3), Pet Cards + modal (C2), trang Home công khai. Trang khách xem/gửi khiếu nại đã có trên nhánh `codex/ui-khieu-nai-khach`: frontend lint, 20 test, build 86 modules; backend 67 PASS/9 SKIP mặc định; nhóm tích hợp khiếu nại 9 PASS trên DB test mới riêng. Chưa QA trình duyệt 3 viewport. **Chưa đánh dấu hoàn thành đợt 2.**
 
 Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14PASS/build72modules. Lint chưa có script/config; UI mới/responsive chưa có để nghiệm thu, không báo PASS. Không thay runtime code/DB trong phần kiểm kê. Các kết quả cũ giữ rõ là mốc trước, không cộng trùng.
 

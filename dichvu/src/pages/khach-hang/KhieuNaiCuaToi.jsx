@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
+import { useBookings } from '../../data/khoLichHen.jsx'
 import { formatVND } from '../../lib/tinhGioTrong.js'
 
 const states = {
@@ -11,6 +12,7 @@ const states = {
 
 export default function KhieuNaiCuaToi() {
   const { apiCall } = useAuth()
+  const { bookings, loading: bookingsLoading } = useBookings()
   const [rows, setRows] = useState([])
   const [selected, setSelected] = useState(null)
   const [detail, setDetail] = useState(null)
@@ -20,6 +22,12 @@ export default function KhieuNaiCuaToi() {
   const [detailVersion, setDetailVersion] = useState(0)
   const [error, setError] = useState('')
   const [detailError, setDetailError] = useState('')
+  const [showForm, setShowForm] = useState(false)
+  const [bookingId, setBookingId] = useState('')
+  const [note, setNote] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [submitNotice, setSubmitNotice] = useState('')
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -53,12 +61,33 @@ export default function KhieuNaiCuaToi() {
 
   const visible = rows.filter(row => !filter || row.trang_thai === filter)
 
+  async function submitComplaint(event) {
+    event.preventDefault()
+    setSubmitError('')
+    setSubmitNotice('')
+    if (!bookingId || !note.trim()) { setSubmitError('Chọn lịch hẹn và nhập nội dung khiếu nại.'); return }
+    setSubmitting(true)
+    const result = await apiCall('/api/khieu-nai/cua-toi', {
+      method: 'POST', body: JSON.stringify({ maLichHen: Number(bookingId), noiDung: note.trim() }),
+    })
+    setSubmitting(false)
+    if (!result.ok) { setSubmitError(result.error || 'Không gửi được khiếu nại.'); return }
+    setShowForm(false)
+    setBookingId('')
+    setNote('')
+    setFilter('')
+    setSelected(result.data.id)
+    setSubmitNotice(`Đã gửi khiếu nại #${result.data.id}. Bạn có thể theo dõi kết quả bên dưới.`)
+    await load()
+  }
+
   return <section className="space-y-6">
     <header className="flex flex-wrap items-end justify-between gap-3">
       <div><p className="text-sm font-bold uppercase tracking-wide text-brand-700">Hỗ trợ khách hàng</p><h1 className="text-3xl font-extrabold text-slate-800">Khiếu nại của tôi</h1><p className="mt-1 text-slate-600">Theo dõi phản hồi và khoản hoàn tiền liên quan đến lịch hẹn của bạn.</p></div>
-      <button type="button" onClick={load} disabled={loading} className="rounded-full border border-brand-700 px-4 py-2 font-bold text-brand-700 disabled:opacity-50">Tải lại</button>
+      <div className="flex flex-wrap gap-2"><button type="button" onClick={() => { setShowForm(open => !open); setSubmitError('') }} aria-expanded={showForm} className="rounded-full bg-brand-700 px-4 py-2 font-bold text-white hover:bg-brand-800">{showForm ? 'Đóng biểu mẫu' : 'Gửi khiếu nại'}</button><button type="button" onClick={load} disabled={loading} className="rounded-full border border-brand-700 px-4 py-2 font-bold text-brand-700 disabled:opacity-50">Tải lại</button></div>
     </header>
-    <p className="rounded-xl border border-brand-200 bg-brand-50 p-4 text-sm text-slate-700">Nếu cần gửi khiếu nại mới, hãy liên hệ lễ tân để được tiếp nhận. Tính năng gửi trực tiếp đang được phát triển.</p>
+    {showForm && <form onSubmit={submitComplaint} className="space-y-4 rounded-xl border border-brand-200 bg-white p-5"><h2 className="text-xl font-extrabold">Gửi khiếu nại mới</h2><p className="text-sm text-slate-600">Chọn một lịch hẹn của bạn và mô tả vấn đề. Nhân viên sẽ xem xét và phản hồi tại đây.</p><label className="block font-bold text-slate-700">Lịch hẹn<select required value={bookingId} onChange={event => setBookingId(event.target.value)} disabled={bookingsLoading || submitting} className="mt-1 block w-full rounded-xl border border-slate-300 bg-white p-3"><option value="">{bookingsLoading ? 'Đang tải lịch hẹn...' : 'Chọn lịch hẹn'}</option>{bookings.map(booking => <option key={booking.id} value={booking.id}>#{booking.id} · {booking.petName} · {booking.date}</option>)}</select></label>{!bookingsLoading && !bookings.length && <p className="text-sm text-slate-600">Bạn chưa có lịch hẹn. <Link to="/lich-hen" className="font-bold text-brand-700 underline">Xem lịch hẹn</Link></p>}<label className="block font-bold text-slate-700">Nội dung<textarea required minLength={1} maxLength={2000} rows={5} value={note} onChange={event => setNote(event.target.value)} disabled={submitting} className="mt-1 block w-full rounded-xl border border-slate-300 bg-white p-3" placeholder="Mô tả vấn đề bạn cần hỗ trợ" /></label>{submitError && <p role="alert" className="text-rose-700">{submitError}</p>}<button type="submit" disabled={submitting || !bookings.length} className="rounded-full bg-brand-700 px-5 py-2.5 font-bold text-white hover:bg-brand-800 disabled:opacity-50">{submitting ? 'Đang gửi...' : 'Gửi khiếu nại'}</button></form>}
+    {submitNotice && <p role="status" className="rounded-xl bg-emerald-50 p-4 text-emerald-800">{submitNotice}</p>}
     {error && <p role="alert" className="rounded-xl bg-rose-50 p-4 text-rose-700">{error}</p>}
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
       <div>

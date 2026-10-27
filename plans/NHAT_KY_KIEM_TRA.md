@@ -131,3 +131,10 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Frontend: `npm run lint` PASS; `npm test` 20 PASS; `npm run build` PASS (80 modules). Chưa QA trình duyệt, chưa nghiệm thu toàn đợt 2.
 - Không thay backend, database hoặc quyền thanh toán; file `TIEN_DO_GIAO_DIEN.md` chưa theo dõi là ghi chú sẵn có và không đưa vào commit.
 
+# 26/10/2026 — khách tự gửi khiếu nại
+
+- Nhánh `codex/ui-khieu-nai-khach`: thêm POST `/api/khieu-nai/cua-toi` và biểu mẫu trên trang Khiếu nại của tôi. Server kiểm chủ lịch trong transaction, tự lấy hóa đơn và người gửi; route tiếp nhận của lễ tân giữ quyền cũ.
+- Frontend: lint PASS, 20/20 test PASS, build PASS 86 modules. Backend mặc định: 67 PASS, 9 tích hợp SKIP khi thiếu DB test.
+- Nhóm tích hợp khiếu nại trên DB mới riêng `petcare_test_customer_complaint_20261026174609`: 9 PASS, 0 FAIL, 0 SKIP, gồm gửi của khách, chặn lịch người khác, chặn vai trò nhân sự, bỏ qua trường hóa đơn/người tiếp nhận/trạng thái do client đưa. DB test được giữ để kiểm tra; không ghi DB ứng dụng.
+- Chưa QA giao diện qua trình duyệt/3 viewport. Không đánh dấu xong đợt giao diện 2 hoặc giai đoạn 12.
+
