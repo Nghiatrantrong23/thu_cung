@@ -141,9 +141,9 @@ export default function LoginPage() {
     <div className="grid min-h-screen place-items-center px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 text-center">
-          <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-100 text-brand-700">
+          <Link to="/" aria-label="Về trang chủ PetCare" className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-brand-100 text-brand-700">
             <BieuTuongDauChan className="h-8 w-8" />
-          </span>
+          </Link>
           <h1 className="mt-4 text-xl font-extrabold uppercase leading-snug tracking-wide text-slate-800">
             Hệ thống quản lý và đặt lịch
             <br />

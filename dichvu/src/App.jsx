@@ -14,6 +14,7 @@ import KhungKhachHang from './layouts/KhungKhachHang.jsx'
 import KiemTraQuyen from './components/KiemTraQuyen.jsx'
 import DangNhap from './pages/DangNhap.jsx'
 import BangGia from './pages/BangGia.jsx'
+import TrangChu from './pages/TrangChu.jsx'
 import GiuChoVaiTro from './pages/GiuChoVaiTro.jsx'
 import DatLich from './pages/khach-hang/DatLich.jsx'
 import DanhSachLichHen from './pages/khach-hang/DanhSachLichHen.jsx'
@@ -33,6 +34,7 @@ export default function App() {
     <Routes>
       {import.meta.env.DEV&&<Route path="__ui" element={<Suspense fallback={<p>Đang tải mẫu giao diện…</p>}><ComponentLab/></Suspense>}/>}
       {/* Công khai */}
+      <Route path="/" element={<TrangChu />} />
       <Route path="dang-nhap" element={<DangNhap />} />
       <Route path="doi-mat-khau" element={<DoiMatKhauTam />} />
       <Route path="bang-gia" element={<BangGia />} />
@@ -102,7 +104,7 @@ export default function App() {
         />
       ))}
 
-      <Route path="*" element={<Navigate to="/dang-nhap" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

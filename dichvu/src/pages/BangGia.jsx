@@ -12,7 +12,7 @@ export default function PricingPage() {
     <div className="min-h-screen">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
-          <Link to="/dang-nhap" className="flex items-center gap-2 text-brand-700">
+          <Link to="/" className="flex items-center gap-2 text-brand-700">
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-100">
               <BieuTuongDauChan className="h-5 w-5" />
             </span>

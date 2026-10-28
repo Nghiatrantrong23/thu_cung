@@ -170,7 +170,7 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 | Đợt nâng cấp | Phạm vi | Trạng thái |
 | --- | --- | --- |
 | 1 | Kiểm kê5vai trò và DS dùng chung | Hoàn thành nền tảng 1a/1b: StaffLayout, primitives, lint/test/build, keyboard và 3viewport; xem BAO_CAO_UI_DOT_1.md |
-| 2 | Khách: dashboard, Pet Cards, wizard, hóa đơn/KN, menu | Chưa triển khai nâng cấp |
+| 2 | Khách: dashboard, Pet Cards, wizard, hóa đơn/KN, menu | Đang triển khai trên các nhánh UI khách; còn wizard, Pet Cards và QA trình duyệt |
 | 3 | Chăm sóc: hôm nay, timeline/progress/notes, profile | Chưa triển khai nâng cấp |
 | 4 | Lễ tân: dashboard/calendar/filter/POS | Chưa triển khai nâng cấp |
 | 5 | Quản lý/Admin: KPIs/charts/alerts/lighttheme | Chưa triển khai nâng cấp |
@@ -181,7 +181,7 @@ Tiến độ đợt 2 ngày 24/10/2026:
 **Quyết định thiết kế đã chốt (từ tài liệu canvas):**
 - Token màu mới: Primary `#00877D`, nút `#00796F` (5.3:1), Accent kem `#FFF0D9`, Background `#F8FAF9`; thay bộ Teal Emerald cũ.
 - Font: Be Vietnam Pro (Google Fonts) thay Nunito; `@import` đặt đúng thứ tự trước `@import tailwindcss`.
-- Trang Home công khai (hero, dịch vụ, đánh giá): nằm trong phạm vi, chưa implement.
+- Trang Home công khai (hero, dịch vụ, đánh giá): có bản triển khai trên nhánh `codex/ui-home-cong-khai`; chưa QA trình duyệt.
 
 **Đã triển khai:**
 - `index.css`: token màu đầy đủ, font Be Vietnam Pro, focus ring `#00796F`, chuẩn bị cho trạng thái và biểu đồ.
@@ -192,7 +192,13 @@ Tiến độ đợt 2 ngày 24/10/2026:
 
 **Kết quả kiểm tra bản nháp trước:** frontend 20/20 PASS, build 84 modules theo ghi nhận của mốc trước. **Kiểm tra riêng lần hoàn thiện C1:** chạy `npm run build` đúng một lần, PASS 85 modules, không có cảnh báo. Không chạy lại bộ kiểm thử hệ thống hoặc QA trình duyệt trong lần này; không dùng build để kết luận toàn bộ hành trình đã nghiệm thu.
 
-**Còn thiếu đợt 2:** wizard đặt lịch 5 bước (C3), Pet Cards + modal (C2), trang Home công khai. Trang khách xem/gửi khiếu nại đã có trên nhánh `codex/ui-khieu-nai-khach`: frontend lint, 20 test, build 86 modules; backend 67 PASS/9 SKIP mặc định; nhóm tích hợp khiếu nại 9 PASS trên DB test mới riêng. Chưa QA trình duyệt 3 viewport. **Chưa đánh dấu hoàn thành đợt 2.**
+**Còn thiếu đợt 2:** wizard đặt lịch 5 bước (C3), Pet Cards + modal (C2). Trang khách xem/gửi khiếu nại đã có trên nhánh `codex/ui-khieu-nai-khach`: frontend lint, 20 test, build 86 modules; backend 67 PASS/9 SKIP mặc định; nhóm tích hợp khiếu nại 9 PASS trên DB test mới riêng. Trang Home công khai đã có trên nhánh `codex/ui-home-cong-khai`: frontend 20 test, lint/build 88 modules PASS. Chưa QA trình duyệt 3 viewport hoặc tích hợp vào main. **Chưa đánh dấu hoàn thành đợt 2.**
+
+### Tiếp tục giao diện khách hàng — 28/10/2026
+
+- Thêm route `/` là trang Home công khai: giới thiệu, dịch vụ hiện bán lấy từ `GET /api/dich-vu`, giờ phục vụ, các bước đặt lịch và đường vào tài khoản/bảng giá. Có trạng thái tải, lỗi/thử lại, danh mục trống và bố cục responsive. Logo bảng giá và đăng nhập dẫn về Home.
+- Mục đánh giá chỉ giải thích luồng đánh giá sau lịch hoàn thành; API hiện không có nguồn đánh giá công khai nên không hiển thị lời nhận xét/số sao giả.
+- Frontend 20/20 test PASS, lint PASS, build PASS (88 modules), `git diff --check` PASS. Chưa QA trình duyệt 3 viewport hoặc hành trình API thực; chưa nghiệm thu toàn bộ đợt 2 hay giai đoạn 12.
 
 Baseline chạy lại đợt1: backend67PASS/9nhóm tích hợp skip, frontend14PASS/build72modules. Lint chưa có script/config; UI mới/responsive chưa có để nghiệm thu, không báo PASS. Không thay runtime code/DB trong phần kiểm kê. Các kết quả cũ giữ rõ là mốc trước, không cộng trùng.
 
