@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { services as defaultMockServices } from '../../data/duLieuMau.js'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { usePets } from '../../data/khoThuCung.jsx'
 import { useBookings } from '../../data/khoLichHen.jsx'
@@ -56,6 +55,8 @@ export default function BookingPage() {
   const [submitError, setSubmitError] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [created, setCreated] = useState(null)
+  const [step, setStep] = useState(0)
+  const steps = ['Thú cưng', 'Dịch vụ', 'Ngày giờ', 'Ghi chú', 'Xác nhận']
 
   // Khung gio trong tu server
   const [slots, setSlots] = useState([])
@@ -70,7 +71,7 @@ export default function BookingPage() {
     fetch('/api/dich-vu')
       .then((res) => res.json())
       .then((data) => {
-        if (!cancelled && data.dichVu && data.dichVu.length > 0) {
+        if (!cancelled && Array.isArray(data.dichVu)) {
           const list = data.dichVu.map((s) => ({
             id: s.id,
             name: s.ten,
@@ -79,16 +80,14 @@ export default function BookingPage() {
             loai: s.loai,
           }))
           setServicesList(list)
-          setSelected([list[0].id])
+          setSelected(list.length ? [list[0].id] : [])
         } else if (!cancelled) {
-          setServicesList(defaultMockServices)
-          setSelected([defaultMockServices[0].id])
+          setSubmitError('Không tải được danh mục dịch vụ. Vui lòng thử lại sau.')
         }
       })
       .catch(() => {
         if (!cancelled) {
-          setServicesList(defaultMockServices)
-          setSelected([defaultMockServices[0].id])
+          setSubmitError('Không tải được danh mục dịch vụ. Vui lòng thử lại sau.')
         }
       })
       .finally(() => {
@@ -157,6 +156,14 @@ export default function BookingPage() {
     return e
   }
 
+  function nextStep() {
+    const all = validate()
+    const keys = [['pet'], ['services'], ['date', 'start'], [], []][step]
+    const current = Object.fromEntries(keys.filter((key) => all[key]).map((key) => [key, all[key]]))
+    setErrors(current)
+    if (Object.keys(current).length === 0) setStep((value) => Math.min(value + 1, 4))
+  }
+
   async function handleSubmit(ev) {
     ev.preventDefault()
     setSubmitError('')
@@ -194,6 +201,7 @@ export default function BookingPage() {
 
   function resetForm() {
     setCreated(null)
+    setStep(0)
     if (servicesList.length > 0) {
       setSelected([servicesList[0].id])
     }
@@ -278,13 +286,20 @@ export default function BookingPage() {
   return (
     <form onSubmit={handleSubmit} noValidate className="mx-auto max-w-3xl">
       <h1 className="text-2xl font-extrabold text-slate-800 sm:text-3xl">Đặt lịch dịch vụ</h1>
+      <ol aria-label="Các bước đặt lịch" className="mt-5 grid grid-cols-5 gap-1 text-center text-xs sm:gap-2 sm:text-sm">
+        {steps.map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined}>
+          <button type="button" disabled={index > step} onClick={() => setStep(index)} className={`w-full rounded-xl px-1 py-2 font-bold ${step === index ? 'bg-brand-700 text-white' : index < step ? 'bg-brand-50 text-brand-800' : 'bg-slate-100 text-slate-500'}`}>
+            <span className="block">{index + 1}</span><span>{label}</span>
+          </button>
+        </li>)}
+      </ol>
       <p className="mt-2 rounded-xl bg-brand-50 px-4 py-3 text-sm text-brand-800">
         Giờ mở cửa {toHHMM(OPEN)} đến {toHHMM(CLOSE)}. Lịch hẹn phải kết thúc trước {toHHMM(CLOSE)}. Chỉ hiển thị các
         giờ còn trống và đủ thời lượng theo ca trực.
       </p>
 
       <div className="mt-6 space-y-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-        {/* Thú cưng */}
+        {step === 0 && <>{/* Thú cưng */}
         <Field label="Thú cưng:" required htmlFor="pet" error={errors.pet}>
           <div className="flex items-center gap-3">
             <select id="pet" value={petId} onChange={(e) => setPetId(e.target.value)} className={inputCls}>
@@ -303,7 +318,8 @@ export default function BookingPage() {
           )}
         </Field>
 
-        {/* Ngày, giờ */}
+        </>}
+        {step === 2 && <>{/* Ngày, giờ */}
         <div className="grid gap-5 sm:grid-cols-3">
           <Field label="Ngày hẹn:" required htmlFor="date" error={errors.date}>
             <input id="date" type="date" min={today} value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
@@ -351,7 +367,8 @@ export default function BookingPage() {
           </p>
         )}
 
-        {/* Dịch vụ */}
+        </>}
+        {step === 1 && <>{/* Dịch vụ */}
         <fieldset>
           <legend className="mb-1.5 text-sm font-bold text-slate-700">
             Chọn dịch vụ: <span className="text-accent-600">*</span>
@@ -359,7 +376,7 @@ export default function BookingPage() {
           {loadingServices ? (
             <p className="text-sm text-slate-500 py-3">Đang tải danh mục dịch vụ...</p>
           ) : (
-            <div className="overflow-hidden rounded-xl border border-slate-200">
+            servicesList.length === 0 ? <p role="status" className="rounded-xl bg-amber-50 p-4 text-sm text-amber-800">Chưa có dịch vụ đang bán. Vui lòng quay lại sau.</p> : <div className="overflow-x-auto rounded-xl border border-slate-200">
               <table className="w-full text-sm">
                 <thead className="bg-brand-50 text-left text-slate-600">
                   <tr>
@@ -404,7 +421,8 @@ export default function BookingPage() {
           )}
         </fieldset>
 
-        {/* Ghi chú */}
+        </>}
+        {step === 3 && <>{/* Ghi chú */}
         <Field label="Ghi chú:" htmlFor="note">
           <textarea
             id="note"
@@ -417,7 +435,14 @@ export default function BookingPage() {
           />
         </Field>
 
-        {/* Tổng kết */}
+        </>}
+        {step === 4 && <>{/* Tổng kết */}
+        <div className="rounded-xl border border-slate-200 p-4 text-sm text-slate-700">
+          <p><strong>Thú cưng:</strong> {pet?.name}</p>
+          <p><strong>Dịch vụ:</strong> {chosen.map((service) => service.name).join(', ')}</p>
+          <p><strong>Thời gian:</strong> {formatDateVN(date)}, {start}–{endTime}</p>
+          <p><strong>Ghi chú:</strong> {note.trim() || 'Không có'}</p>
+        </div>
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-brand-50 px-4 py-3">
           <p className="text-slate-700">
             Tổng thời lượng dự kiến: <strong>{duration} phút</strong>
@@ -434,14 +459,16 @@ export default function BookingPage() {
           </p>
         )}
 
+        </>}
         <div className="flex flex-wrap gap-3">
-          <button
+          {step > 0 && <button type="button" onClick={() => setStep((value) => value - 1)} className="rounded-full border border-slate-300 px-7 py-3 text-sm font-bold text-slate-700">Bước trước</button>}
+          {step < 4 ? <button type="button" onClick={nextStep} className="rounded-full bg-brand-700 px-7 py-3 text-sm font-bold text-white">Tiếp tục</button> : <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !startValid}
             className="rounded-full bg-brand-700 px-7 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-sm transition hover:bg-brand-800 disabled:opacity-50"
           >
             {isSubmitting ? 'Đang gửi yêu cầu...' : 'Xác nhận đặt lịch'}
-          </button>
+          </button>}
           <button
             type="button"
             onClick={() => navigate(-1)}
