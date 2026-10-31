@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import PetIllustration from '../../components/PetIllustration.jsx'
+import Modal, { Drawer } from '../../components/ui/Modal.jsx'
 import './HoSoThuCung.css'
 import { usePets } from '../../data/khoThuCung.jsx'
 import { formatDateVN, toISODate } from '../../lib/tinhGioTrong.js'
@@ -50,9 +51,10 @@ export default function PetsPage() {
   const location = useLocation()
 
   const startNew = Boolean(location.state?.new) || (initialized && pets.length === 0)
-  const [mode, setMode] = useState(startNew ? 'new' : 'edit')
-  const [selectedId, setSelectedId] = useState(startNew ? null : (pets[0]?.id ?? null))
-  const [form, setForm] = useState(() => (startNew || !pets[0] ? emptyForm() : toForm(pets[0])))
+  const [mode, setMode] = useState('new')
+  const [selectedId, setSelectedId] = useState(null)
+  const [form, setForm] = useState(emptyForm)
+  const [drawerOpen, setDrawerOpen] = useState(startNew)
   const [errors, setErrors] = useState({})
   const [notice, setNotice] = useState(null)
   const [confirmStop, setConfirmStop] = useState(false)
@@ -69,10 +71,10 @@ export default function PetsPage() {
   const invalid = (key) => (errors[key] ? 'border-red-400' : 'border-slate-300')
 
   function selectPet(pet) {
-    setMode('edit'); setSelectedId(pet.id); setForm(toForm(pet)); setErrors({}); setNotice(null)
+    setMode('edit'); setSelectedId(pet.id); setForm(toForm(pet)); setErrors({}); setNotice(null); setDrawerOpen(true)
   }
   function startAdd() {
-    setMode('new'); setSelectedId(null); setForm(emptyForm()); setErrors({}); setNotice(null)
+    setMode('new'); setSelectedId(null); setForm(emptyForm()); setErrors({}); setNotice(null); setDrawerOpen(true)
   }
 
   async function handleSubmit(e) {
@@ -88,6 +90,7 @@ export default function PetsPage() {
       if (result.ok) {
         setMode('edit'); setSelectedId(result.pet.id); setForm(toForm(result.pet))
         setNotice({ type: 'ok', text: `Đã thêm thú cưng ${result.pet.name}. Bạn có thể đặt lịch cho bé ở mục Đặt lịch.` })
+        setDrawerOpen(false)
       } else {
         setNotice({ type: 'error', text: result.error || 'Thêm thất bại, vui lòng thử lại.' })
       }
@@ -97,6 +100,7 @@ export default function PetsPage() {
       if (result.ok) {
         setForm(toForm(result.pet))
         setNotice({ type: 'ok', text: result.message || 'Đã lưu thay đổi.' })
+        setDrawerOpen(false)
       } else {
         setNotice({ type: 'error', text: result.error || 'Lưu thất bại, vui lòng thử lại.' })
       }
@@ -107,7 +111,7 @@ export default function PetsPage() {
     setSaving(true)
     const result = await setActive(selected.id, false)
     setSaving(false); setConfirmStop(false)
-    if (result.ok) setNotice({ type: 'ok', text: result.message })
+    if (result.ok) { setNotice({ type: 'ok', text: result.message }); setDrawerOpen(false) }
     else setNotice({ type: 'error', text: result.error })
   }
 
@@ -115,7 +119,7 @@ export default function PetsPage() {
     setSaving(true)
     const result = await setActive(selected.id, true)
     setSaving(false)
-    if (result.ok) setNotice({ type: 'ok', text: result.message })
+    if (result.ok) { setNotice({ type: 'ok', text: result.message }); setDrawerOpen(false) }
     else setNotice({ type: 'error', text: result.error })
   }
 
@@ -151,10 +155,10 @@ export default function PetsPage() {
       </dl>
 
       <div className="pet-profiles__grid">
-        {pets.length === 0 && <p className="pet-profiles__empty">Bạn chưa có thú cưng nào. Hãy điền form bên dưới để thêm bé đầu tiên.</p>}
+        {pets.length === 0 && <p className="pet-profiles__empty">Bạn chưa có thú cưng nào. Chọn Thêm thú cưng để tạo hồ sơ đầu tiên.</p>}
         {pets.map((p) => {
           const isActive = mode === 'edit' && p.id === selectedId
-          return <article key={p.id} onClick={() => selectPet(p)} aria-current={isActive ? 'true' : undefined}
+          return <article key={p.id} aria-current={isActive ? 'true' : undefined}
             className={`pet-profile-card ${isActive ? 'pet-profile-card--selected' : ''}`}>
             <div className="pet-profile-card__top">
               <div className={`pet-profile-card__avatar ${p.species === 'Mèo' ? 'pet-profile-card__avatar--cat' : ''}`}><PetIllustration species={p.species}/></div>
@@ -168,8 +172,8 @@ export default function PetsPage() {
             </dl>
             <div className="pet-profile-card__note">{p.healthNote && <span>Có ghi chú sức khỏe</span>}</div>
             <div className="pet-profile-card__actions">
-              <button type="button" onClick={(e) => { e.stopPropagation(); selectPet(p) }}>Xem</button>
-              {p.active && <button type="button" onClick={(e) => { e.stopPropagation(); selectPet(p) }}>Chỉnh sửa</button>}
+              <button type="button" onClick={() => selectPet(p)}>Xem hồ sơ</button>
+              {p.active && <button type="button" onClick={() => selectPet(p)}>Chỉnh sửa</button>}
             </div>
           </article>
         })}
@@ -182,7 +186,9 @@ export default function PetsPage() {
         </p>
       )}
 
-      <form onSubmit={handleSubmit} noValidate className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+      <Drawer open={drawerOpen} onClose={() => { if (!saving) setDrawerOpen(false) }} busy={saving}
+        title={mode === 'new' ? 'Thêm thú cưng mới' : `Hồ sơ ${selected?.name ?? ''}`}>
+      <form onSubmit={handleSubmit} noValidate className="pet-profile-form">
         <h2 className="text-lg font-extrabold text-slate-800">
           {mode === 'new' ? 'Thêm thú cưng mới' : `Thông tin thú cưng: ${selected?.name ?? ''}`}
         </h2>
@@ -228,7 +234,7 @@ export default function PetsPage() {
           {mode === 'new' ? (
             <>
               <button type="submit" disabled={saving} className={btnPrimary}>{saving ? 'Đang lưu...' : 'Thêm thú cưng mới'}</button>
-              {pets.length > 0 && <button type="button" onClick={() => selectPet(pets[0])} className={btnGhost}>Hủy</button>}
+              <button type="button" onClick={() => setDrawerOpen(false)} className={btnGhost}>Hủy</button>
             </>
           ) : (
             <>
@@ -242,11 +248,10 @@ export default function PetsPage() {
         </div>
         <p className="mt-3 text-sm text-slate-500">Thú cưng đã có lịch hẹn không xóa được, chỉ chuyển sang Ngừng theo dõi.</p>
       </form>
+      </Drawer>
 
       {confirmStop && selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-2xl">
-            <h3 className="text-lg font-extrabold text-slate-800">Ngừng theo dõi {selected.name}?</h3>
+        <Modal title={`Ngừng theo dõi ${selected.name}?`} onClose={() => setConfirmStop(false)} busy={saving}>
             <p className="mt-2 text-sm text-slate-600">Hồ sơ và lịch sử chăm sóc vẫn được giữ lại. Bạn có thể theo dõi lại bất cứ lúc nào.</p>
             <div className="mt-5 flex gap-3">
               <button type="button" disabled={saving} onClick={requestStop}
@@ -255,8 +260,7 @@ export default function PetsPage() {
               </button>
               <button type="button" onClick={() => setConfirmStop(false)} className={`flex-1 ${btnGhost}`}>Hủy</button>
             </div>
-          </div>
-        </div>
+        </Modal>
       )}
     </div>
   )

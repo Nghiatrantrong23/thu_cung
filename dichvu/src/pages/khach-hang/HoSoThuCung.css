@@ -34,9 +34,8 @@
 .pet-profile-card__actions button { min-height: 42px; padding: 9px 16px; border: 1px solid #dce7e4; border-radius: 10px; background: white; color: #006b63; font-size: 13px; font-weight: 700; }
 .pet-profile-card__actions button:hover { background: #f0f9f6; border-color: #b5d6d2; }
 .pet-profiles__empty { grid-column: 1 / -1; margin: 0; padding: 32px 20px; border: 1px dashed #b5d6d2; border-radius: 20px; color: #5b6b7f; background: white; text-align: center; line-height: 1.7; }
-.pet-profiles > form { border-color: #e2e8e6; border-radius: 20px; box-shadow: none; }
-.pet-profiles > form input, .pet-profiles > form select, .pet-profiles > form textarea { border-radius: 10px; box-shadow: none; }
-.pet-profiles > form button { border-radius: 10px; letter-spacing: normal; text-transform: none; }
+.pet-profile-form input, .pet-profile-form select, .pet-profile-form textarea { border-radius: 10px; box-shadow: none; }
+.pet-profile-form button { border-radius: 10px; letter-spacing: normal; text-transform: none; }
 @media (max-width: 600px) {
   .pet-profiles { padding: 14px; border-radius: 18px; }
   .pet-profiles__summary { gap: 8px; }

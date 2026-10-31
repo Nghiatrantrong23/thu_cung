@@ -1,5 +1,7 @@
 # KẾ HOẠCH TỔNG THỂ PHÁT TRIỂN HỆ THỐNG PETCARE
 
+> **31/10/2026 — tiếp tục UI khách hàng (đợt 2):** thẻ thú cưng mở hồ sơ trong drawer; thêm mới, chỉnh sửa và xác nhận ngừng theo dõi dùng dialog chung có quản lý focus/bàn phím. Frontend lint PASS, 20 test PASS, build 88 modules PASS; diff check PASS. Chưa QA thao tác trình duyệt với API/DB và ba viewport, vì vậy chưa nghiệm thu đợt 2 hoặc giai đoạn 12.
+
 > Phiên bản 3.0 · nghiệm thu mã nguồn và môi trường test ngày 23–24/10/2026.
 > Kế hoạch triển khai chuẩn: file này. Giữ kiến trúc React/Express/pg/PostgreSQL hiện hữu.
 > Ngày trên máy kiểm thử là 23/10, ngày nghiệp vụ Việt Nam đã sang 24/10. Không quy đổi số giai đoạn thành phần trăm.
