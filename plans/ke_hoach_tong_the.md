@@ -1,5 +1,7 @@
 # KẾ HOẠCH TỔNG THỂ PHÁT TRIỂN HỆ THỐNG PETCARE
 
+> **01/11/2026 — đặc tả hồ sơ lễ tân (chưa triển khai):** đã đối chiếu luồng đặt lịch tại quầy, tra SĐT và schema; lập [đặc tả tạo khách/thú cưng/tra cứu/gộp](../docs/DAC_TA_HO_SO_LE_TAN.md) với quy tắc đề xuất, API/dữ liệu dự kiến và tiêu chí nghiệm thu. Ba lựa chọn về kích hoạt tài khoản, phạm vi loài và email mời còn chờ chốt. Không đổi runtime hoặc DB; không đánh dấu đợt 4 hoàn thành.
+
 > **01/11/2026 — bắt đầu UI chăm sóc (đợt 3):** thay trang giữ chỗ `/nhan-vien` bằng tổng quan lịch được giao hôm nay, 4 chỉ số từ `GET /api/lich-hen?ngay=` đã giới hạn theo nhân viên, danh sách việc tiếp theo và lối vào chăm sóc. Trạng thái tải/lỗi/trống và tải lại có mặt; không hiển thị số 0 giả khi API lỗi. Frontend lint PASS, 20 test PASS, build 89 modules PASS; `git diff --check` PASS. Chưa QA trình duyệt/API với DB thử; chưa nghiệm thu đợt 3 hoặc giai đoạn 12.
 
 > **31/10/2026 — tiếp tục UI khách hàng (đợt 2):** thẻ thú cưng mở hồ sơ trong drawer; thêm mới, chỉnh sửa và xác nhận ngừng theo dõi dùng dialog chung có quản lý focus/bàn phím. Frontend lint PASS, 20 test PASS, build 88 modules PASS; diff check PASS. Chưa QA thao tác trình duyệt với API/DB và ba viewport, vì vậy chưa nghiệm thu đợt 2 hoặc giai đoạn 12.
