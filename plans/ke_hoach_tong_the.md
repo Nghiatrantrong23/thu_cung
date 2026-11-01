@@ -1,5 +1,7 @@
 # KẾ HOẠCH TỔNG THỂ PHÁT TRIỂN HỆ THỐNG PETCARE
 
+> **01/11/2026 — bắt đầu UI chăm sóc (đợt 3):** thay trang giữ chỗ `/nhan-vien` bằng tổng quan lịch được giao hôm nay, 4 chỉ số từ `GET /api/lich-hen?ngay=` đã giới hạn theo nhân viên, danh sách việc tiếp theo và lối vào chăm sóc. Trạng thái tải/lỗi/trống và tải lại có mặt; không hiển thị số 0 giả khi API lỗi. Frontend lint PASS, 20 test PASS, build 89 modules PASS; `git diff --check` PASS. Chưa QA trình duyệt/API với DB thử; chưa nghiệm thu đợt 3 hoặc giai đoạn 12.
+
 > **31/10/2026 — tiếp tục UI khách hàng (đợt 2):** thẻ thú cưng mở hồ sơ trong drawer; thêm mới, chỉnh sửa và xác nhận ngừng theo dõi dùng dialog chung có quản lý focus/bàn phím. Frontend lint PASS, 20 test PASS, build 88 modules PASS; diff check PASS. Chưa QA thao tác trình duyệt với API/DB và ba viewport, vì vậy chưa nghiệm thu đợt 2 hoặc giai đoạn 12.
 
 > Phiên bản 3.0 · nghiệm thu mã nguồn và môi trường test ngày 23–24/10/2026.
@@ -173,7 +175,7 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 | --- | --- | --- |
 | 1 | Kiểm kê5vai trò và DS dùng chung | Hoàn thành nền tảng 1a/1b: StaffLayout, primitives, lint/test/build, keyboard và 3viewport; xem BAO_CAO_UI_DOT_1.md |
 | 2 | Khách: dashboard, Pet Cards, wizard, hóa đơn/KN, menu | Đang triển khai trên các nhánh UI khách; còn wizard, Pet Cards và QA trình duyệt |
-| 3 | Chăm sóc: hôm nay, timeline/progress/notes, profile | Chưa triển khai nâng cấp |
+| 3 | Chăm sóc: hôm nay, timeline/progress/notes, profile | Đang triển khai: tổng quan hôm nay từ API thật; còn timeline/progress/notes, profile và QA trình duyệt |
 | 4 | Lễ tân: dashboard/calendar/filter/POS | Chưa triển khai nâng cấp |
 | 5 | Quản lý/Admin: KPIs/charts/alerts/lighttheme | Chưa triển khai nâng cấp |
 | 6 | Hồi quy/responsive/nghiệm thu mới | Chưa chạy nghiệm thu UI mới |
