@@ -173,6 +173,8 @@ Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [k
 
 ## 7. Nâng cấp Emerald UI — roadmap 6 đợt theo yêu cầu ngày 24/10/2026
 
+**01/11/2026 — trang tổng quan Quản lý:** route `/quan-ly` đã thay trang giữ chỗ bằng số lịch, lịch chờ xác nhận/đang chăm sóc/cần xử lý và thu/hoàn/thực thu trong ngày từ API hiện có; có trạng thái tải, lỗi, tải lại và lối tắt nghiệp vụ. Frontend lint PASS, 20 test PASS, build PASS (91 modules), `git diff --check` PASS. Chưa QA trình duyệt/API thực ở 3 viewport; đợt 5 và giai đoạn 12 chưa hoàn thành. Hai file HTML mẫu nhân viên/quản lý ở checkout chính chỉ là bản demo dữ liệu giả, không được xem là nghiệm thu tính năng.
+
 Đây là đợt nâng cấp giao diện và nối các luồng thiếu trên code giai đoạn1–11, không đổi số giai đoạn nghiệp vụ hoặc làm lại từ đầu. Nguồn chi tiết: [ma trận màn hình/quyền/API](MA_TRAN_UI_QUYEN_API.md), [đặc tả Design System](DESIGN_SYSTEM_EMERALD.md).
 
 | Đợt nâng cấp | Phạm vi | Trạng thái |

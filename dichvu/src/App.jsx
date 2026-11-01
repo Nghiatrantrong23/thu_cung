@@ -1,6 +1,7 @@
 import StaffLayout from './layouts/StaffLayout.jsx'
 import {lazy,Suspense} from 'react'
 import BaoCao from './pages/quan-ly/BaoCao.jsx'
+import TongQuanQuanLy from './pages/quan-ly/TongQuanQuanLy.jsx'
 import DichVu from './pages/quan-ly/DichVu.jsx'
 import QuanLyTaiKhoan from './pages/admin/QuanLyTaiKhoan.jsx'
 import KhieuNai from './pages/le-tan/KhieuNai.jsx'
@@ -87,13 +88,13 @@ export default function App() {
       <Route path="le-tan/khieu-nai/:id/in" element={<KiemTraQuyen roleKey={['customer','reception','manager','admin']}><InHoanTien/></KiemTraQuyen>}/>
 
       <Route path="quan-ly/bao-cao" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><BaoCao/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="quan-ly" element={<KiemTraQuyen roleKey="manager"><StaffLayout><TongQuanQuanLy/></StaffLayout></KiemTraQuyen>}/>
       <Route path="quan-ly/dich-vu" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><DichVu/></StaffLayout></KiemTraQuyen>}/>
       <Route path="admin/tai-khoan" element={<KiemTraQuyen roleKey="admin"><StaffLayout><QuanLyTaiKhoan/></StaffLayout></KiemTraQuyen>}/>
 
       {/* Nhân sự: giữ chỗ, sẽ làm các giao diện riêng sau */}
       {[
         ['admin', 'admin'],
-        ['quan-ly', 'manager'],
         ['le-tan', 'reception'],
       ].map(([path, key]) => (
         <Route
