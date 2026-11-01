@@ -7,6 +7,7 @@ import { schemaReady } from './lib/readiness.js'
 import authRoutes from './routes/auth.routes.js'
 import adminRoutes from './routes/admin.routes.js'
 import petRoutes, { traCuuKhachHang } from './routes/pet.routes.js'
+import counterCustomers from './routes/counter-customers.routes.js'
 import dichVuRoutes from './routes/dichvu.routes.js'
 import lichHenRoutes from './routes/lichhen.routes.js'
 import thongBaoRoutes from './routes/thongbao.routes.js'
@@ -69,6 +70,7 @@ app.use('/api/hoa-don', hoaDonRoutes)
 app.use('/api/khieu-nai', khieuNaiRoutes)
 app.use('/api/bao-cao', baoCaoRoutes)
 app.get('/api/khach-hang/tra-cuu', authenticate, requireReception, traCuuKhachHang)
+app.use('/api/khach-hang', counterCustomers)
 
 
 // 404 handler

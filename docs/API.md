@@ -40,6 +40,11 @@ Username 4–30 chữ/số/chấm/gạch dưới; SĐT 10 số; email tùy chọ
 | PUT `/thu-cung/:id` | K sở hữu | Cùng trường như tạo |
 | PATCH `/thu-cung/:id/trang-thai` | K sở hữu | `active:boolean`; không ngừng khi còn lịch mở |
 | GET `/khach-hang/tra-cuu?sdt=...` | T/Q/A | SĐT đúng 10 số; khách và thú cưng; không có thì 404 |
+| POST `/khach-hang/tai-quay` | T/Q/A | `fullName, phone, email?` → 201 `{customer}`; tạo hồ sơ chưa kích hoạt đăng nhập, không có mật khẩu; trùng SĐT/email → 409 |
+| GET `/khach-hang?loai=...&tim=...&page=...` | T/Q/A | `loai`: `ten`, `sdt`, `email`, `thu-cung`, `ma-lich`; trả `{customers,total,page,pageSize}`; 20/trang |
+| GET `/khach-hang/:id` | T/Q/A | `{customer}`; không trả mật khẩu/hash/token |
+| POST `/khach-hang/:id/thu-cung` | T/Q/A | `name,species` bắt buộc; `breed,gender,birthDate,weightKg,vaccination,allergy,temperament,healthNote` tùy chọn → 201 `{petId}` |
+| GET `/khach-hang/:id/:section?page=...` | T/Q/A | `section`: `thu-cung`, `lich-hen`, `hoa-don`, `khieu-nai`; trả `{items,total,page,pageSize}`; 20/trang |
 | GET `/dich-vu` | Công khai | `{dichVu:[{id,ten,gia,thoiLuongPhut,...}]}` chỉ dịch vụ đang bán |
 | GET `/dich-vu/quan-ly` | Q/A | `{loaiDichVu,dichVu}` gồm dịch vụ ngừng bán |
 | POST `/dich-vu/loai` | Q/A | `ten, moTa?` → 201 `{id}` |

@@ -8,7 +8,8 @@ test('care menu exposes only home and assigned care, no financial or dispatch li
 })
 test('reception cannot see management or account administration',()=>{
   const paths=staffNavigation('reception').map(x=>x.path)
-  assert.equal(paths.length,5)
+  assert.equal(paths.length,6)
+  assert.ok(paths.includes('/le-tan/khach-hang'))
   assert.ok(paths.includes('/le-tan/khieu-nai'))
   assert.ok(paths.every(x=>x.startsWith('/le-tan')))
 })

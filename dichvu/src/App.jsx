@@ -25,6 +25,7 @@ import HoaDonCuaToi from './pages/khach-hang/HoaDonCuaToi.jsx'
 import KhieuNaiCuaToi from './pages/khach-hang/KhieuNaiCuaToi.jsx'
 import TongQuan from './pages/khach-hang/TongQuan.jsx'
 import DatLichTaiQuay from './pages/le-tan/DatLichTaiQuay.jsx'
+import KhachHangTaiQuay from './pages/le-tan/KhachHangTaiQuay.jsx'
 import DangPhatTrien from './pages/DangPhatTrien.jsx'
 import QuanLyLichHen from './pages/le-tan/QuanLyLichHen.jsx'
 import DoiMatKhauTam from './pages/DoiMatKhauTam.jsx'
@@ -63,6 +64,7 @@ export default function App() {
 
       {/* Lễ tân / Quản lý / Admin đặt lịch tại quầy (MH-02b) */}
       <Route path="le-tan/lich-hen" element={<KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><StaffLayout><QuanLyLichHen /></StaffLayout></KiemTraQuyen>} />
+      <Route path="le-tan/khach-hang" element={<KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><StaffLayout><KhachHangTaiQuay /></StaffLayout></KiemTraQuyen>} />
       <Route
         path="le-tan/dat-lich-tai-quay"
         element={

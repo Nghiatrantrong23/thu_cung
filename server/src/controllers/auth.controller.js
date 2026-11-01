@@ -22,7 +22,7 @@ export async function dangNhap(req, res, next) {
         // Get user with password hash (match username or email)
         const result = await query(
             `SELECT nd.ma_nguoi_dung, nd.ten_dang_nhap, nd.mat_khau_hash,
-                    nd.email, nd.vai_tro, nd.trang_thai,
+                    nd.email, nd.vai_tro, nd.trang_thai, nd.kich_hoat_dang_nhap,
                     COALESCE((to_jsonb(nd)->>'token_version')::int,0) AS token_version,
                     COALESCE((to_jsonb(nd)->>'bat_doi_mat_khau')::boolean,false) AS bat_doi_mat_khau,
                     nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu, nv.trang_thai AS nhan_vien_active,
@@ -44,6 +44,7 @@ export async function dangNhap(req, res, next) {
         const user = result.rows[0]
 
         // Verify password
+        if (!user.kich_hoat_dang_nhap || !user.mat_khau_hash) return res.status(401).json({ error: 'Tài khoản hoặc mật khẩu không đúng' })
         const passwordMatch = await bcrypt.compare(matKhau, user.mat_khau_hash)
         if (!passwordMatch) {
             console.warn(`[auth] Đăng nhập thất bại: Sai mật khẩu cho tài khoản "${user.ten_dang_nhap}"`)
@@ -128,7 +129,7 @@ export async function lamMoiToken(req, res, next) {
 
         // Verify user still exists and is active
         const result = await query(
-            `SELECT nd.ma_nguoi_dung, nd.trang_thai, COALESCE((to_jsonb(nd)->>'token_version')::int,0) AS token_version, nv.trang_thai AS staff_active, nd.vai_tro FROM nguoi_dung nd LEFT JOIN nhan_vien nv ON nv.ma_nhan_vien=nd.ma_nguoi_dung WHERE nd.ma_nguoi_dung=$1`,
+            `SELECT nd.ma_nguoi_dung, nd.trang_thai, nd.kich_hoat_dang_nhap, COALESCE((to_jsonb(nd)->>'token_version')::int,0) AS token_version, nv.trang_thai AS staff_active, nd.vai_tro FROM nguoi_dung nd LEFT JOIN nhan_vien nv ON nv.ma_nhan_vien=nd.ma_nguoi_dung WHERE nd.ma_nguoi_dung=$1`,
             [decoded.userId]
         )
 
@@ -137,7 +138,7 @@ export async function lamMoiToken(req, res, next) {
         }
 
         if (result.rows[0].token_version !== decoded.version) return res.status(401).json({ error: 'Phiên đăng nhập đã hết hiệu lực.' })
-        if (!result.rows[0].trang_thai || (result.rows[0].vai_tro === 'NhanVien' && result.rows[0].staff_active !== true)) {
+        if (!result.rows[0].trang_thai || !result.rows[0].kich_hoat_dang_nhap || (result.rows[0].vai_tro === 'NhanVien' && result.rows[0].staff_active !== true)) {
             return res.status(403).json({ error: 'Tài khoản đã bị khóa' })
         }
 

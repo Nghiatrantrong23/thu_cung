@@ -22,7 +22,7 @@ export async function authenticate(req, res, next) {
 
         // Verify user still exists and is active
         const result = await query(
-            `SELECT nd.ma_nguoi_dung, nd.ten_dang_nhap, nd.email, nd.vai_tro, nd.trang_thai,
+            `SELECT nd.ma_nguoi_dung, nd.ten_dang_nhap, nd.email, nd.vai_tro, nd.trang_thai, nd.kich_hoat_dang_nhap,
                     COALESCE((to_jsonb(nd)->>'token_version')::int,0) AS token_version,
                     COALESCE((to_jsonb(nd)->>'bat_doi_mat_khau')::boolean,false) AS bat_doi_mat_khau,
                     nv.ho_ten as nhan_vien_ho_ten, nv.chuc_vu, nv.trang_thai AS staff_active,
@@ -41,7 +41,7 @@ export async function authenticate(req, res, next) {
         const user = result.rows[0]
 
         if (decoded.version !== user.token_version) return res.status(401).json({error:'Phiên đăng nhập đã hết hiệu lực.'})
-        if (!user.trang_thai || (user.vai_tro === 'NhanVien' && user.staff_active !== true)) {
+        if (!user.trang_thai || !user.kich_hoat_dang_nhap || (user.vai_tro === 'NhanVien' && user.staff_active !== true)) {
             return res.status(403).json({ error: 'Account is locked' })
         }
 
