@@ -21,6 +21,10 @@ function mapLichHen(row, dichVuList = []) {
         customerPhone: row.so_dien_thoai ?? '',
         weightKg: row.can_nang == null ? null : Number(row.can_nang),
         healthNote: row.ghi_chu_suc_khoe ?? '',
+        allergy: row.di_ung ?? '',
+        temperament: row.tinh_cach ?? '',
+        vaccination: row.trang_thai_tiem_phong ?? 'ChuaRo',
+        photoConsent: Boolean(row.dong_y_hien_anh),
         thuCungId: row.ma_thu_cung,
         petId: row.ma_thu_cung,
         petName: row.ten_thu_cung ?? '',
@@ -98,7 +102,7 @@ export async function layDanhSachLichHen(req, res, next) {
                     tc.ten_thu_cung, tc.loai_thu_cung,
                     nv.ho_ten AS ten_nhan_vien,
                     nd.ten_dang_nhap, nd.so_dien_thoai, kh.ho_ten AS ten_khach_hang,
-                    tc.can_nang, tc.ghi_chu_suc_khoe,
+                    tc.can_nang, tc.ghi_chu_suc_khoe, tc.di_ung, tc.tinh_cach, tc.trang_thai_tiem_phong, tc.dong_y_hien_anh,
                     dg.so_sao, dg.nhan_xet
              FROM lich_hen lh
              JOIN thu_cung tc ON lh.ma_thu_cung = tc.ma_thu_cung

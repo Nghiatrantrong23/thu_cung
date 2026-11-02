@@ -31,6 +31,7 @@ function mapPetToFrontend(row) {
         birthDate: row.ngay_sinh ? (typeof row.ngay_sinh === 'string' ? row.ngay_sinh : `${row.ngay_sinh.getFullYear()}-${String(row.ngay_sinh.getMonth()+1).padStart(2,'0')}-${String(row.ngay_sinh.getDate()).padStart(2,'0')}`) : '',
         weightKg: row.can_nang != null ? Number(row.can_nang) : null,
         healthNote: row.ghi_chu_suc_khoe ?? '',
+        photoConsent: Boolean(row.dong_y_hien_anh),
         active: Boolean(row.trang_thai),
         createdAt: row.ngay_tao,
     }
@@ -45,7 +46,7 @@ export async function layDanhSachThuCung(req, res, next) {
         const userId = req.user.userId
 
         const result = await query(
-            `SELECT ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, trang_thai, ngay_tao
+            `SELECT ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, dong_y_hien_anh, trang_thai, ngay_tao
              FROM thu_cung
              WHERE ma_khach_hang = $1
              ORDER BY ngay_tao ASC`,
@@ -69,7 +70,7 @@ export async function layChiTietThuCung(req, res, next) {
         const role = req.user.role
 
         const result = await query(
-            `SELECT ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, trang_thai, ngay_tao
+            `SELECT ma_thu_cung, ma_khach_hang, ten_thu_cung, loai_thu_cung, giong, gioi_tinh, ngay_sinh, can_nang, ghi_chu_suc_khoe, dong_y_hien_anh, trang_thai, ngay_tao
              FROM thu_cung
              WHERE ma_thu_cung = $1`,
             [id]
@@ -162,6 +163,16 @@ export async function doiTrangThaiThuCung(req, res, next) {
         })
         res.json({ pet, message: pet.active ? `Đã theo dõi lại ${pet.name}.` : `Đã ngừng theo dõi ${pet.name}.` })
     } catch (err) { next(err) }
+}
+
+export async function doiDongYAnh(req,res,next) {
+    try {
+        if (typeof req.body?.allowed !== 'boolean') throw invalid('Cần chọn có hoặc không đồng ý hiển thị ảnh.')
+        const pet = (await query(`UPDATE thu_cung SET dong_y_hien_anh=$3,ngay_cap_nhat=NOW()
+            WHERE ma_thu_cung=$1 AND ma_khach_hang=$2 AND trang_thai=true RETURNING *`,[req.params.id,req.user.userId,req.body.allowed])).rows[0]
+        if (!pet) throw Object.assign(new Error('Không tìm thấy thú cưng đang theo dõi của bạn.'),{status:404})
+        res.json({ pet:mapPetToFrontend(pet) })
+    } catch(err) { next(err) }
 }
 
 /**

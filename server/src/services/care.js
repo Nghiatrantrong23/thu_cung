@@ -21,6 +21,11 @@ export async function updateCare(id, body, user) {
             await notifyReception(client,booking.ma_lich_hen,'Thú cưng không đủ điều kiện phục vụ',`Lịch #${booking.ma_lich_hen}: ${note}. Vui lòng liên hệ khách để hủy hoặc đổi lịch.`)
         } else if (action==='bat-dau') {
             if (state!=='DaXacNhan' || booking.yeu_cau_xu_ly) throw bookingError(409,'Lịch chưa sẵn sàng bắt đầu hoặc đang chờ lễ tân xử lý.')
+            const petSafety=(await client.query(`SELECT tc.di_ung,tc.tinh_cach FROM thu_cung tc JOIN lich_hen lh USING(ma_thu_cung)
+                WHERE lh.ma_lich_hen=$1`,[booking.ma_lich_hen])).rows[0]
+            if ((petSafety.di_ung || petSafety.tinh_cach) && body.daDocLuuY!==true) throw bookingError(400,'Hãy đọc và xác nhận lưu ý sức khỏe, dị ứng hoặc tính cách trước khi bắt đầu.')
+            if (!(await client.query("SELECT 1 FROM anh_cham_soc WHERE ma_lich_hen=$1 AND loai='Truoc' LIMIT 1",[booking.ma_lich_hen])).rowCount)
+                throw bookingError(409,'Cần ít nhất một ảnh trước chăm sóc để bắt đầu.')
             if (booking.date!==businessNow().date) throw bookingError(400,'Chỉ bắt đầu lịch của ngày hôm nay (giờ Việt Nam).')
             const schedule=await readSchedule(client,booking.date)
             const current=schedule.bookings.find(row=>row.id===booking.ma_lich_hen)
@@ -40,6 +45,8 @@ export async function updateCare(id, body, user) {
             note=`Dịch vụ #${service}: ${next}. ${note}`
         } else {
             if (state!=='DangThucHien') throw bookingError(409,'Lịch chưa bắt đầu thực hiện.')
+            if (!(await client.query("SELECT 1 FROM anh_cham_soc WHERE ma_lich_hen=$1 AND loai='Sau' LIMIT 1",[booking.ma_lich_hen])).rowCount)
+                throw bookingError(409,'Cần ít nhất một ảnh sau chăm sóc để hoàn thành.')
             const details=await client.query('SELECT trang_thai FROM chi_tiet_lich_hen WHERE ma_lich_hen=$1 FOR UPDATE',[booking.ma_lich_hen])
             if (!details.rowCount || details.rows.some(row=>row.trang_thai!=='HoanThanh')) throw bookingError(409,'Phải hoàn thành tất cả chi tiết dịch vụ trước.')
             state='HoanThanh'

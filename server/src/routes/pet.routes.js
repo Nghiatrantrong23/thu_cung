@@ -5,6 +5,7 @@ import {
     themThuCung,
     capNhatThuCung,
     doiTrangThaiThuCung,
+    doiDongYAnh,
     traCuuKhachHang,
 } from '../controllers/pet.controller.js'
 import { authenticate, requireRole } from '../middleware/auth.middleware.js'
@@ -20,6 +21,7 @@ router.get('/:id', layChiTietThuCung)
 router.post('/', requireRole('KhachHang'), themThuCung)
 router.put('/:id', requireRole('KhachHang'), capNhatThuCung)
 router.patch('/:id/trang-thai', requireRole('KhachHang'), doiTrangThaiThuCung)
+router.patch('/:id/dong-y-anh', requireRole('KhachHang'), doiDongYAnh)
 
 export default router
 

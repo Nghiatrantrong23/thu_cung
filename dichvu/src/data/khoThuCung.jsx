@@ -85,9 +85,20 @@ export function PetProvider({ children }) {
     [apiCall],
   )
 
+  const setPhotoConsent = useCallback(async (id, allowed) => {
+    const result = await apiCall(`/api/thu-cung/${id}/dong-y-anh`, {
+      method: 'PATCH', body: JSON.stringify({ allowed }),
+    })
+    if (result.ok) {
+      setPets(previous => previous.map(pet => pet.id === id ? result.data.pet : pet))
+      return { ok: true }
+    }
+    return { ok: false, error: result.error }
+  }, [apiCall])
+
   const value = useMemo(
-    () => ({ pets, activePets, loading, initialized, addPet, updatePet, setActive, fetchPets }),
-    [pets, activePets, loading, initialized, addPet, updatePet, setActive, fetchPets],
+    () => ({ pets, activePets, loading, initialized, addPet, updatePet, setActive, setPhotoConsent, fetchPets }),
+    [pets, activePets, loading, initialized, addPet, updatePet, setActive, setPhotoConsent, fetchPets],
   )
   return <PetContext.Provider value={value}>{children}</PetContext.Provider>
 }

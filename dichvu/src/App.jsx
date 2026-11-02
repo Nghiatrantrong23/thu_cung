@@ -11,6 +11,7 @@ import InHoaDon from './pages/le-tan/InHoaDon.jsx'
 import ChamSoc from './pages/nhan-vien/ChamSoc.jsx'
 import TongQuanChamSoc from './pages/nhan-vien/TongQuanChamSoc.jsx'
 import CaLamViec from './pages/quan-ly/CaLamViec.jsx'
+import MoRongQuanLy from './pages/quan-ly/MoRongQuanLy.jsx'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import KhungKhachHang from './layouts/KhungKhachHang.jsx'
 import KiemTraQuyen from './components/KiemTraQuyen.jsx'
@@ -80,6 +81,7 @@ export default function App() {
       <Route path="nhan-vien/lich-lam-viec" element={<KiemTraQuyen roleKey="care"><StaffLayout><ChamSoc/></StaffLayout></KiemTraQuyen>}/>
       <Route path="nhan-vien" element={<KiemTraQuyen roleKey="care"><StaffLayout><TongQuanChamSoc/></StaffLayout></KiemTraQuyen>}/>
       <Route path="quan-ly/ca-lam-viec" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><CaLamViec/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="quan-ly/mo-rong" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><MoRongQuanLy/></StaffLayout></KiemTraQuyen>}/>
 
       <Route path="le-tan/hoa-don" element={<KiemTraQuyen roleKey={['reception','manager','admin']}><StaffLayout><HoaDon/></StaffLayout></KiemTraQuyen>}/>
       <Route path="le-tan/hoa-don/:id/in" element={<KiemTraQuyen roleKey={['customer','reception','manager','admin']}><InHoaDon/></KiemTraQuyen>}/>

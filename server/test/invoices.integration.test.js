@@ -49,6 +49,7 @@ test('invoices and payments stage 9 on isolated PostgreSQL', {
         await account('customer1', 'KhachHang', '0900000001')
         await account('customer2', 'KhachHang', '0900000002')
         await account('reception', 'NhanVien', '0900000003', 'Lễ tân')
+        await account('manager', 'NhanVien', '0900000006', 'Quản lý')
         await account('carer1', 'NhanVien', '0900000004', 'Nhân viên chăm sóc')
         await account('carer2', 'NhanVien', '0900000005', 'Nhân viên chăm sóc')
         async function pet(owner, name, active = true) {
@@ -183,6 +184,70 @@ test('invoices and payments stage 9 on isolated PostgreSQL', {
             const id=(await create(await completed())).body.id
             for(const body of [payment(0),payment(-1),payment(true),payment('1.001'),payment(100,50),{...payment(1),khoaChongLap:'short'}]) assert.equal((await pay(id,body)).status,400)
             assert.equal((await db.query('SELECT COUNT(*) AS count FROM thanh_toan WHERE ma_hoa_don=$1',[id])).rows[0].count,'0')
+        })
+        await t.test('care evidence obeys assignment, photo consent and incident privacy',async()=>{
+            const path=`/api/lich-hen/${assigned1}/chung-cu`
+            const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScL/nwAAAABJRU5ErkJggg==','base64')
+            async function upload(as,bytes=png){
+                const response=await fetch(`${base}${path}/anh?loai=truoc`,{method:'POST',headers:{'Content-Type':'image/png',Authorization:`Bearer ${token(as)}`},body:bytes})
+                return {status:response.status,body:await response.json()}
+            }
+            assert.equal((await upload('carer2')).status,403)
+            assert.equal((await upload('carer1',Buffer.from('invalid'))).status,400)
+            const image=await upload('carer1')
+            assert.equal(image.status,201)
+            assert.equal((await call(path,{as:'customer2'})).status,403)
+            assert.equal((await call(path,{as:'customer1'})).body.images.length,0)
+            assert.equal((await call(`${path}/anh/${image.body.id}`,{as:'customer1'})).status,403)
+            assert.equal((await call(`/api/thu-cung/${f.pet1}/dong-y-anh`,{as:'customer1',method:'PATCH',body:{allowed:true}})).status,200)
+            assert.equal((await call(path,{as:'customer1'})).body.images.length,1)
+            const photo=await fetch(`${base}${path}/anh/${image.body.id}`,{headers:{Authorization:`Bearer ${token('customer1')}`}})
+            assert.equal(photo.status,200)
+            assert.equal(photo.headers.get('content-type'),'image/png')
+            assert.equal((await call(`${path}/ghi-chu`,{as:'carer1',method:'POST',body:{text:'Đã kiểm tra da và lông.'}})).status,201)
+            assert.equal((await call(path,{as:'customer1'})).body.notes.length,1)
+            const incident=await call(`${path}/su-co`,{as:'carer1',method:'POST',body:{type:'DiUng',severity:'Cao',description:'Phản ứng khi chải lông.'}})
+            assert.equal(incident.status,201)
+            assert.equal((await call(path,{as:'manager'})).body.incidents.length,1)
+            assert.equal((await call(path,{as:'customer1'})).body.incidents.length,0)
+            assert.equal((await db.query("SELECT count(*)::int AS count FROM thong_bao WHERE ma_lich_hen=$1 AND tieu_de='Báo cáo sự cố chăm sóc'",[assigned1])).rows[0].count,2)
+        })
+        await t.test('manager configuration, promotions and real reports work end to end',async()=>{
+            const basePath='/api/quan-ly/mo-rong'
+            assert.equal((await call(`${basePath}/nhan-vien`,{as:'reception'})).status,403)
+            const staff=(await call(`${basePath}/nhan-vien`,{as:'manager'})).body.staff
+            assert.ok(staff.some(row=>row.id===f.carer1))
+            const setStaff=await call(`${basePath}/nhan-vien/${f.carer1}`,{as:'manager',method:'PUT',body:{name:'Care One',phone:'0900000004',active:true,skills:[f.service],leaveFrom:'',leaveTo:''}})
+            assert.equal(setStaff.status,200)
+            assert.equal((await db.query('SELECT ky_nang_da_cau_hinh FROM nhan_vien WHERE ma_nhan_vien=$1',[f.carer1])).rows[0].ky_nang_da_cau_hinh,true)
+            const conflictingLeave=await call(`${basePath}/nhan-vien/${f.carer1}`,{as:'manager',method:'PUT',body:{name:'Care One',phone:'0900000004',active:true,skills:[f.service],leaveFrom:days.assigned,leaveTo:days.assigned}})
+            assert.equal(conflictingLeave.status,409)
+            const pending=(await db.query("INSERT INTO lich_hen(ma_thu_cung,ngay_gio_hen,ngay_gio_ket_thuc_du_kien,trang_thai) VALUES($1,$2,$3,'ChoXacNhan') RETURNING ma_lich_hen",[f.pet2,`${days.normal} 11:00`,`${days.normal} 11:30`])).rows[0].ma_lich_hen
+            await db.query('INSERT INTO chi_tiet_lich_hen(ma_lich_hen,ma_dv,gia_du_kien) VALUES($1,$2,100000)',[pending,f.service])
+            assert.equal((await call(`${basePath}/nhan-vien/${f.carer2}`,{as:'manager',method:'PUT',body:{name:'Care Two',phone:'0900000005',active:true,skills:[f.failService],leaveFrom:days.normal,leaveTo:days.normal}})).status,200)
+            const candidates=await call(`/api/lich-hen/${pending}/nhan-vien-kha-dung`,{as:'reception'})
+            assert.equal(candidates.status,200)
+            assert.ok(!JSON.stringify(candidates.body).includes(`"id":${f.carer2}`))
+            const promo=await call(`${basePath}/khuyen-mai`,{as:'manager',method:'POST',body:{code:'SAVE20',type:'PhanTram',value:20,maxDiscount:50000,minOrder:50000,from:date(-1),to:date(60),totalUses:1,perCustomer:1,services:[f.service]}})
+            assert.equal(promo.status,201)
+            const preview=await call(`${basePath}/khuyen-mai/thu`,{as:'manager',method:'POST',body:{code:'SAVE20',customerId:f.customer1,serviceIds:[f.service]}})
+            assert.equal(preview.status,200)
+            assert.equal((await call(`${basePath}/khuyen-mai/thu`,{as:'manager',method:'POST',body:{code:'SAVE20',customerId:2147483647,serviceIds:[f.service]}})).status,404)
+            const bookingId=await completed()
+            const applied=await call('/api/hoa-don',{as:'reception',method:'POST',body:{maLichHen:bookingId,maKhuyenMai:'SAVE20'}})
+            assert.equal(applied.status,201)
+            assert.equal((await call(`/api/hoa-don/${applied.body.id}`)).body.invoice.giam_gia,20000)
+            assert.equal((await db.query('SELECT count(*)::int AS count FROM khuyen_mai_su_dung WHERE ma_khuyen_mai=$1',[promo.body.id])).rows[0].count,1)
+            assert.equal((await call('/api/hoa-don',{as:'reception',method:'POST',body:{maLichHen:await completed(),maKhuyenMai:'SAVE20'}})).status,409)
+            const member=(await call(`${basePath}/thanh-vien`,{as:'manager'})).body
+            assert.equal(member.tiers.length,3)
+            assert.equal((await call(`${basePath}/thanh-vien`,{as:'manager',method:'PUT',body:{tiers:member.tiers.map((tier,i)=>({...tier,threshold:i===0?0:i*6000000,discount:i*4})),points:{perPoint:12000,expiryMonths:18}}})).status,200)
+            const packageResult=await call(`${basePath}/goi-tra-truoc`,{as:'manager',method:'POST',body:{serviceId:f.service,quantity:3,price:200000}})
+            assert.equal(packageResult.status,201)
+            const report=await call(`${basePath}/bao-cao?tuNgay=${days.normal}&denNgay=${days.assigned}`,{as:'manager'})
+            assert.equal(report.status,200,JSON.stringify(report.body))
+            assert.ok(report.body.appointments.length>0)
+            assert.ok(report.body.staff.some(row=>row.id===f.carer1))
         })
         t.diagnostic(`Fixture database retained for audit: ${database}; no existing application database was used.`)
     } finally {

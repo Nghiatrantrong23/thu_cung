@@ -15,6 +15,7 @@ import caLamRoutes from './routes/calam.routes.js'
 import hoaDonRoutes from './routes/hoadon.routes.js'
 import khieuNaiRoutes from './routes/khieunai.routes.js'
 import baoCaoRoutes from './routes/baocao.routes.js'
+import managerHtmlRoutes from './routes/manager-html.routes.js'
 import { authenticate, requireReception } from './middleware/auth.middleware.js'
 import { errorHandler } from './middleware/error.middleware.js'
 
@@ -69,6 +70,7 @@ app.use('/api/ca-lam-viec', caLamRoutes)
 app.use('/api/hoa-don', hoaDonRoutes)
 app.use('/api/khieu-nai', khieuNaiRoutes)
 app.use('/api/bao-cao', baoCaoRoutes)
+app.use('/api/quan-ly/mo-rong', managerHtmlRoutes)
 app.get('/api/khach-hang/tra-cuu', authenticate, requireReception, traCuuKhachHang)
 app.use('/api/khach-hang', counterCustomers)
 

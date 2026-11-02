@@ -9,5 +9,6 @@ test('readiness refuses legacy and incomplete schemas without modifying them',as
     const check=versions=>schemaReady(async sql=>({rows:sql.includes('to_regclass')?[{present:true}]:versions.map(version=>({version}))}))
     assert.equal(await check(['000','001']),false)
     assert.equal(await check(['000','001','002','003','004','005']),false)
-    assert.equal(await check(['000','001','002','003','004','005','009']),true)
+    assert.equal(await check(['000','001','002','003','004','005','009']),false)
+    assert.equal(await check(['000','001','002','003','004','005','009','010']),true)
 })

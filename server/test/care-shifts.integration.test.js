@@ -119,6 +119,10 @@ test('shifts and care stage 8 on isolated PostgreSQL', {
         await account('manager','NhanVien','0900000006','Quản lý')
         const allocate=(id,staff)=>call(`/api/lich-hen/${id}/xu-ly`,{as:'reception',method:'PATCH',body:{hanhDong:'phan-cong',nhanVienId:staff}})
         const care=(id,body,as='carer1')=>call(`/api/lich-hen/${id}/cham-soc`,{as,method:'PATCH',body})
+        const photo=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lXcAAAAASUVORK5CYII=','base64')
+        const upload=async(id,kind)=>fetch(`${base}/api/lich-hen/${id}/chung-cu/anh?loai=${kind}`,{
+            method:'POST',headers:{'Content-Type':'image/png',Authorization:`Bearer ${token('carer1')}`},body:photo,
+        })
         const shiftBody=(day,start='08:00',end='19:00')=>({nhanVienId:f.carer1,ngay:day,gioBatDau:start,gioKetThuc:end})
         const today=(await db.query("SELECT to_char(now() AT TIME ZONE 'Asia/Ho_Chi_Minh','YYYY-MM-DD') AS day")).rows[0].day
         await shift(f.carer1,today)
@@ -153,6 +157,7 @@ test('shifts and care stage 8 on isolated PostgreSQL', {
             assert.equal((await care(id,{hanhDong:'bat-dau'},'carer2')).status,403)
             assert.equal((await care(id,{hanhDong:'bat-dau'},'manager')).status,403)
             assert.equal((await care(id,{hanhDong:'hoan-thanh'})).status,409)
+            assert.equal((await upload(id,'truoc')).status,201)
             assert.equal((await care(id,{hanhDong:'bat-dau'})).status,200)
             assert.equal((await care(id,{hanhDong:'hoan-thanh'})).status,409)
             assert.equal((await care(id,{hanhDong:'dich-vu',maDichVu:f.service,trangThai:'HoanThanh'})).status,409)
@@ -160,6 +165,7 @@ test('shifts and care stage 8 on isolated PostgreSQL', {
                 assert.equal((await care(id,{hanhDong:'dich-vu',maDichVu:service,trangThai:'DangThucHien'})).status,200)
                 assert.equal((await care(id,{hanhDong:'dich-vu',maDichVu:service,trangThai:'HoanThanh',ghiChu:'Chăm sóc xong, khỏe mạnh'})).status,200)
             }
+            assert.equal((await upload(id,'sau')).status,201)
             assert.equal((await care(id,{hanhDong:'hoan-thanh',ghiChu:'Bàn giao lễ tân'})).status,200)
             assert.equal((await db.query('SELECT trang_thai FROM lich_hen WHERE ma_lich_hen=$1',[id])).rows[0].trang_thai,'HoanThanh')
             assert.equal((await care(id,{hanhDong:'khong-du-dieu-kien',ghiChu:'Không được đi nhánh này'})).status,409)

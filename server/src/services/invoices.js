@@ -5,6 +5,7 @@ import { cents,decimal,paymentKey } from '../lib/money.js'
 import { string } from '../lib/validation.js'
 import { notify } from './notifications.js'
 import { audit } from './audit.js'
+import { promotionDiscount } from './promotions.js'
 
 export async function lockedInvoice(client,id) {
     const row=(await client.query(`SELECT hd.*,tc.ma_khach_hang FROM hoa_don hd JOIN lich_hen lh USING(ma_lich_hen)
@@ -20,7 +21,8 @@ export async function totals(client,id) {
     return {paid:cents(row.paid),refunded:cents(row.refunded)}
 }
 export async function createInvoice(body,user) {
-    const id=integerId(body?.maLichHen),discount=cents(body?.giamGia??0,'Giảm giá')
+    const id=integerId(body?.maLichHen),manualDiscount=cents(body?.giamGia??0,'Giảm giá'),code=body?.maKhuyenMai||null
+    if(code && manualDiscount)throw bookingError(400,'Mỗi hóa đơn chỉ dùng một mã hoặc giảm giá thủ công.')
     return withTransaction(async client=>{
         const booking=await lockedBooking(client,id)
         if(booking.trang_thai!=='HoanThanh')throw bookingError(409,'Chỉ lập hóa đơn cho lịch đã hoàn thành dịch vụ.')
@@ -30,12 +32,16 @@ export async function createInvoice(body,user) {
         if(!details.rowCount||details.rows.some(row=>row.trang_thai!=='HoanThanh'))throw bookingError(409,'Chi tiết dịch vụ chưa hoàn thành đầy đủ.')
         const total=details.rows.reduce((sum,row)=>sum+cents(row.gia_du_kien)*row.so_luong,0)
         decimal(total)
+        const promotion=code?await promotionDiscount(client,code,booking.ma_khach_hang,details.rows):null
+        const discount=promotion?.discount??manualDiscount
         if(discount>total)throw bookingError(400,'Giảm giá không được vượt tổng dịch vụ.')
         const amount=total-discount,state=amount===0?'DaThanhToan':'ChuaThanhToan'
         const bill=(await client.query(`INSERT INTO hoa_don(ma_lich_hen,tong_tien,giam_gia,thanh_tien,trang_thai,nguoi_lap)
             VALUES($1,$2,$3,$4,$5,$6) RETURNING ma_hoa_don`,[id,decimal(total),decimal(discount),decimal(amount),state,user.userId])).rows[0].ma_hoa_don
         for(const row of details.rows)await client.query(`INSERT INTO chi_tiet_hoa_don(ma_hoa_don,ma_dv,ten_dv_luu_lai,so_luong,don_gia,thanh_tien)
             VALUES($1,$2,$3,$4,$5,$6)`,[bill,row.ma_dv,row.ten_dv,row.so_luong,decimal(cents(row.gia_du_kien)),decimal(cents(row.gia_du_kien)*row.so_luong)])
+        if(promotion)await client.query(`INSERT INTO khuyen_mai_su_dung(ma_hoa_don,ma_khuyen_mai,ma_khach_hang,so_tien_giam)
+            VALUES($1,$2,$3,$4)`,[bill,promotion.id,booking.ma_khach_hang,decimal(discount)])
         await audit(client,booking,user,'lap-hoa-don',booking.trang_thai,`Hóa đơn #${bill}, thành tiền ${decimal(amount)}.`)
         await notify(client,booking.ma_khach_hang,id,'Hóa đơn dịch vụ',`Hóa đơn #${bill}, cần thanh toán ${decimal(amount)} VNĐ.`)
         return {message:amount===0?'Hóa đơn 0 đồng đã tất toán, không tạo giao dịch 0 đồng.':'Đã lập hóa đơn.',id:bill}

@@ -41,9 +41,14 @@ async function availableStaff(client, booking) {
         JOIN nguoi_dung nd ON nd.ma_nguoi_dung=nv.ma_nhan_vien
         WHERE ca.ngay=$1::date AND ca.trang_thai=true AND nd.vai_tro='NhanVien' AND nd.trang_thai=true
         AND nv.trang_thai=true AND nv.chuc_vu='Nhân viên chăm sóc'
+        AND NOT EXISTS (SELECT 1 FROM nghi_phep_nhan_vien np WHERE np.ma_nhan_vien=nv.ma_nhan_vien
+            AND np.trang_thai=true AND $1::date BETWEEN np.tu_ngay AND np.den_ngay)
+        AND (NOT nv.ky_nang_da_cau_hinh OR NOT EXISTS (
+            SELECT 1 FROM chi_tiet_lich_hen ct WHERE ct.ma_lich_hen=$4
+            AND NOT EXISTS (SELECT 1 FROM nhan_vien_dich_vu ndv WHERE ndv.ma_nhan_vien=nv.ma_nhan_vien AND ndv.ma_dv=ct.ma_dv)))
         AND ca.gio_bat_dau <= $2::timestamp::time AND ca.gio_ket_thuc >= $3::timestamp::time
         ORDER BY nv.ho_ten FOR SHARE OF ca,nv,nd`,
-    [booking.date, booking.ngay_gio_hen, booking.ngay_gio_ket_thuc_du_kien])
+    [booking.date, booking.ngay_gio_hen, booking.ngay_gio_ket_thuc_du_kien,booking.ma_lich_hen])
     return people.rows.filter(person => canSchedule({ shifts: schedule.shifts, bookings: others,
         candidate: { start: job.start, end: job.end, staffId: person.id } }))
 }

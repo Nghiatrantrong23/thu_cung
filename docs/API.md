@@ -14,7 +14,7 @@ Base `/api`; JSON UTF-8. Frontend HashRouter không ảnh hưởng đường d�
 
 ## Health và database
 
-`GET /health` (ngoài `/api`) 200 nếu tiến trình sống. `GET /ready` 200 `{status:'ready'}` khi DB đủ lịch sử 000–005; 503 `migration_required`/`database_unavailable` nếu chưa sẵn sàng. `/api/*` có kiểm tra readiness, trả 503 `MIGRATION_REQUIRED` hoặc `DATABASE_UNAVAILABLE`, không tự chạy migration và không tự baseline.
+`GET /health` (ngoài `/api`) 200 nếu tiến trình sống. `GET /ready` 200 `{status:'ready'}` khi DB đủ lịch sử 000–005, 009, 010; 503 `migration_required`/`database_unavailable` nếu chưa sẵn sàng. `/api/*` có kiểm tra readiness, trả 503 `MIGRATION_REQUIRED` hoặc `DATABASE_UNAVAILABLE`, không tự chạy migration và không tự baseline.
 
 ## Xác thực
 
@@ -39,6 +39,7 @@ Username 4–30 chữ/số/chấm/gạch dưới; SĐT 10 số; email tùy chọ
 | POST `/thu-cung` | K | `name, species, breed?, gender?, birthDate?, weightKg?, healthNote?` → 201 `{pet}` |
 | PUT `/thu-cung/:id` | K sở hữu | Cùng trường như tạo |
 | PATCH `/thu-cung/:id/trang-thai` | K sở hữu | `active:boolean`; không ngừng khi còn lịch mở |
+| PATCH `/thu-cung/:id/dong-y-anh` | K sở hữu | `allowed:boolean`; chỉ hồ sơ đang theo dõi, mặc định không đồng ý |
 | GET `/khach-hang/tra-cuu?sdt=...` | T/Q/A | SĐT đúng 10 số; khách và thú cưng; không có thì 404 |
 | POST `/khach-hang/tai-quay` | T/Q/A | `fullName, phone, email?` → 201 `{customer}`; tạo hồ sơ chưa kích hoạt đăng nhập, không có mật khẩu; trùng SĐT/email → 409 |
 | GET `/khach-hang?loai=...&tim=...&page=...` | T/Q/A | `loai`: `ten`, `sdt`, `email`, `thu-cung`, `ma-lich`; trả `{customers,total,page,pageSize}`; 20/trang |
@@ -109,6 +110,8 @@ Khung giờ trống giữ trường `slots` và bổ sung `reason`: `NO_SHIFTS` 
 
 Chuyển khoản: `phuongThuc:'ChuyenKhoanQR',daNhanTien:true,maGiaoDich?`; đây là ghi nhận tiền đã nhận, không tự xác minh ngân hàng. `ketQua:'ThatBai'` lưu thất bại không giảm nợ. Mỗi lần >0 và <= còn nợ; khóa hóa đơn chống thu đồng thời vượt nợ. Tiền thừa 100.000 trong ví dụ; chỉ 100.000 giảm nợ.
 
+`POST /hoa-don` nhận thêm `maKhuyenMai?` (mã 4–12 chữ/số) thay cho `giamGia` thủ công. Chỉ một hình thức giảm cho mỗi hóa đơn. Mã được kiểm tra ngày hiệu lực Việt Nam, dịch vụ, đơn tối thiểu, tổng lượt và lượt mỗi khách; sử dụng được ghi trong cùng transaction với hóa đơn. Không áp dụng giảm giá hạng thành viên tự động.
+
 Chỉ lập từ lịch và mọi chi tiết đã hoàn thành, một hóa đơn/lịch, snapshot tên/giá; giảm <= tổng. Thành tiền 0 tất toán không có giao dịch 0. Trạng thái `ChuaThanhToan`, `ThanhToanMotPhan`, `DaThanhToan`, `HoanTienMotPhan`, `DaHoanTien`, `DaHuy`.
 
 ## Khiếu nại, duyệt và thực chi hoàn
@@ -135,6 +138,34 @@ Chỉ lập từ lịch và mọi chi tiết đã hoàn thành, một hóa đơn
 Chuyển khoản dùng `phuongThucChi:'ChuyenKhoan'`. Chi thất bại: `ketQua:'ThatBai',loiChi:'Lý do'`, vẫn phải chọn phương thức/khóa; không cần xác nhận đã trả. Trường chứng từ tối đa 100 ký tự, lý do lỗi tối đa 500.
 
 `DaTiepNhan → ChoHoanTien` khi duyệt; tiền chưa thay đổi. Duyệt dương <= đã thu - đã hoàn thành công - các khoản duyệt khác chờ chi; chỉ bill đã thu đủ/còn hoàn. Thực chi thành công mới ghi `HoanTien/ThanhCong`, ngày/người/chứng từ và `DaXuLy`; bill hoàn một phần/toàn bộ. Không có API tự chuyển tiền qua ngân hàng.
+
+## Chứng cứ chăm sóc và quản lý mở rộng
+
+`GET /lich-hen/:id/chung-cu` trả `{notes,incidents,images,photoConsent}`. Nhân viên chăm sóc chỉ đọc lịch được giao; T/Q/A đọc mọi lịch. Khách chỉ đọc lịch của mình, không nhận sự cố hoặc ảnh sự cố; ảnh trước/sau chỉ hiện khi chủ thú cưng đồng ý. `GET /lich-hen/:id/chung-cu/anh/:imageId` trả binary ảnh, kiểm tra cùng quyền cho từng ảnh, cache riêng và không lưu cache.
+
+| Method/route | Quyền | Body/kết quả |
+| --- | --- | --- |
+| POST `/lich-hen/:id/chung-cu/anh?loai=truoc\|sau\|su-co&suCoId=...` | C được giao | Raw JPG/PNG/WebP đúng MIME, tối đa 5 MB, tối đa 5 ảnh/nhóm; trước khi bắt đầu hoặc sau khi bắt đầu tùy loại → 201 `{id}` |
+| DELETE `/lich-hen/:id/chung-cu/anh/:imageId` | C được giao | Chỉ khi lịch còn ở giai đoạn cho phép sửa ảnh |
+| POST `/lich-hen/:id/chung-cu/ghi-chu` | C được giao | `{text}` tối đa 500 ký tự → 201 `{id}` |
+| POST `/lich-hen/:id/chung-cu/su-co` | C được giao | `{type,severity,description}` → 201 `{id}` và thông báo lễ tân, quản lý, Admin |
+
+`PATCH /lich-hen/:id/cham-soc` khi `hanhDong:'bat-dau'` cần một ảnh trước và `daDocLuuY:true` nếu hồ sơ có dị ứng/tính cách. Khi `hanhDong:'hoan-thanh'` cần một ảnh sau và mọi dịch vụ hoàn thành. Khách tự đổi đồng ý hiển thị ảnh trong hồ sơ thú cưng.
+
+Các route sau đều có tiền tố `/quan-ly/mo-rong`, chỉ Q/A; tài khoản nhân viên do Admin cấp qua `/admin/tai-khoan`.
+
+| Method/route | Chức năng |
+| --- | --- |
+| GET `/nhan-vien` | Danh sách nhân viên chăm sóc, kỹ năng theo dịch vụ và ngày nghỉ đang hiệu lực |
+| PUT `/nhan-vien/:id` | `{name,phone?,active,skills:[maDv],leaveFrom?,leaveTo?}`; chặn sửa nếu ảnh hưởng lịch đã giao; nghỉ phép và kỹ năng tham gia kiểm tra điều phối |
+| GET, POST `/khuyen-mai` | Liệt kê; tạo `{code,type:'PhanTram'\|'SoTien',value,maxDiscount,minOrder,from,to,totalUses,perCustomer,services:[maDv]}` |
+| PATCH `/khuyen-mai/:id` | `{active:boolean}` bật/tắt mã |
+| POST `/khuyen-mai/thu` | `{code,customerId,serviceIds}` → số tạm tính, giảm, phải trả; không dùng lượt |
+| GET, PUT `/thanh-vien` | Xem/sửa cấu hình hạng và điểm; **chưa** tự xét hạng, cấp điểm hoặc giảm giá trên hóa đơn |
+| POST `/goi-tra-truoc` | Tạo cấu hình gói **chưa mở bán**; chưa có luồng mua/cấp lượt/dùng lượt |
+| GET `/bao-cao?tuNgay=&denNgay=` | Báo cáo thực theo kỳ tối đa 366 ngày: lịch theo ngày/trạng thái, thu/hoàn/thực thu, đánh giá, khiếu nại, khách mới, nhân viên; UI xuất CSV nhân viên |
+
+Màn hình quản lý mô phỏng hạng từ mức chi tiêu nhập thử, không ghi điểm hay tạo quyền ưu tiên. Phần mua gói, tích điểm và tự áp ưu đãi cần quy tắc quyết toán và triển khai riêng trước khi mở bán.
 
 ## Báo cáo, Admin và thông báo
 

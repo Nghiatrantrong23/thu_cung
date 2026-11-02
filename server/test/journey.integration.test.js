@@ -87,9 +87,15 @@ test('complete customer-to-refund journey through real HTTP and real role logins
                 tokens[name]=(await ok('/auth/dang-nhap',null,'POST',{tenDangNhap:name==='customer'?'journey_customer':name,matKhau:password})).accessToken
             }
             const care=(body)=>ok(`/lich-hen/${booking}/cham-soc`,'care','PATCH',body)
+            const photo=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/lXcAAAAASUVORK5CYII=','base64')
+            const upload=kind=>fetch(`${base}/api/lich-hen/${booking}/chung-cu/anh?loai=${kind}`,{
+                method:'POST',headers:{'Content-Type':'image/png',Authorization:`Bearer ${tokens.care}`},body:photo,
+            })
+            assert.equal((await upload('truoc')).status,201)
             await care({hanhDong:'bat-dau'})
             await care({hanhDong:'dich-vu',maDichVu:service,trangThai:'DangThucHien'})
             await care({hanhDong:'dich-vu',maDichVu:service,trangThai:'HoanThanh',ghiChu:'Thú cưng khỏe, bàn giao bình thường'})
+            assert.equal((await upload('sau')).status,201)
             await care({hanhDong:'hoan-thanh'})
             assert.equal((await call(`/lich-hen/${booking}/huy`,'reception','PATCH',{lyDo:'Không được hủy lịch hoàn thành'})).status,409)
         })

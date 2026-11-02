@@ -35,7 +35,10 @@ export async function readSchedule(db, date) {
         FROM ca_lam_viec ca JOIN nhan_vien nv ON nv.ma_nhan_vien=ca.ma_nhan_vien
         JOIN nguoi_dung nd ON nd.ma_nguoi_dung=nv.ma_nhan_vien
         WHERE ca.ngay=$1::date AND ca.trang_thai=true AND nv.chuc_vu='Nhân viên chăm sóc'
-        AND nv.trang_thai=true AND nd.trang_thai=true AND nd.vai_tro='NhanVien' FOR SHARE OF ca,nv,nd`, [date])
+        AND nv.trang_thai=true AND nd.trang_thai=true AND nd.vai_tro='NhanVien'
+        AND NOT EXISTS (SELECT 1 FROM nghi_phep_nhan_vien np WHERE np.ma_nhan_vien=nv.ma_nhan_vien
+            AND np.trang_thai=true AND $1::date BETWEEN np.tu_ngay AND np.den_ngay)
+        FOR SHARE OF ca,nv,nd`, [date])
     const bookings = await db.query(`SELECT ma_lich_hen AS id, ma_nhan_vien AS staff_id,
         FLOOR(EXTRACT(EPOCH FROM ngay_gio_hen::time)/60)::int AS start,
         CEIL(EXTRACT(EPOCH FROM ngay_gio_ket_thuc_du_kien::time)/60)::int AS end

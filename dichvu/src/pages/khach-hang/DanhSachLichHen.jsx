@@ -5,6 +5,7 @@ import { useAuth } from '../../data/khoXacThuc.jsx'
 import { useBookings } from '../../data/khoLichHen.jsx'
 import { formatDateVN, formatVND } from '../../lib/tinhGioTrong.js'
 import { STATUSES, canCancel, canReview, filterByStatus, formatCode, sortNewestFirst } from '../../lib/tienIchLichHen.js'
+import AnhChamSocCuaToi from './AnhChamSocCuaToi.jsx'
 
 const inputCls =
   'rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-slate-800 shadow-sm outline-none transition focus:border-brand-600 focus:ring-2 focus:ring-brand-100'
@@ -266,6 +267,7 @@ export default function AppointmentsPage() {
             <Info label="Tạm tính:">{formatVND(selected.total)} VNĐ</Info>
           </dl>
           {selected.note && <p className="mt-3 text-sm text-slate-500">Ghi chú: {selected.note}</p>}
+          <AnhChamSocCuaToi key={selected.id} bookingId={selected.id} />
 
           <form onSubmit={submitReview} className="mt-6 border-t border-slate-100 pt-5">
             {selected.status === 'Hoàn thành' && (

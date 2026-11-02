@@ -1,5 +1,7 @@
 # THIẾT KẾ CƠ SỞ DỮ LIỆU PETCARE
 
+> **02/11/2026 — migration 010 trên nhánh tích hợp HTML:** bổ sung đồng ý hiển thị ảnh vào `thu_cung`; bảng `ghi_chu_ca_cham_soc`, `su_co_cham_soc`, `anh_cham_soc` (BYTEA tối đa 5 MB/ảnh); liên kết kỹ năng `nhan_vien_dich_vu`, nghỉ phép mềm; mã khuyến mãi và lượt dùng; cấu hình hạng/điểm/gói trả trước. Đã migrate thành công và kiểm thử nghiệp vụ trên DB test mới; **chưa thử migration trên bản sao DB đang dùng**. Gói giữ `dang_ban=false`, chưa có giao dịch mua/dùng; cấu hình hạng/điểm chưa làm thay đổi hóa đơn. `GET /ready` yêu cầu cả 009 và 010 sau 000–005.
+
 > Cập nhật 24/10/2026 — đã khôi phục đăng nhập: DB development local đã baseline/nâng cấp 002–005 sau backup mới và thử bản sao; dữ liệu/mật khẩu giữ nguyên. Ready và proxy frontend trả 200, hồi quy xác thực 10/10 PASS. Các ghi nhận bên dưới về DB gốc chưa nâng cấp là mốc trước lần sửa này. Chi tiết: [biên bản khôi phục](../docs/DB_LOCAL_RECOVERY.md).
 
 

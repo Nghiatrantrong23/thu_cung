@@ -1,5 +1,7 @@
 # KẾ HOẠCH TỔNG THỂ PHÁT TRIỂN HỆ THỐNG PETCARE
 
+> **02/11/2026 — tích hợp hai HTML chăm sóc/quản lý vào ứng dụng:** trên nhánh `codex/tich-hop-html-cham-soc-quan-ly`, thêm migration 010, ảnh trước/sau và ảnh sự cố lưu theo lịch (kiểm MIME, 5 MB/ảnh, 5 ảnh/nhóm), ghi chú, báo sự cố/thông báo; ảnh trước và sau là điều kiện chuyển bước, khách chỉ thấy ảnh khi chủ thú cưng đồng ý. Trang chăm sóc và trang lịch của khách dùng API thật. Quản lý có trang `/quan-ly/mo-rong` cho hồ sơ/kỹ năng/nghỉ phép nhân viên, mã khuyến mãi có kiểm tra và áp trên hóa đơn, cấu hình hạng/điểm/gói, báo cáo thực và CSV. Test tích hợp hóa đơn/chăm sóc/quản lý 10/10 PASS trên PostgreSQL test riêng; đặt lịch và điều phối 14/14 mỗi nhóm; frontend lint, 20 test, build PASS. **Chưa nghiệm thu toàn bộ giao diện:** chưa QA tương tác trình duyệt ở ba viewport hoặc migration trên bản sao DB đang dùng. Hạng/điểm và gói mới lưu cấu hình, mô phỏng; chưa tự xét hạng, tích điểm, áp ưu đãi hạng, mua hoặc dùng gói, nên không mở bán gói và không đánh dấu hoàn thành toàn bộ tính năng thành viên. Không ghi dữ liệu vào DB thực.
+
 > **01/11/2026 — code hồ sơ lễ tân, chưa nghiệm thu toàn đợt:** thêm migration 009 cho hồ sơ chưa kích hoạt, truy vết người tạo và trường thú cưng; API tạo khách/thú cưng, tìm năm tiêu chí và xem lịch sử phân trang; trang lễ tân `/le-tan/khach-hang`. Hồ sơ mới không có mật khẩu và không đăng nhập được; luồng đặt lịch tại quầy cũ vẫn còn. Frontend lint, 20 test, build 90 modules PASS; backend 67 PASS/10 SKIP mặc định. Bài tích hợp mới PASS trên PostgreSQL test riêng và DB mới: migration, chống trùng, quyền, 2 thú cưng, 5 kiểu tìm kiếm, lịch sử hóa đơn/khiếu nại, nhật ký. Hồi quy xác thực/thú cưng 10 PASS, đặt lịch 14 PASS trên hai DB test mới khác. Chưa QA trình duyệt 3 viewport hoặc thử migration trên bản sao DB đang dùng; **không đánh dấu hoàn thành đợt 4/giai đoạn 12**. Gộp hồ sơ và email mời chưa triển khai.
 
 > **01/11/2026 — đặc tả hồ sơ lễ tân (chưa triển khai):** đã đối chiếu luồng đặt lịch tại quầy, tra SĐT và schema; lập [đặc tả tạo khách/thú cưng/tra cứu/gộp](../docs/DAC_TA_HO_SO_LE_TAN.md) với quy tắc đề xuất, API/dữ liệu dự kiến và tiêu chí nghiệm thu. Ba lựa chọn về kích hoạt tài khoản, phạm vi loài và email mời còn chờ chốt. Không đổi runtime hoặc DB; không đánh dấu đợt 4 hoàn thành.
@@ -73,12 +75,14 @@ Route nằm sau dấu `#`.
 | MH-02b đặt tại quầy | `/le-tan/dat-lich-tai-quay` | API/UI, bàn giao tài khoản tạm khi mới tạo |
 | MH-05 điều phối | `/le-tan/lich-hen` | API/UI, giữ chờ/từ chối/phân công, đổi lịch/nhật ký |
 | MH-04 chăm sóc | `/nhan-vien/lich-lam-viec` | API/UI |
+| Chứng cứ chăm sóc | Trong `/nhan-vien/lich-lam-viec` và `/lich-hen` | API/UI ảnh, ghi chú, sự cố; ảnh khách cần đồng ý của chủ |
 | MH-09 quản lý ca | `/quan-ly/ca-lam-viec` | API/UI |
 | MH-06 thu tiền | `/le-tan/hoa-don` | API/UI |
 | In hóa đơn | `/le-tan/hoa-don/:id/in` | Bản in trình duyệt / lưu PDF |
 | MH-10a/b tiếp nhận, duyệt, thực chi | `/le-tan/khieu-nai` | Cùng trang, hiện chức năng theo quyền |
 | In phiếu hoàn | `/le-tan/khieu-nai/:id/in` | Chỉ có chứng từ khi đã thực chi thành công |
 | MH-07 báo cáo | `/quan-ly/bao-cao` | API/UI, theo ngày/kỳ |
+| Nhân sự, khuyến mãi, thành viên, báo cáo mở rộng | `/quan-ly/mo-rong` | API/UI; hạng/điểm/gói chỉ cấu hình, chưa có giao dịch thành viên |
 | Danh mục dịch vụ | `/quan-ly/dich-vu` | API/UI thêm/sửa/ngừng bán, tạo nhóm |
 | MH-08 tài khoản | `/admin/tai-khoan` | Đã nối router/API hiện có |
 

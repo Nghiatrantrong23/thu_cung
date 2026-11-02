@@ -47,7 +47,7 @@ function StatusBadge({ status }) {
 }
 
 export default function PetsPage() {
-  const { pets, loading, initialized, addPet, updatePet, setActive } = usePets()
+  const { pets, loading, initialized, addPet, updatePet, setActive, setPhotoConsent } = usePets()
   const location = useLocation()
 
   const startNew = Boolean(location.state?.new) || (initialized && pets.length === 0)
@@ -123,6 +123,13 @@ export default function PetsPage() {
     else setNotice({ type: 'error', text: result.error })
   }
 
+  async function changeConsent(pet) {
+    setSaving(true);setNotice(null)
+    const result=await setPhotoConsent(pet.id,!pet.photoConsent)
+    setSaving(false)
+    setNotice(result.ok?{type:'ok',text:pet.photoConsent?'Đã tắt hiển thị ảnh chăm sóc cho chủ.':'Đã đồng ý hiển thị ảnh chăm sóc của bé trong lịch hẹn.'}:{type:'error',text:result.error})
+  }
+
   if (!initialized) {
     return (
       <div className="mx-auto max-w-4xl">
@@ -171,6 +178,7 @@ export default function PetsPage() {
               <div><dt>Cân nặng</dt><dd>{p.weightKg != null ? `${formatWeight(p.weightKg)} kg` : '—'}</dd></div>
             </dl>
             <div className="pet-profile-card__note">{p.healthNote && <span>Có ghi chú sức khỏe</span>}</div>
+            {p.active&&<button type="button" className="mb-3 text-left text-sm font-bold text-brand-700 underline" disabled={saving} onClick={()=>changeConsent(p)}>{p.photoConsent?'Tắt hiển thị ảnh chăm sóc cho tôi':'Đồng ý xem ảnh chăm sóc của bé'}</button>}
             <div className="pet-profile-card__actions">
               <button type="button" onClick={() => selectPet(p)}>Xem hồ sơ</button>
               {p.active && <button type="button" onClick={() => selectPet(p)}>Chỉnh sửa</button>}

@@ -10,6 +10,7 @@ const links=[
   {path:'/quan-ly/ca-lam-viec',label:'Ca làm việc',short:'CA',group:'Quản lý',roles:management},
   {path:'/quan-ly/dich-vu',label:'Dịch vụ & bảng giá',short:'DV',group:'Quản lý',roles:management},
   {path:'/quan-ly/bao-cao',label:'Thống kê & báo cáo',short:'BC',group:'Quản lý',roles:management},
+  {path:'/quan-ly/mo-rong',label:'Nhân sự, ưu đãi & thành viên',short:'QL',group:'Quản lý',roles:management},
   {path:'/admin/tai-khoan',label:'Tài khoản & phân quyền',short:'TK',group:'Hệ thống',roles:['admin']},
 ]
 export function staffNavigation(role){return Object.hasOwn(home,role)?[{path:home[role],label:'Không gian làm việc',short:'PC',group:'Tổng quan'},...links.filter(link=>link.roles.includes(role))]:[]}
