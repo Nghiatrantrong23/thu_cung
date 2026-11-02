@@ -3,10 +3,14 @@ import {lazy,Suspense} from 'react'
 import BaoCao from './pages/quan-ly/BaoCao.jsx'
 import DichVu from './pages/quan-ly/DichVu.jsx'
 import QuanLyTaiKhoan from './pages/admin/QuanLyTaiKhoan.jsx'
+import NhatKy from './pages/admin/NhatKy.jsx'
+import CauHinh from './pages/admin/CauHinh.jsx'
+import SaoLuu from './pages/admin/SaoLuu.jsx'
 import KhieuNai from './pages/le-tan/KhieuNai.jsx'
 import InHoanTien from './pages/le-tan/InHoanTien.jsx'
 import HoaDon from './pages/le-tan/HoaDon.jsx'
 import InHoaDon from './pages/le-tan/InHoaDon.jsx'
+import TraCuuKhach from './pages/le-tan/TraCuuKhach.jsx'
 import ChamSoc from './pages/nhan-vien/ChamSoc.jsx'
 import CaLamViec from './pages/quan-ly/CaLamViec.jsx'
 import { Navigate, Route, Routes } from 'react-router-dom'
@@ -22,7 +26,7 @@ import ThongTinCaNhan from './pages/khach-hang/ThongTinCaNhan.jsx'
 import HoaDonCuaToi from './pages/khach-hang/HoaDonCuaToi.jsx'
 import TongQuan from './pages/khach-hang/TongQuan.jsx'
 import DatLichTaiQuay from './pages/le-tan/DatLichTaiQuay.jsx'
-import DangPhatTrien from './pages/DangPhatTrien.jsx'
+import { QuenMatKhau, DatLaiMatKhau } from './pages/KhoiPhucMatKhau.jsx'
 import QuanLyLichHen from './pages/le-tan/QuanLyLichHen.jsx'
 import DoiMatKhauTam from './pages/DoiMatKhauTam.jsx'
 const ComponentLab=import.meta.env.DEV?lazy(()=>import('./pages/ComponentLab.jsx')):null
@@ -35,10 +39,8 @@ export default function App() {
       <Route path="dang-nhap" element={<DangNhap />} />
       <Route path="doi-mat-khau" element={<DoiMatKhauTam />} />
       <Route path="bang-gia" element={<BangGia />} />
-      <Route
-        path="quen-mat-khau"
-        element={<DangPhatTrien title="Quên mật khẩu" backTo="/dang-nhap" backLabel="Về trang Đăng nhập" />}
-      />
+      <Route path="quen-mat-khau" element={<QuenMatKhau />} />
+      <Route path="dat-lai-mat-khau" element={<DatLaiMatKhau />} />
 
       {/* Khách hàng */}
       <Route
@@ -66,6 +68,7 @@ export default function App() {
           </StaffLayout></KiemTraQuyen>
         }
       />
+      <Route path="le-tan/tra-cuu-khach" element={<KiemTraQuyen roleKey={['reception', 'manager', 'admin']}><StaffLayout><TraCuuKhach /></StaffLayout></KiemTraQuyen>} />
 
       <Route path="nhan-vien/lich-lam-viec" element={<KiemTraQuyen roleKey="care"><StaffLayout><ChamSoc/></StaffLayout></KiemTraQuyen>}/>
       <Route path="quan-ly/ca-lam-viec" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><CaLamViec/></StaffLayout></KiemTraQuyen>}/>
@@ -79,6 +82,9 @@ export default function App() {
       <Route path="quan-ly/bao-cao" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><BaoCao/></StaffLayout></KiemTraQuyen>}/>
       <Route path="quan-ly/dich-vu" element={<KiemTraQuyen roleKey={['manager','admin']}><StaffLayout><DichVu/></StaffLayout></KiemTraQuyen>}/>
       <Route path="admin/tai-khoan" element={<KiemTraQuyen roleKey="admin"><StaffLayout><QuanLyTaiKhoan/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="admin/nhat-ky" element={<KiemTraQuyen roleKey="admin"><StaffLayout><NhatKy/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="admin/cau-hinh" element={<KiemTraQuyen roleKey="admin"><StaffLayout><CauHinh/></StaffLayout></KiemTraQuyen>}/>
+      <Route path="admin/sao-luu" element={<KiemTraQuyen roleKey="admin"><StaffLayout><SaoLuu/></StaffLayout></KiemTraQuyen>}/>
 
       {/* Nhân sự: giữ chỗ, sẽ làm các giao diện riêng sau */}
       {[
