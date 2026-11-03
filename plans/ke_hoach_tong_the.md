@@ -16,6 +16,8 @@
 
 ## 0. Tiến độ hiện tại
 
+> **03/11/2026 — báo cáo Quản lý mở rộng:** khi đổi nhanh kỳ 7/30/90 ngày hoặc tải lại, chỉ phản hồi của yêu cầu mới nhất được phép cập nhật báo cáo. Tránh số liệu kỳ cũ ghi đè kỳ đang chọn khi API trả về không theo thứ tự. Frontend 20 test, lint và build 94 modules PASS; chưa QA trình duyệt/API ở ba viewport, nên đợt 5 và giai đoạn 12 vẫn chưa hoàn thành.
+
 > **02/11/2026 — trạng thái tải giao diện Quản lý mở rộng:** thêm thông báo tải dữ liệu và tải báo cáo, bỏ số liệu kỳ cũ khi tải kỳ mới hoặc API lỗi, cho phép thử lại sau lỗi. Frontend lint PASS, 20 test PASS, build 94 modules PASS. Chưa QA trình duyệt/API thật ở ba viewport; đợt 5 và giai đoạn 12 chưa hoàn thành.
 
 > **25/10/2026 — giao diện khiếu nại khách:** thêm route/menu `/khieu-nai-cua-toi`, dùng GET danh sách/chi tiết có lọc sở hữu tại server; hiển thị trạng thái, nội dung, phản hồi, tiền chờ hoàn và phiếu khi đã thực chi. Có loading/error/empty, lọc trạng thái, tải lại và ghi rõ giới hạn 200 bản ghi. Frontend 20 test PASS, lint/build 86 modules PASS. Chưa QA trình duyệt với DB đang chạy; endpoint/form khách tự gửi theo quyết định đợt 2 chưa triển khai. **Đợt 2 và giai đoạn 12 chưa hoàn tất.**

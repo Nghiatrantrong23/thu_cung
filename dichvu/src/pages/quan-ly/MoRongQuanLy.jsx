@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { addDays, formatVND, toISODate } from '../../lib/tinhGioTrong.js'
 
@@ -16,6 +16,7 @@ export default function MoRongQuanLy(){
   const [trial,setTrial]=useState({code:'',customerId:'',serviceIds:[]}),[preview,setPreview]=useState(null)
   const [pkg,setPkg]=useState({serviceId:'',quantity:2,price:''}),[spending,setSpending]=useState('0'),[days,setDays]=useState(30)
   const [error,setError]=useState(''),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[loading,setLoading]=useState(true),[reportLoading,setReportLoading]=useState(false)
+  const reportRequest=useRef(0)
   const base='/api/quan-ly/mo-rong'
   const load=useCallback(async()=>{
     setLoading(true);setError('')
@@ -40,8 +41,10 @@ export default function MoRongQuanLy(){
   const today=toISODate(new Date())
   const from=addDays(1-days)
   async function loadReport(nextDays=days){
+    const request=++reportRequest.current
     setReportLoading(true);setReport(null);setError('')
     const result=await apiCall(`${base}/bao-cao?${new URLSearchParams({tuNgay:addDays(1-nextDays),denNgay:today})}`)
+    if(request!==reportRequest.current)return
     setReportLoading(false);if(result.ok)setReport(result.data);else setError(result.error)
   }
   useEffect(()=>{if(tab==='report')loadReport()},[tab,days])
