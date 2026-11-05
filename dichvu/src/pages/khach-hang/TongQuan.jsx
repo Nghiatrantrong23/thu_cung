@@ -66,11 +66,13 @@ function BannerCarousel() {
       {heroSlides.map((slide, index) => <div key={slide.src} className={`ov-hero-carousel-slide${index === active ? ' is-active' : ''}`} aria-hidden={index !== active}>
         <img src={slide.src} alt={slide.alt} />
       </div>)}
-      <button className="ov-hero-carousel-arrow is-previous" type="button" onClick={() => move(-1)} aria-label="Ảnh trước">‹</button>
-      <button className="ov-hero-carousel-arrow is-next" type="button" onClick={() => move(1)} aria-label="Ảnh tiếp theo">›</button>
     </div>
-    <div className="ov-hero-carousel-dots" aria-label="Chọn ảnh banner">
-      {heroSlides.map((slide, index) => <button key={slide.src} type="button" className={index === active ? 'is-active' : ''} onClick={() => setActive(index)} aria-label={`Xem ảnh ${index + 1}`} aria-current={index === active ? 'true' : undefined}><span /></button>)}
+    <div className="ov-hero-carousel-controls">
+      <button className="ov-hero-carousel-arrow is-previous" type="button" onClick={() => move(-1)} aria-label="Ảnh trước">‹</button>
+      <div className="ov-hero-carousel-dots" aria-label="Chọn ảnh banner">
+        {heroSlides.map((slide, index) => <button key={slide.src} type="button" className={index === active ? 'is-active' : ''} onClick={() => setActive(index)} aria-label={`Xem ảnh ${index + 1}`} aria-current={index === active ? 'true' : undefined}><span /></button>)}
+      </div>
+      <button className="ov-hero-carousel-arrow is-next" type="button" onClick={() => move(1)} aria-label="Ảnh tiếp theo">›</button>
     </div>
     <span className="sr-only" aria-live="polite">Ảnh {active + 1} trên {heroSlides.length}</span>
   </div>
@@ -101,12 +103,15 @@ function BookingCard({ booking }) {
 }
 
 export default function TongQuan() {
+  const { user } = useAuth()
   const pets = useOverviewList('/api/thu-cung', 'pets')
   const bookings = useOverviewList('/api/lich-hen', 'lichHen')
   const services = useOverviewList('/api/dich-vu', 'dichVu')
   const now = new Date()
   const today = toISODate(now)
   const currentTime = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Ho_Chi_Minh', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(now)
+  const hour = Number(currentTime.slice(0, 2))
+  const greeting = hour < 12 ? 'Chào buổi sáng' : hour < 18 ? 'Chào buổi chiều' : 'Chào buổi tối'
   const activePets = pets.items.filter(pet => pet.active)
   const upcoming = bookings.items.filter(booking => {
     const code = booking.trangThaiDB || booking.status
@@ -115,11 +120,20 @@ export default function TongQuan() {
     return open && (booking.date > today || (booking.date === today && (running || booking.start >= currentTime)))
   }).sort((a, b) => a.date.localeCompare(b.date) || a.start.localeCompare(b.start))
   const completed = bookings.items.filter(booking => ['HoanThanh', 'Hoàn thành'].includes(booking.trangThaiDB || booking.status)).length
+  const next = upcoming[0]
 
   return <div className="customer-overview">
-    <section className="ov-hero" aria-label="Banner PetCare">
+    <header className="ov-hero">
+      <div className="ov-hero-content">
+        <span className="ov-eyebrow"><Icon type="paw" /> PETCARE · GÓC CHĂM SÓC CỦA BẠN</span>
+        <h1>{greeting},<br /><span>{user?.fullName || 'bạn'}!</span></h1>
+        <p>{!bookings.loading && !bookings.error && next
+          ? `${next.petName} có lịch hẹn lúc ${next.start}, ngày ${formatDateVN(next.date)}. Cùng chuẩn bị cho buổi chăm sóc sắp tới nhé.`
+          : 'Chăm sóc các bé, theo dõi lịch hẹn và tìm dịch vụ phù hợp — tất cả trong một nơi.'}</p>
+        <div className="ov-hero-actions"><Link className="ov-button ov-button-primary" to="/dat-lich"><Icon type="plus" />Đặt lịch nhanh</Link><Link className="ov-button ov-button-outline" to="/lich-hen">Xem lịch hẹn<Icon type="arrow" /></Link></div>
+      </div>
       <BannerCarousel />
-    </section>
+    </header>
 
     <section className="ov-metrics" aria-label="Thống kê của bạn">
       <Metric icon="paw" label="Thú cưng đang theo dõi" resource={pets} value={activePets.length} to="/ho-so-thu-cung" />
