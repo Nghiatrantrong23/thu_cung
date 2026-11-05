@@ -48,6 +48,33 @@ function LoadingCards({ count = 2 }) {
     <span className="sr-only">Đang tải dữ liệu…</span>
   </div>
 }
+const heroSlides = [
+  { src: banner1, alt: 'Chó và mèo hoạt hình bên khung trắng trên nền xanh ngọc' },
+  { src: banner2, alt: 'Chó và mèo hoạt hình trên nền vàng với họa tiết dấu chân' },
+]
+
+function BannerCarousel() {
+  const [active, setActive] = useState(0)
+  const move = delta => setActive(index => (index + delta + heroSlides.length) % heroSlides.length)
+  const onKeyDown = event => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); move(-1) }
+    if (event.key === 'ArrowRight') { event.preventDefault(); move(1) }
+  }
+
+  return <div className="ov-hero-carousel" role="region" aria-label="Hình ảnh PetCare" tabIndex={0} onKeyDown={onKeyDown}>
+    <div className="ov-hero-carousel-stage">
+      {heroSlides.map((slide, index) => <div key={slide.src} className={`ov-hero-carousel-slide${index === active ? ' is-active' : ''}`} aria-hidden={index !== active}>
+        <img src={slide.src} alt={slide.alt} />
+      </div>)}
+      <button className="ov-hero-carousel-arrow is-previous" type="button" onClick={() => move(-1)} aria-label="Ảnh trước">‹</button>
+      <button className="ov-hero-carousel-arrow is-next" type="button" onClick={() => move(1)} aria-label="Ảnh tiếp theo">›</button>
+    </div>
+    <div className="ov-hero-carousel-dots" aria-label="Chọn ảnh banner">
+      {heroSlides.map((slide, index) => <button key={slide.src} type="button" className={index === active ? 'is-active' : ''} onClick={() => setActive(index)} aria-label={`Xem ảnh ${index + 1}`} aria-current={index === active ? 'true' : undefined}><span /></button>)}
+    </div>
+    <span className="sr-only" aria-live="polite">Ảnh {active + 1} trên {heroSlides.length}</span>
+  </div>
+}
 function DataError({ resource }) {
   return <div className="ov-error" role="alert"><p>{resource.error}</p><button type="button" onClick={resource.reload}>Thử lại</button></div>
 }
@@ -103,10 +130,7 @@ export default function TongQuan() {
           : 'Chăm sóc các bé, theo dõi lịch hẹn và tìm dịch vụ phù hợp — tất cả trong một nơi.'}</p>
         <div className="ov-hero-actions"><Link className="ov-button ov-button-primary" to="/dat-lich"><Icon type="plus" />Đặt lịch nhanh</Link><Link className="ov-button ov-button-outline" to="/lich-hen">Xem lịch hẹn<Icon type="arrow" /></Link></div>
       </div>
-      <div className="ov-hero-banners">
-        <img src={banner1} alt="Banner 1: chó và mèo hoạt hình bên khung trắng trên nền xanh ngọc" />
-        <img src={banner2} alt="Banner 2: chó và mèo hoạt hình trên nền vàng với họa tiết dấu chân" />
-      </div>
+      <BannerCarousel />
     </header>
 
     <section className="ov-metrics" aria-label="Thống kê của bạn">
