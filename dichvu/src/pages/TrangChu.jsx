@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import BieuTuongDauChan from '../components/BieuTuongDauChan.jsx'
-import PetIllustration from '../components/PetIllustration.jsx'
+import HeroBanner from '../components/HeroBanner.jsx'
 import { formatVND } from '../lib/tinhGioTrong.js'
 import './TrangChu.css'
 
@@ -40,16 +40,7 @@ export default function TrangChu() {
     </header>
 
     <main>
-      <section className="public-home-hero public-home-shell" aria-labelledby="public-home-title">
-        <div className="public-home-hero-copy">
-          <p className="public-home-kicker">CHĂM SÓC THÚ CƯNG CÙNG PETCARE</p>
-          <h1 id="public-home-title">Một nơi để chăm sóc <em>người bạn nhỏ</em> của bạn</h1>
-          <p>Chọn dịch vụ phù hợp, đặt lịch theo khung giờ còn trống và theo dõi hành trình chăm sóc của bé trong tài khoản PetCare.</p>
-          <div className="public-home-actions"><Link className="public-home-primary" to="/dang-nhap">Đăng nhập để đặt lịch <span aria-hidden="true">→</span></Link><Link className="public-home-secondary" to="/bang-gia">Xem bảng giá</Link></div>
-          <p className="public-home-hours">Giờ phục vụ: 08:00–19:00 mỗi ngày</p>
-        </div>
-        <div className="public-home-art" aria-hidden="true"><div className="public-home-art-glow" /><div className="public-home-art-dog"><PetIllustration species="Chó" className="w-full h-full" /></div><div className="public-home-art-cat"><PetIllustration species="Mèo" className="w-full h-full" /></div><span className="public-home-art-note">Chăm sóc bằng sự tận tâm</span></div>
-      </section>
+      <HeroBanner />
 
       <section className="public-home-services" id="dich-vu" aria-labelledby="public-home-services-title"><div className="public-home-shell">
         <div className="public-home-section-head"><div><p className="public-home-kicker">DÀNH CHO CÁC BÉ</p><h2 id="public-home-services-title">Dịch vụ đang phục vụ</h2><p>Thời lượng và giá được cập nhật từ danh mục hiện hành.</p></div><Link to="/bang-gia">Xem toàn bộ bảng giá <span aria-hidden="true">→</span></Link></div>

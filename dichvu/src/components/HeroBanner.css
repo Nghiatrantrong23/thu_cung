@@ -1,0 +1,10 @@
+.petcare-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);align-items:center;gap:clamp(24px,5vw,72px);margin-block:36px 64px;padding:clamp(28px,5vw,64px);border-radius:32px;background:linear-gradient(135deg,#f0faf7 0%,#e3f5ef 100%);overflow:hidden}
+.petcare-hero-copy{min-width:0}
+.public-home .petcare-hero h1{max-width:620px;margin:14px 0 18px;font-size:clamp(2.4rem,4.7vw,4rem);line-height:1.12;color:#163a37}
+.petcare-hero-description{max-width:560px;color:#425f60;line-height:1.75}
+.petcare-hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.petcare-hero-hours{margin-top:22px;color:#4b6666;font-size:.88rem}
+.petcare-hero-image-wrap{min-width:0;aspect-ratio:1.15;overflow:hidden;border-radius:28px;box-shadow:0 20px 50px #256e6430}
+.petcare-hero-image{width:100%;height:100%;object-fit:cover;object-position:center}
+@media(max-width:800px){.petcare-hero{grid-template-columns:1fr;margin-block:24px 48px}.petcare-hero-image-wrap{aspect-ratio:1.6}}
+@media(max-width:560px){.petcare-hero{gap:24px;padding:28px 20px;border-radius:24px}.public-home .petcare-hero h1{font-size:clamp(2rem,9vw,2.7rem)}.petcare-hero-actions>a{width:100%}.petcare-hero-image-wrap{aspect-ratio:1.2;border-radius:20px}}
