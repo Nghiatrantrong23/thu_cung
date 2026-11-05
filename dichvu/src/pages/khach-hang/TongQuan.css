@@ -3,8 +3,11 @@
 .customer-overview h1, .customer-overview h2, .customer-overview h3, .customer-overview p { margin: 0; }
 .customer-overview a, .customer-overview button { transition: background-color .18s, border-color .18s, box-shadow .18s; }
 .customer-overview a:focus-visible, .customer-overview button:focus-visible, .customer-overview summary:focus-visible { outline: 3px solid #00796f; outline-offset: 4px; }
-.ov-hero { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); align-items: center; gap: 24px; padding: 28px; border: 1px solid #cde6df; border-radius: 16px; background: linear-gradient(110deg, #e8f5f3, #eff7ed 58%, #fff0d9); }
-.ov-hero-content { min-width: 0; }
+.ov-hero { padding: 12px; border: 1px solid #cde6df; border-radius: 16px; background: linear-gradient(110deg, #e8f5f3, #eff7ed 58%, #fff0d9); }
+.ov-hero-content { position: absolute; z-index: 1; top: 43%; width: 43%; padding: 16px; border-radius: 14px; background: #fffffff0; color: #153a38; transform: translateY(-50%); transition: left 400ms ease; }
+.ov-hero-carousel-1 .ov-hero-content { left: 28%; }
+.ov-hero-carousel-2 .ov-hero-content { left: 55%; }
+.customer-overview .ov-hero h1 { color: #153a38; }
 .ov-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #32675c; font-size: 13px; font-weight: 700; letter-spacing: .06em; }
 .ov-eyebrow svg { width: 16px; height: 16px; }
 .customer-overview .ov-hero h1 { margin-top: 16px; font-size: clamp(28px, 3vw, 36px); font-weight: 800; line-height: 1.25; letter-spacing: -.035em; overflow-wrap: anywhere; }
@@ -18,7 +21,7 @@
 .ov-button-outline { border-color: #bfd9ce; background: #ffffffb3; color: #006b63; }
 .ov-button-outline:hover, .ov-button-soft:hover { background: #d5eee6; }
 .ov-button-soft { background: #e8f5f3; color: #006b63; }
-.ov-hero-carousel { min-width: 0; outline-offset: 4px; }
+.ov-hero-carousel { position: relative; min-width: 0; outline-offset: 4px; }
 .ov-hero-carousel-stage { position: relative; width: 100%; aspect-ratio: 2.74; overflow: hidden; border-radius: 14px; background: #fff; box-shadow: 0 8px 22px #184f4924; }
 .ov-hero-carousel-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 400ms ease; pointer-events: none; }
 .ov-hero-carousel-slide.is-active { opacity: 1; }
@@ -114,3 +117,5 @@
 
 @media (max-width: 900px) { .ov-hero { grid-template-columns: 1fr; padding: 24px; } }
 @media (max-width: 640px) { .ov-hero { padding: 16px; } }
+@media (max-width: 900px) { .ov-hero-content, .ov-hero-carousel-1 .ov-hero-content, .ov-hero-carousel-2 .ov-hero-content { position: relative; top: auto; left: auto; width: 100%; margin-top: 8px; transform: none; } }
+@media (max-width: 640px) { .ov-hero { padding: 8px; } .ov-hero-content { padding: 16px; } }

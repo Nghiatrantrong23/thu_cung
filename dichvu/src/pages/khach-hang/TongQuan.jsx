@@ -53,7 +53,7 @@ const heroSlides = [
   { src: banner2, alt: 'Chó và mèo hoạt hình trên nền vàng với họa tiết dấu chân' },
 ]
 
-function BannerCarousel() {
+function BannerCarousel({ children }) {
   const [active, setActive] = useState(0)
   const move = delta => setActive(index => (index + delta + heroSlides.length) % heroSlides.length)
   const onKeyDown = event => {
@@ -61,12 +61,13 @@ function BannerCarousel() {
     if (event.key === 'ArrowRight') { event.preventDefault(); move(1) }
   }
 
-  return <div className="ov-hero-carousel" role="region" aria-label="Hình ảnh PetCare" tabIndex={0} onKeyDown={onKeyDown}>
+  return <div className={`ov-hero-carousel ov-hero-carousel-${active + 1}`} role="region" aria-label="Hình ảnh PetCare" tabIndex={0} onKeyDown={onKeyDown}>
     <div className="ov-hero-carousel-stage">
       {heroSlides.map((slide, index) => <div key={slide.src} className={`ov-hero-carousel-slide${index === active ? ' is-active' : ''}`} aria-hidden={index !== active}>
         <img src={slide.src} alt={slide.alt} />
       </div>)}
     </div>
+    {children}
     <div className="ov-hero-carousel-controls">
       <button className="ov-hero-carousel-arrow is-previous" type="button" onClick={() => move(-1)} aria-label="Ảnh trước">‹</button>
       <div className="ov-hero-carousel-dots" aria-label="Chọn ảnh banner">
@@ -124,15 +125,14 @@ export default function TongQuan() {
 
   return <div className="customer-overview">
     <header className="ov-hero">
-      <div className="ov-hero-content">
+      <BannerCarousel><div className="ov-hero-content">
         <span className="ov-eyebrow"><Icon type="paw" /> PETCARE · GÓC CHĂM SÓC CỦA BẠN</span>
         <h1>{greeting},<br /><span>{user?.fullName || 'bạn'}!</span></h1>
         <p>{!bookings.loading && !bookings.error && next
           ? `${next.petName} có lịch hẹn lúc ${next.start}, ngày ${formatDateVN(next.date)}. Cùng chuẩn bị cho buổi chăm sóc sắp tới nhé.`
           : 'Chăm sóc các bé, theo dõi lịch hẹn và tìm dịch vụ phù hợp — tất cả trong một nơi.'}</p>
         <div className="ov-hero-actions"><Link className="ov-button ov-button-primary" to="/dat-lich"><Icon type="plus" />Đặt lịch nhanh</Link><Link className="ov-button ov-button-outline" to="/lich-hen">Xem lịch hẹn<Icon type="arrow" /></Link></div>
-      </div>
-      <BannerCarousel />
+      </div></BannerCarousel>
     </header>
 
     <section className="ov-metrics" aria-label="Thống kê của bạn">
