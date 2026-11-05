@@ -6,10 +6,11 @@ import { string } from '../lib/validation.js'
 import { cents,decimal,paymentKey } from '../lib/money.js'
 import { notify } from './notifications.js'
 
-export async function createComplaint(body,user) {
+export async function createComplaint(body,user,{customer=false}={}) {
     const bookingId=integerId(body?.maLichHen),note=string(body?.noiDung,'Nội dung khiếu nại',2000)
     return withTransaction(async client=>{
         const booking=await lockedBooking(client,bookingId)
+        if(customer && booking.ma_khach_hang!==user.userId)throw bookingError(404,'Không tìm thấy lịch hẹn.')
         let bill=null
         if(body.maHoaDon!=null) {
             bill=(await client.query('SELECT ma_hoa_don,ma_lich_hen FROM hoa_don WHERE ma_hoa_don=$1',[integerId(body.maHoaDon)])).rows[0]
