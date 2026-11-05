@@ -16,6 +16,8 @@
 
 ## 0. Tiến độ hiện tại
 
+> **05/11/2026 — minh họa banner Tổng quan khách:** đã xem hai ảnh Pngtree người dùng gửi; cả hai bản xem trước đều có watermark nên không đưa vào website. Tạo minh họa chó/mèo mới theo hướng vui tươi của ảnh thứ nhất và dùng riêng cho banner `/tong-quan`, cập nhật alt text; giữ nguyên layout, lời chào và nút. Frontend lint PASS, 20 test PASS, build 97 modules PASS; chưa QA trình duyệt ba viewport.
+
 > **05/11/2026 — banner Tổng quan khách hàng:** theo ảnh người dùng chỉ rõ vị trí sau đăng nhập, thay hai sticker minh họa trong `/tong-quan` bằng ảnh chó/mèo đã tạo ở đợt Hero Banner, có alt text và bố cục responsive. Giữ nguyên lời chào cá nhân hóa, lịch sắp tới và hai nút điều hướng. Frontend lint PASS, 20 test PASS, build 97 modules PASS; chưa QA trình duyệt ba viewport, không đánh dấu hoàn thành toàn bộ đợt giao diện.
 
 > **05/11/2026 — Hero Banner trang chủ:** thay hero minh họa bằng component `HeroBanner` tái sử dụng với ảnh chó/mèo tạo mới, alt text, hai CTA dẫn đến route đặt lịch có guard hiện hữu và phần dịch vụ trên cùng trang. Header, API và nghiệp vụ giữ nguyên. Frontend build PASS 97 modules, lint PASS, 20 test PASS; chưa QA trình duyệt ở ba viewport, không đánh dấu hoàn thành toàn bộ đợt giao diện.
