@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { formatDateVN, formatVND, toISODate } from '../../lib/tinhGioTrong.js'
 import PetIllustration from '../../components/PetIllustration.jsx'
+import heroPets from '../../assets/petcare-hero-pets.png'
 import ThongBao from '../../components/ThongBao.jsx'
 import StatusBadge from '../../components/ui/StatusBadge.jsx'
 import './TongQuan.css'
@@ -100,7 +101,7 @@ export default function TongQuan() {
           : 'Chăm sóc các bé, theo dõi lịch hẹn và tìm dịch vụ phù hợp — tất cả trong một nơi.'}</p>
         <div className="ov-hero-actions"><Link className="ov-button ov-button-primary" to="/dat-lich"><Icon type="plus" />Đặt lịch nhanh</Link><Link className="ov-button ov-button-outline" to="/lich-hen">Xem lịch hẹn<Icon type="arrow" /></Link></div>
       </div>
-      <div className="ov-hero-art" aria-hidden="true"><span className="ov-art-circle" /><div className="ov-pet-sticker ov-dog"><PetIllustration species="Chó" className="ov-pet-drawing" /></div><div className="ov-pet-sticker ov-cat"><PetIllustration species="Mèo" className="ov-pet-drawing" /></div><span className="ov-art-caption"><Icon type="paw" /> Mỗi bé đều xứng đáng được yêu thương</span></div>
+      <figure className="ov-hero-photo"><img src={heroPets} alt="Chó golden retriever và mèo lông vàng trắng ngồi bên nhau" /><figcaption>Mỗi bé đều xứng đáng được yêu thương</figcaption></figure>
     </header>
 
     <section className="ov-metrics" aria-label="Thống kê của bạn">

@@ -18,14 +18,9 @@
 .ov-button-outline { border-color: #bfd9ce; background: #ffffffb3; color: #006b63; }
 .ov-button-outline:hover, .ov-button-soft:hover { background: #d5eee6; }
 .ov-button-soft { background: #e8f5f3; color: #006b63; }
-.ov-hero-art { position: relative; min-height: 256px; }
-.ov-art-circle { position: absolute; width: 224px; height: 224px; top: 0; left: calc(50% - 112px); border-radius: 50%; background: #dcebd9; box-shadow: 0 0 0 20px #ffffff40; }
-.ov-pet-sticker { position: absolute; display: grid; place-items: center; width: 144px; height: 160px; padding: 16px; border: 4px solid white; border-radius: 32px; box-shadow: 0 12px 24px #384d4020; }
-.ov-dog { top: 16px; left: calc(50% - 132px); transform: rotate(-10deg); background: #fff0d9; }
-.ov-cat { top: 48px; left: calc(50% - 4px); transform: rotate(10deg); background: #edf6f3; }
-.customer-overview .ov-pet-drawing { width: 100%; height: 100%; }
-.ov-art-caption { position: absolute; display: flex; align-items: center; justify-content: center; gap: 8px; bottom: 0; left: 0; right: 0; padding: 8px; color: #486558; font-size: 12px; line-height: 1.5; font-weight: 600; text-align: center; }
-.ov-art-caption svg { width: 16px; height: 16px; }
+.ov-hero-photo { position: relative; min-width: 0; margin: 0; aspect-ratio: 1.5; overflow: hidden; border-radius: 20px; box-shadow: 0 16px 36px #184f4930; }
+.ov-hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.ov-hero-photo figcaption { position: absolute; right: 12px; bottom: 12px; left: 12px; padding: 8px 12px; border-radius: 10px; background: #103f3bd9; color: white; font-size: 12px; font-weight: 700; text-align: center; }
 .ov-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .ov-metric { display: flex; align-items: center; gap: 12px; padding: 20px 16px; border: 1px solid #e2e8f0; border-radius: 16px; background: white; text-decoration: none; }
 .ov-metric:hover { border-color: #94c8b8; box-shadow: 0 4px 16px #123e2b08; }
@@ -107,5 +102,5 @@
 .ov-skeleton span:last-child { width: 60%; }
 @keyframes ov-pulse { to { opacity: .4; } }
 @media (max-width: 900px) { .ov-hero { grid-template-columns: 1.3fr 1fr; padding: 24px; } .ov-main-grid { grid-template-columns: 1fr; } .ov-metrics { gap: 12px; } .ov-metric { padding: 16px 12px; gap: 8px; } .customer-overview .ov-metric-arrow { display: none; } .ov-service-card { padding: 16px; } }
-@media (max-width: 640px) { .customer-overview { gap: 24px; } .ov-hero { display: flex; flex-direction: column; align-items: stretch; padding: 24px 20px 12px; } .ov-hero-art { min-height: 208px; max-width: 300px; width: 100%; margin: auto; } .ov-art-circle { width: 160px; height: 160px; left: calc(50% - 80px); } .ov-pet-sticker { width: 112px; height: 120px; padding: 8px; border-radius: 24px; } .ov-dog { top: 8px; left: calc(50% - 104px); } .ov-cat { top: 28px; } .ov-hero-actions { gap: 8px; } .ov-hero-actions .ov-button { padding: 12px; } .ov-metrics { grid-template-columns: 1fr; } .ov-metric { padding: 16px; } .ov-metric > div { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 12px; } .ov-panel, .ov-notifications > details { padding: 16px; } .ov-section-heading h2 { font-size: 20px; } .ov-pets, .ov-services { grid-template-columns: 1fr; } .ov-date { width: 56px; min-height: 80px; } .ov-booking { gap: 8px; flex-wrap: wrap; } .ov-booking-info { flex-basis: calc(100% - 64px); } .ov-booking > .ov-icon-link { margin-left: auto; } .ov-pet-card { padding: 16px; } .ov-pet-avatar { width: 64px; height: 64px; } .ov-section-heading { flex-wrap: wrap; gap: 8px; } }
+@media (max-width: 640px) { .customer-overview { gap: 24px; } .ov-hero { display: flex; flex-direction: column; align-items: stretch; padding: 24px 20px 12px; } .ov-hero-photo { width: 100%; max-width: 420px; margin-inline: auto; aspect-ratio: 1.5; } .ov-hero-actions { gap: 8px; } .ov-hero-actions .ov-button { padding: 12px; } .ov-metrics { grid-template-columns: 1fr; } .ov-metric { padding: 16px; } .ov-metric > div { display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 12px; } .ov-panel, .ov-notifications > details { padding: 16px; } .ov-section-heading h2 { font-size: 20px; } .ov-pets, .ov-services { grid-template-columns: 1fr; } .ov-date { width: 56px; min-height: 80px; } .ov-booking { gap: 8px; flex-wrap: wrap; } .ov-booking-info { flex-basis: calc(100% - 64px); } .ov-booking > .ov-icon-link { margin-left: auto; } .ov-pet-card { padding: 16px; } .ov-pet-avatar { width: 64px; height: 64px; } .ov-section-heading { flex-wrap: wrap; gap: 8px; } }
 @media (prefers-reduced-motion: reduce) { .customer-overview *, .customer-overview *::before, .customer-overview *::after { animation: none !important; transition: none !important; } }

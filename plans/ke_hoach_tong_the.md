@@ -16,6 +16,8 @@
 
 ## 0. Tiến độ hiện tại
 
+> **05/11/2026 — banner Tổng quan khách hàng:** theo ảnh người dùng chỉ rõ vị trí sau đăng nhập, thay hai sticker minh họa trong `/tong-quan` bằng ảnh chó/mèo đã tạo ở đợt Hero Banner, có alt text và bố cục responsive. Giữ nguyên lời chào cá nhân hóa, lịch sắp tới và hai nút điều hướng. Frontend lint PASS, 20 test PASS, build 97 modules PASS; chưa QA trình duyệt ba viewport, không đánh dấu hoàn thành toàn bộ đợt giao diện.
+
 > **05/11/2026 — Hero Banner trang chủ:** thay hero minh họa bằng component `HeroBanner` tái sử dụng với ảnh chó/mèo tạo mới, alt text, hai CTA dẫn đến route đặt lịch có guard hiện hữu và phần dịch vụ trên cùng trang. Header, API và nghiệp vụ giữ nguyên. Frontend build PASS 97 modules, lint PASS, 20 test PASS; chưa QA trình duyệt ở ba viewport, không đánh dấu hoàn thành toàn bộ đợt giao diện.
 
 > **04/11/2026 — báo cáo doanh thu cơ bản:** route `/quan-ly/bao-cao` kiểm tra ngày bắt đầu/kết thúc trước khi gọi API, hiện trạng thái tải/lỗi rõ ràng, bỏ kết quả cũ khi tải lại và chỉ nhận phản hồi yêu cầu mới nhất; bảng thu/hoàn theo ngày cuộn ngang ở màn hình hẹp. Frontend lint PASS, 20 test PASS, build 94 modules PASS. Chưa QA trình duyệt/API thật ở ba viewport; đợt 5 và giai đoạn 12 chưa hoàn thành.
