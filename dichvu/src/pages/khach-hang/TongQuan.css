@@ -4,7 +4,7 @@
 .customer-overview a, .customer-overview button { transition: background-color .18s, border-color .18s, box-shadow .18s; }
 .customer-overview a:focus-visible, .customer-overview button:focus-visible, .customer-overview summary:focus-visible { outline: 3px solid #00796f; outline-offset: 4px; }
 .ov-hero { padding: 12px; border: 1px solid #cde6df; border-radius: 16px; background: linear-gradient(110deg, #e8f5f3, #eff7ed 58%, #fff0d9); }
-.ov-hero-content { position: absolute; z-index: 1; top: 43%; width: 43%; padding: 16px; border-radius: 14px; background: #fffffff0; color: #153a38; transform: translateY(-50%); transition: left 400ms ease; }
+.ov-hero-content { position: absolute; z-index: 1; top: calc((100% - 48px) * .43); width: 43%; padding: 16px; border-radius: 14px; background: #fffffff0; color: #153a38; transform: translateY(-50%); transition: left 400ms ease; }
 .ov-hero-carousel-1 .ov-hero-content { left: 28%; }
 .ov-hero-carousel-2 .ov-hero-content { left: 55%; }
 .customer-overview .ov-hero h1 { color: #153a38; }
@@ -31,7 +31,7 @@
 .ov-hero-carousel-arrow:hover { background: #006b63; }
 .ov-hero-carousel-dots { display: flex; justify-content: center; gap: 2px; }
 .ov-hero-carousel-dots button { display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: transparent; }
-.ov-hero-carousel-dots span { width: 9px; height: 9px; border-radius: 50%; background: #789d98; transition: background-color 200ms, transform 200ms; }
+.ov-hero-carousel-dots span { width: 9px; height: 9px; border-radius: 50%; background: #5d827d; transition: background-color 200ms, transform 200ms; }
 .ov-hero-carousel-dots button.is-active span { background: #00796f; transform: scale(1.3); }
 @media (prefers-reduced-motion: reduce) { .ov-hero-carousel-slide, .ov-hero-carousel-dots span { transition: none; } }
 .ov-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -119,3 +119,11 @@
 @media (max-width: 640px) { .ov-hero { padding: 16px; } }
 @media (max-width: 900px) { .ov-hero-content, .ov-hero-carousel-1 .ov-hero-content, .ov-hero-carousel-2 .ov-hero-content { position: relative; top: auto; left: auto; width: 100%; margin-top: 8px; transform: none; } }
 @media (max-width: 640px) { .ov-hero { padding: 8px; } .ov-hero-content { padding: 16px; } }
+
+/* Banner 2: giữ lời chào trong khoảng trống bên phải ảnh. */
+@media (min-width: 901px) {
+  .ov-hero-carousel-2 .ov-hero-content { left: 58%; top: calc((100% - 48px) * .38); width: 27%; padding: 12px; }
+  .customer-overview .ov-hero-carousel-2 .ov-hero-content h1 { margin-top: 8px; font-size: clamp(18px, 2vw, 26px); }
+  .customer-overview .ov-hero-carousel-2 .ov-hero-content > p { display: none; }
+  .ov-hero-carousel-2 .ov-hero-actions { margin-top: 12px; flex-direction: column; align-items: stretch; }
+}
