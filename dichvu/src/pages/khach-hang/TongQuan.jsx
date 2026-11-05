@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../data/khoXacThuc.jsx'
 import { formatDateVN, formatVND, toISODate } from '../../lib/tinhGioTrong.js'
 import PetIllustration from '../../components/PetIllustration.jsx'
-import heroPets from '../../assets/petcare-hero-illustration.png'
+import banner1 from '../../assets/banner1.png'
+import banner2 from '../../assets/banner2.jpg'
 import ThongBao from '../../components/ThongBao.jsx'
 import StatusBadge from '../../components/ui/StatusBadge.jsx'
 import './TongQuan.css'
@@ -101,7 +102,10 @@ export default function TongQuan() {
           : 'Chăm sóc các bé, theo dõi lịch hẹn và tìm dịch vụ phù hợp — tất cả trong một nơi.'}</p>
         <div className="ov-hero-actions"><Link className="ov-button ov-button-primary" to="/dat-lich"><Icon type="plus" />Đặt lịch nhanh</Link><Link className="ov-button ov-button-outline" to="/lich-hen">Xem lịch hẹn<Icon type="arrow" /></Link></div>
       </div>
-      <figure className="ov-hero-photo"><img src={heroPets} alt="Minh họa chó và mèo lông vàng ngồi thân thiết bên nhau" /><figcaption>Mỗi bé đều xứng đáng được yêu thương</figcaption></figure>
+      <div className="ov-hero-banners">
+        <img src={banner1} alt="Banner 1: chó và mèo hoạt hình bên khung trắng trên nền xanh ngọc" />
+        <img src={banner2} alt="Banner 2: chó và mèo hoạt hình trên nền vàng với họa tiết dấu chân" />
+      </div>
     </header>
 
     <section className="ov-metrics" aria-label="Thống kê của bạn">
