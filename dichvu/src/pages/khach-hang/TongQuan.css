@@ -19,6 +19,8 @@
 .ov-button-outline:hover, .ov-button-soft:hover { background: #d5eee6; }
 .ov-button-soft { background: #e8f5f3; color: #006b63; }
 .ov-hero-art { position: relative; min-height: 256px; }
+.ov-hero-banners { display: grid; gap: 12px; min-width: 0; }
+.ov-hero-banners img { display: block; width: 100%; height: auto; aspect-ratio: 2.74; object-fit: cover; border-radius: 14px; box-shadow: 0 8px 22px #184f4924; }
 .ov-art-circle { position: absolute; width: 224px; height: 224px; top: 0; left: calc(50% - 112px); border-radius: 50%; background: #dcebd9; box-shadow: 0 0 0 20px #ffffff40; }
 .ov-pet-sticker { position: absolute; display: grid; place-items: center; width: 144px; height: 160px; padding: 16px; border: 4px solid white; border-radius: 32px; box-shadow: 0 12px 24px #384d4020; }
 .ov-dog { top: 16px; left: calc(50% - 132px); transform: rotate(-10deg); background: #fff0d9; }
