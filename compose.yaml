@@ -17,7 +17,7 @@ services:
   migrate:
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: backend/Dockerfile
     # Share DB networking so the guarded migration CLI still connects via loopback.
     network_mode: service:db
     depends_on:
@@ -35,7 +35,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: server/Dockerfile
+      dockerfile: backend/Dockerfile
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -58,7 +58,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: dichvu/Dockerfile
+      dockerfile: frontend/Dockerfile
     depends_on:
       api:
         condition: service_healthy

@@ -1,10 +1,10 @@
 # Kiểm thử backend
 
-Tại `server`, chạy `npm.cmd test`: hiện 67 unit/RBAC/readiness PASS; 9 nhóm tích hợp skip nếu chưa đặt TEST_DATABASE_URL. Không gọi skip là thành công tích hợp.
+Tại `backend`, chạy `npm.cmd test`: hiện 67 unit/RBAC/readiness PASS; 9 nhóm tích hợp skip nếu chưa đặt TEST_DATABASE_URL. Không gọi skip là thành công tích hợp.
 
 Các bài tích hợp cần PostgreSQL local **dành riêng test**, quyền tạo database/btree_gist. Mỗi file và mỗi lần chạy phải dùng DB mới riêng; không chạy tất cả `npm test` với một URL. Không trỏ DB đang vận hành. Không đọc `.env`, không DROP/DELETE, giữ DB để kiểm toán. Mật khẩu/JWT fixture sinh ngẫu nhiên, không in log.
 
-PowerShell tại `server`, ví dụ cụm test riêng đã chạy cổng 55439 (thay user/cổng cho đúng cụm của bạn):
+PowerShell tại `backend`, ví dụ cụm test riêng đã chạy cổng 55439 (thay user/cổng cho đúng cụm của bạn):
 
 ```powershell
 $taskRun = Get-Date -Format 'yyyyMMddHHmmssfff'
@@ -33,4 +33,4 @@ Tổng 83 gồm parent test của Node. Các bài HTTP tự chạy/dừng backen
 
 `journey` nạp `test/fixtures/fixed-clock.js` chỉ trong process test, với NODE_ENV=test và TEST_CLOCK_FILE. Đồng hồ sáng/10 giờ cùng ngày Việt Nam giúp chạy được ngoài giờ mở cửa; PostgreSQL dùng ngày thực tế Việt Nam. Ghi file đồng hồ bằng thay thế nguyên tử; không có clock override trong entry point ứng dụng. Không dùng fixture này để chạy app thật.
 
-Frontend tại `dichvu`: `node --test test/*.test.js` (13 PASS) và `npm.cmd run build` (71 modules). QA trình duyệt thủ công là kết quả riêng, không giả làm automated E2E. Xem [báo cáo](../../plans/BAO_CAO_KIEM_THU_HE_THONG.md) và [nhật ký](../../plans/NHAT_KY_KIEM_TRA.md).
+Frontend tại `frontend`: `node --test test/*.test.js` (13 PASS) và `npm.cmd run build` (71 modules). QA trình duyệt thủ công là kết quả riêng, không giả làm automated E2E. Xem [báo cáo](../../plans/BAO_CAO_KIEM_THU_HE_THONG.md) và [nhật ký](../../plans/NHAT_KY_KIEM_TRA.md).

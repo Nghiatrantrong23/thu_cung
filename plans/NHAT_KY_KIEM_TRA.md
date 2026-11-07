@@ -1,5 +1,14 @@
 # Nhật ký kiểm tra và lưu Git
 
+## 07/11/2026 — đổi tên frontend/backend và dọn file cũ
+
+- Nhánh `codex/sap-xep-frontend-backend`; chụp trạng thái và hash trước sửa trong `.cache/restructure-frontend-backend/` (bị Git bỏ qua). Phần nội dung có sẵn được giữ ngoài commit; chỉ stage tên đường dẫn mới, dọn file đã rà và tài liệu của đợt này.
+- Chuyển cả file cục bộ/dependencies sang `frontend/` và `backend/`; kiểm tra hash cấu hình cục bộ không đổi. Cập nhật Dockerfile/Compose và đường dẫn nạp Vite trong script demo. Schema/migration vẫn ở gốc để giữ đường dẫn tương đối và checksum.
+- Xóa 9 file tracked cũ, 2 banner nguồn trùng hash với assets đang dùng và thư mục `codex/` rỗng. Danh sách/lý do trong [báo cáo](BAO_CAO_SAP_XEP_THU_MUC.md).
+- Workspace: frontend lint PASS, 31/31 test PASS, build PASS 118 modules; backend 83 PASS, 13 nhóm tích hợp SKIP khi không cấp TEST_DATABASE_URL. Không chạy seed/migrate, không ghi DB hoặc gửi email thật. Docker chưa có trên máy.
+- Commit nền đã tham chiếu trang khôi phục mật khẩu còn untracked. Không đưa tính năng cũ này vào commit sắp xếp; giới hạn build từ snapshot Git được ghi riêng trong báo cáo. Không gọi đây là nghiệm thu toàn bộ hệ thống.
+
+
 ## 23/10/2026 - Bản lưu ban đầu
 
 - Dự án chính: `D:/dich_vu_thu_cung`. Ban đầu chưa có quyền ghi; sau khi người dùng đồng ý, Windows đã cấp quyền Modify cho tài khoản hiện tại trên riêng thư mục dự án. Git sẽ được khởi tạo và sử dụng tại đây.
@@ -122,7 +131,7 @@ Mỗi giai đoạn thêm ngày, phạm vi, lệnh kiểm tra, kết quả, phầ
 - Nhánh `codex/emerald-dot-1-components`, tiếp nối audit; thêm StaffLayout/sidebar/header/drawer/menu theo role, home thẻ công việc, tokens/focus, Button/Field/Modal/feedback/toast/badge; giữ guard và bản in riêng. Bỏ thông báo trùng ở care/dispatch. Không đổi API/DB nghiệp vụ.
 - Thêm ESLint correctness (không React hooks/a11y plugin), npm lint/test và6nhóm menu/status; tổng frontend20/20PASS, lintPASS,build77modules. Labdevelopment-only không nằm trong outputproduction. Backend67PASS/9SKIP; không gọi các HTTPskip là PASS.
 - Browser QA phát hiện Tab từ nút cuối modal đưa focus ra ngoài; bổ sung vòng Tab/ShiftTab, kiểm lại đạt; Escape/busy/restorefocus/scroll đạt. FieldARIA và toast đóng đạt.
-- Dùng DBtestmới `petcare_test_emerald_20261024b`, API5001/Vite5181, login/menu đủ5nhóm; care/lễtân→Admin vàkhách→nhânsự bị chuyển đúng, đọc carelịch/ca, invoiceempty vàAdminaccount đạt. ProxyQA ban đầu trắng/không kết nối đã sửa trước test đạt; không đổi server/dữ liệu thật.
+- Dùng DBtestmới `petcare_test_emerald_20261024b`, API5001/Vite5181, login/menu đủ5nhóm; care/lễtân→Admin vàkhách→nhânsự bị chuyển đúng, đọc carelịch/ca, invoiceempty vàAdminaccount đạt. ProxyQA ban đầu trắng/không kết nối đã sửa trước test đạt; không đổi backend/dữ liệu thật.
 - Responsive shell/home/component375×812,768×1024,1440×900 đạt; ảnh local `.cache/local-run/emerald-*.png`. Không kết luận mọi trang cũ hoặc businessworkflow mới đã nghiệm thu; chưa làm KPI hoặcAdminlightnội dung.
 - Báo cáo5phần: `BAO_CAO_UI_DOT_1.md`; kế hoạch/ma trận/DS cập nhật phân biệt audit1a và triển khai1b. Tiếp theo đợt2 khách, endpointtựgửi khiếunại sởhữu theo lựa chọnđãchốt. Không pushmain/forcepush.
 # 24/10/2026 — Giao diện hóa đơn khách hàng (một phần đợt 2)

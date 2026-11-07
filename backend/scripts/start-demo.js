@@ -48,8 +48,8 @@ try {
         await new Promise(resolve=>setTimeout(resolve,100))
     }
     if(!ready)throw new Error('Demo database/API did not become ready.')
-    const {createServer}=await import('../../dichvu/node_modules/vite/dist/node/index.js')
-    vite=await createServer({root:fileURLToPath(new URL('../../dichvu/',import.meta.url)),
+    const {createServer}=await import('../../frontend/node_modules/vite/dist/node/index.js')
+    vite=await createServer({root:fileURLToPath(new URL('../../frontend/',import.meta.url)),
         server:{host:'127.0.0.1',port:webPort,strictPort:true,proxy:{'/api':{target:`http://127.0.0.1:${apiPort}`,changeOrigin:true}}}})
     if(stopping)await vite.close()
     else {

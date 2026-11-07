@@ -69,7 +69,7 @@ Loài Chó/Mèo, giới tính Đực/Cái, ngày sinh không ở tương lai, c�
 | PATCH `/ca-lam-viec/:id` | Q/A | `ngay,gioBatDau,gioKetThuc,viTri?,ghiChu?` |
 | POST `/ca-lam-viec/:id/huy` | Q/A | Hủy mềm; kiểm tra ảnh hưởng lịch |
 
-Đặt quầy khi khách mới: trường phẳng `hoTen,sdt,tenThuCung,loaiThuCung` (Chó/Mèo), cùng ngày/giờ/dịch vụ; bỏ `thuCungId` khi tạo thú cưng mới. Khi chọn thú cưng cũ dùng `thuCungId` và mã khách hoặc SĐT tương ứng. API quầy tối thiểu hiện không nhận hồ sơ mới lồng `thuCungMoi` hoặc email. Phản hồi chỉ khi tạo tài khoản mới có `taiKhoanTam:{username,password}` một lần, phải bàn giao kín và đổi trước khi dùng. Hợp đồng thực tại `server/src/services/booking.js` và MH-02b.
+Đặt quầy khi khách mới: trường phẳng `hoTen,sdt,tenThuCung,loaiThuCung` (Chó/Mèo), cùng ngày/giờ/dịch vụ; bỏ `thuCungId` khi tạo thú cưng mới. Khi chọn thú cưng cũ dùng `thuCungId` và mã khách hoặc SĐT tương ứng. API quầy tối thiểu hiện không nhận hồ sơ mới lồng `thuCungMoi` hoặc email. Phản hồi chỉ khi tạo tài khoản mới có `taiKhoanTam:{username,password}` một lần, phải bàn giao kín và đổi trước khi dùng. Hợp đồng thực tại `backend/src/services/booking.js` và MH-02b.
 
 Chăm sóc:
 

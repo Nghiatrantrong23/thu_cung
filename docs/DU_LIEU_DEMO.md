@@ -23,7 +23,7 @@ Kiểm tra bộ mới: 18 đăng nhập thành công qua proxy frontend; 6 tên 
 Mở lại bộ mới:
 
 ```powershell
-cd D:\dich_vu_thu_cung\server
+cd D:\dich_vu_thu_cung\backend
 $env:NODE_ENV='test'
 $env:DATABASE_URL='postgres://petcare_test@127.0.0.1:55439/petcare_test_demo_accounts_20261025001704'
 $env:PETCARE_ALLOW_DB_WRITE='petcare_test_demo_accounts_20261025001704'
@@ -60,14 +60,14 @@ Kỳ báo cáo ngày 25/10/2026: thu thành công **950.000**, hoàn thực chi 
 
 ## Tạo bộ mới khi cần
 
-Cần PostgreSQL test chạy trước, đã cài dependencies ở `server` và `dichvu`. Ví dụ với cụm test hiện có:
+Cần PostgreSQL test chạy trước, đã cài dependencies ở `backend` và `frontend`. Ví dụ với cụm test hiện có:
 
 ```powershell
 & 'D:\posgresql\bin\pg_ctl.exe' status -D 'D:\dich_vu_thu_cung\.cache\petcare-test-db\data'
 # Chỉ nếu cụm TEST trên chưa chạy:
 & 'D:\posgresql\bin\pg_ctl.exe' start -D 'D:\dich_vu_thu_cung\.cache\petcare-test-db\data' -o '-p 55439 -h 127.0.0.1' -l 'D:\dich_vu_thu_cung\.cache\petcare-test-db\server.log' -w
 
-cd D:\dich_vu_thu_cung\server
+cd D:\dich_vu_thu_cung\backend
 $taskDemoDb = 'petcare_test_demo_' + (Get-Date -Format 'yyyyMMddHHmmss')
 $env:NODE_ENV = 'test'
 $env:DATABASE_URL = 'postgres://petcare_test@127.0.0.1:55439/' + $taskDemoDb

@@ -11,11 +11,11 @@ Ngày 24/10/2026. Phạm vi: phần 1b nối tiếp kiểm kê/đặc tả 1a. �
 
 ## 2. File thay đổi
 
-Mới trong `dichvu/src/`: `layouts/StaffLayout.jsx`, `components/ui/{Button,FormField,Modal,Feedback,Toast,StatusBadge}.jsx`, `lib/{staffNavigation,statusPresentation}.js`, `pages/ComponentLab.jsx`.
+Mới trong `frontend/src/`: `layouts/StaffLayout.jsx`, `components/ui/{Button,FormField,Modal,Feedback,Toast,StatusBadge}.jsx`, `lib/{staffNavigation,statusPresentation}.js`, `pages/ComponentLab.jsx`.
 
-Sửa trong `dichvu/src/`: `App.jsx`, `main.jsx`, `index.css`, `pages/GiuChoVaiTro.jsx`, `components/HopThoaiXacNhan.jsx`, `components/HuyHieuTrangThai.jsx`. Bỏ bản thông báo trùng tại `pages/nhan-vien/ChamSoc.jsx` và `pages/le-tan/QuanLyLichHen.jsx` vì đã có ở shell.
+Sửa trong `frontend/src/`: `App.jsx`, `main.jsx`, `index.css`, `pages/GiuChoVaiTro.jsx`, `components/HopThoaiXacNhan.jsx`, `components/HuyHieuTrangThai.jsx`. Bỏ bản thông báo trùng tại `pages/nhan-vien/ChamSoc.jsx` và `pages/le-tan/QuanLyLichHen.jsx` vì đã có ở shell.
 
-Tooling: `dichvu/eslint.config.js`, `dichvu/package.json`, lockfile, `dichvu/test/ui-foundations.test.js`. Tài liệu: báo cáo này, kế hoạch chuẩn, nhật ký, ma trận và đặc tả DS.
+Tooling: `frontend/eslint.config.js`, `frontend/package.json`, lockfile, `frontend/test/ui-foundations.test.js`. Tài liệu: báo cáo này, kế hoạch chuẩn, nhật ký, ma trận và đặc tả DS.
 
 ## 3. UI và API
 
@@ -29,10 +29,10 @@ Component Lab ở `/#/__ui` chỉ trong Vite development; không gọi API nghi�
 
 | Kiểm tra | Kết quả | Giới hạn |
 | --- | --- | --- |
-| `cd dichvu; npm run lint` | PASS | ESLint recommended correctness; chưa có React hooks/a11y plugin; no-unused-vars tắt vì chưa có JSX reference plugin |
-| `cd dichvu; npm test` | PASS 20/20 | 14 hồi quy cũ + 6 nhóm menu/trạng thái mới, không coi là React E2E tự động |
-| `cd dichvu; npm run build` | PASS, 77 modules | Không có lab trong JS production |
-| `cd server; npm test` | PASS 67, SKIP 9 | Không chạy lại 9 nhóm HTTP tự động; không gộp thành PASS |
+| `cd frontend; npm run lint` | PASS | ESLint recommended correctness; chưa có React hooks/a11y plugin; no-unused-vars tắt vì chưa có JSX reference plugin |
+| `cd frontend; npm test` | PASS 20/20 | 14 hồi quy cũ + 6 nhóm menu/trạng thái mới, không coi là React E2E tự động |
+| `cd frontend; npm run build` | PASS, 77 modules | Không có lab trong JS production |
+| `cd backend; npm test` | PASS 67, SKIP 9 | Không chạy lại 9 nhóm HTTP tự động; không gộp thành PASS |
 | Browser: đăng nhập đủ 5 nhóm | PASS | API thật trên DB test riêng, không dùng mật khẩu/dữ liệu thật |
 | Care → Admin, lễ tân → Admin, khách → nhân sự | PASS | Guard chuyển về trang đúng quyền; backend RBAC unit giữ PASS |
 | Care tải lịch/ca; lễ tân xem hóa đơn rỗng; Admin mở quản lý tài khoản | PASS | Chỉ đọc; chưa chạy lại thu tiền/hoàn/khóa tài khoản trong đợt này |

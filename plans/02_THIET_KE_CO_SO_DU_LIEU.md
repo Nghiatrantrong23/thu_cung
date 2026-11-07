@@ -111,7 +111,7 @@ Nếu dữ liệu cũ từng ghi theo timezone khác, cần đối soát timesta
 
 Còn: lựa chọn áp nâng cấp vào môi trường chạy sau khi duyệt kết quả bản sao; không đổi DB production. Docker runtime chưa có; UI tài khoản tạm/CRUD đầy đủ còn QA riêng; VietQR để cấu hình sau. Dump trong `backups/` bị gitignore, báo cáo chi tiết private trong `.cache/local-run/database-audit.json`; không đưa dữ liệu thực hoặc mật khẩu vào Git.
 
-Nguồn: [kế hoạch](ke_hoach_tong_the.md), [schema](../thu_cung.sql), [migrations](../migrations), [DB CLI](../server/scripts/README.md), [API](../docs/API.md), [nhật ký](NHAT_KY_KIEM_TRA.md).
+Nguồn: [kế hoạch](ke_hoach_tong_the.md), [schema](../thu_cung.sql), [migrations](../migrations), [DB CLI](../backend/scripts/README.md), [API](../docs/API.md), [nhật ký](NHAT_KY_KIEM_TRA.md).
 
 ## 9. Bổ sung 25/10/2026 — thanh toán sandbox
 

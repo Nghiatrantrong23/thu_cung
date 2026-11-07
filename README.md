@@ -2,6 +2,22 @@
 
 React 18/Vite/Tailwind; Node.js/Express/pg; PostgreSQL 17 + btree_gist. Giữ kiến trúc dự án hiện có.
 
+## Cấu trúc thư mục
+
+```text
+frontend/       Giao diện React/Vite, assets và kiểm thử frontend
+backend/        API Express, scripts quản lý DB và kiểm thử backend
+migrations/     Các bản nâng cấp schema theo thứ tự
+thu_cung.sql    Schema ban đầu, được DB CLI nạp cùng migrations/
+deploy/         Cấu hình Nginx
+plans/          Kế hoạch chuẩn, thiết kế DB, tiến độ và báo cáo kiểm tra
+docs/           Hợp đồng API và hướng dẫn tính năng/vận hành
+backups/        Bản sao lưu cục bộ, không đưa vào Git
+.cache/         File tạm và bằng chứng kiểm tra cục bộ, không đưa vào Git
+```
+
+Từ 07/11/2026, `frontend/` là tên mới của thư mục giao diện và `backend/` là tên mới của thư mục API. Chạy lệnh frontend tại `frontend/`, backend tại `backend/`; Docker Compose vẫn chạy từ thư mục gốc. [Chi tiết rà soát và dọn file](plans/BAO_CAO_SAP_XEP_THU_MUC.md).
+
 ## Tiến độ và giới hạn hiện tại
 
 Đã triển khai đến giai đoạn 11; đang nghiệm thu/đóng gói giai đoạn 12. API và chuỗi nghiệp vụ đạt trên DB test cô lập; không triển khai production. [Kế hoạch chuẩn](plans/ke_hoach_tong_the.md), [báo cáo kiểm thử](plans/BAO_CAO_KIEM_THU_HE_THONG.md), [API](docs/API.md).
@@ -17,17 +33,17 @@ VietQR chưa cấu hình theo lựa chọn người dùng; thu tiền mặt và 
 Cần Node >=20 (đã test Node 24), npm và PostgreSQL local. Hai terminal dùng cùng cấu hình database phát triển; tuyệt đối không dùng database production.
 
 ```powershell
-Set-Location D:\dich_vu_thu_cung\server
+Set-Location D:\dich_vu_thu_cung\backend
 npm.cmd ci
 
-Set-Location D:\dich_vu_thu_cung\dichvu
+Set-Location D:\dich_vu_thu_cung\frontend
 npm.cmd ci
 ```
 
-Nếu tạo môi trường mới: tại `server`, thiết lập database **riêng** và nhập mật khẩu kín. DB CLI không tự đọc `.env`. Nếu môi trường shell đã có `DATABASE_URL`, cần thay nó bằng URL của DB riêng hoặc bỏ biến đó trong terminal này để dùng `DB_*` dưới đây.
+Nếu tạo môi trường mới: tại `backend`, thiết lập database **riêng** và nhập mật khẩu kín. DB CLI không tự đọc `.env`. Nếu môi trường shell đã có `DATABASE_URL`, cần thay nó bằng URL của DB riêng hoặc bỏ biến đó trong terminal này để dùng `DB_*` dưới đây.
 
 ```powershell
-Set-Location D:\dich_vu_thu_cung\server
+Set-Location D:\dich_vu_thu_cung\backend
 $env:NODE_ENV = 'development'
 $env:DB_HOST = '127.0.0.1'
 $env:DB_PORT = '5432'
@@ -39,17 +55,17 @@ $env:PETCARE_DEMO_PASSWORD = [System.Net.NetworkCredential]::new('', (Read-Host 
 npm.cmd run db:setup
 ```
 
-`db:setup` chỉ thêm seed demo có dấu hiệu nhận biết, không ghi đè mật khẩu cũ; `db:reset` luôn từ chối. Nếu database có bảng nhưng không có lịch sử, dừng và đối chiếu trước. Xem [DB CLI](server/scripts/README.md).
+`db:setup` chỉ thêm seed demo có dấu hiệu nhận biết, không ghi đè mật khẩu cũ; `db:reset` luôn từ chối. Nếu database có bảng nhưng không có lịch sử, dừng và đối chiếu trước. Xem [DB CLI](backend/scripts/README.md).
 
-Tạo `server/.env` từ [mẫu](server/.env.example) **chỉ nếu chưa có**, nhập cấu hình DB dev tương ứng và JWT secrets riêng trong editor. Không ghi đè `.env` hiện tại bằng lệnh Copy-Item. Các biến shell được ưu tiên hơn `.env`; không in mật khẩu/JWT hoặc commit file này.
+Tạo `backend/.env` từ [mẫu](backend/.env.example) **chỉ nếu chưa có**, nhập cấu hình DB dev tương ứng và JWT secrets riêng trong editor. Không ghi đè `.env` hiện tại bằng lệnh Copy-Item. Các biến shell được ưu tiên hơn `.env`; không in mật khẩu/JWT hoặc commit file này.
 
-Terminal backend (tại `server`):
+Terminal backend (tại `backend`):
 
 ```powershell
 npm.cmd run dev
 ```
 
-Terminal frontend (tại `dichvu`):
+Terminal frontend (tại `frontend`):
 
 ```powershell
 npm.cmd run dev -- --host 127.0.0.1 --port 5173 --strictPort
@@ -67,14 +83,14 @@ Tài khoản seed: `demo_admin`, `demo_quanly`, `demo_letan`, `demo_chamsoc1`, `
 ## Kiểm thử
 
 ```powershell
-Set-Location D:\dich_vu_thu_cung\server
+Set-Location D:\dich_vu_thu_cung\backend
 npm.cmd test
-Set-Location D:\dich_vu_thu_cung\dichvu
+Set-Location D:\dich_vu_thu_cung\frontend
 node --test test/*.test.js
 npm.cmd run build
 ```
 
-Backend mặc định: 67 PASS và 9 nhóm tích hợp skip khi không có `TEST_DATABASE_URL`. Các nhóm tích hợp phải chạy **mỗi file trên DB test mới riêng**, không chạy toàn bộ npm test với một URL chung. [Lệnh và điều kiện](server/test/README.md). Bản nghiệm thu: 83 test tích hợp PASS, frontend 13 PASS, build 71 modules. Không dùng dữ liệu thật hoặc tài khoản thật để kiểm thử thu/hoàn.
+Backend mặc định: 67 PASS và 9 nhóm tích hợp skip khi không có `TEST_DATABASE_URL`. Các nhóm tích hợp phải chạy **mỗi file trên DB test mới riêng**, không chạy toàn bộ npm test với một URL chung. [Lệnh và điều kiện](backend/test/README.md). Bản nghiệm thu: 83 test tích hợp PASS, frontend 13 PASS, build 71 modules. Không dùng dữ liệu thật hoặc tài khoản thật để kiểm thử thu/hoàn.
 
 ## Docker local
 

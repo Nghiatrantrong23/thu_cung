@@ -1,6 +1,6 @@
 # Công cụ database an toàn
 
-Các lệnh DB **không tự đọc `server/.env`**. Chỉ chạy trên PostgreSQL local và database phát triển/kiểm thử riêng; không trỏ tới database đang vận hành. Không có lệnh xóa/reset dữ liệu.
+Các lệnh DB **không tự đọc `backend/.env`**. Chỉ chạy trên PostgreSQL local và database phát triển/kiểm thử riêng; không trỏ tới database đang vận hành. Không có lệnh xóa/reset dữ liệu.
 
 Thiết lập biến trong PowerShell bằng giá trị của database riêng. Không đưa giá trị mật khẩu vào code, tài liệu hoặc Git:
 

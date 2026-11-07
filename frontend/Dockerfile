@@ -1,8 +1,8 @@
 FROM node:24-bookworm-slim AS build
 WORKDIR /app
-COPY dichvu/package*.json ./
+COPY frontend/package*.json ./
 RUN npm ci
-COPY dichvu/ ./
+COPY frontend/ ./
 RUN npm run build
 
 FROM nginx:stable-alpine

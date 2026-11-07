@@ -18,7 +18,7 @@ COD nghĩa là thanh toán tiền mặt tại quầy khi nhận bé. Chọn COD 
 Giữ cụm PostgreSQL test chạy. Trong PowerShell:
 
 ```powershell
-cd D:\dich_vu_thu_cung\server
+cd D:\dich_vu_thu_cung\backend
 $env:NODE_ENV = 'test'
 $env:DATABASE_URL = 'postgres://petcare_test@127.0.0.1:55439/petcare_test_demo_payments_20261025'
 $env:PETCARE_ALLOW_DB_WRITE = 'petcare_test_demo_payments_20261025'

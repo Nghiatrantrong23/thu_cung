@@ -6,6 +6,9 @@
 
 ## 0. Tiến độ hiện tại
 
+> **07/11/2026 — sắp xếp thư mục:** chuyển `dichvu/` → `frontend/`, `server/` → `backend/`; cập nhật Dockerfile, Compose, script demo và tài liệu. Xóa 9 file nguồn/tài nguyên cũ không còn tham chiếu, 2 banner trùng SHA-256 ở thư mục gốc và thư mục `codex/` rỗng. Workspace: frontend lint, 31 test và build 118 modules PASS; backend 83 PASS / 13 tích hợp SKIP. Giữ nguyên dữ liệu, migration, cấu hình cục bộ và thay đổi có sẵn; các thay đổi tính năng cũ được giữ ngoài commit sắp xếp. Chưa chạy Docker hoặc DB tích hợp trong đợt này; xem giới hạn snapshot Git trong [báo cáo sắp xếp](BAO_CAO_SAP_XEP_THU_MUC.md). Không thay trạng thái giai đoạn 12.
+
+
 > **25/10/2026 — giao diện sáng/tối:** thêm nút mặt trăng/mặt trời cho nhân sự, khách hàng, đăng nhập và bảng giá; theo chế độ máy khi chưa chọn, lưu lựa chọn riêng theo origin, đồng bộ tab và khởi tạo trước paint. Palette tối cho nền/chữ/biểu mẫu/dialog/footer/biểu đồ, giữ nguyên ảnh và QR; quy tắc tối chỉ áp dụng màn hình để giữ màu in sáng. Frontend 29 PASS, lint/build 108 modules PASS. Trình duyệt: ca làm, footer, báo cáo, reload sáng và đổi trang tối, đăng xuất/đăng nhập, tổng quan khách và ngăn kéo thú cưng đạt; không sửa hồ sơ/DB. Chưa QA mọi màn hình hay bản in. Chi tiết: [Giao diện sáng/tối](../docs/GIAO_DIEN_SANG_TOI.md).
 
 > **25/10/2026 — nâng cấp footer nhân sự:** footer compact có nền xanh ngọc nhẹ, dải nhấn, logo/dấu chân, thông điệp thương hiệu, thẻ giờ 08–19h và lối tắt theo vai trò từ danh sách điều hướng sẵn có. StaffLayout truyền role; trang đăng nhập dùng liên kết công khai, không hiện lối tắt nhân sự. Responsive 3/2/1 cột, có trạng thái hover/focus và ẩn khi in. Frontend 26 PASS, lint/build 103 modules PASS. Đã xem footer màn hình hẹp vai trò quản lý và bấm lối tắt Ca làm việc đúng route; ảnh `.cache/payment-sandbox/workspace-footer-preview.png`. Không đổi API/DB hoặc file người dùng đang sửa.
@@ -48,8 +51,8 @@ Tổng cuối: backend **67 PASS**, 9 nhóm tích hợp được skip khi chạy
 - Frontend: React 18, Vite 5, Tailwind CSS 4, JavaScript, HashRouter; Context và fetch có tự refresh phiên một lần khi 401.
 - Backend: Node.js/Express 4, ES modules, bcrypt/JWT, pg Pool/SQL trực tiếp, transaction và advisory lock. Không đổi ORM/kiến trúc.
 - Database: PostgreSQL 17 + btree_gist; migration 000–005 theo checksum, chạy riêng trên development/test được chỉ định.
-- `dichvu/src/pages`: trang chung, khách hàng, nhân viên, lễ tân, quản lý, Admin; `components`, `data`, `lib` dùng chung.
-- `server/src`: routes, controllers, services, middleware, config, lib; `server/scripts`: DB CLI; `server/test`: unit và HTTP tích hợp.
+- `frontend/src/pages`: trang chung, khách hàng, nhân viên, lễ tân, quản lý, Admin; `components`, `data`, `lib` dùng chung.
+- `backend/src`: routes, controllers, services, middleware, config, lib; `backend/scripts`: DB CLI; `backend/test`: unit và HTTP tích hợp.
 - `thu_cung.sql`, `migrations/`: nguồn schema; `plans/`: kế hoạch, DB, báo cáo, nhật ký; `docs/API.md`: hợp đồng API; `deploy/`, Dockerfile và `compose.yaml`: đóng gói local.
 
 ## 2. Vai trò và quyền
@@ -173,7 +176,7 @@ Admin không tự khóa/hạ vai trò. Đổi vai trò tạo đúng profile và 
 
 Sau công việc: cập nhật kế hoạch và [nhật ký](NHAT_KY_KIEM_TRA.md). Sau giai đoạn đạt nghiệm thu: commit/push lên nhánh công việc riêng theo [AGENTS.md](../AGENTS.md), so SHA của đúng nhánh remote trước khi báo đã lưu. Theo yêu cầu ngày 24/10/2026, không push trực tiếp lên main; chỉ merge vào main khi người dùng yêu cầu rõ. Không force-push, không commit `.env`, token, dump, build hoặc log. Git không sao lưu dữ liệu PostgreSQL.
 
-Hướng dẫn [README](../README.md), [DB CLI](../server/scripts/README.md), [kiểm thử](../server/test/README.md), [API](../docs/API.md), [thiết kế DB](02_THIET_KE_CO_SO_DU_LIEU.md), [báo cáo](BAO_CAO_KIEM_THU_HE_THONG.md). Lịch sử mốc 2.0–2.2 và lỗi trước sửa được giữ trong nhật ký/Git. Bộ ảnh UML gốc chưa được vẽ lại trong đợt lập trình này; code đã áp dụng các sửa SD-03, SD-04 và AD/SD-06, không tuyên bố các PNG đã thay đổi.
+Hướng dẫn [README](../README.md), [DB CLI](../backend/scripts/README.md), [kiểm thử](../backend/test/README.md), [API](../docs/API.md), [thiết kế DB](02_THIET_KE_CO_SO_DU_LIEU.md), [báo cáo](BAO_CAO_KIEM_THU_HE_THONG.md). Lịch sử mốc 2.0–2.2 và lỗi trước sửa được giữ trong nhật ký/Git. Bộ ảnh UML gốc chưa được vẽ lại trong đợt lập trình này; code đã áp dụng các sửa SD-03, SD-04 và AD/SD-06, không tuyên bố các PNG đã thay đổi.
 
 ### Sửa khung giờ đặt lịch ngày 24/10/2026
 

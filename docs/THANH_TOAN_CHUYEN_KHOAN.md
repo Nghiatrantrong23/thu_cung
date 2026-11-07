@@ -14,7 +14,7 @@
 
 ## Cấu hình
 
-Xem `server/.env.payment.example`; chép các biến cần thiết vào `server/.env` khi triển khai ở máy khác:
+Xem `backend/.env.payment.example`; chép các biến cần thiết vào `backend/.env` khi triển khai ở máy khác:
 
 ```dotenv
 PAYMENT_MODE=transfer

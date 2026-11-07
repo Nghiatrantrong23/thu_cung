@@ -19,7 +19,7 @@ Chỉ hoàn thiện C1 và phần điều hướng/hiển thị cần thiết. K
 
 ## Kiểm tra
 
-- `npm run build` trong `dichvu`: PASS, 85 modules, không cảnh báo; chạy đúng một lần sau chỉnh sửa.
+- `npm run build` trong `frontend`: PASS, 85 modules, không cảnh báo; chạy đúng một lần sau chỉnh sửa.
 - Đối chiếu tĩnh hợp đồng `pets`, `lichHen`, `dichVu`, trạng thái và các route đích với code hiện tại.
 - Không chạy toàn bộ kiểm thử hệ thống. Chưa QA đăng nhập và responsive bằng trình duyệt cho bản C1 này; build không thay thế nghiệm thu hành trình.
 - Không đánh dấu toàn bộ đợt 2 hoặc giai đoạn 12 hoàn tất.
