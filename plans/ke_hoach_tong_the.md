@@ -257,3 +257,12 @@ Nghiệm thu 1b ngày24/10: frontend lint PASS,20/20test,build77modules; backend
 ## 25/10/2026 — tự hiện VietQR tiền cọc
 
 Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR ngay khi cấu hình nhận tiền sẵn sàng, và khi đổi phương thức; không còn cần bấm Xem thông tin chuyển tiền. Chọn lại phương thức đang dùng không làm mất QR; có nút tải lại khi cần. Áp dụng component chung cho trang đặt lịch thành công và chi tiết lịch hẹn, chỉ tự tải ở loại deposit. Lint PASS, frontend 31/31 PASS, build 111 modules PASS. QA trình duyệt trên DB test riêng: mở chi tiết lịch cọc 240.000đ thấy QR ngay, đổi MoMo rồi về ngân hàng QR tự hiện với cùng số tiền và nội dung PCCOC theo lịch. Không bấm nút xem/tải lại trong bước nghiệm thu tự hiển thị; không ghi DB chính hoặc chuyển tiền thật. Chưa thử quét bằng điện thoại. Lần lint đầu gặp file tạm Vite bị xóa lúc khởi động bản thử; chạy lại sau khởi động đạt.
+
+
+## 07/11/2026 — nghiên cứu tài liệu tham khảo PetCare
+
+- Đã tạo 5 tài liệu Markdown trong `docs/nghien-cuu-tai-lieu/`: danh mục nguồn, tổng hợp thú cưng, tổng hợp hệ thống liên quan, bảng đối chiếu chương và báo cáo kiểm tra IEEE. Áp dụng ARS `lit-review` dạng Narrative/Integrative theo xác nhận người dùng, không thực hiện Systematic Review.
+- Bộ ban đầu 25 nguồn; sau yêu cầu tìm tiếp thêm 5 nguồn (3 Việt/2 Anh), thư viện hiện 30 nguồn xác minh metadata, 18 Việt (60%)/12 Anh; tách 14 mục ứng viên/phân loại khác. Có 7 DOI đối chiếu nguồn gốc; chưa xác nhận resolver độc lập. Ghi rõ catalog/abstract/phần đã đọc, không gọi mở PDF là đã đọc toàn văn.
+- Đã đọc hướng dẫn ĐACN 2026–2027 của Khoa CNTT, ĐH Tài nguyên và Môi trường TP.HCM ở chế độ chỉ đọc. Ghi rõ mâu thuẫn ABC/tên–họ và IEEE; số 26–30 là đợt bổ sung tạm, chưa xếp ABC chung cho bản nộp.
+- Theo định hướng mới, giảm nguồn bệnh lý, đánh giá lại V01–V09 và ưu tiên quản lý/đặt lịch spa thú cưng. Đợt tìm tiếp dừng ở 5 nguồn để người dùng đánh giá; **chưa chốt danh mục 25 cuối sau điều chỉnh**, chưa đọc toàn văn mọi sách/khóa luận, còn thiếu SOP grooming Việt công khai đủ sâu.
+- Kiểm tra tài liệu: 30 số liên tục/không trùng, 49 lượt nhắc trong hai bản tổng hợp, 0 số mồ côi; liên kết nội bộ và trường metadata bắt buộc đạt. Không sửa Word chính, không ghi DB, không chạy lại build/test ứng dụng vì chỉ thay tài liệu; không thay trạng thái nghiệm thu giai đoạn 12.
