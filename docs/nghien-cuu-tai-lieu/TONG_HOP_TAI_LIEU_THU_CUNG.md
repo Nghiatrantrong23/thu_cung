@@ -29,3 +29,20 @@ Khung khảo sát đề xuất cho PetCare là tiếp nhận chủ nuôi/thú c�
 Khóa luận tiếng Việt cùng miền đặt lịch thú cưng [26] là đầu mối ưu tiên để đọc sâu; hiện mới có metadata/tóm tắt thư viện. Hai công bố hệ thống ở Malaysia [29], [30] có PDF gốc và đã đọc các phần nghiệp vụ/kiểm thử, cho phép đối chiếu cụ thể hơn với đồ án. Xem tổng hợp hệ thống để biết giới hạn đánh giá.
 
 Chưa tìm được giáo trình/SOP grooming tiếng Việt đủ nội dung công khai để khẳng định quy trình chuẩn. Việc tìm tiếp cần hướng vào thao tác tiếp nhận/bàn giao và quản lý ca, thay vì thêm bệnh da. Chưa có khảo sát bác sĩ, groomer hay khách hàng mới của chính PetCare trong đợt này.
+
+## Bổ sung bối cảnh Việt Nam và yêu cầu nghiệp vụ
+
+Tin hội thảo của Học viện Nông nghiệp Việt Nam [31] ghi nhận một hoạt động kết nối đào tạo và thực tiễn chăm sóc thú cưng cuối năm 2025. Đây là nguồn tiếng Việt có xuất xứ trường đại học để giới thiệu bối cảnh nghề; không có bộ dữ liệu khảo sát thị trường được công bố trong bài tin. Vì vậy chưa đủ căn cứ viết rằng thị trường spa tăng một tỷ lệ cụ thể hoặc khẳng định một quy mô doanh thu quốc gia.
+
+Không đếm thêm bài tin ngày 27/12/2025 trên cổng Khoa Chăn nuôi như một nghiên cứu độc lập: bài đó ghi nguồn Thu Hằng – Trần Ngân/nhachannuoi.vn và cùng nói về hội thảo 19/12. Đợt này chọn bản tin sự kiện có dòng đơn vị Khoa Chăn nuôi trên cổng Học viện, không gọi nó là kỷ yếu hoặc toàn văn tham luận.
+
+| Nội dung cần khảo sát tại cơ sở PetCare | Căn cứ tài liệu | Kết quả nhóm cần tự thực hiện |
+|---|---|---|
+| Các bước grooming và vệ sinh dụng cụ | Chương trình nghề [13], hướng dẫn groomer [16] | Xác nhận thứ tự thao tác, người chịu trách nhiệm, thời lượng và nguồn lực tại cơ sở |
+| Thông tin cần hỏi trước khi tiếp nhận | Hướng dẫn an toàn [16]; nguồn nền chó mèo [5], [12] chỉ sau khi đọc chương phù hợp | Chốt trường hồ sơ, ghi chú do chủ nuôi cung cấp và điều kiện cần chuyển người chuyên môn |
+| Tình trạng, tính khí, cảnh báo sức khỏe ảnh hưởng phục vụ | Dùng [16] làm đầu mối đọc và thảo luận nghề | Không tự tạo quy tắc chẩn đoán hoặc tự suy ngưỡng an toàn từ bài bệnh da |
+| Dịch vụ, khoảng giờ, ca và bàn giao | Hệ thống liên quan [29], [30], [33] | Mô hình trạng thái, quyền thao tác, trường dữ liệu và kịch bản kiểm thử của PetCare |
+
+Đây là bảng câu hỏi khảo sát và hướng thiết kế do nhóm đề xuất, chưa phải SOP được cơ sở hoặc bác sĩ phê duyệt. Tin đào tạo HUTECH ở UV18 vẫn cần chốt metadata; chưa dùng làm căn cứ kỹ thuật tắm/sấy. D&C (UV15) chưa có bản gốc đủ thông tin, nên chưa dùng cho nhận định thị trường.
+
+Về thứ tự viết Chương 1: bối cảnh Việt Nam ngắn từ [31]; phạm vi nuôi dưỡng/sức khỏe từ nguồn nền khi đọc được nội dung; sau đó tập trung nghiệp vụ từ [13], [16] và các trường hợp hệ thống. Các bệnh lý chỉ giải thích nhu cầu ghi nhận thông tin an toàn, không trở thành trọng tâm nghiên cứu CNTT.

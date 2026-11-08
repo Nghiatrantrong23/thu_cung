@@ -62,3 +62,40 @@ Khoảng thiếu hiện tại gồm toàn văn khóa luận đặt lịch, nghi�
 Đợt này gồm 3 nguồn Việt và 2 nguồn Anh, đều có nguồn gốc trường đại học. Ba nguồn Việt còn cần tiếp cận nội dung, nên không gọi chúng là ba hệ thống đã đánh giá chức năng. Hai bài công bố mở được PDF giúp cải thiện độ sát miền; kết quả của tác giả không được ghi thành kết quả PetCare.
 
 Thay đổi định hướng đề xuất: giảm các nguồn bệnh da trùng nhau, giữ nền chăm sóc ở mức vừa đủ, ưu tiên công trình đặt dịch vụ thú cưng. Các đề tài có AI được nhận diện đúng nhan đề nhưng không tạo yêu cầu thêm AI cho dự án hiện tại. Đợt tìm tiếp dừng ở năm nguồn để người dùng đánh giá trước đợt sau.
+
+## Bổ sung VOAS và phân biệt các phiên bản tài liệu
+
+Bài báo của Rosmani và Mokhtar [33] mô tả VOAS với tạo lịch, duyệt/từ chối và xem trạng thái. Bài nêu hạn chế chưa chọn bác sĩ lúc đặt và chưa có thanh toán. Có thể dùng làm trường hợp đối chiếu luồng tiếp nhận; khác biệt phòng khám/grooming phải ghi rõ. Các bảng đánh giá chủ yếu là phản hồi theo thang điểm, chưa đủ chứng minh tốc độ, giảm thời gian chờ hoặc xử lý đồng thời. Chưa thấy bằng chứng trong phần đã đọc để kết luận hệ thống có cơ chế khóa giao dịch tương tự PetCare.
+
+| Nhận diện | Bản kỷ yếu UV17 | Bài báo được chọn [33] |
+|---|---|---|
+| Nhan đề | VOAS: Veterinary Online Appointment Booking System | An Online Scheduling Platform for Veterinary Appointments |
+| Thứ tự tác giả | Muhammad Harith Mokhtar; Arifah Fasha Rosmani | Arifah Fasha Rosmani; Muhammad Harith Mokhtar |
+| Nơi công bố | REMACS 5.0, book section, 2023, tr. 207–208 | Jurnal Intelek, 18(2), 2023, tr. 16–26 |
+| DOI | Không thấy trong record đã kiểm tra | 10.24191/ji.v18i2.22092 theo PDF |
+| Quyết định | Lưu để nhận diện, không tính thêm một nghiên cứu độc lập | Dùng bản dài hơn để phân tích; ghi riêng mâu thuẫn ngày trên landing |
+
+D&C và Paws Pet House có độ khớp chủ đề tiềm năng nhưng chưa đạt điều kiện xuất xứ của thư viện đánh số. Preview Paws Pet House nhận diện được bìa tiểu luận học phần năm 2024; chưa chứng minh đây là một hệ thống triển khai thực địa. Không dùng hai bản đăng lại để lập bảng chức năng đã được kiểm chứng, hoặc tuyên bố “khoảng trống nghiên cứu” toàn lĩnh vực.
+
+## Cơ chế đặt lịch và phân quyền: căn cứ và phần tự thiết kế
+
+Nghiên cứu NIST [34] cung cấp cơ sở gán người dùng vào vai trò và gán quyền cho vai trò. PetCare cần tự xác định ma trận năm nhóm và quyền sở hữu tài nguyên theo yêu cầu đã chốt. Việc tách Admin/Quản lý hoặc yêu cầu người duyệt khác người thực chi cần mô tả thành quy tắc cụ thể và test; không suy ra đã tuân thủ toàn mô hình NIST chỉ từ tên vai trò.
+
+PostgreSQL 17 [23] có ví dụ `EXCLUDE USING GIST` kết hợp tài nguyên và khoảng thời gian, hỗ trợ giải thích chống giao thoa. Đây là căn cứ kỹ thuật, chưa phải nghiên cứu thuật toán tối ưu xếp lịch. Công suất gộp, lịch chưa phân người và thời lượng nhiều dịch vụ cần phân tích riêng; không mặc định một ràng buộc theo nhân viên giải quyết được mọi trường hợp.
+
+Một quy ước thiết kế cần nhóm xác nhận là khoảng nửa mở `[bắt đầu, kết thúc)`. Với hai khoảng hợp lệ A, B trên cùng tài nguyên đơn, điều kiện giao thoa suy ra là `A.bắt_đầu < B.kết_thúc` và `B.bắt_đầu < A.kết_thúc`; hai khoảng tiếp giáp có thể không xung đột. Đây là diễn giải ứng dụng của nhóm, không phải kết quả đo của nguồn. Phải kèm kiểm thử tranh chỗ qua các transaction độc lập, rollback và trạng thái lịch được tính công suất. Kiểm tra giờ trống trên giao diện trước khi gửi không tự bảo đảm an toàn khi nhiều người đặt cùng lúc.
+
+## Thiết kế ca thử và công cụ API
+
+Giáo trình tiếng Việt [32] đã đọc phần giá trị biên và lớp tương đương, nên có thể dùng trực tiếp hơn nguồn chỉ có catalog. Với lịch hẹn, nhóm có thể chia đầu vào thành lớp hợp lệ/không hợp lệ và chọn giá trị ở/sát biên mở cửa, kết thúc ca, thời lượng. Với phân quyền, dùng bảng quyết định vai trò × tài nguyên × trạng thái tài khoản; không áp dụng máy móc kỹ thuật biên số cho các nhãn vai trò rời rạc.
+
+| Kỹ thuật/nhóm test | Ca đề xuất cho PetCare | Căn cứ và điều cần tự chứng minh |
+|---|---|---|
+| Phân hoạch tương đương | Thời điểm hợp lệ; ngoài ca; thiếu hoặc sai định dạng | Phương pháp [32]; miền hợp lệ lấy từ yêu cầu dự án |
+| Giá trị biên | Sát/trùng biên mở cửa, kết thúc ca; thời lượng nhỏ nhất/lớn nhất nếu có quy định | [32]; bước lệch biên lấy theo độ chính xác phút/giây thực tế, không tự đặt ngưỡng |
+| Giao thoa | Tiếp giáp, giao một phần, chứa nhau, hai khoảng giống nhau | [23]; kiểm tra cùng tài nguyên và điều kiện công suất đã xác nhận |
+| Truy cập | Đúng vai trò nhưng sai chủ sở hữu; sai vai trò; token hết hạn; tài khoản khóa | [25], [34]; kỳ vọng HTTP theo hợp đồng API PetCare |
+| Đồng thời và toàn vẹn | Hai yêu cầu tranh chỗ; lỗi giữa transaction; gửi lặp | [23]; cần nhiều kết nối và kiểm tra trạng thái DB sau chạy |
+| Phản hồi API | Assertion mã trạng thái, schema/trường bắt buộc và kết quả lỗi | [35] nếu dùng Postman; [22] cho bộ test Node hiện có |
+
+Postman [35] hướng dẫn assertion sau phản hồi; chỉ ghi là công cụ đã sử dụng khi có collection và kết quả chạy thực tế. Đợt nghiên cứu này chưa tạo/chạy collection, chưa chạy test nghiệp vụ hay đo hiệu năng mới. Các ca trên là đề xuất thiết kế, không ghi PASS hoặc đưa vào số liệu nghiệm thu.

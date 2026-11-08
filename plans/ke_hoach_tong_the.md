@@ -266,3 +266,13 @@ Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR nga
 - Đã đọc hướng dẫn ĐACN 2026–2027 của Khoa CNTT, ĐH Tài nguyên và Môi trường TP.HCM ở chế độ chỉ đọc. Ghi rõ mâu thuẫn ABC/tên–họ và IEEE; số 26–30 là đợt bổ sung tạm, chưa xếp ABC chung cho bản nộp.
 - Theo định hướng mới, giảm nguồn bệnh lý, đánh giá lại V01–V09 và ưu tiên quản lý/đặt lịch spa thú cưng. Đợt tìm tiếp dừng ở 5 nguồn để người dùng đánh giá; **chưa chốt danh mục 25 cuối sau điều chỉnh**, chưa đọc toàn văn mọi sách/khóa luận, còn thiếu SOP grooming Việt công khai đủ sâu.
 - Kiểm tra tài liệu: 30 số liên tục/không trùng, 49 lượt nhắc trong hai bản tổng hợp, 0 số mồ côi; liên kết nội bộ và trường metadata bắt buộc đạt. Không sửa Word chính, không ghi DB, không chạy lại build/test ứng dụng vì chỉ thay tài liệu; không thay trạng thái nghiệm thu giai đoạn 12.
+
+
+## Nghiên cứu tài liệu PetCare — bổ sung theo năm nhóm (07/11/2026)
+
+- Tiếp tục Narrative / Integrative Literature Review với `ars-lit-review` và `ars-citation-check`, không thực hiện Systematic Review.
+- Bổ sung 5 hồ sơ 31–35: tin hội thảo VNUA, giáo trình kiểm thử bản điện tử 05/2014, bài báo VOAS, RBAC NIST và Postman Docs. Mở rộng nguồn PostgreSQL 17 hiện có, không tách chương để tăng số tài liệu.
+- Thư viện xét chọn: 35 hồ sơ đánh số đã xác minh thư mục, 20 Việt/15 Anh (57,1% Việt), gồm cả hồ sơ dự phòng; chưa chốt danh mục khoảng 20–25 nguồn đưa vào Word. D&C/Paws Pet House giữ ngoài danh mục chính thức vì chưa đủ xuất xứ; ghi rõ khác biệt hai bản VOAS và mâu thuẫn ngày landing/PDF.
+- Cập nhật đủ 5 file trong `docs/nghien-cuu-tai-lieu/`; có phương pháp tìm, phạm vi đọc, lý do lựa chọn, đối chiếu chương và giới hạn. Phần giáo trình UML/CSDL, SOP grooming Việt và số liệu thị trường có phương pháp vẫn cần đọc/tìm sâu hơn.
+- Kiểm tra cục bộ đạt: dãy 1–35 không trùng, 9 DOI không trùng trong hồ sơ, 76 lượt nhắc/35 nguồn ở hai tổng hợp, 0 số mồ côi, 3 liên kết nội bộ hợp lệ; hash 40 file đang thay đổi trước đợt nghiên cứu giữ nguyên trước khi thêm ghi nhận này. Kiểm tra số không thay xác minh hỗ trợ luận điểm hoặc kiểm tra Word.
+- Không sửa báo cáo Word, mã ứng dụng hoặc dữ liệu DB; không chạy build/test ứng dụng vì chỉ thay tài liệu nghiên cứu. Không thay trạng thái nghiệm thu giai đoạn 12 hoặc triển khai Admin. Nhánh lưu riêng: `codex/tai-lieu-petcare-dot-3`.

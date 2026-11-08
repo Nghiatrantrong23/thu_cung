@@ -2,6 +2,8 @@
 
 **Ngày:** 07/11/2026. **Phạm vi:** năm file Markdown của đợt nghiên cứu PetCare; không sửa hoặc kiểm tra trích dẫn trong báo cáo Word chính. Hình thức Narrative / Integrative đã được người dùng chọn rõ trong chat. Không có PRISMA, protocol Systematic Review, sàng lọc đôi hoặc tuyên bố tìm kiếm bao quát toàn bộ lĩnh vực.
 
+**Mốc hiện tại:** 35 hồ sơ đánh số đã xác minh thư mục, 20 tiếng Việt/15 tiếng Anh (57,1%/42,9%); đợt mới là 31–35. Các bảng 25 nguồn và 30 nguồn bên dưới được giữ như lịch sử kiểm tra; kết quả hiện hành và giới hạn bổ sung ở mục 9. Chưa chốt danh mục khoảng 20–25 nguồn để đưa vào Word.
+
 ## 1. Cách thực hiện ARS và quyết định đã chốt
 
 Áp dụng academic-research-suite 3.23.1, chế độ academic-paper `lit-review`, sau đó `citation-check`; đọc hợp đồng `literature_strategist_agent.md`, `citation_compliance_agent.md` và hướng dẫn xác minh nguồn. Hai tác vụ tìm kiếm độc lập được giao cho agent nguồn thú y và agent nguồn hệ thống Việt; người điều phối tổng hợp, kiểm tra lại các nguồn then chốt và kiểm tra số tham chiếu. Đây là hỗ trợ trong cùng hệ thống Codex, không phải hai nhà nghiên cứu sàng lọc độc lập, không phải xác minh chéo bằng mô hình ngoài. Không xác nhận nguồn là người dùng đã đọc. Không chạy API thư mục hay tải bản thảo lên dịch vụ mô hình ngoài.
@@ -24,7 +26,7 @@ Quyết định hình thức được giữ theo lời người dùng: “Tôi c
 | Hệ thống tương tự | `site.moego.pet online booking pet grooming software features`, `site.daysmart.com pet online booking grooming client management`, `site.gingrapp.com grooming software booking pet` | Chỉ kiểm tra chức năng sản phẩm |
 | Công nghệ | `site.react.dev learn React official documentation`, `site.expressjs.com advanced best practice security`, `site.postgresql.org docs 17 explicit locking transaction isolation` | Trang gốc và tài liệu theo phiên bản |
 
-Sau truy vấn khái niệm, tìm tên chính xác/tác giả/ISBN và mở biểu ghi/landing/PDF để đối chiếu. Không quy đổi số kết quả do máy tìm kiếm ước tính thành số tài liệu sàng lọc. Danh mục chính có 25; bảng ứng viên có 14 mục (UV14 là nhóm kết quả loại, không phải một ấn phẩm). Không có tổng số bản ghi đầu vào đủ log để công bố sơ đồ chọn mẫu.
+Sau truy vấn khái niệm, tìm tên chính xác/tác giả/ISBN và mở biểu ghi/landing/PDF để đối chiếu. Không quy đổi số kết quả do máy tìm kiếm ước tính thành số tài liệu sàng lọc. Đợt đầu có 25 nguồn đánh số và 14 mục ứng viên (UV14 là nhóm kết quả loại, không phải một ấn phẩm); các đợt sau ghi riêng. Không có tổng số bản ghi đầu vào đủ log để công bố sơ đồ chọn mẫu.
 
 **Đưa vào:** liên quan trực tiếp ít nhất một phần báo cáo; có xuất xứ xác định; metadata chính kiểm chứng được; nội dung được dùng trong phạm vi đã đọc. Tài liệu chính thức/nguồn nghiệp vụ được nhận đúng loại, không bắt buộc là nghiên cứu phản biện.
 
@@ -81,7 +83,7 @@ Năm DOI trên là metadata có căn cứ; hạn chế resolver không biến th
 | Ba nguồn thương mại dễ bị gọi là nghiên cứu | Gắn nhãn tài liệu chức năng/sản phẩm | Chưa dùng thử/benchmark |
 | Ví dụ danh mục trường đặt lại số nhóm Anh | Dùng một dãy số chung cho cả hai nhóm | Cần giảng viên chốt cách xếp cuối cùng |
 
-## 6. Kiểm tra kỹ thuật trên năm file
+## 6. Kiểm tra kỹ thuật trên năm file — mốc bộ 25 ban đầu
 
 | Hạng mục | Kết quả thực tế |
 |---|---|
@@ -100,7 +102,7 @@ Kiểm tra này là phép đối chiếu số tham chiếu/metadata cục bộ, 
 
 Chưa kiểm tra citation fields, số trang, kiểu chữ, mục lục, danh mục hoặc nguồn mồ côi **trong Word chính**. Khi tích hợp phải kiểm lại citation ↔ reference ở bản Word thực sự, loại nguồn không dùng và cập nhật đồng thời số. Không báo toàn bộ báo cáo Word đạt IEEE từ việc năm file Markdown đạt kiểm tra.
 
-## 7. Kết luận có giới hạn và việc tiếp theo
+## 7. Kết luận có giới hạn của đợt đầu và việc tiếp theo
 
 Bộ nguồn đủ mục tiêu 20–25 với 60% tiếng Việt, có 14 mục ứng viên/phân loại bên ngoài. Nguồn không năm trong bộ chính là trang Web có tình trạng không ngày được nhận diện rõ, không phải sách/bài báo tự bỏ năm. Có 13 nguồn ghi năm 2022–2026 (52% tổng bộ); 5 nguồn trước 2016 cần giữ lý do nền tảng hoặc đối chiếu tài liệu mới, nhất là kiến thức lâm sàng cũ. Không lấy tỷ lệ nguồn mới làm thước đo chất lượng duy nhất.
 
@@ -125,3 +127,50 @@ Năm nguồn mới sử dụng số 26–30 trong phần bổ sung của danh m�
 Kiểm tra cuối do người điều phối thực hiện. Lượt agent kiểm tra bổ sung không hoàn tất do giới hạn sử dụng; không ghi nhận đó là một đánh giá độc lập đã đạt. Hai tác vụ tìm nguồn ban đầu đã có kết quả, khác lượt kiểm tra chưa hoàn tất này.
 
 Kiểm tra lại sau bổ sung: **30 số tham chiếu liên tục, 18 Việt/12 Anh, 7 DOI có căn cứ nguồn, 49 lượt nhắc trong hai bản tổng hợp, 0 số mồ côi, 0 mục chưa xuất hiện trong tổng hợp**. Nhắc nguồn để đánh giá/dự phòng không đồng nghĩa đã dùng nó làm chứng cứ cho luận điểm. Các nguồn bệnh lý dự phòng không được tính là lựa chọn cuối chỉ vì còn hồ sơ.
+
+## 9. Đợt tiếp theo theo năm nhóm: phương pháp, sai biệt và kiểm tra
+
+### Tìm kiếm và lựa chọn
+
+Tiếp tục ngày 07/11/2026 bằng tìm kiếm web giới hạn miền, mở nguồn gốc và đọc phần phù hợp. Không mở một phiên Google Scholar/IEEE Xplore/ACM/Springer có log xuất bản ghi; không báo đã thực hiện tìm kiếm toàn diện tại các cơ sở dữ liệu này. Không thực hiện systematic review hoặc screening đôi. Đợt này do người điều phối thực hiện trực tiếp, không có lượt agent đánh giá độc lập mới.
+
+| Nhánh tìm thực tế | Truy vấn/đường dẫn đầu mối | Tiêu chí quyết định |
+|---|---|---|
+| Bối cảnh Việt Nam | `site:vnua.edu.vn "Nuôi dưỡng và chăm sóc thú cưng"`, tên chính xác hội thảo | Chọn tin có ngày, đơn vị; không đổi bài tin thành nghiên cứu định lượng |
+| Grooming Việt | `site:edu.vn "quy trình" "grooming" "tắm"`, tên bài HUTECH | Không nâng vào dãy chính khi chưa đọc được trang/chốt ngày và tác giả |
+| D&C/Paws Pet House | `"D&C" "thú cưng" "2022" "Ngân hàng"`, `"Paws Pet House" "UEH" "2024"`; tìm miền trường | Bản đăng lại chỉ là đầu mối; cần xuất xứ gốc trước khi dùng chính thức |
+| VOAS | Nhan đề chính xác, tác giả, kho `ir.uitm.edu.my`, tạp chí `journal.uitm.edu.my` | Đối chiếu PDF, số báo, thứ tự tác giả; tránh đếm nhiều phiên bản như nhiều nghiên cứu |
+| Giáo trình Việt | Tên giáo trình/tác giả 2014; trang bộ môn UET và PDF UTM; `site:ptit.edu.vn cơ sở dữ liệu bài giảng` | Ưu tiên nội dung đọc được; không gán năm từ tên file hoặc gộp bản in/bản điện tử khác phân trang |
+| Công nghệ/test | Hồ sơ NIST RBAC, PostgreSQL 17 `rangetypes`, Postman `test-scripts` | Nguồn chính thức, đúng phạm vi; không lấy tài liệu làm bằng chứng chức năng đã chạy |
+
+Chọn 5 hồ sơ 31–35 vì bổ sung bối cảnh Việt, phương pháp test đã đọc, trường hợp đặt lịch cùng miền và căn cứ phân quyền/API. Không thêm bệnh da mới. UV15–UV19 nằm ngoài dãy; UV17 có metadata xác minh nhưng không đếm thêm một nghiên cứu VOAS. Tỷ lệ thư viện là 20/35 = **57,1% tiếng Việt**, chưa đạt mục tiêu 60–70%; đây không phải tỷ lệ của một danh mục cuối đã chọn. Việc tìm kiếm theo đợt không dừng vì đã vượt 25 nguồn; kết thúc đợt 5 nguồn này để người dùng đánh giá theo yêu cầu trước đó.
+
+### Các điểm thư mục đã xử lý
+
+| Điểm phát hiện | Cách ghi hiện tại | Giới hạn còn lại |
+|---|---|---|
+| VOAS bản kỷ yếu khác bài tạp chí | Bài tạp chí [33]: Rosmani trước, tên *An Online Scheduling Platform for Veterinary Appointments*. UV17: Mokhtar trước, tên bắt đầu VOAS | Không gọi UV17 là bài Jurnal Intelek; không đếm hai bản là hai nghiên cứu độc lập |
+| Landing bài [33] ghi Published 2025, PDF/số báo ghi 2023 | Dùng 2023 theo trang đầu và phân trang của số 18(2), tr. 16–26 | Không xác định được nguyên nhân khác biệt ngày; không làm theo mẫu trích dẫn tự sinh 2025 một cách máy móc |
+| Giáo trình [32] có nhiều mô tả ấn bản/phân trang | Trích bản điện tử tháng 5/2014 được đọc. Ghi NXB ĐHQGHN là thông tin sách cùng tác giả/năm được UET xác nhận, chưa đồng nhất bản in với PDF | Không đưa ISBN hoặc số trang từ một catalog khác vào PDF; nơi lưu UTM không phải mặc nhiên là NXB |
+| NIST lưu bản tác giả | Tác giả/năm/venue/DOI theo hồ sơ NIST, ACM là đơn vị phát hành kỷ yếu | Chưa đối chiếu phân trang bản ACM, không tự lấy số trang của bản lưu làm trang kỷ yếu |
+| VNUA có hai bài về cùng hội thảo | Chọn một bản tin có dòng Khoa Chăn nuôi; ghi loại tin hội thảo | Không tính bản đăng lại dẫn nhachannuoi.vn như một nghiên cứu độc lập |
+| D&C/Paws Pet House chưa có bản gốc xác nhận | Giữ UV15/UV16, không có số IEEE chính thức | Nhận diện được preview không đủ chứng minh xuất bản học thuật, hoạt động thật hoặc hiệu quả hệ thống |
+| Postman và PostgreSQL là tài liệu động | Ghi không năm, ngày truy cập và phiên bản quan sát; nguồn [23] bao gồm các phần cùng bộ PostgreSQL 17 | Không có snapshot bất biến của mọi trang; không tách các chương thành nhiều nguồn để tăng số |
+
+DOI mới 10.24191/ji.v18i2.22092 và 10.1145/344287.344301 được kiểm tra trên PDF/hồ sơ chính thức. Không xác nhận resolver độc lập hoặc rà soát Retraction Watch toàn diện trong đợt này. Đã xác minh metadata không có nghĩa được chứng nhận không rút bài hay không có sai sót nghiên cứu.
+
+### Kiểm tra nhất quán sau cập nhật
+
+| Hạng mục | Kết quả |
+|---|---|
+| Hồ sơ đánh số | 35, dãy 1–35 liên tục, không trùng số |
+| Ngôn ngữ | 20 Việt, 15 Anh; 57,1% Việt |
+| DOI ở hồ sơ đánh số | 9 nguồn có DOI có căn cứ; không DOI trùng giữa các hồ sơ |
+| Hai bản tổng hợp | 76 lượt tham chiếu đơn được nhận diện bằng biểu thức số trong ngoặc vuông; đủ 35 số khác nhau |
+| Số mồ côi / hồ sơ chưa được nhắc trong tổng hợp | 0 / 0; có nhắc để đánh giá loại/dự phòng, không đồng nghĩa đã dùng làm chứng cứ |
+| Năm file yêu cầu | Đều cập nhật; các liên kết Markdown nội bộ đối chiếu cục bộ |
+| Thứ tự IEEE theo hướng dẫn trường | Số nhất quán trong bộ làm việc; **chưa đạt bước sắp ABC/đánh số cuối khi chọn danh mục nộp** |
+| Kiểm tra luận điểm | Phân biệt tin sự kiện, giáo trình, bài nghiên cứu, tài liệu hãng; ghi rõ phạm vi đọc và diễn giải do nhóm đề xuất |
+| Báo cáo Word / dữ liệu thực nghiệm | Không sửa Word; không tạo kết quả khảo sát, benchmark, test ứng dụng hoặc dữ liệu DB mới |
+
+Các phép đếm là kiểm tra cục bộ, không thay đọc hỗ trợ từng luận điểm. Còn thiếu SOP grooming tiếng Việt đủ sâu, toàn văn một số khóa luận, chương sách UML/CSDL để trích chi tiết và số liệu thị trường Việt có phương pháp kiểm chứng. Những khoảng thiếu này là giới hạn của thư viện hiện tại, không phải bằng chứng chưa từng có nghiên cứu tương ứng.

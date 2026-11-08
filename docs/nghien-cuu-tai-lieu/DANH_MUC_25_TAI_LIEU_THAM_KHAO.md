@@ -2,12 +2,18 @@
 
 Đề tài: **Xây dựng hệ thống quản lý và đặt lịch dịch vụ chăm sóc thú cưng**. Ngày kiểm tra: **07/11/2026**. Hình thức: Narrative / Integrative Literature Review, chế độ `ars-lit-review`, kết hợp `ars-citation-check`. Người dùng đã xác nhận hình thức này; không thực hiện Systematic Review.
 
+## Trạng thái hiện tại — đợt bổ sung theo năm nhóm
+
+Thư viện đánh số hiện có **35 nguồn đã xác minh thư mục: 20 tiếng Việt (57,1%), 15 tiếng Anh (42,9%)**. Đợt mới bổ sung 5 nguồn ở cuối file, số 31–35; mở rộng nội dung đối chiếu của nguồn 23, không đếm thêm một nguồn PostgreSQL. Đây là thư viện để xét chọn, gồm cả hồ sơ dự phòng; **chưa phải 35 tài liệu bắt buộc đưa vào báo cáo**. Tên file được giữ theo yêu cầu đầu ra ban đầu, không giới hạn số nguồn ở 25.
+
+Tỷ lệ hiện tại chưa đạt mục tiêu 60–70% tiếng Việt. Không tăng tỷ lệ bằng cách giữ các bài bệnh da trùng phạm vi hoặc đưa bản đăng lại chưa đủ xuất xứ vào danh mục. Ưu tiên tiếp theo vẫn là nội dung grooming/SOP tiếng Việt và chương sách UML/CSDL có thể tiếp cận thực chất. Các con số 25 và 30 bên dưới là mốc của hai đợt trước.
+
 
 ## Cập nhật sau yêu cầu tìm tiếp
 
 Người dùng đã gửi định hướng mới: tăng trọng tâm quản lý/đặt lịch, giảm bệnh lý và dừng sau mỗi đợt 5–7 nguồn để đánh giá. Vì vậy **25 nguồn ban đầu được lưu để đối chiếu, không phải danh mục cuối đã chốt theo định hướng mới**. Bảng V01–V09 và quyết định giữ/dự phòng nằm trong bản tổng hợp thú cưng. Không giữ nhiều bài bệnh da chỉ để đủ số hoặc đạt tỷ lệ tiếng Việt.
 
-Đợt bổ sung có **5 nguồn mới: 3 Việt, 2 Anh**, đánh số tạm 26–30 để không đổi nghĩa số cũ trong các file. Tổng thư viện đã xác minh metadata hiện là **30 nguồn: 18 Việt (60%), 12 Anh (40%)**, gồm cả các nguồn được đánh giá chuyển dự phòng. Không cộng UV01–UV14 vào mẫu số này. Dãy 26–30 là phụ lục bổ sung để xét chọn, chưa sắp xếp ABC chung với bộ cũ; khi chốt danh mục báo cáo phải chọn lại và sắp xếp/đánh số đồng bộ theo hướng dẫn trường.
+Đợt trước có **5 nguồn mới: 3 Việt, 2 Anh**, đánh số tạm 26–30 để không đổi nghĩa số cũ trong các file. Sau đợt đó thư viện đạt **30 nguồn: 18 Việt (60%), 12 Anh (40%)**, gồm cả các nguồn chuyển dự phòng. Không cộng các mục UV vào mẫu số này. Các phụ lục bổ sung chưa sắp xếp ABC chung với bộ cũ; khi chốt danh mục báo cáo phải chọn lại và sắp xếp/đánh số đồng bộ theo hướng dẫn trường.
 
 Thang điểm liên quan: 5 trực tiếp nghiệp vụ/thiết kế PetCare; 4 quản lý dịch vụ/đặt lịch; 3 lý thuyết/công nghệ/bối cảnh; 2 gián tiếp, bổ trợ; 1 ít phù hợp. Điểm không xác nhận kết quả, độ tin cậy hoặc việc đã đọc toàn văn.
 
@@ -344,7 +350,7 @@ Giữ đầy đủ tên Việt để nhận diện đúng tác giả và phục 
 - **DOI:** không thấy trong nguồn đã kiểm tra; không suy ra chắc chắn không có DOI.
 - **Bằng chứng bổ sung:** Xác minh mốc bản phát hành: [truy cập](https://nodejs.org/en/download/archive/v24.0.0) . Trang tổng quan dòng 24: [truy cập](https://nodejs.org/docs/latest-v24.x/api/) (động).
 
-[23] **PostgreSQL Global Development Group**, *PostgreSQL 17 Documentation, Chapter 13: Concurrency Control*. PostgreSQL Global Development Group, bộ tài liệu phiên bản 17, không ghi năm. [Online]. Available: [nguồn chính thức](https://www.postgresql.org/docs/17/mvcc.html). Accessed: Nov. 7, 2026.
+[23] **PostgreSQL Global Development Group**, *PostgreSQL 17 Documentation*, ch. 13, “Concurrency Control,” và sec. 8.17, “Range Types.” PostgreSQL Global Development Group, bộ tài liệu phiên bản 17, không ghi năm. [Online]. Available: [Concurrency Control](https://www.postgresql.org/docs/17/mvcc.html) và [Range Types](https://www.postgresql.org/docs/17/rangetypes.html). Accessed: Nov. 7, 2026.
 - **Loại tài liệu:** Tài liệu công nghệ chính thức.
 
 - **Điểm liên quan theo yêu cầu mới:** 4/5; đây là đánh giá độ khớp chủ đề, không phải điểm chất lượng nghiên cứu.
@@ -352,12 +358,12 @@ Giữ đầy đủ tên Việt để nhận diện đúng tác giả và phục 
 
 - **Tác giả/tổ chức đầy đủ:** PostgreSQL Global Development Group.
 - **Trạng thái / ngôn ngữ / nhóm:** Đã xác minh thư mục; tiếng Anh; Công nghệ và bảo mật.
-- **Phạm vi đọc:** Đọc Chương 13, mục 13.2 Transaction Isolation và 13.3 Explicit Locking.
+- **Phạm vi đọc:** Đọc các phần liên quan ở mục 13.2 Transaction Isolation, 13.3 Explicit Locking; bổ sung mục 8.17.3 về biên khoảng và 8.17.10 về exclusion constraint. Không tuyên bố đã đọc toàn bộ bộ tài liệu.
 - **Nội dung, độ tin cậy và lý do phù hợp:** Nguồn chính thức về cô lập và khóa giao dịch. Liên quan rất cao cho đặt lịch đồng thời, thu/hoàn và toàn vẹn dữ liệu; độ tin cậy cao.
 - **Vị trí dự kiến:** Chương 2: thiết kế dữ liệu/giao dịch; Chương 3: kiểm thử cạnh tranh và bảo toàn dữ liệu.
 - **Giới hạn sử dụng:** Không suy ra mọi quy tắc nghiệp vụ đã được bảo vệ chỉ vì dự án dùng PostgreSQL.
 - **DOI:** không thấy trong nguồn đã kiểm tra; không suy ra chắc chắn không có DOI.
-- **Bằng chứng bổ sung:** Mục đối chiếu: [truy cập](https://www.postgresql.org/docs/17/transaction-iso.html) và [truy cập](https://www.postgresql.org/docs/17/explicit-locking.html) . Trang động không dùng năm copyright làm năm xuất bản.
+- **Bằng chứng bổ sung:** [Transaction Isolation](https://www.postgresql.org/docs/17/transaction-iso.html), [Explicit Locking](https://www.postgresql.org/docs/17/explicit-locking.html), [Constraints on Ranges](https://www.postgresql.org/docs/17/rangetypes.html#RANGETYPES-CONSTRAINT). Ví dụ chính thức kết hợp mã tài nguyên và khoảng thời gian bằng `btree_gist`; khi vận dụng phải xác định tài nguyên, trạng thái lịch và công suất của PetCare. Trang động không dùng năm copyright làm năm xuất bản. Các phần cùng một bộ tài liệu không được đếm thành nhiều nguồn.
 
 [24] **React contributors**, *Quick Start — React v18.3.1*. React, kho lưu tài liệu React 18, không ghi năm. [Online]. Available: [nguồn chính thức](https://18.react.dev/learn). Accessed: Nov. 7, 2026.
 - **Loại tài liệu:** Tài liệu công nghệ chính thức.
@@ -411,7 +417,7 @@ Các ứng viên không có DOI xác minh được được ghi đúng mức “
 
 ## Đợt bổ sung 5 nguồn quản lý và đặt lịch để xét chọn
 
-Không mở đợt tìm kiếm tiếp theo trước khi người dùng đánh giá đợt này. Ba nguồn Việt dưới đây mới tiếp cận catalog/chỉ mục chính thức; hai bài tiếng Anh đã mở được PDF nhưng chỉ đọc các phần liên quan, không khai báo đọc toàn văn.
+Đợt 26–30 đã dừng ở 5 nguồn để đánh giá; yêu cầu năm nhóm tiếp theo của người dùng là định hướng cho đợt 31–35 bên dưới. Ba nguồn Việt ở đợt 26–30 mới tiếp cận catalog/chỉ mục chính thức; hai bài tiếng Anh đã mở được PDF nhưng chỉ đọc các phần liên quan, không khai báo đọc toàn văn.
 
 [26] **Nguyễn Kim Khánh**, “Thiết kế hệ thống đặt lịch chăm sóc thú cưng trực tuyến,” khóa luận tốt nghiệp, Học viện Phụ nữ Việt Nam, Hà Nội, 2026. [Online]. Available: [catalog gốc](https://thuvien.hvpnvn.edu.vn/Detail.aspx?id=5698). Accessed: Nov. 7, 2026.
 
@@ -452,3 +458,56 @@ Không mở đợt tìm kiếm tiếp theo trước khi người dùng đánh gi
 - **Giới hạn:** tác giả nêu thiếu nhắc lịch và gói kết hợp [author-acknowledged, mục 5]; bảng SUS có ô thiếu/tỷ lệ chưa nhất quán [reader-inferred, mục 4], nên không chép điểm/tỷ lệ làm benchmark. Năm 2025 nhất quán, ngày online 15/18-06 giữa landing/PDF khác nhau; chỉ dùng năm. DOI khớp nguồn, resolver độc lập chưa xác nhận.
 
 **Các phát hiện ngoài 5 nguồn:** một khóa luận spa AI khác tại Duy Tân ([record 26915](https://elib.duytan.edu.vn/Luanvan/Detail/26915/2/96645), 2025) giữ làm đầu mối vì trùng phạm vi; các bài hệ thống petshop tiếng Indonesia chưa chọn vì cần đánh giá ngôn ngữ/nội dung thêm. Không tính các đầu mối này vào 30 nguồn. Không thêm bài bệnh da mới.
+
+## Đợt bổ sung theo năm nhóm — 5 nguồn, số 31–35
+
+[31] **Khoa Chăn nuôi, Học viện Nông nghiệp Việt Nam**, “Hội thảo ‘Nuôi dưỡng và Chăm sóc Thú cưng’ – Kết nối tri thức, mở lối tương lai nghề nghiệp,” Học viện Nông nghiệp Việt Nam, Dec. 19, 2025. [Online]. Available: [bài đăng trên cổng Học viện](https://cnsh.vnua.edu.vn/tin-tuc-va-su-kien/hoi-thao-nuoi-duong-va-cham-soc-thu-cung-ket-noi-tri-thuc-mo-loi-tuong-lai-nghe-nghiep-64656). Accessed: Nov. 7, 2026.
+- **Loại / trạng thái / ngôn ngữ:** Tin hội thảo của đơn vị đào tạo; đã xác minh thư mục và nội dung bài tin; tiếng Việt.
+- **Tác giả và đơn vị:** Cuối bài ghi Khoa Chăn nuôi; trang lưu tại cổng Khoa Công nghệ sinh học của cùng Học viện. Không gán tên diễn giả làm tác giả bài tin.
+- **Năm/ngày và DOI:** Bài cập nhật 19/12/2025, cùng ngày hội thảo; không thấy DOI trong nguồn. Không có bản tham luận/kỷ yếu toàn văn kèm theo được đọc.
+- **Phạm vi đọc:** Bài tin từ giới thiệu sự kiện đến phần kết và dòng ghi đơn vị.
+- **Nội dung / lý do phù hợp:** Ghi nhận hoạt động đào tạo và trao đổi về chăm sóc, nghề nghiệp, ứng dụng công nghệ trong quản lý thú cưng; làm bối cảnh Việt Nam ở Chương 1. Liên quan 3/5.
+- **Độ tin cậy / giới hạn:** Cao cho thông tin sự kiện của trường; giới hạn cho nhận định thị trường. Không phải nghiên cứu thị trường định lượng hoặc một bài báo khoa học phản biện. Không dùng làm căn cứ cho CAGR, doanh thu ngành hay mức tăng nhu cầu spa.
+
+[32] **Phạm Ngọc Hùng, Trương Anh Hoàng và Đặng Văn Hưng**, *Giáo trình kiểm thử phần mềm*, bản điện tử tháng 5/2014. [Online]. Available: [PDF tại thư viện Đại học Công nghệ và Quản lý Hữu Nghị](https://thuvien.utm.edu.vn/ktpm/GiaoTrinhKTPM.pdf). Accessed: Nov. 7, 2026.
+- **Loại / trạng thái / ngôn ngữ:** Giáo trình, bản điện tử ghi ngày trên trang đầu; đã xác minh bản điện tử; tiếng Việt.
+- **Tác giả / đơn vị / ấn bản:** Ba tác giả và tháng 5/2014 theo PDF. [Bộ môn Công nghệ phần mềm, ĐH Công nghệ – ĐHQGHN](https://www.fit.uet.vnu.edu.vn/cong-nghe-phan-mem/) xác nhận sách cùng tác giả/năm do NXB ĐHQGHN xuất bản. PDF truy cập có 340 trang; chưa đồng nhất chắc chắn với bản in nên không ghép số trang/ISBN của catalog khác vào bản điện tử này. Nơi lưu PDF không tự động là nhà xuất bản.
+- **DOI:** Không thấy trong các nguồn đã kiểm tra.
+- **Phạm vi đọc:** Trang đầu, mục lục và các phần liên quan Chương 5, mục 5.2–5.3 về giá trị biên và lớp tương đương; chưa đọc toàn sách. Đây là đầu mối giáo trình 2014 được xác minh thêm, không phải một giáo trình mới xuất bản.
+- **Nội dung / lý do phù hợp:** Căn cứ thiết kế ca thử miền dữ liệu và biên thời gian. Liên quan 4/5; tin cậy cao cho lý thuyết cơ bản.
+- **Vị trí / giới hạn:** Chương 2: phương pháp thiết kế test; Chương 3: giải thích lựa chọn dữ liệu. Kịch bản lịch hẹn và kết quả thực thi là công việc PetCare, không phải kết quả trong sách. Khi trích trang phải chỉ rõ bản điện tử, tránh nhầm số trang PDF và số in.
+
+[33] **A. F. Rosmani and M. H. Mokhtar**, “An Online Scheduling Platform for Veterinary Appointments,” *Jurnal Intelek*, vol. 18, no. 2, pp. 16–26, 2023, doi: 10.24191/ji.v18i2.22092. [Online]. Available: [trang tạp chí](https://journal.uitm.edu.my/index.php/JI/article/view/6631), [PDF chính thức](https://journal.uitm.edu.my/ojs/index.php/JI/article/download/6631/3771/24737). Accessed: Nov. 7, 2026.
+- **Loại / trạng thái / ngôn ngữ:** Bài báo tạp chí; đã xác minh theo PDF và số báo; tiếng Anh.
+- **Tác giả / đơn vị:** Arifah Fasha Rosmani, Muhammad Harith Mokhtar; Universiti Teknologi MARA. Không đảo thứ tự theo bản kỷ yếu VOAS.
+- **Năm và DOI:** Trang đầu PDF ghi công bố 31/07/2023, số 18(2), August 2023; các trang in 16–26. Landing lại ghi Published 04/08/2025 và xuất mẫu trích dẫn 2025. Chọn năm của ấn phẩm PDF/số báo là 2023; chưa xác định nguyên nhân khác biệt. DOI đối chiếu chuỗi trên PDF, chưa xác nhận chuyển hướng độc lập.
+- **Phạm vi đọc:** Trang đầu; phần phương pháp, mô tả giao diện, System Tests, các bảng 2–4 và kết luận, tr. 19–24. Chưa kiểm tra mọi tài liệu mà bài này dẫn.
+- **Nội dung / lý do phù hợp:** VOAS có đặt lịch, duyệt/từ chối, theo dõi trạng thái và quản trị dữ liệu. Liên quan 4/5 vì cùng miền chó mèo nhưng trọng tâm phòng khám, không phải toàn quy trình grooming. Dùng Chương 1 cho hệ thống liên quan, Chương 2 cho đối chiếu luồng, Chương 3 cho phê bình cách đánh giá.
+- **Độ tin cậy / giới hạn:** Cao về xuất xứ tạp chí; chứng cứ hiệu quả còn giới hạn. Các bảng đánh giá là phản hồi người dùng, không thay phép đo tải, thời gian chờ hoặc test chống tranh chỗ. Kết luận nêu chưa chọn bác sĩ khi đặt và chưa có thanh toán. Không ghi thanh toán như chức năng đã có; không tính hai bản VOAS là hai nghiên cứu độc lập.
+
+[34] **R. Sandhu, D. F. Ferraiolo, and D. R. Kuhn**, “The NIST Model for Role-Based Access Control: Towards a Unified Standard,” in *Proceedings of the Fifth ACM Workshop on Role-Based Access Control (RBAC ’00)*, Berlin, Germany, 2000, doi: 10.1145/344287.344301. [Online]. Available: [hồ sơ NIST](https://www.nist.gov/publications/nist-model-role-based-access-control-towards-unified-standard), [bản tác giả tại NIST](https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=916402). Accessed: Nov. 7, 2026.
+- **Loại / trạng thái / ngôn ngữ:** Bài hội thảo ACM; đã xác minh thư mục; tiếng Anh.
+- **Tác giả / đơn vị / năm:** Ravi Sandhu, David F. Ferraiolo, D. Richard Kuhn; NIST ghi ngày công bố 26/07/2000, hội thảo 26–27/07/2000. NIST lưu bản tác giả; ACM là đơn vị phát hành kỷ yếu. Chưa chốt số trang kỷ yếu từ bản ACM nên không tự gán phân trang của bản lưu NIST.
+- **DOI:** Có trên hồ sơ NIST; chưa xác nhận resolver độc lập.
+- **Phạm vi đọc:** Abstract, Introduction, phần Flat RBAC và các đoạn về separation of duty trong bản NIST; chưa đọc toàn bộ 17 trang.
+- **Nội dung / lý do phù hợp:** Nền tảng gán người dùng–vai trò–quyền và ràng buộc phân nhiệm. Liên quan 4/5, tin cậy cao về lý thuyết; dùng Chương 1 cho RBAC, Chương 2 cho ma trận quyền, Chương 3 cho tiêu chí test quyền.
+- **Giới hạn:** Công trình nền tảng năm 2000, không gọi là tiêu chuẩn mới nhất. Năm vai trò cụ thể và việc tách Admin/Quản lý là quyết định của PetCare, không phải mô hình bắt buộc do NIST quy định.
+
+[35] **Postman**, “Write scripts to test API response data in Postman,” *Postman Docs*, Latest (v12), không ghi năm. [Online]. Available: [tài liệu chính thức](https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts/). Accessed: Nov. 7, 2026.
+- **Loại / trạng thái / ngôn ngữ:** Tài liệu kỹ thuật chính thức; đã xác minh trang và đơn vị; tiếng Anh.
+- **Tác giả / đơn vị / ngày / DOI:** Postman; trang động không thấy ngày xuất bản trong phần kiểm tra, dùng ngày truy cập; không thấy DOI. Không dùng năm hiện tại làm năm xuất bản.
+- **Phạm vi đọc:** Testing in Postman, Add a post-response test và ví dụ assertion `pm.test`/`pm.response`; không đọc toàn bộ tài liệu Postman.
+- **Nội dung / lý do phù hợp:** Cách kiểm tra phản hồi API bằng assertion sau request. Liên quan 3/5; tin cậy cao cho công cụ, không phải nghiên cứu so sánh công cụ.
+- **Vị trí / giới hạn:** Chương 3 nếu thực sự có collection và kết quả chạy. Hiện chỉ là phương án hỗ trợ; kiểm thử tự động ghi nhận của PetCare dùng `node:test`. Không tuyên bố đã chạy Postman trong đợt nghiên cứu này; collection đơn lẻ không chứng minh an toàn dưới truy cập đồng thời.
+
+## Đối chiếu các đầu mối người dùng gợi ý — ngoài 35 nguồn đánh số
+
+| Mã | Tài liệu/đầu mối và nơi kiểm tra | Trạng thái | Nội dung, liên quan và điều kiện sử dụng |
+|---|---|---|---|
+| UV15 | Dự án D&C – chuỗi cửa hàng dịch vụ dành cho thú cưng; đầu mối [bản đăng lại](https://www.tailieu5s.net/stream-viewer/349679/tieu-luan-mon-chien-luoc-kinh-doanh-quoc-te-du-an-dc-chuoi-cua-hang-dich-vu-danh-cho-thu-cung). Người dùng gợi ý ĐH Ngân hàng TP.HCM, 2022. | Cần bổ sung thông tin | Việt; tiềm năng 4/5 cho Chương 1. Chỉ thấy chỉ mục bản đăng lại, trang mở lỗi; chưa xác minh đủ tác giả, năm và bản gốc của trường; DOI chưa xác minh. Không lấy dự toán doanh thu của bài tập dự án làm quy mô thị trường. Chưa đưa vào danh mục chính thức. |
+| UV16 | *Phân tích và thiết kế hệ thống quản lý spa thú cưng Paws Pet House*, Nhóm 8, [preview Studocu](https://www.studocu.vn/vn/document/truong-dai-hoc-kinh-te-thanh-pho-ho-chi-minh/tieng-anh-chuyen-nganh/do-an-cuoi-ky-phan-tich-va-thiet-ke-he-thong-quan-ly-spa-thu-cung/132188915). | Cần bổ sung thông tin xuất xứ | Việt; 5/5 về chủ đề Chương 1–2. Bìa preview ghi UEH, tiểu luận học phần, ngày 15/12/2024; tên Nguyễn Văn Tú Duyên, Phạm Hoàng Hưng, Lê Thị Thu Hoa, Lê Phương Quỳnh, Nguyễn Lê Khả Tú. Chưa có biểu ghi/bản gốc trường để xác nhận. Người đăng không mặc nhiên là tác giả; giảng viên không phải đồng tác giả. Nhãn năm học trên trang khác bìa; chưa có DOI được xác minh. |
+| UV17 | M. H. Mokhtar và A. F. Rosmani, “VOAS: Veterinary Online Appointment Booking System,” trong *Research Exhibition in Mathematics and Computer Sciences (REMACS 5.0)*, College of Computing, Informatics and Media, UiTM Perlis, 2023, tr. 207–208, ISBN 978-629-97934-0-3. [Kho UiTM](https://ir.uitm.edu.my/id/eprint/100486/). | Đã xác minh thư mục; không chọn đếm thêm | Anh; 4/5 cho Chương 1. Đây là book section theo biểu ghi, khác tên và thứ tự tác giả với bài báo [33]. Đã đọc metadata/abstract, chưa đọc PDF kỷ yếu; không thấy DOI trong record. Chọn bài báo [33] có nội dung dài hơn để phân tích, tránh tính hai bản cùng hệ thống là hai nghiên cứu độc lập. |
+| UV18 | “[Video] Sinh viên Thú y HUTECH mở rộng cơ hội nghề nghiệp qua lĩnh vực Grooming hiện đại,” [Khoa Thú y HUTECH](https://www.hutech.edu.vn/khoathuy/tin-tuc-su-kien/14634145-video-sinh-vien-thu-y-hutech-mo-rong-co-hoi-nghe-nghiep-qua-linh-vuc-grooming-hien-dai). | Cần bổ sung thông tin | Việt; 3/5 cho bối cảnh nghề Chương 1. Có chỉ mục trên miền trường, nhưng mở bài thất bại; chưa chốt tác giả/ngày. Không suy ngày xuất bản từ nhãn “4 months ago”. Tin đào tạo không thay SOP thực hành. |
+| UV19 | “Bài giảng Cơ sở dữ liệu,” [biểu ghi PTIT 3387](https://dlib.ptit.edu.vn/handle/HVCNBCVT/3387). | Cần bổ sung thông tin | Việt; 3/5 cho Chương 2. Chỉ mục thư viện mô tả chương về phụ thuộc hàm, khóa và chuẩn hóa; mở trang timeout, chưa chốt đồng thời tác giả/năm/đơn vị trên bản tài liệu. Tên file gợi ý 2022 không đủ xác minh năm. Không thêm vào dãy đánh số. |
+
+Không tính các mục UV là nguồn chính thức chỉ vì có URL. UV17 đã xác minh nhưng được giữ ngoài dãy đánh số do trùng hệ thống với bài báo đã chọn; trạng thái xác minh và quyết định lựa chọn là hai việc khác nhau.

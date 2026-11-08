@@ -69,3 +69,25 @@ Chưa đưa số liệu lịch, khách, thú cưng, doanh thu hoặc thời gian
 | [30] | Cat hotel/grooming | Lịch sử, hủy và hoàn | Thiết kế đánh giá cần phê bình | Không dùng bảng SUS làm số liệu PetCare |
 
 Nhóm chăm sóc sau điều chỉnh ưu tiên [5], [12], [13], [16]; [8] tối đa bổ trợ an toàn. Các nguồn [7], [9], [10], [15] chuyển dự phòng về mặt lựa chọn nội dung. Số nguồn được giữ để không đổi nghĩa trích dẫn trong hồ sơ; không phải quyết định giữ tất cả trong bản nộp.
+
+## Cập nhật theo năm nhóm người dùng bổ sung
+
+Các số 31–35 là hồ sơ xác minh mới; nguồn 23 được mở rộng phần đọc trong cùng bộ PostgreSQL 17. Các mốc độ phủ ở bảng cũ phản ánh từng đợt, không phải quyết định chọn toàn bộ 35 nguồn cho bản nộp.
+
+| Nhóm | Nguồn ưu tiên | Chương/mục dự kiến | Giá trị sử dụng và phần còn thiếu |
+|---|---|---|---|
+| 1. Nghiệp vụ và chăm sóc | [13], [16], [31]; [5], [12] sau đọc chương | Chương 1: bối cảnh Việt Nam, nghiệp vụ grooming và an toàn | Có chương trình nghề, hướng dẫn groomer và tin hội thảo. Chưa có báo cáo thị trường Việt có phương pháp/số liệu được kiểm tra hoặc SOP grooming Việt đủ sâu |
+| 2. Hệ thống tương tự | [26], [29], [30], [33]; [19]–[21] là tài liệu hãng | Chương 1: related works và giải pháp; Chương 2: đối chiếu yêu cầu | [26] mới metadata; các PDF cung cấp trường hợp cụ thể. D&C/Paws Pet House vẫn ngoài danh mục chính thức; ba sản phẩm không tính là nghiên cứu khoa học |
+| 3. Phân tích, UML và CSDL | [1], [2], [11], [14], [18] | Chương 2: yêu cầu, UML, mô hình dữ liệu, kiến trúc | Xác minh sách nhưng còn thiếu phần đọc để dẫn chính xác ký pháp/chuẩn hóa. Không suy 3NF chỉ từ số bảng hoặc ERD |
+| 4. Web, lập lịch và bảo mật | [17], [18], [23]–[25], [34]; RFC 7519 ở UV09 | Chương 2: API, giao dịch, RBAC; Chương 3: công nghệ và an toàn dữ liệu | PostgreSQL 17 có căn cứ khoảng giờ/khóa; RFC 8725 cho thực hành JWT. RFC 7519 đã xác minh nhưng chưa chọn vào dãy đánh số, có thể thay nguồn ít liên quan khi chốt |
+| 5. Kiểm thử và đánh giá | [32], [22]; [3] bổ trợ; [35] nếu dùng Postman | Chương 2: thiết kế test; Chương 3: test case và kết quả | Có phần giáo trình Việt đã đọc cho EP/BVA. Kết quả phải lấy từ lần thực thi PetCare, không từ sách hay đánh giá của hệ thống khác |
+
+| Nguồn mới | Chương 1 | Chương 2 | Chương 3 | Điều kiện sử dụng |
+|---|---|---|---|---|
+| [31] Tin hội thảo VNUA | Bối cảnh nghề và đào tạo | — | — | Không dùng làm nghiên cứu thị trường định lượng/kỷ yếu |
+| [32] Giáo trình kiểm thử, bản 05/2014 | Cơ sở kiểm thử nếu cần | EP/BVA, phương pháp chọn dữ liệu | Thuyết minh test case | Chỉ rõ bản điện tử; chưa xác nhận phân trang tương đương bản in |
+| [33] Bài báo VOAS | Trường hợp đặt lịch thú y | Luồng đặt/duyệt và phạm vi vai trò | Phê bình phương pháp đánh giá | Dùng năm 2023 theo PDF/số báo; không sao chép số hài lòng |
+| [34] Mô hình RBAC NIST | Lý thuyết phân quyền | Ma trận vai trò–quyền và ràng buộc | Tiêu chí kiểm tra quyền | Không gán thiết kế năm vai trò của dự án cho NIST |
+| [35] Postman Docs | — | — | Công cụ assertion API nếu sử dụng | Có tài liệu không đồng nghĩa đã chạy Postman |
+
+Trạng thái danh mục xét chọn hiện tại: **35 nguồn đánh số, 20 Việt/15 Anh**; nguồn dự phòng chưa bị xóa khỏi hồ sơ. Việc chọn khoảng 20–25 nguồn cho Word phải dựa trên luận điểm thực tế được trích, sau đó sắp xếp và đánh số lại đồng bộ; chưa thực hiện bước đó trong đợt này.
