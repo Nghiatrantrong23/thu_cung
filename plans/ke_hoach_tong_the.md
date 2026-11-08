@@ -276,3 +276,13 @@ Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR nga
 - Cập nhật đủ 5 file trong `docs/nghien-cuu-tai-lieu/`; có phương pháp tìm, phạm vi đọc, lý do lựa chọn, đối chiếu chương và giới hạn. Phần giáo trình UML/CSDL, SOP grooming Việt và số liệu thị trường có phương pháp vẫn cần đọc/tìm sâu hơn.
 - Kiểm tra cục bộ đạt: dãy 1–35 không trùng, 9 DOI không trùng trong hồ sơ, 76 lượt nhắc/35 nguồn ở hai tổng hợp, 0 số mồ côi, 3 liên kết nội bộ hợp lệ; hash 40 file đang thay đổi trước đợt nghiên cứu giữ nguyên trước khi thêm ghi nhận này. Kiểm tra số không thay xác minh hỗ trợ luận điểm hoặc kiểm tra Word.
 - Không sửa báo cáo Word, mã ứng dụng hoặc dữ liệu DB; không chạy build/test ứng dụng vì chỉ thay tài liệu nghiên cứu. Không thay trạng thái nghiệm thu giai đoạn 12 hoặc triển khai Admin. Nhánh lưu riêng: `codex/tai-lieu-petcare-dot-3`.
+
+
+## Báo cáo cuối kỳ PetCare — khảo sát Giai đoạn 0 (08/11/2026)
+
+- Thực hiện yêu cầu người dùng bắt đầu từ khảo sát và dừng sau từng giai đoạn. Dựa thư viện Narrative/Integrative đã xác minh; không viết toàn bộ báo cáo hoặc tạo Word/PDF ở lượt này.
+- Đã đọc bản hướng dẫn ĐACN 2026–2027 được gửi trước, giữ nguyên file nguồn. Chưa thấy đúng tên bản có (1) hoặc báo cáo PetCare DOCX/PDF trong workspace; ghi giới hạn, không tự tạo dữ liệu thay thế.
+- Đã xem 17 PNG gốc: 1 Use Case, 6 Activity, 6 Sequence, 1 Class, 2 State Machine, 1 cây màn hình; có 3 wireframe Markdown. Đủ sáu loại hiện diện, chưa chứng nhận tất cả sơ đồ khớp mã; nêu sai biệt solver, từ chối/hủy, duyệt/thực chi, trạng thái và route mới.
+- Tạo 7 hồ sơ trong `docs/bao-cao-cuoi-ky/`: đề cương sơ bộ, kiểm kê sơ đồ, đối chiếu mã, nguồn tham khảo, ảnh cần bổ sung, kiểm thử và tiến độ. Thư viện xét chọn vẫn 35 nguồn/20 Việt/15 Anh, chưa chốt danh mục nộp.
+- Kiểm tra tài liệu đạt: 121 liên kết nội bộ, 28 định vị mã/test, 17 vị trí hình; SQL nguồn nhận diện 21 bảng ứng dụng; bảo toàn hash 17 sơ đồ và 40 file đã thay đổi trước nhiệm vụ trước khi nối ghi nhận này. Không chạy test ứng dụng/DB mới; mọi PASS lịch sử được gắn biên bản và giới hạn.
+- Không sửa mã, sơ đồ, DB hoặc Word; không thay nghiệm thu phần mềm/giai đoạn 12/Admin. Nhánh riêng `codex/bao-cao-cuoi-ky-giai-doan-0`; dừng chờ người dùng xem hồ sơ trước Giai đoạn 1.
