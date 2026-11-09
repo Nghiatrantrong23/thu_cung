@@ -59,3 +59,7 @@ Cache không phải kho bằng chứng được commit. Giai đoạn này không
 | HA-12 | Kiến trúc/ERD minh họa | Có Mermaid/DDL để phân tích; chưa có hình kiến trúc/ERD xuất bản riêng được duyệt | CHƯA TẠO, KHÔNG THAY SÁU LOẠI UML |
 
 Không dùng banner, ảnh minh họa sinh hoặc dữ liệu mẫu trong wireframe làm ảnh chứng minh chức năng. Ảnh lịch sử có thể dùng khi ghi đúng phiên bản và phạm vi; chưa nhận là ảnh của bản giao diện mới nhất.
+
+## Bố trí ảnh trong đề cương Giai đoạn 1
+
+Đã dành các vị trí Hình 3.1–3.17 trong [bảng bố trí](BANG_BO_TRI_HINH_BANG_VA_NGUON.md), gắn tiểu mục, đầu mối file và trạng thái cần kiểm/chụp. Việc phân bổ không nâng ảnh ứng viên thành ảnh đã duyệt hoặc tạo bằng chứng UI mới. Hình 3.16 cần bản KPI Admin mới; ảnh stage11-admin.png cũ không thay thế. Ảnh được xem ở G0 vẫn là ảnh demo lịch sử, chưa được coi là ảnh của mọi phiên bản hiện hành. G1 không chụp, chỉnh hoặc sao chép ảnh nguồn.

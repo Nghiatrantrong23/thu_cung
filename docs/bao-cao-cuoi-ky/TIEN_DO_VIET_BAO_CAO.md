@@ -1,8 +1,8 @@
 # Tiến độ biên soạn báo cáo cuối kỳ PetCare
 
-Ngày khảo sát: **08/11/2026**, theo ngày người dùng. Nhánh: `codex/bao-cao-cuoi-ky-giai-doan-0`.
+Ngày cập nhật: **08/11/2026**, theo ngày người dùng. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-1`. Các mục khảo sát G0 bên dưới là hồ sơ lịch sử, kết quả G1 tại mục 10.
 
-**Kết quả: đã thực hiện Giai đoạn 0 trong phạm vi tài liệu và mã nguồn hiện có; dừng để người dùng kiểm tra.** Chưa thực hiện Giai đoạn 1–7, chưa viết toàn bộ báo cáo, chưa tạo DOCX/PDF. Đây không phải xác nhận báo cáo đã hoàn chỉnh hoặc dự án đã nghiệm thu toàn bộ.
+**Trạng thái hiện tại: người dùng đã chấp nhận Giai đoạn 0; đề cương Giai đoạn 1 đã được hoàn thiện để kiểm tra và bàn giao.** Chưa thực hiện Giai đoạn 2–7, chưa viết toàn bộ báo cáo, chưa tạo DOCX/PDF. Không thay trạng thái nghiệm thu phần mềm.
 
 ## 1. Phạm vi và yêu cầu điều khiển
 
@@ -129,8 +129,8 @@ Kiểm tra cục bộ ngày 08/11/2026 **ĐẠT**: đủ bảy file, sáu loại
 
 | Giai đoạn | Trạng thái |
 |---|---|
-| 0 — Khảo sát | Đã lập hồ sơ trong phạm vi trên, chờ người dùng xem xét |
-| 1 — Đề cương | Chưa bắt đầu; đề cương sơ bộ G0 là đầu vào để duyệt/hoàn thiện |
+| 0 — Khảo sát | Đã được người dùng xem và chấp nhận trong chat |
+| 1 — Đề cương | Đã hoàn thiện mục/tiểu mục và bố trí hình/bảng/nguồn; dừng chờ người dùng kiểm tra |
 | 2 — Tóm tắt/Mở đầu/Chương 1 | Chưa bắt đầu trong nhiệm vụ báo cáo cuối kỳ |
 | 3 — Chương 2 | Chưa bắt đầu |
 | 4 — Chương 3 | Chưa bắt đầu |
@@ -138,4 +138,43 @@ Kiểm tra cục bộ ngày 08/11/2026 **ĐẠT**: đủ bảy file, sáu loại
 | 6 — Xuất Word | Chưa bắt đầu |
 | 7 — Kiểm tra cuối/PDF | Chưa bắt đầu |
 
-**Dừng tại đây theo mục 18–19 file yêu cầu của người dùng.** Chưa chuyển sang viết toàn báo cáo, sửa sơ đồ hoặc tạo Word. Các sai biệt và khoảng thiếu không bị giấu bằng nội dung giả; người dùng kiểm tra bộ khảo sát trước bước tiếp theo.
+**Dừng sau Giai đoạn 1 theo yêu cầu mới đã chấp thuận.** Không tự chuyển sang Giai đoạn 2, viết toàn báo cáo, sửa sơ đồ hoặc tạo Word. Các khoảng thiếu được giữ rõ để xử lý ở bước phù hợp, không thay bằng nội dung giả.
+
+
+## 10. Giai đoạn 1 hoàn thiện đề cương chi tiết
+
+Người dùng xác nhận đã xem/chấp nhận khảo sát G0 và yêu cầu tiếp tục G1 trong chat ngày 08/11/2026. Phạm vi: hoàn thiện đề cương, xác định vị trí hình/bảng/nguồn, cập nhật tiến độ và dừng; chưa cho phép viết toàn nội dung hoặc xuất Word.
+
+### 10.1. Công việc đã thực hiện
+
+- Hoàn thiện `DE_CUONG_CHI_TIET.md`: giữ cấu trúc Tóm tắt, danh mục, Mở đầu, ba chương, Kết luận, Phụ lục nếu cần và Tham khảo; có 32 mục chính (8/12/12) và 118 tiểu mục trong ba chương.
+- Chương 2 giữ đầy đủ UC, Activity, Sequence, Class, State Machine và sơ đồ màn hình; dành Hình 2.1–2.17 cho đúng 17 PNG gốc. Mỗi nhóm có mục đích, phạm vi phân tích, căn cứ và giới hạn; sai khác mã không bị xóa khỏi kế hoạch.
+- Tạo `BANG_BO_TRI_HINH_BANG_VA_NGUON.md`: 36 vị trí hình, 24 bảng, vị trí tiểu mục/caption/nguồn và trạng thái. Trong 36 vị trí chỉ có 17 sơ đồ gốc đã xem; 2 hình ERD/kiến trúc chưa tạo, 17 ảnh UI còn phải chọn/kiểm/bổ sung theo từng dòng. Không nhận là đã có đủ hình xuất bản.
+- Bố trí nguồn theo 32 mục: nguồn học thuật cho kiến thức kế thừa, mã/biên bản cho kết quả tự làm; giữ số nguồn làm việc 1–35 và các giới hạn metadata. Không tự thêm tài liệu hoặc đổi số IEEE cuối.
+- Bổ sung quy ước nguồn hình/bảng, cách gắn biên bản và tách kết quả lịch sử/đề xuất/chưa có bằng chứng. Phân bổ dung lượng theo tỷ trọng chỉ để định hướng, không hứa số trang chưa render.
+- Đồng bộ vị trí chi tiết trong `DANH_MUC_SO_DO_UML.md`, thêm liên kết bố trí vào `DANH_SACH_HINH_ANH_CAN_BO_SUNG.md`, cập nhật file tiến độ này và ghi nhận riêng vào kế hoạch tổng thể.
+
+### 10.2. File được tạo hoặc sửa
+
+| File | Thay đổi G1 |
+|---|---|
+| DE_CUONG_CHI_TIET.md | Thay đề cương sơ bộ bằng đề cương chi tiết, chưa phải nội dung báo cáo |
+| BANG_BO_TRI_HINH_BANG_VA_NGUON.md | Tạo catalog vị trí, caption, nguồn và điều kiện sử dụng |
+| DANH_MUC_SO_DO_UML.md | Đồng bộ UC/CD/cây màn hình vào tiểu mục chi tiết, giữ hình và số |
+| DANH_SACH_HINH_ANH_CAN_BO_SUNG.md | Gắn kế hoạch Hình 3.1–3.17, không thay trạng thái ảnh đã kiểm |
+| TIEN_DO_VIET_BAO_CAO.md | Ghi người dùng chấp nhận G0, kết quả G1 và điểm dừng |
+| plans/ke_hoach_tong_the.md | Chỉ nối ghi nhận G1; không stage các thay đổi có trước |
+
+### 10.3. Điều kiện và phần chưa giải quyết
+
+- G1 hoàn thiện cấu trúc và ánh xạ, không hoàn tất các nguồn chỉ catalog, nguồn Vite/bcrypt/runtime Node tổng quát hoặc chuẩn UML chưa đọc/chọn.
+- Chưa duyệt bộ ảnh mới, chưa tạo ERD/kiến trúc bổ trợ, chưa sửa 17 sơ đồ gốc và chưa khắc phục sai khác code/thiết kế. Đây là điều kiện đầu vào khi viết/định dạng, không làm giả bằng chứng để lấp vị trí.
+- Chưa chốt nguồn thực sự dẫn, thứ tự tham khảo cuối và số trang. Danh mục/field tự động, font/lề trong Word và render thuộc G6–G7.
+- Không chạy test ứng dụng/DB, không tạo kết quả PASS mới. Không thay nhận xét nghiệm thu Admin, giai đoạn 12 hoặc triển khai production.
+- Snapshot đầu G1: 40 file modified/untracked có trước và 224 file mã/sơ đồ/nghiên cứu được ghi hash để bảo toàn. Kiểm tra G1 là số mục, sáu loại, số/vị trí hình-bảng, nguồn và liên kết, diff cùng hash; kết quả máy kiểm được lưu cache riêng.
+
+Kiểm tra cục bộ G1 **ĐẠT** ngày 08/11/2026: đủ 32 mục chính (8/12/12) và 118 tiểu mục, số mục con liên tục và không trùng; 36 vị trí hình/24 bảng khớp giữa đề cương và catalog, mọi vị trí chỉ tới tiểu mục có thật. 17 sơ đồ gốc khớp bảng kiểm kê; 152 liên kết nội bộ hợp lệ, không có số nguồn ngoài dãy làm việc 1–35. Hash của 40 file có trước và 224 file được bảo vệ giữ nguyên trước khi nối ghi nhận vào kế hoạch. Không tạo Word/PDF, không chạy test ứng dụng/DB. Kết quả tại `.cache/bao-cao-cuoi-ky-g1/validation.json`; đây là kiểm tra tài liệu, không phải nghiệm thu chức năng.
+
+### 10.4. Điểm dừng
+
+Bàn giao đề cương G1 cho người dùng kiểm tra. Chưa bắt đầu viết Tóm tắt/Mở đầu/Chương 1 ở G2 hoặc các chương tiếp theo. Việc chấp nhận G0 chỉ cho phép G1, không mặc nhiên cho phép tự chạy hết quy trình.

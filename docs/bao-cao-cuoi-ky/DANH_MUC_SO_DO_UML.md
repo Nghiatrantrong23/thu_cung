@@ -6,7 +6,7 @@ Mã UC-01, SM-01, SM-02 và MH-TQ là mã hồ sơ đặt cho khảo sát; AD-01
 
 | Mã / loại | File gốc | Kích thước pixel | Mục / hình dự kiến | Mục đích và trạng thái |
 |---|---|---|---|---|
-| UC-01 / Use Case | [Sơ đồ ca sử dụng.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ ca sử dụng.png>) | 1035 × 692 | 2.3 / Hình 2.1 | Tác nhân và chức năng tổng thể. Đã xem ảnh; Có năm nhóm đăng nhập và khách vãng lai; cần rà ký pháp, quyền Admin và dấu chọn còn trên ảnh. |
+| UC-01 / Use Case | [Sơ đồ ca sử dụng.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ ca sử dụng.png>) | 1035 × 692 | 2.3.1 / Hình 2.1 | Tác nhân và chức năng tổng thể. Đã xem ảnh; Có năm nhóm đăng nhập và khách vãng lai; cần rà ký pháp, quyền Admin và dấu chọn còn trên ảnh. |
 | AD-01 / Activity | [SƠ ĐỒ HOẠT ĐỘNG - ĐĂNG KÝ TÀI KHOẢN.png](<../../Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - ĐĂNG KÝ TÀI KHOẢN.png>) | 808 × 831 | 2.4.1 / Hình 2.2 | Đăng ký tài khoản. Đã xem ảnh; Luồng chính phù hợp; hình không mô tả mọi điều kiện validation, transaction hoặc giới hạn mật khẩu. |
 | AD-02 / Activity | [SƠ ĐỒ HOẠT ĐỘNG - ĐẶT LỊCH DỊCH VỤ_02.png](<../../Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - ĐẶT LỊCH DỊCH VỤ_02.png>) | 1197 × 1228 | 2.4.2 / Hình 2.3 | Đặt lịch online/tại quầy. Đã xem ảnh; Chưa thể hiện snapshot cọc, khóa ngày và ca bao trọn toàn thời lượng. |
 | AD-03 / Activity | [SƠ ĐỒ HOẠT ĐỘNG - QUẢN LÝ LỊCH HẸN VÀ PHÂN CÔNG NHÂN VIÊN.png](<../../Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - QUẢN LÝ LỊCH HẸN VÀ PHÂN CÔNG NHÂN VIÊN.png>) | 2166 × 924 | 2.4.3 / Hình 2.4 | Điều phối và phân công. Đã xem ảnh; Nhánh từ chối trên hình ghi Đã hủy, khác TuChoi trong code. |
@@ -19,10 +19,10 @@ Mã UC-01, SM-01, SM-02 và MH-TQ là mã hồ sơ đặt cho khảo sát; AD-01
 | SD-04 / Sequence | [SƠ ĐỒ TUẦN TỰ – THỰC HIỆN DỊCH VỤ.png](<../../Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – THỰC HIỆN DỊCH VỤ.png>) | 1501 × 1483 | 2.5.4 / Hình 2.11 | Tương tác chăm sóc. Đã xem ảnh; Khối hủy nằm sau alt; cần nói rõ không chạy tiếp sau hoàn thành theo mã hiện tại. |
 | SD-05 / Sequence | [SƠ ĐỒ TUẦN TỰ – LẬP HÓA ĐƠN VÀ GHI NHẬN THANH TOÁN.png](<../../Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – LẬP HÓA ĐƠN VÀ GHI NHẬN THANH TOÁN.png>) | 1967 × 1575 | 2.5.5 / Hình 2.12 | Tương tác hóa đơn và thu. Đã xem ảnh; Hình suy tiền ghi nhận từ tiền đưa; code phân biệt số ghi nhận/tiền đưa và có cọc, idempotency. |
 | SD-06 / Sequence | [SƠ ĐỒ TUẦN TỰ – XỬ LÝ KHIẾU NẠI VÀ HOÀN TIỀN.png](<../../Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – XỬ LÝ KHIẾU NẠI VÀ HOÀN TIỀN.png>) | 1730 × 1938 | 2.5.6 / Hình 2.13 | Tương tác khiếu nại và hoàn. Đã xem ảnh; Duyệt đã tạo giao dịch/đóng khiếu nại trong hình; code giữ ChoHoanTien đến thực chi thành công. |
-| CD-01 / Class | [SƠ ĐỒ LỚP HỆ THỐNG.png](<../../Sơ đồ trạng thái_sơ đồ class/SƠ ĐỒ LỚP HỆ THỐNG.png>) | 1858 × 1705 | 2.6 / Hình 2.14 | Mô hình lớp miền. Đã xem ảnh; Là mô hình khái niệm; chưa thể hiện bảng kỹ thuật, cọc và reset hiện có; không phải class ES6 của backend. |
+| CD-01 / Class | [SƠ ĐỒ LỚP HỆ THỐNG.png](<../../Sơ đồ trạng thái_sơ đồ class/SƠ ĐỒ LỚP HỆ THỐNG.png>) | 1858 × 1705 | 2.6.1 / Hình 2.14 | Mô hình lớp miền. Đã xem ảnh; Là mô hình khái niệm; chưa thể hiện bảng kỹ thuật, cọc và reset hiện có; không phải class ES6 của backend. |
 | SM-01 / State Machine | [Sơ đồ trạng thái_01.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái_01.png>) | 1186 × 612 | 2.7.1 / Hình 2.15 | Trạng thái lịch hẹn. Đã xem ảnh; Thiếu TuChoi; chuyển DangThucHien sang DaHuy trên hình không được API hủy cho phép. |
 | SM-02 / State Machine | [Sơ đồ trạng thái.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái.png>) | 785 × 681 | 2.7.2 / Hình 2.16 | Trạng thái hóa đơn. Đã xem ảnh; Thiếu HoanTienMotPhan và điều kiện thực chi; không đủ dùng như máy trạng thái hiện hành hoàn chỉnh. |
-| MH-TQ / Màn hình/điều hướng | [Sơ ĐỒ MÀN HÌNH CHÍNH.png](<../../So do man hinh/Sơ ĐỒ MÀN HÌNH CHÍNH.png>) | 1592 × 430 | 2.8 / Hình 2.17 | Cây phân nhóm màn hình. Đã xem ảnh; Chưa có nhiều route mới; gộp lễ tân/quản lý không có nghĩa hai nhóm có quyền giống nhau. |
+| MH-TQ / Màn hình/điều hướng | [Sơ ĐỒ MÀN HÌNH CHÍNH.png](<../../So do man hinh/Sơ ĐỒ MÀN HÌNH CHÍNH.png>) | 1592 × 430 | 2.8.1 / Hình 2.17 | Cây phân nhóm màn hình. Đã xem ảnh; Chưa có nhiều route mới; gộp lễ tân/quản lý không có nghĩa hai nhóm có quyền giống nhau. |
 
 ## Tài liệu màn hình đi kèm
 
@@ -39,3 +39,7 @@ Mã UC-01, SM-01, SM-02 và MH-TQ là mã hồ sơ đặt cho khảo sát; AD-01
 - Chưa có nguồn chỉnh sửa sơ đồ; nếu người dùng muốn cập nhật phải có yêu cầu riêng. Hiện tại giữ hình và thuyết minh rõ khác biệt.
 
 Bảng đối chiếu chi tiết: [UML và mã nguồn](BANG_DOI_CHIEU_UML_VA_MA_NGUON.md).
+
+## Bố trí được hoàn thiện trong Giai đoạn 1
+
+Ngày 08/11/2026: giữ Hình 2.1–2.17 và toàn bộ PNG gốc; làm rõ vị trí UC-01 tại 2.3.1, CD-01 tại 2.6.1, MH-TQ tại 2.8.1. Các hình còn lại giữ tiểu mục đã kiểm kê. Xem [bảng bố trí](BANG_BO_TRI_HINH_BANG_VA_NGUON.md) và [đề cương G1](DE_CUONG_CHI_TIET.md). Hình 2.18/2.19 chỉ là vị trí ERD/kiến trúc bổ trợ dự kiến, chưa có hình mới, không tính vào 17 sơ đồ gốc hoặc sáu loại đã xem. Không sửa sơ đồ để khắc phục các sai khác trong giai đoạn này.

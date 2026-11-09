@@ -286,3 +286,13 @@ Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR nga
 - Tạo 7 hồ sơ trong `docs/bao-cao-cuoi-ky/`: đề cương sơ bộ, kiểm kê sơ đồ, đối chiếu mã, nguồn tham khảo, ảnh cần bổ sung, kiểm thử và tiến độ. Thư viện xét chọn vẫn 35 nguồn/20 Việt/15 Anh, chưa chốt danh mục nộp.
 - Kiểm tra tài liệu đạt: 121 liên kết nội bộ, 28 định vị mã/test, 17 vị trí hình; SQL nguồn nhận diện 21 bảng ứng dụng; bảo toàn hash 17 sơ đồ và 40 file đã thay đổi trước nhiệm vụ trước khi nối ghi nhận này. Không chạy test ứng dụng/DB mới; mọi PASS lịch sử được gắn biên bản và giới hạn.
 - Không sửa mã, sơ đồ, DB hoặc Word; không thay nghiệm thu phần mềm/giai đoạn 12/Admin. Nhánh riêng `codex/bao-cao-cuoi-ky-giai-doan-0`; dừng chờ người dùng xem hồ sơ trước Giai đoạn 1.
+
+
+## Báo cáo cuối kỳ PetCare — hoàn thiện đề cương Giai đoạn 1 (08/11/2026)
+
+- Người dùng đã xem/chấp nhận G0 và cho phép tiếp tục G1; chỉ hoàn thiện đề cương và dừng kiểm tra, chưa viết toàn báo cáo hoặc xuất Word/PDF.
+- Hoàn thiện đề cương từ Tóm tắt trở xuống, đủ ba chương với 32 mục chính (8/12/12), 118 tiểu mục, mục đích, phạm vi, nguồn và bằng chứng. Chương 2 giữ đủ sáu loại và Hình 2.1–2.17 của 17 PNG gốc, không chỉnh sơ đồ.
+- Tạo BANG_BO_TRI_HINH_BANG_VA_NGUON.md: 36 vị trí hình dự kiến (17 sơ đồ gốc, 2 hình thiết kế bổ trợ chưa tạo, 17 vị trí ảnh UI cần chọn/kiểm/bổ sung), 24 bảng và nguồn theo 32 mục. Không nhận các vị trí còn thiếu là hình/kết quả đã có.
+- Đồng bộ DE_CUONG_CHI_TIET.md, DANH_MUC_SO_DO_UML.md, DANH_SACH_HINH_ANH_CAN_BO_SUNG.md và TIEN_DO_VIET_BAO_CAO.md trong docs/bao-cao-cuoi-ky/. Giữ thư viện 35 hồ sơ, các giới hạn catalog, test lịch sử và nguồn chưa có xuất xứ.
+- Kiểm tra tài liệu đạt: mục con liên tục, số/vị trí hình-bảng khớp catalog và tiểu mục, 152 liên kết nội bộ hợp lệ, nguồn không ngoài dãy làm việc; bảo toàn hash 40 file thay đổi có trước và 224 file mã/sơ đồ/nghiên cứu trước khi nối ghi nhận này. Không chạy app/test/DB hoặc thay nghiệm thu phần mềm.
+- Nhánh riêng codex/bao-cao-cuoi-ky-giai-doan-1. Dừng sau bàn giao G1; G2–G7 chưa được thực hiện trong lượt này.
