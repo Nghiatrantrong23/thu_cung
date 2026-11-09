@@ -1,8 +1,8 @@
 # Tiến độ biên soạn báo cáo cuối kỳ PetCare
 
-Ngày cập nhật: **08/11/2026**, theo ngày người dùng. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-1`. Các mục khảo sát G0 bên dưới là hồ sơ lịch sử, kết quả G1 tại mục 10.
+Ngày cập nhật: **09/11/2026**. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-2`. Các mục khảo sát G0/G1 bên dưới là hồ sơ lịch sử; kết quả G2 tại mục 11.
 
-**Trạng thái hiện tại: người dùng đã chấp nhận Giai đoạn 0; đề cương Giai đoạn 1 đã được hoàn thiện để kiểm tra và bàn giao.** Chưa thực hiện Giai đoạn 2–7, chưa viết toàn bộ báo cáo, chưa tạo DOCX/PDF. Không thay trạng thái nghiệm thu phần mềm.
+**Trạng thái hiện tại: đã viết bản nháp Tóm tắt, Mở đầu và Chương 1 theo yêu cầu tiếp tục Giai đoạn 2.** Dừng bàn giao để người dùng kiểm tra. Chưa viết Chương 2–3, chưa tạo DOCX/PDF và không thay trạng thái nghiệm thu phần mềm.
 
 ## 1. Phạm vi và yêu cầu điều khiển
 
@@ -130,15 +130,15 @@ Kiểm tra cục bộ ngày 08/11/2026 **ĐẠT**: đủ bảy file, sáu loại
 | Giai đoạn | Trạng thái |
 |---|---|
 | 0 — Khảo sát | Đã được người dùng xem và chấp nhận trong chat |
-| 1 — Đề cương | Đã hoàn thiện mục/tiểu mục và bố trí hình/bảng/nguồn; dừng chờ người dùng kiểm tra |
-| 2 — Tóm tắt/Mở đầu/Chương 1 | Chưa bắt đầu trong nhiệm vụ báo cáo cuối kỳ |
+| 1 — Đề cương | Đã hoàn thiện; người dùng yêu cầu tiếp tục G2 |
+| 2 — Tóm tắt/Mở đầu/Chương 1 | Đã có bản nháp Markdown, đối chiếu nguồn và cập nhật tiến độ; dừng chờ kiểm tra |
 | 3 — Chương 2 | Chưa bắt đầu |
 | 4 — Chương 3 | Chưa bắt đầu |
 | 5 — Hoàn thiện nội dung | Chưa bắt đầu |
 | 6 — Xuất Word | Chưa bắt đầu |
 | 7 — Kiểm tra cuối/PDF | Chưa bắt đầu |
 
-**Dừng sau Giai đoạn 1 theo yêu cầu mới đã chấp thuận.** Không tự chuyển sang Giai đoạn 2, viết toàn báo cáo, sửa sơ đồ hoặc tạo Word. Các khoảng thiếu được giữ rõ để xử lý ở bước phù hợp, không thay bằng nội dung giả.
+**Điểm dừng hiện hành: sau Giai đoạn 2**, theo yêu cầu tiếp tục mới của người dùng. Không tự viết G3–G7, sửa sơ đồ hoặc tạo Word. Các khoảng thiếu được giữ rõ để xử lý ở bước phù hợp, không thay bằng nội dung giả.
 
 
 ## 10. Giai đoạn 1 hoàn thiện đề cương chi tiết
@@ -178,3 +178,43 @@ Kiểm tra cục bộ G1 **ĐẠT** ngày 08/11/2026: đủ 32 mục chính (8/1
 ### 10.4. Điểm dừng
 
 Bàn giao đề cương G1 cho người dùng kiểm tra. Chưa bắt đầu viết Tóm tắt/Mở đầu/Chương 1 ở G2 hoặc các chương tiếp theo. Việc chấp nhận G0 chỉ cho phép G1, không mặc nhiên cho phép tự chạy hết quy trình.
+
+Ghi nhận lưu G1: nhánh `codex/bao-cao-cuoi-ky-giai-doan-1`, commit `76e3d43ce9f80d786eebb41d3431e3328e9544a2` đã được đối chiếu với ref remote. Điểm dừng G1 nêu trên là lịch sử, được thay bằng yêu cầu “tiếp giai đoạn 2” của người dùng ngày 09/11/2026.
+
+## 11. Giai đoạn 2 — Tóm tắt, Mở đầu và Chương 1
+
+### 11.1. Phạm vi và sản phẩm
+
+Tiếp tục từ đề cương G1 theo yêu cầu người dùng. Chỉ viết ba phần đầu bằng Markdown, kiểm tra nguồn và cập nhật tiến độ; không tạo Word/PDF, không viết Chương 2–3 và không sửa mã hoặc sơ đồ gốc.
+
+| File | Kết quả |
+|---|---|
+| [TOM_TAT_DO_AN.md](TOM_TAT_DO_AN.md) | Nêu vấn đề, mục tiêu, kỹ thuật/thiết kế, thuật toán khả thi, kết quả và hạn chế; bản ngắn hướng tới tối đa một A4 |
+| [MO_DAU.md](MO_DAU.md) | Sáu mục theo đề cương: lý do, mục tiêu, đối tượng, phạm vi, phương pháp và cấu trúc |
+| [CHUONG_1_TONG_QUAN_TAI_LIEU.md](CHUONG_1_TONG_QUAN_TAI_LIEU.md) | Đủ 8 mục chính/29 tiểu mục và Bảng 1.1–1.5; có phân tích thay vì chỉ liệt kê nguồn |
+| [BO_SUNG_NGUON_GIAI_DOAN_2.md](BO_SUNG_NGUON_GIAI_DOAN_2.md) | Phương pháp tìm có mục tiêu, metadata, phạm vi đọc, độ tin cậy, mức liên quan, vị trí dùng và giới hạn 6 hồ sơ bổ sung |
+| [DANH_MUC_TAI_LIEU_THAM_KHAO.md](DANH_MUC_TAI_LIEU_THAM_KHAO.md) | Kho làm việc 41 hồ sơ, giữ số cũ; bổ sung [36]–[41] và ngày truy cập đúng đợt |
+| [KIEM_TRA_TRICH_DAN_GIAI_DOAN_2.md](KIEM_TRA_TRICH_DAN_GIAI_DOAN_2.md) | 24 nguồn thực sự được dẫn, đối chiếu luận điểm/phạm vi đọc, giới hạn IEEE và các bước còn lại |
+| File tiến độ, đề cương và catalog hình/bảng | Liên kết bản nháp và đồng bộ nguồn đã bổ sung; không đổi cấu trúc ba chương hoặc số hình gốc |
+
+### 11.2. Nội dung và bằng chứng
+
+Chương 1 đi từ phạm vi chăm sóc chó mèo và thông tin tiếp nhận tới quy trình, vấn đề quản lý, công trình liên quan, sản phẩm thương mại, so sánh, cơ sở lý thuyết và stack. Bảng 1.1 là tổng hợp nghiệp vụ do nhóm phân tích; Bảng 1.2–1.4 tách công trình, nguồn nhà cung cấp và các ô chưa xác định; Bảng 1.5 đối chiếu công nghệ với phiên bản khai báo và tài liệu chính thức.
+
+Đợt tìm bổ sung xử lý khoảng thiếu UML, Vite 5, runtime Node.js, bcrypt và bài giảng CSDL tiếng Việt; chuyển RFC 7519 từ ứng viên đã xác minh vào dãy số. Không dùng catalog sách như nội dung đã đọc. Đặc tả UML chỉ đọc các phần chọn lọc, không nhận đã đọc toàn bộ 796 trang. Ngày cập nhật mục lục bài giảng không được gán làm năm xuất bản từng PDF.
+
+Kho hiện có 41 hồ sơ, 21 Việt/20 Anh (51,2% Việt), 10 DOI có căn cứ. Bản nháp G2 dẫn 24 nguồn, 6 Việt/18 Anh (25% Việt); **chưa đạt mục tiêu tiếng Việt 60–70%**. Không đưa nguồn ít liên quan hoặc chưa đọc vào bản nháp để làm đẹp tỷ lệ. Kho nguồn dự phòng và tập dẫn cuối là hai phạm vi khác nhau; cần chọn theo luận điểm thực tế của cả ba chương khi chốt G5.
+
+Tóm tắt/Mở đầu dựa trên khảo sát mã và biên bản có trước, không tạo kết quả thử nghiệm mới. Các giới hạn về phân quyền Admin, công cụ mô phỏng, thanh toán có người xác nhận, SMTP và triển khai được giữ rõ. Không đưa số liệu thị trường, phỏng vấn hoặc đo hiệu năng không có bằng chứng. Thuật toán lịch được gọi đúng là kiểm tra khả thi, không là tối ưu hoặc tự động lưu phân công.
+
+### 11.3. Kiểm tra và điều kiện còn lại
+
+Kiểm tra tài liệu gồm: mục/tiểu mục khớp G1, năm bảng đúng vị trí và caption, mọi số dẫn có thư mục, liên kết cục bộ, UTF-8, diff và hash bảo toàn. Kết quả chi tiết lưu cục bộ tại `.cache/bao-cao-cuoi-ky-g2/validation.json`. Không chạy lại build/test ứng dụng hoặc truy cập DB vì không thay phần mềm; không biến kiểm tra Markdown thành một lần nghiệm thu chức năng.
+
+Kiểm tra cục bộ G2 **ĐẠT**: đủ 8 mục/29 tiểu mục Chương 1, 6 mục Mở đầu, 5 bảng đúng vị trí/caption G1; 24 nguồn được dẫn đều có đối ứng trong dãy 41 hồ sơ; 62 liên kết cục bộ trong 9 file được tạo/cập nhật hợp lệ. Tóm tắt có 327 đơn vị tách bằng khoảng trắng, dùng làm kiểm soát độ gọn chứ không thay kiểm trang. Hash 40 file thay đổi có trước và 218 file mã/sơ đồ được bảo vệ giữ nguyên trước khi nối ghi nhận mới vào kế hoạch. Rà soát nội dung do tác nhân biên soạn thực hiện, không nhận là phản biện độc lập.
+
+Chưa kiểm số trang Tóm tắt hoặc độ dài toàn chương bằng render; thực hiện khi dàn Word G6. Chưa xếp lại danh mục toàn báo cáo theo quy tắc trường, chưa thay số chung hoặc kiểm citation field trong Word. Các việc này thuộc G5–G7. Số làm việc hiện tại giữ nhất quán để truy vết; không nhận đã đạt thứ tự danh mục nộp cuối.
+
+### 11.4. Điểm dừng
+
+Hoàn tất bản nháp G2 trong phạm vi đã giao và bàn giao để người dùng kiểm tra. **Chưa bắt đầu G3.** Giữ nguyên mã nguồn, dữ liệu và 17 sơ đồ; không xuất Word/PDF trong giai đoạn này.

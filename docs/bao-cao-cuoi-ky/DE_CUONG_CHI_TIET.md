@@ -2,6 +2,8 @@
 
 Phiên bản Giai đoạn 1 — ngày 08/11/2026. Người dùng đã chấp nhận khảo sát Giai đoạn 0 và cho phép hoàn thiện đề cương. Đây là kế hoạch viết có mục/tiểu mục, vị trí hình/bảng và nguồn; **chưa phải nội dung báo cáo đã viết, chưa xuất Word/PDF**. Giai đoạn 1 được kiểm tra trước khi dừng chờ người dùng duyệt bước tiếp theo.
 
+Cập nhật G2 ngày 09/11/2026: đã có bản nháp [Tóm tắt](TOM_TAT_DO_AN.md), [Mở đầu](MO_DAU.md) và [Chương 1](CHUONG_1_TONG_QUAN_TAI_LIEU.md). Giữ nguyên cấu trúc đề cương; bổ sung nguồn [36]–[41] cho các khoảng thiếu, chưa viết Chương 2–3 hoặc tạo Word/PDF.
+
 Tên đề tài: **XÂY DỰNG HỆ THỐNG QUẢN LÝ VÀ ĐẶT LỊCH DỊCH VỤ CHĂM SÓC THÚ CƯNG**.
 
 ## Quy ước và phạm vi đề cương
@@ -9,7 +11,7 @@ Tên đề tài: **XÂY DỰNG HỆ THỐNG QUẢN LÝ VÀ ĐẶT LỊCH DỊCH 
 - Báo cáo bắt đầu từ TÓM TẮT ĐỒ ÁN; không có bìa/bìa trong, cảm ơn, cam đoan, nhận xét hoặc lịch làm việc. Giữ đúng ba chương; phụ lục nếu có đứng trước tài liệu tham khảo.
 - Mở đầu bắt đầu số trang 1; phần trước không hiện số. A4, Times New Roman 13, tiêu đề chính 16, giãn 1,5, lề trên/dưới 2 cm, trái 3 cm, phải 2 cm theo quy định chữ và yêu cầu đã chốt. Chưa đo số trang hoặc áp định dạng Word trong giai đoạn này.
 - Các tên mục/tiểu mục dưới đây là cấu trúc báo cáo; dòng mục đích, căn cứ và điều kiện là hướng dẫn biên soạn, không chép nguyên thành văn bản báo cáo.
-- Số nguồn [1]–[35] là mã tham chiếu làm việc từ thư viện đã xác minh, chưa phải số cuối theo ABC mẫu trường. Chỉ giữ nguồn thực sự sử dụng; khi chốt đổi số đồng bộ. Nguồn catalog phải đọc phần cần dẫn trước khi viết luận điểm chi tiết.
+- Số nguồn [1]–[41] là mã tham chiếu làm việc từ thư viện đã xác minh, chưa phải số cuối theo ABC mẫu trường. Chỉ giữ nguồn thực sự sử dụng; khi chốt đổi số đồng bộ. Nguồn catalog phải đọc phần cần dẫn trước khi viết luận điểm chi tiết.
 - Hình 2.1–2.17 giữ cho 17 PNG gốc, không vẽ/sửa. Hình 2.18–2.19 và Hình 3.1–3.17 chỉ là vị trí dự kiến, có trạng thái bằng chứng riêng. Số hình/bảng là số thứ tự theo chương, không phải số trang.
 - Mỗi mục đi từ mục đích đến phân tích, căn cứ và liên hệ; mỗi sơ đồ: giới thiệu → chèn hình thực → thành phần/luồng/ngoại lệ có trên hình → yêu cầu liên quan → sai khác mã nếu có. Không sáng tạo message, endpoint hoặc kết quả kiểm thử.
 - [Bảng bố trí hình, bảng và nguồn](BANG_BO_TRI_HINH_BANG_VA_NGUON.md) là danh sách vị trí thống nhất; [kiểm kê sơ đồ](DANH_MUC_SO_DO_UML.md), [đối chiếu mã](BANG_DOI_CHIEU_UML_VA_MA_NGUON.md), [ảnh cần bổ sung](DANH_SACH_HINH_ANH_CAN_BO_SUNG.md) và [test](BANG_KIEM_THU_PETCARE.md) là hồ sơ bằng chứng.
@@ -240,9 +242,9 @@ Phạm vi viết: Client–server, ràng buộc REST, người dùng–vai trò�
 Phạm vi viết: Phân hoạch tương đương, giá trị biên và kiểm thử trạng thái; tách lý thuyết khỏi kết quả chạy.
 
 
-**Nguồn và vị trí dẫn:** [1], [2], [11], [14] cần đọc nội dung; [18], [23], [32], [34] đã đọc phần liên quan.
+**Nguồn và vị trí dẫn:** G2 dùng [36] cho UML, [40] cho quan hệ/chuẩn hóa, cùng [18], [23], [32], [34]. [1], [2], [11], [14] vẫn cần đọc nội dung nếu được dẫn chi tiết; không dùng catalog thay nội dung.
 
-**Bằng chứng/điều kiện viết:** Không dùng catalog thay trang/chương được dẫn; chưa có hồ sơ chuẩn UML chính thức được chọn.
+**Bằng chứng/điều kiện viết:** Không dùng catalog thay trang/chương được dẫn; G2 đã chọn đặc tả UML [36] và bài giảng CSDL [40], chỉ sử dụng các phần đã đọc.
 
 
 ### 1.7. Công nghệ và kỹ thuật ứng dụng
@@ -293,7 +295,7 @@ Phạm vi viết: Phân biệt băm với mã hóa có thể giải mã; có th�
 - **Bảng 1.5. Công nghệ lựa chọn và căn cứ sử dụng** — dữ liệu cần trình bày: Thành phần, vai trò, lý do, phiên bản khai báo, nguồn/giới hạn.
 
 
-**Nguồn và vị trí dẫn:** [17], [18], [22], [23], [24], [25]; UV09 đã xác minh ngoài dãy. Vite/bcrypt/runtime Node tổng quát còn cần bổ sung.
+**Nguồn và vị trí dẫn:** [17], [18], [23], [24], [25], [37], [38], [39], [41]. G2 đã bổ sung Vite 5/bcrypt/runtime Node; UV09 chuyển thành [41]. [22] dành phần test runner khi viết kiểm thử.
 
 **Bằng chứng/điều kiện viết:** package.json, middleware và controller đã khảo sát; không đồng nhất version khai báo với runtime đo được.
 
@@ -1194,11 +1196,11 @@ Chốt giới hạn triển khai, nguồn/ảnh và đánh giá ở 3.12; không
 
 ## DANH MỤC TÀI LIỆU THAM KHẢO
 
-Nguồn xét chọn: [DANH_MUC_TAI_LIEU_THAM_KHAO.md](DANH_MUC_TAI_LIEU_THAM_KHAO.md), kế thừa 35 hồ sơ đã xác minh (20 Việt/15 Anh). Chưa khóa danh sách nguồn được trích thực tế. Mục tiêu khoảng 20–25 nguồn chất lượng, tối thiểu 10 theo mẫu; không giữ nguồn bệnh lý hoặc catalog không dùng chỉ để đủ số/tỷ lệ.
+Nguồn xét chọn: [DANH_MUC_TAI_LIEU_THAM_KHAO.md](DANH_MUC_TAI_LIEU_THAM_KHAO.md), hiện 41 hồ sơ (21 Việt/20 Anh), kế thừa 35 và bổ sung G2. G2 dẫn 24 nguồn; chưa khóa tập dẫn toàn báo cáo. Mục tiêu khoảng 20–25 nguồn chất lượng, tối thiểu 10 theo mẫu; không giữ nguồn bệnh lý hoặc catalog không dùng chỉ để đủ số/tỷ lệ.
 
 Khi viết, đặt số tại đúng luận điểm; nguồn ngoài cho khái niệm/kết quả kế thừa, bằng chứng dự án cho kết quả tự làm. Không trích nguồn chưa xác minh. Không dùng dữ liệu hiệu quả của VOAS/bài khác làm kết quả PetCare. Nguồn sản phẩm được gắn loại tài liệu hãng.
 
-Thứ tự dự kiến theo quy định trường: nhóm Việt theo tên tác giả đầu, nhóm Anh theo họ/tổ chức, một dãy số liên tục; ghi rõ điểm không thống nhất trong mẫu đã khảo sát. Chỉ sắp/đổi số đồng bộ khi chốt danh sách, sau đó kiểm citation ↔ reference trên bản thảo thật. Không nhận dãy 1–35 đang làm việc là thứ tự nộp đã hoàn tất.
+Thứ tự dự kiến theo quy định trường: nhóm Việt theo tên tác giả đầu, nhóm Anh theo họ/tổ chức, một dãy số liên tục; ghi rõ điểm không thống nhất trong mẫu đã khảo sát. Chỉ sắp/đổi số đồng bộ khi chốt danh sách, sau đó kiểm citation ↔ reference trên bản thảo thật. Không nhận dãy 1–41 đang làm việc là thứ tự nộp đã hoàn tất.
 
 ## Điều kiện bàn giao Giai đoạn 1
 

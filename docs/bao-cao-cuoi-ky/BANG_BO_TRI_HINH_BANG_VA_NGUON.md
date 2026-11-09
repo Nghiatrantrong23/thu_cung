@@ -1,6 +1,6 @@
 # Bố trí hình bảng và nguồn cho báo cáo PetCare
 
-Giai đoạn 1, ngày 08/11/2026. Danh sách dành vị trí để biên soạn; chưa chèn hình/bảng vào Word. Các số nguồn là mã làm việc theo thư viện 35 hồ sơ.
+Giai đoạn 1, ngày 08/11/2026; cập nhật nguồn G2 ngày 09/11/2026. Danh sách dành vị trí để biên soạn; chưa chèn hình/bảng vào Word. Các số nguồn là mã làm việc theo kho hiện có 41 hồ sơ. Bảng 1.1–1.5 đã được viết trong bản nháp Chương 1, giữ vị trí/caption dưới đây.
 
 ## Quy ước vị trí và nguồn
 
@@ -59,7 +59,7 @@ Giai đoạn 1, ngày 08/11/2026. Danh sách dành vị trí để biên soạn;
 | Bảng 1.2 | 1.4.3 | Tổng hợp công trình nghiên cứu liên quan | Tác giả/năm, miền bài toán, chức năng có bằng chứng, cách đánh giá, hạn chế | [6], [26], [29], [30], [33]; [26] chỉ metadata |
 | Bảng 1.3 | 1.4.4 | Khảo sát nền tảng thương mại | Sản phẩm, tính năng được hãng mô tả, ngày/phạm vi tiếp cận, giới hạn | [19], [20], [21]; không benchmark |
 | Bảng 1.4 | 1.5.2 | So sánh giải pháp theo tiêu chí PetCare | Tiêu chí, bằng chứng nguồn, tương đồng/khác biệt, điều chưa xác định | [6], [19], [20], [21], [29], [30], [33] và G0 |
-| Bảng 1.5 | 1.7.8 | Công nghệ lựa chọn và căn cứ sử dụng | Thành phần, vai trò, lý do, phiên bản khai báo, nguồn/giới hạn | [17], [18], [22]–[25]; package; Vite/bcrypt cần bổ sung nguồn |
+| Bảng 1.5 | 1.7.8 | Công nghệ lựa chọn và căn cứ sử dụng | Thành phần, vai trò, lý do, phiên bản khai báo, nguồn/giới hạn | [17], [23]–[25], [37]–[39], [41]; package; nguồn bổ sung đã có ở G2 |
 | Bảng 2.1 | 2.2.1 | Tác nhân và ánh xạ nhóm quyền | Tác nhân, vai_tro, chuc_vu, phạm vi; khách vãng lai tách nhóm đăng nhập | UC-01, middleware; [34] cho lý thuyết |
 | Bảng 2.2 | 2.2.2 | Yêu cầu chức năng | Mã yêu cầu, tác nhân, đầu vào/đầu ra, module dự kiến, điều kiện chấp nhận | Kế hoạch, G0, API; chưa phải bảng kết quả |
 | Bảng 2.3 | 2.2.3 | Yêu cầu phi chức năng và cách kiểm chứng | Yêu cầu, tiêu chí, phương pháp/bằng chứng cần có, trạng thái chưa đo | Phân tích nhóm, [23], [25], [32], [34] phù hợp |
@@ -91,8 +91,8 @@ Nguồn dưới đây cần được dẫn tại luận điểm tương ứng, k
 | 1.3 | Làm rõ bài toán phần mềm cần giải quyết trước khi so sánh giải pháp. | [23], [29], [30], [33]; lý do nghiệp vụ do nhóm phân tích. | Tài liệu tổng hợp, yêu cầu và mã đã khảo sát; không khẳng định đã đo mức giảm thời gian chờ. |
 | 1.4 | Tổng hợp có phân loại nguồn và phạm vi bằng chứng. | [6], [26], [29], [30], [33], [19], [20], [21]; [4], [27], [28] có điều kiện. | Năm file nghiên cứu và thư viện 35 hồ sơ. D&C/Paws Pet House chưa đủ xuất xứ, không làm nguồn chính thức. |
 | 1.5 | Rút ra yêu cầu áp dụng cho PetCare từ đối chiếu có giới hạn. | [6], [19], [20], [21], [29], [30], [33]. | Bảng tổng hợp nguồn và yêu cầu; kết luận so sánh là phân tích của nhóm. |
-| 1.6 | Đặt nền tảng cho mô hình hóa và kiểm chứng ở chương sau. | [1], [2], [11], [14] cần đọc nội dung; [18], [23], [32], [34] đã đọc phần liên quan. | Không dùng catalog thay trang/chương được dẫn; chưa có hồ sơ chuẩn UML chính thức được chọn. |
-| 1.7 | Giải thích đúng công nghệ dự án sử dụng và lý do lựa chọn. | [17], [18], [22], [23], [24], [25]; UV09 đã xác minh ngoài dãy. Vite/bcrypt/runtime Node tổng quát còn cần bổ sung. | package.json, middleware và controller đã khảo sát; không đồng nhất version khai báo với runtime đo được. |
+| 1.6 | Đặt nền tảng cho mô hình hóa và kiểm chứng ở chương sau. | [18], [23], [32], [34], [36], [40]; các sách chỉ catalog vẫn có điều kiện đọc. | G2 đã có nguồn UML chính thức và bài giảng CSDL đọc được; không dùng catalog thay nội dung. |
+| 1.7 | Giải thích đúng công nghệ dự án sử dụng và lý do lựa chọn. | [17], [18], [23], [24], [25], [37], [38], [39], [41]. | G2 đã bổ sung Vite/bcrypt/runtime Node và RFC 7519; không đồng nhất version khai báo với runtime đo được. |
 | 1.8 | Kết nối bối cảnh, giải pháp liên quan và căn cứ với phương pháp thực hiện. | Tổng hợp các nguồn đã dùng trong Chương 1, không bổ sung nguồn chỉ để đủ số. | Nêu yêu cầu được chọn và khoảng thiếu bằng chứng; không lặp kết quả Chương 3. |
 | 2.1 | Xác định đầu vào, quy trình và phạm vi được nhóm sử dụng. | [13], [16] làm căn cứ nghiệp vụ; [1], [14] chỉ sau đọc phần cần dẫn. | Kế hoạch, hồ sơ G0 và mã; yêu cầu dự án không phải kết quả thực nghiệm từ nguồn ngoài. |
 | 2.2 | Làm rõ năm nhóm đăng nhập và quyền thực tế. | [34] cho RBAC; [16] khi hình thành yêu cầu an toàn. | auth.middleware.js, App.jsx, routes; bảng quyền là mô tả mã hiện có, không sửa RBAC. |

@@ -1,10 +1,10 @@
 # Hồ sơ tài liệu tham khảo phục vụ báo cáo cuối kỳ
 
-Ngày đối chiếu cục bộ: 08/11/2026. Tận dụng thư viện đã xác minh trong đợt 07/11/2026, không thực hiện lại tìm kiếm web hoặc đổi ngày truy cập thành 08/11. Narrative/Integrative Literature Review, không Systematic Review.
+Ngày cập nhật: 09/11/2026. G0–G1 tận dụng thư viện đã xác minh đợt 07/11/2026; G2 tìm bổ sung có mục tiêu cho những phần lý thuyết còn thiếu. Giữ ngày truy cập của từng nguồn đúng đợt kiểm tra. Narrative/Integrative Literature Review, không Systematic Review.
 
-**35 hồ sơ đánh số, 20 Việt/15 Anh (57,1% Việt), 9 hồ sơ có DOI đã đối chiếu nguồn.** Xác minh thư mục không có nghĩa đọc toàn văn; resolver DOI/rút bài chưa được kiểm tra toàn diện. Dãy dưới đây là hồ sơ xét chọn, không phải quyết định đưa đủ 35 vào Word.
+**41 hồ sơ đánh số, 21 Việt/20 Anh (51,2% Việt), 10 hồ sơ có DOI có căn cứ.** G2 bổ sung 5 tài liệu mới và chuyển RFC 7519 từ ứng viên đã xác minh vào dãy số. Bản lưu nghiên cứu 35 hồ sơ vẫn được giữ như lịch sử. Xác minh thư mục không có nghĩa đọc toàn văn; resolver DOI/rút bài chưa được kiểm tra toàn diện. Dãy dưới đây là kho xét chọn, không phải quyết định đưa đủ 41 vào Word. Tập thực sự dẫn ở G2 được ghi riêng trong [kiểm tra trích dẫn G2](KIEM_TRA_TRICH_DAN_GIAI_DOAN_2.md).
 
-Nguồn gốc và giới hạn chi tiết: [danh mục nghiên cứu](../nghien-cuu-tai-lieu/DANH_MUC_25_TAI_LIEU_THAM_KHAO.md), [kiểm tra IEEE](../nghien-cuu-tai-lieu/BAO_CAO_KIEM_TRA_TRICH_DAN_IEEE.md).
+Nguồn gốc và giới hạn chi tiết: [danh mục nghiên cứu 35 hồ sơ](../nghien-cuu-tai-lieu/DANH_MUC_25_TAI_LIEU_THAM_KHAO.md), [kiểm tra IEEE trước G2](../nghien-cuu-tai-lieu/BAO_CAO_KIEM_TRA_TRICH_DAN_IEEE.md), [hồ sơ bổ sung G2](BO_SUNG_NGUON_GIAI_DOAN_2.md).
 
 ## Quyết định sử dụng ở giai đoạn khảo sát
 
@@ -45,6 +45,12 @@ Nguồn gốc và giới hạn chi tiết: [danh mục nghiên cứu](../nghien-
 | [33] | Anh | Đã đọc phần liên quan; không mặc nhiên toàn văn | 1/2/3 |
 | [34] | Anh | Đã đọc phần liên quan; không mặc nhiên toàn văn | 1/2/3 |
 | [35] | Anh | Tài liệu công cụ; chưa có collection/kết quả Postman của dự án | 3 nếu dùng |
+| [36] | Anh | Đặc tả UML 2.5.1; đã đọc các phần chọn lọc, không toàn bộ đặc tả | 1.6.2/2 |
+| [37] | Anh | Vite 5 Guide; đã đọc Overview/dev server/build | 1.7.2/3 |
+| [38] | Anh | Node.js Learn; đã đọc giới thiệu runtime và I/O | 1.7.3/2/3 |
+| [39] | Anh | bcrypt README v5.1.1; đã đọc API/giới hạn 72 byte | 1.7.8/2/3 |
+| [40] | Việt | Bài giảng CSDL UET; đã đọc các phần quan hệ/thiết kế/chuẩn hóa | 1.6.3/2 |
+| [41] | Anh | RFC 7519; chuyển UV09, định nghĩa JWT; dùng cùng [25] | 1.7.7/2/3 |
 
 ## Thư mục đã xác minh để xét chọn
 
@@ -118,12 +124,24 @@ Nguồn gốc và giới hạn chi tiết: [danh mục nghiên cứu](../nghien-
 
 [35] **Postman**, “Write scripts to test API response data in Postman,” *Postman Docs*, Latest (v12), không ghi năm. [Online]. Available: [tài liệu chính thức](https://learning.postman.com/docs/tests-and-scripts/write-scripts/test-scripts/). Accessed: Nov. 7, 2026.
 
+[36] **Object Management Group**, *OMG Unified Modeling Language (OMG UML), Version 2.5.1*, formal/2017-12-05, Dec. 2017. [Online]. Available: [hồ sơ đặc tả](https://www.omg.org/spec/UML/2.5.1), [PDF chính thức](https://www.omg.org/spec/UML/2.5.1/PDF). Accessed: Nov. 9, 2026.
+
+[37] **Vite contributors**, “Getting Started,” *Vite 5 Documentation*, không ghi năm. [Online]. Available: [tài liệu nhánh 5](https://v5.vite.dev/guide/). Accessed: Nov. 9, 2026.
+
+[38] **Node.js contributors**, “Introduction to Node.js,” *Node.js Learn*, không ghi năm. [Online]. Available: [tài liệu chính thức](https://nodejs.org/learn/getting-started/introduction-to-nodejs). Accessed: Nov. 9, 2026.
+
+[39] **Kelektiv**, “node.bcrypt.js — README,” tag v5.1.1, không ghi năm. [Online]. Available: [repository chính thức](https://github.com/kelektiv/node.bcrypt.js/tree/v5.1.1). Accessed: Nov. 9, 2026.
+
+[40] **Nguyễn Hải Châu**, *Slide môn học Cơ sở dữ liệu (Introduction to database systems)*. Khoa Công nghệ thông tin, Trường Đại học Công nghệ, Đại học Quốc gia Hà Nội, không ghi năm xuất bản chung. [Online]. Available: [mục lục và các bài giảng](https://uet.vnu.edu.vn/~chaunh/slide/index.htm). Accessed: Nov. 9, 2026. Mục lục cập nhật 05/08/2025; không dùng làm năm xuất bản của từng PDF.
+
+[41] **M. Jones, J. Bradley, and N. Sakimura**, *JSON Web Token (JWT)*, IETF, RFC 7519, May 2015, doi: 10.17487/RFC7519. [Online]. Available: [hồ sơ RFC](https://www.rfc-editor.org/info/rfc7519/). Accessed: Nov. 9, 2026.
+
 ## Điều kiện trước khi đưa vào bản nộp
 
 - Chọn khoảng 20–25 nguồn có luận điểm được sử dụng thực tế; không chọn nhiều bài bệnh da chỉ để đạt tỷ lệ Việt. Tỷ lệ 60–70% là mục tiêu chưa đạt, không phải kết quả hiện tại.
 - Các giáo trình phân tích/UML/CSDL tiếng Việt mới xác minh catalog cần tiếp cận đúng chương hoặc chọn nguồn thay thế trước khi viết lý thuyết chi tiết. Không dùng catalog làm chứng cứ cho thuật toán, chuẩn hóa hay ký pháp cụ thể.
 - Nguồn [32] có bản điện tử tháng 5/2014 đã đọc phần liên quan; không ghép ISBN/phân trang từ catalog bản in khác. Nguồn [33] dùng 2023 theo PDF/số báo dù landing có ngày 2025; UV17 là bản VOAS kỷ yếu khác thứ tự tác giả, không tính thêm một nghiên cứu độc lập.
-- RFC 7519 ở UV09 đã xác minh nhưng nằm ngoài dãy đánh số hiện tại; cân nhắc chọn khi viết JWT. Vite, bcrypt và chuẩn UML chưa có hồ sơ chính thức được chọn tương ứng trong thư viện này; ghi là khoảng cần bổ sung, không tự tạo nguồn.
+- G2 đã xử lý khoảng thiếu ở UML, Vite, runtime Node.js, bcrypt, lý thuyết CSDL tiếng Việt và đưa RFC 7519 vào số [41]. Phạm vi đọc chi tiết trong hồ sơ bổ sung; không suy rằng tất cả sách tiếng Việt trước đó đã được đọc.
 - D&C, Paws Pet House, HUTECH và PTIT đang giữ theo trạng thái ứng viên; không đưa vào danh mục chính thức cho tới khi đủ điều kiện. Các tài liệu sản phẩm không được gắn nhãn bài nghiên cứu.
 - Mẫu trường có mâu thuẫn cách xếp; dự kiến Việt theo tên tác giả đầu, Anh theo họ/tổ chức, một dãy số liên tục. Đây là điều chỉnh theo trường khác IEEE thuần theo lần xuất hiện; cần đối chiếu khi chốt và thay số đồng bộ trong nội dung.
-- Chưa có báo cáo hoàn chỉnh nên chưa thể kiểm citation ↔ reference ở bản nộp; không xem kiểm kê 35 hồ sơ là kiểm tra IEEE toàn báo cáo.
+- Đã kiểm citation ↔ reference cho bản nháp G2, chưa phải bản nộp đầy đủ. Chương 2–3, danh mục cuối, thứ tự theo mẫu trường và trích dẫn trong Word còn phải kiểm tiếp ở các giai đoạn sau.

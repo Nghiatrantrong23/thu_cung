@@ -296,3 +296,13 @@ Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR nga
 - Đồng bộ DE_CUONG_CHI_TIET.md, DANH_MUC_SO_DO_UML.md, DANH_SACH_HINH_ANH_CAN_BO_SUNG.md và TIEN_DO_VIET_BAO_CAO.md trong docs/bao-cao-cuoi-ky/. Giữ thư viện 35 hồ sơ, các giới hạn catalog, test lịch sử và nguồn chưa có xuất xứ.
 - Kiểm tra tài liệu đạt: mục con liên tục, số/vị trí hình-bảng khớp catalog và tiểu mục, 152 liên kết nội bộ hợp lệ, nguồn không ngoài dãy làm việc; bảo toàn hash 40 file thay đổi có trước và 224 file mã/sơ đồ/nghiên cứu trước khi nối ghi nhận này. Không chạy app/test/DB hoặc thay nghiệm thu phần mềm.
 - Nhánh riêng codex/bao-cao-cuoi-ky-giai-doan-1. Dừng sau bàn giao G1; G2–G7 chưa được thực hiện trong lượt này.
+
+
+## Báo cáo cuối kỳ PetCare — biên soạn Giai đoạn 2 (09/11/2026)
+
+- Theo yêu cầu tiếp tục G2, viết bản nháp Tóm tắt đồ án, Mở đầu và Chương 1 trong docs/bao-cao-cuoi-ky/; không viết Chương 2–3 hoặc xuất Word/PDF.
+- Chương 1 đủ 8 mục/29 tiểu mục, Bảng 1.1–1.5 đúng vị trí và caption G1; phân biệt nghiên cứu, nguồn nhà cung cấp và phần phân tích của nhóm. Tóm tắt 327 đơn vị khoảng trắng, chưa kiểm trang bằng render Word.
+- Bổ sung 5 nguồn mới [36]–[40] và chuyển RFC 7519 từ UV09 thành [41]; kho 41 hồ sơ (21 Việt/20 Anh), bản nháp dẫn 24 nguồn (6 Việt/18 Anh). Chưa đạt mục tiêu nguồn Việt 60–70%, không thêm nguồn chưa đọc để tăng tỷ lệ.
+- Tạo hồ sơ bổ sung và kiểm tra trích dẫn G2; cập nhật kho nguồn, đề cương, catalog và tiến độ. Giữ số tham chiếu làm việc nhất quán; xếp danh mục/thay số cuối theo mẫu trường còn thuộc G5–G7.
+- Kiểm tra tài liệu đạt: cấu trúc và 5 bảng khớp G1, 24 số dẫn có đối ứng trong 41 hồ sơ, 62 liên kết cục bộ hợp lệ; bảo toàn 40 file thay đổi có trước và 218 file mã/sơ đồ trước khi nối ghi nhận này. Không chạy test ứng dụng/DB, không tạo PASS nghiệp vụ mới.
+- Nhánh riêng codex/bao-cao-cuoi-ky-giai-doan-2. Dừng sau bản nháp G2 để người dùng kiểm tra; không sửa mã, sơ đồ, dữ liệu hoặc thay trạng thái nghiệm thu phần mềm.
