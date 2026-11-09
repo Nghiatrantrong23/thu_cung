@@ -306,3 +306,13 @@ Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR nga
 - Tạo hồ sơ bổ sung và kiểm tra trích dẫn G2; cập nhật kho nguồn, đề cương, catalog và tiến độ. Giữ số tham chiếu làm việc nhất quán; xếp danh mục/thay số cuối theo mẫu trường còn thuộc G5–G7.
 - Kiểm tra tài liệu đạt: cấu trúc và 5 bảng khớp G1, 24 số dẫn có đối ứng trong 41 hồ sơ, 62 liên kết cục bộ hợp lệ; bảo toàn 40 file thay đổi có trước và 218 file mã/sơ đồ trước khi nối ghi nhận này. Không chạy test ứng dụng/DB, không tạo PASS nghiệp vụ mới.
 - Nhánh riêng codex/bao-cao-cuoi-ky-giai-doan-2. Dừng sau bản nháp G2 để người dùng kiểm tra; không sửa mã, sơ đồ, dữ liệu hoặc thay trạng thái nghiệm thu phần mềm.
+
+
+## Báo cáo cuối kỳ PetCare — biên soạn Giai đoạn 3 (09/11/2026)
+
+- Theo yêu cầu tiếp tục sau G2, viết CHUONG_2_PHUONG_PHAP_THUC_HIEN.md: đủ 12 mục/52 tiểu mục, 12 bảng, thuyết minh sáu loại biểu diễn và cơ chế dữ liệu/API. Không viết Chương 3 hoặc xuất Word/PDF.
+- Gắn 17 ảnh gốc tại Hình 2.1–2.17, giữ nguyên PNG. Hình 2.18 (ERD, mục 2.9.2) và 2.19 (kiến trúc, mục 2.10.1) để trống có caption/khoảng cách để người dùng tự chèn; không tạo sơ đồ thay thế.
+- Đối chiếu DDL 000–008, 21 bảng ứng dụng + lịch sử migration, quyền/route và cơ chế xử lý. Làm rõ đoạn G2 về EXCLUDE/tsrange đã có tại DB, kết hợp solver lịch chờ; chỉ hiệu chỉnh tài liệu, không sửa SQL/mã.
+- Tạo kiểm tra Chương 2/trích dẫn; cập nhật tiến độ, đề cương, catalog và kiểm kê sơ đồ. Chương 2 dẫn 13 nguồn đã xác minh, tổng phần đã viết vẫn 24 nguồn; chưa xếp/thay số danh mục cuối.
+- Kiểm tra tài liệu đạt: cấu trúc/caption/vị trí khớp G1, 17 đường dẫn ảnh và 2 chỗ trống đúng yêu cầu, đủ tên bảng và số nguồn; 109 liên kết cục bộ hợp lệ. Bảo toàn 40 file thay đổi có trước và 218 file mã/sơ đồ trước khi nối ghi nhận này; không chạy app/test/DB hoặc tạo PASS mới.
+- Theo chỉ dẫn mới ngày 09/11/2026, không push GitHub. Lưu cục bộ trên nhánh codex/bao-cao-cuoi-ky-giai-doan-3; dừng sau G3 để người dùng kiểm tra. Chưa bắt đầu G4, không thay nghiệm thu phần mềm.

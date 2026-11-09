@@ -23,7 +23,7 @@ Trong tập được dẫn, **6 nguồn Việt/18 nguồn Anh (25% Việt)**. S�
 | Hệ thống thương mại | [19]–[21], trang/hướng dẫn hãng | Bảng 1.3 ghi rõ nguồn nhà cung cấp, chưa dùng thử; ô thiếu căn cứ là chưa xác định |
 | UML | [36] các phần chọn lọc về Class, StateMachines, Activities, Interactions, Use Cases | Không gọi sơ đồ màn hình là loại UML chuẩn; không suy backend có class lập trình cùng tên |
 | Dữ liệu quan hệ/chuẩn hóa | [40] các slide quan hệ, thiết kế, chuẩn hóa đã đọc | Nêu lý thuyết, chưa chứng nhận cả CSDL đạt 3NF; không gán năm cập nhật mục lục cho mọi PDF |
-| Toàn vẹn/đồng thời | [23] Constraints, Concurrency Control, Range Types | Phân biệt khả năng PostgreSQL với cơ chế dự án thực dùng; không nhận đã cài exclusion constraint |
+| Toàn vẹn/đồng thời | [23] Constraints, Concurrency Control, Range Types | Phân biệt khả năng PostgreSQL với cơ chế dự án thực dùng. Đính chính khi đối chiếu G3: schema có EXCLUDE/tsrange cho lịch đã gán và ca theo predicate; không dùng ràng buộc này thay solver lịch chờ |
 | REST và RBAC | [18] Chương 5; [34] mô hình RBAC | HTTP/JSON chưa chứng minh đủ REST; năm nhóm quyền do dự án chọn, có thêm điều kiện sở hữu/trạng thái |
 | React/Vite/Node/Express | [24], [37], [38], [17] | Khớp nhánh phiên bản; mô tả công cụ không biến thành số đo hiệu năng hoặc chứng nhận production |
 | JWT/bcrypt | [41], [25], [39] | Ký khác mã hóa; băm khác mã hóa giải ngược; giới hạn bcrypt là 72 byte, không phải ký tự |

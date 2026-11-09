@@ -4,6 +4,8 @@ Phiên bản Giai đoạn 1 — ngày 08/11/2026. Người dùng đã chấp nh�
 
 Cập nhật G2 ngày 09/11/2026: đã có bản nháp [Tóm tắt](TOM_TAT_DO_AN.md), [Mở đầu](MO_DAU.md) và [Chương 1](CHUONG_1_TONG_QUAN_TAI_LIEU.md). Giữ nguyên cấu trúc đề cương; bổ sung nguồn [36]–[41] cho các khoảng thiếu, chưa viết Chương 2–3 hoặc tạo Word/PDF.
 
+Cập nhật G3 ngày 09/11/2026: đã có [bản nháp Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md), đủ 12 mục/52 tiểu mục, 12 bảng và tham chiếu 17 PNG gốc. Hình 2.18/2.19 để trống để người dùng tự chèn; không push GitHub theo yêu cầu mới. Chương 3 chưa viết.
+
 Tên đề tài: **XÂY DỰNG HỆ THỐNG QUẢN LÝ VÀ ĐẶT LỊCH DỊCH VỤ CHĂM SÓC THÚ CƯNG**.
 
 ## Quy ước và phạm vi đề cương
@@ -424,7 +426,7 @@ Phạm vi viết: Dự kiến bảng điều kiện trước/sau, luồng chính
 - **Bảng 2.5. Đặc tả ca sử dụng đặt lịch tiêu biểu** — dữ liệu cần trình bày: Điều kiện trước/sau, luồng chính, thay thế, ngoại lệ, liên hệ API.
 
 
-**Nguồn và vị trí dẫn:** [2] sau khi đọc nội dung; khái niệm quyền [34].
+**Nguồn và vị trí dẫn:** [36] cho nền UML; khái niệm quyền [34].
 
 **Bằng chứng/điều kiện viết:** UC-01 và đối chiếu mã G0; một hình tổng thể, không giả có năm hình UC con.
 
@@ -482,7 +484,7 @@ Phạm vi viết: Tiếp nhận, quyết định, duyệt và chi; chỉ ra hìn
 - **Hình 2.7. Tiếp nhận, quyết định và chi hoàn** — Có PNG gốc, đã xem ở G0; giữ nguyên. Hình ghi giao dịch/đã hoàn trước thực chi; trạng thái khiếu nại khác hiện tại.
 
 
-**Nguồn và vị trí dẫn:** [2] nếu đọc đúng phần UML; nghiệp vụ tham chiếu [13], [16].
+**Nguồn và vị trí dẫn:** [36] cho nền UML; nghiệp vụ tham chiếu [13], [16].
 
 **Bằng chứng/điều kiện viết:** Sáu PNG gốc; lane, guard, ngoại lệ chỉ phân tích khi có trên hình; khác biệt triển khai dẫn bảng đối chiếu.
 
@@ -540,7 +542,7 @@ Phạm vi viết: Thời điểm reserve, thực chi và trạng thái; hình c�
 - **Hình 2.13. Tương tác khiếu nại và hoàn** — Có PNG gốc, đã xem ở G0; giữ nguyên. Duyệt đã tạo giao dịch/đóng khiếu nại trong hình; code giữ ChoHoanTien đến thực chi thành công.
 
 
-**Nguồn và vị trí dẫn:** [2] khi đọc phần tương ứng; [23] hỗ trợ giải thích giao dịch, không gán thêm message vào hình.
+**Nguồn và vị trí dẫn:** [36] cho mô hình tương tác; [23] hỗ trợ giải thích giao dịch, không gán thêm message vào hình.
 
 **Bằng chứng/điều kiện viết:** frm/ctrl/entity là tên mô hình, không mặc nhiên là tên hàm/endpoint; API lấy từ routes.
 
@@ -568,7 +570,7 @@ Phạm vi viết: Kế thừa người dùng–khách/nhân viên; chủ–thú 
 Phạm vi viết: SQL và hàm ES module không phải lớp ES6 cùng tên; cọc, reset và nhật ký là phần mở rộng chưa có trong hình.
 
 
-**Nguồn và vị trí dẫn:** [2], [11] sau đọc nội dung.
+**Nguồn và vị trí dẫn:** [36] cho mô hình lớp; [40] khi giải thích nền dữ liệu; các sách chỉ catalog chưa dùng cho chi tiết.
 
 **Bằng chứng/điều kiện viết:** CD-01, thu_cung.sql, migrations và service đã đối chiếu; không sửa hình hoặc chứng nhận toàn schema từ CD.
 
@@ -602,7 +604,7 @@ Phạm vi viết: Lịch, hóa đơn, khiếu nại và cọc là các đối t�
 - **Bảng 2.6. Đối chiếu trạng thái và điều kiện chuyển** — dữ liệu cần trình bày: Đối tượng, trạng thái hình/SQL, sự kiện, guard, chuyển bị chặn.
 
 
-**Nguồn và vị trí dẫn:** [2] nếu đọc ký pháp; [23] chỉ hỗ trợ nguyên tắc giao dịch.
+**Nguồn và vị trí dẫn:** [36] cho mô hình trạng thái; [23] chỉ hỗ trợ nguyên tắc giao dịch.
 
 **Bằng chứng/điều kiện viết:** Hai PNG, CHECK trong SQL và guards ở dispatch/care/complaints/invoices.
 
@@ -687,7 +689,7 @@ Phạm vi viết: Khóa/rollback, chống lặp, xóa mềm, giữ hồ sơ FK v
 Phạm vi viết: Chỉ lập luận chuẩn hóa khi có phụ thuộc hàm/căn cứ; tổng tiền/snapshot có chủ đích, không tự tuyên bố 3NF.
 
 
-**Nguồn và vị trí dẫn:** [23]; [11] chỉ sau đọc chương CSDL.
+**Nguồn và vị trí dẫn:** [23], [40]; [11] chỉ sau đọc nội dung nếu được chọn.
 
 **Bằng chứng/điều kiện viết:** DDL/migrations/db-tooling và snapshot đã ghi; không gọi là truy vấn DB mới ở Giai đoạn 1.
 

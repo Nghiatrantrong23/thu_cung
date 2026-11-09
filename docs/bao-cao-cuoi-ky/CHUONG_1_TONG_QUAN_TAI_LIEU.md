@@ -59,7 +59,7 @@ Việc ghi nhận theo từng bước giúp xác định ai được thay đổi
 
 Bài toán đặt lịch cần xem xét khoảng chiếm dụng, thay vì chỉ kiểm tra hai lịch có cùng giờ bắt đầu hay không. Nhóm sử dụng khoảng nửa mở \([s,e)\), trong đó thời điểm kết thúc không còn chiếm nguồn lực. Theo mô hình của dự án, hai khoảng giao nhau khi \(s_1<e_2\) và \(s_2<e_1\). Ví dụ minh họa: lịch 09:00–10:00 giao với lịch 09:30–10:30, trong khi 10:00–11:00 có thể nối tiếp lịch đầu. Đây là ví dụ phân tích, không phải lịch của khách thật.
 
-PostgreSQL có kiểu khoảng và phép toán giao nhau để biểu diễn bài toán thời gian [23]. PetCare hiện kiểm tra các khoảng trong logic lập lịch; việc tài liệu PostgreSQL có kiểu dữ liệu này không có nghĩa dự án đã dùng ràng buộc loại trừ ở cơ sở dữ liệu. Phân biệt đó giúp giải thích đúng cơ chế đã cài đặt và phương án có thể xem xét về sau.
+PostgreSQL có kiểu khoảng và phép toán giao nhau để biểu diễn bài toán thời gian [23]. PetCare kết hợp kiểm tra khả thi trong logic lập lịch với ràng buộc `EXCLUDE` sử dụng `tsrange` trong schema để bảo vệ lịch đã gán và ca theo điều kiện tương ứng. Hai lớp có phạm vi khác nhau: ràng buộc gắn nhân viên chưa tự giải quyết năng lực của các lịch còn chờ phân công. Cơ chế và predicate cụ thể được phân tích ở Chương 2.
 
 ### 1.3.2. Ca làm việc, lịch chờ và năng lực phục vụ
 

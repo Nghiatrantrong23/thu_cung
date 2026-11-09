@@ -40,6 +40,10 @@ Mã UC-01, SM-01, SM-02 và MH-TQ là mã hồ sơ đặt cho khảo sát; AD-01
 
 Bảng đối chiếu chi tiết: [UML và mã nguồn](BANG_DOI_CHIEU_UML_VA_MA_NGUON.md).
 
+## Sử dụng trong Giai đoạn 3
+
+Ngày 09/11/2026: [bản nháp Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md) đã gắn đúng 17 ảnh gốc tại Hình 2.1–2.17, giữ nguyên file và nội dung ảnh. Hình 2.18 tại 2.9.2 và Hình 2.19 tại 2.10.1 **để trống để người dùng tự chèn sau** theo yêu cầu mới; không tạo sơ đồ bổ trợ hoặc sửa hình gốc. Chi tiết kiểm tra trong [kiểm tra Chương 2](KIEM_TRA_CHUONG_2_VA_TRICH_DAN.md).
+
 ## Bố trí được hoàn thiện trong Giai đoạn 1
 
 Ngày 08/11/2026: giữ Hình 2.1–2.17 và toàn bộ PNG gốc; làm rõ vị trí UC-01 tại 2.3.1, CD-01 tại 2.6.1, MH-TQ tại 2.8.1. Các hình còn lại giữ tiểu mục đã kiểm kê. Xem [bảng bố trí](BANG_BO_TRI_HINH_BANG_VA_NGUON.md) và [đề cương G1](DE_CUONG_CHI_TIET.md). Hình 2.18/2.19 chỉ là vị trí ERD/kiến trúc bổ trợ dự kiến, chưa có hình mới, không tính vào 17 sơ đồ gốc hoặc sáu loại đã xem. Không sửa sơ đồ để khắc phục các sai khác trong giai đoạn này.

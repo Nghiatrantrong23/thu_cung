@@ -2,6 +2,8 @@
 
 Giai đoạn 1, ngày 08/11/2026; cập nhật nguồn G2 ngày 09/11/2026. Danh sách dành vị trí để biên soạn; chưa chèn hình/bảng vào Word. Các số nguồn là mã làm việc theo kho hiện có 41 hồ sơ. Bảng 1.1–1.5 đã được viết trong bản nháp Chương 1, giữ vị trí/caption dưới đây.
 
+Cập nhật G3 ngày 09/11/2026: [Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md) đã có 12 bảng và tham chiếu 17 ảnh gốc đúng vị trí. Hình 2.18/2.19 được chủ động để trống để người dùng tự chèn; không tạo hình bổ trợ trong lượt này.
+
 ## Quy ước vị trí và nguồn
 
 - Trong mỗi tiểu mục: đoạn giới thiệu → hình/bảng → caption và nguồn → phân tích/liên hệ/giới hạn. Caption phải đi cùng đối tượng; không chỉ chèn hình.
@@ -31,8 +33,8 @@ Giai đoạn 1, ngày 08/11/2026; cập nhật nguồn G2 ngày 09/11/2026. Danh
 | Hình 2.15 | 2.7.1 | Trạng thái lịch hẹn | [Sơ đồ trạng thái_01.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái_01.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Thiếu TuChoi; chuyển DangThucHien sang DaHuy trên hình không được API hủy cho phép. |
 | Hình 2.16 | 2.7.2 | Trạng thái hóa đơn | [Sơ đồ trạng thái.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Thiếu HoanTienMotPhan và điều kiện thực chi; không đủ dùng như máy trạng thái hiện hành hoàn chỉnh. |
 | Hình 2.17 | 2.8.1 | Cây phân nhóm màn hình | [Sơ ĐỒ MÀN HÌNH CHÍNH.png](<../../So do man hinh/Sơ ĐỒ MÀN HÌNH CHÍNH.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Chưa có nhiều route mới; gộp lễ tân/quản lý không có nghĩa hai nhóm có quyền giống nhau. |
-| Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu PetCare theo schema khảo sát | [02_THIET_KE_CO_SO_DU_LIEU.md](<../../plans/02_THIET_KE_CO_SO_DU_LIEU.md>) | Dự kiến; chưa có hình đủ schema sau 008; Mermaid cũ chỉ là đầu mối; phải kiểm DDL 000–008 trước tạo hình mới ở giai đoạn phù hợp. Không sửa sơ đồ gốc. |
-| Hình 2.19 | 2.10.1 | Kiến trúc giao tiếp frontend, backend và cơ sở dữ liệu | Chưa có file đã duyệt | Dự kiến; chưa tạo hình; Chỉ dành vị trí; mô tả từ module/route đã khảo sát, không thêm ORM hoặc microservices. |
+| Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu PetCare theo schema khảo sát | [02_THIET_KE_CO_SO_DU_LIEU.md](<../../plans/02_THIET_KE_CO_SO_DU_LIEU.md>) | G3: để trống để người dùng tự chèn ERD đầy đủ sau 008; đã có bảng dữ liệu, không tạo hình mới. |
+| Hình 2.19 | 2.10.1 | Kiến trúc giao tiếp frontend, backend và cơ sở dữ liệu | Chưa có file đã duyệt | G3: để trống để người dùng tự chèn sơ đồ kiến trúc; mô tả theo mã, không tạo hình mới. |
 | Hình 3.1 | 3.4.1 | Giao diện đăng ký và đăng nhập | [register-error-fixed.png](<../../.cache/local-run/register-error-fixed.png>) | Ứng viên cũ chưa kiểm nội dung để chọn; HA-01; cần ảnh hiện tại, không lộ thông tin đăng nhập. |
 | Hình 3.2 | 3.4.1 | Quản lý hồ sơ thú cưng | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; HA-02; chụp từ UI thật trong dữ liệu demo khi được triển khai phần kết quả. |
 | Hình 3.3 | 3.4.2 | Đặt lịch và chọn ngày giờ khả dụng | [booking-spacing-fixed.png](<../../.cache/payment-sandbox/booking-spacing-fixed.png>) | Ứng viên chưa đánh giá đủ; HA-03; ảnh không có ca khác ảnh đặt thành công, cần lựa chọn đúng nội dung. |
@@ -96,13 +98,13 @@ Nguồn dưới đây cần được dẫn tại luận điểm tương ứng, k
 | 1.8 | Kết nối bối cảnh, giải pháp liên quan và căn cứ với phương pháp thực hiện. | Tổng hợp các nguồn đã dùng trong Chương 1, không bổ sung nguồn chỉ để đủ số. | Nêu yêu cầu được chọn và khoảng thiếu bằng chứng; không lặp kết quả Chương 3. |
 | 2.1 | Xác định đầu vào, quy trình và phạm vi được nhóm sử dụng. | [13], [16] làm căn cứ nghiệp vụ; [1], [14] chỉ sau đọc phần cần dẫn. | Kế hoạch, hồ sơ G0 và mã; yêu cầu dự án không phải kết quả thực nghiệm từ nguồn ngoài. |
 | 2.2 | Làm rõ năm nhóm đăng nhập và quyền thực tế. | [34] cho RBAC; [16] khi hình thành yêu cầu an toàn. | auth.middleware.js, App.jsx, routes; bảng quyền là mô tả mã hiện có, không sửa RBAC. |
-| 2.3 | Phân tích UC-01 hiện có theo tác nhân và quan hệ nhìn thấy. | [2] sau khi đọc nội dung; khái niệm quyền [34]. | UC-01 và đối chiếu mã G0; một hình tổng thể, không giả có năm hình UC con. |
-| 2.4 | Giải thích logic nghiệp vụ của đủ AD-01–AD-06. | [2] nếu đọc đúng phần UML; nghiệp vụ tham chiếu [13], [16]. | Sáu PNG gốc; lane, guard, ngoại lệ chỉ phân tích khi có trên hình; khác biệt triển khai dẫn bảng đối chiếu. |
-| 2.5 | Phân tích SD-01–SD-06 và ánh xạ thiết kế sang triển khai. | [2] khi đọc phần tương ứng; [23] hỗ trợ giải thích giao dịch, không gán thêm message vào hình. | frm/ctrl/entity là tên mô hình, không mặc nhiên là tên hàm/endpoint; API lấy từ routes. |
-| 2.6 | Làm rõ mô hình miền và quan hệ, khác mô hình SQL. | [2], [11] sau đọc nội dung. | CD-01, thu_cung.sql, migrations và service đã đối chiếu; không sửa hình hoặc chứng nhận toàn schema từ CD. |
-| 2.7 | Giải thích trạng thái, sự kiện, guard và chuyển không hợp lệ. | [2] nếu đọc ký pháp; [23] chỉ hỗ trợ nguyên tắc giao dịch. | Hai PNG, CHECK trong SQL và guards ở dispatch/care/complaints/invoices. |
+| 2.3 | Phân tích UC-01 hiện có theo tác nhân và quan hệ nhìn thấy. | [36] cho nền UML; khái niệm quyền [34]. | UC-01 và đối chiếu mã G0; một hình tổng thể, không giả có năm hình UC con. |
+| 2.4 | Giải thích logic nghiệp vụ của đủ AD-01–AD-06. | [36] cho nền UML; nghiệp vụ tham chiếu [13], [16]. | Sáu PNG gốc; lane, guard, ngoại lệ chỉ phân tích khi có trên hình; khác biệt triển khai dẫn bảng đối chiếu. |
+| 2.5 | Phân tích SD-01–SD-06 và ánh xạ thiết kế sang triển khai. | [36] cho mô hình tương tác; [23] hỗ trợ giải thích giao dịch, không gán thêm message vào hình. | frm/ctrl/entity là tên mô hình, không mặc nhiên là tên hàm/endpoint; API lấy từ routes. |
+| 2.6 | Làm rõ mô hình miền và quan hệ, khác mô hình SQL. | [36] cho mô hình lớp; [40] khi giải thích nền dữ liệu; các sách chỉ catalog chưa dùng cho chi tiết. | CD-01, thu_cung.sql, migrations và service đã đối chiếu; không sửa hình hoặc chứng nhận toàn schema từ CD. |
+| 2.7 | Giải thích trạng thái, sự kiện, guard và chuyển không hợp lệ. | [36] cho mô hình trạng thái; [23] chỉ hỗ trợ nguyên tắc giao dịch. | Hai PNG, CHECK trong SQL và guards ở dispatch/care/complaints/invoices. |
 | 2.8 | Liên kết cây màn hình, wireframe và route theo vai trò. | [24] cho component/state; [19]–[21] chỉ khi giải thích tham khảo luồng sản phẩm. | MH-TQ, ba wireframe, App.jsx và bảng G0; ảnh cài đặt dành Chương 3. |
-| 2.9 | Trình bày schema hiện hành từ nguồn DDL và các quyết định bảo toàn dữ liệu. | [23]; [11] chỉ sau đọc chương CSDL. | DDL/migrations/db-tooling và snapshot đã ghi; không gọi là truy vấn DB mới ở Giai đoạn 1. |
+| 2.9 | Trình bày schema hiện hành từ nguồn DDL và các quyết định bảo toàn dữ liệu. | [23], [40]; [11] chỉ sau đọc nội dung nếu được chọn. | DDL/migrations/db-tooling và snapshot đã ghi; không gọi là truy vấn DB mới ở Giai đoạn 1. |
 | 2.10 | Làm rõ trách nhiệm và luồng dữ liệu của kiến trúc thực tế. | [17], [18], [23], [24]. | frontend/backend, server.js, middleware và package; phân biệt khai báo dependency với runtime đã đo. |
 | 2.11 | Giải thích thuật toán/cơ chế đang có và lý do lựa chọn. | [17], [23], [25], [34]; lý do áp dụng là phân tích dự án. | booking/scheduling/dispatch/care/invoices/complaints/deposit services và routes; không viết API mới. |
 | 2.12 | Liên kết yêu cầu, thiết kế và kịch bản đánh giá. | Không thêm nguồn mới; dẫn lại khi thực sự cần. | Bảng đối chiếu UML và bảng test G0. |

@@ -1,8 +1,8 @@
 # Tiến độ biên soạn báo cáo cuối kỳ PetCare
 
-Ngày cập nhật: **09/11/2026**. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-2`. Các mục khảo sát G0/G1 bên dưới là hồ sơ lịch sử; kết quả G2 tại mục 11.
+Ngày cập nhật: **09/11/2026**. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-3`. Các mục G0–G2 bên dưới là hồ sơ lịch sử; kết quả G3 tại mục 12.
 
-**Trạng thái hiện tại: đã viết bản nháp Tóm tắt, Mở đầu và Chương 1 theo yêu cầu tiếp tục Giai đoạn 2.** Dừng bàn giao để người dùng kiểm tra. Chưa viết Chương 2–3, chưa tạo DOCX/PDF và không thay trạng thái nghiệm thu phần mềm.
+**Trạng thái hiện tại: đã viết thêm bản nháp Chương 2 ở Giai đoạn 3.** Gắn 17 hình gốc; để trống Hình 2.18/2.19 để người dùng tự chèn. Dừng bàn giao để kiểm tra; chưa viết Chương 3 hoặc tạo DOCX/PDF. Theo yêu cầu mới, lưu cục bộ và **không push GitHub**.
 
 ## 1. Phạm vi và yêu cầu điều khiển
 
@@ -131,14 +131,14 @@ Kiểm tra cục bộ ngày 08/11/2026 **ĐẠT**: đủ bảy file, sáu loại
 |---|---|
 | 0 — Khảo sát | Đã được người dùng xem và chấp nhận trong chat |
 | 1 — Đề cương | Đã hoàn thiện; người dùng yêu cầu tiếp tục G2 |
-| 2 — Tóm tắt/Mở đầu/Chương 1 | Đã có bản nháp Markdown, đối chiếu nguồn và cập nhật tiến độ; dừng chờ kiểm tra |
-| 3 — Chương 2 | Chưa bắt đầu |
+| 2 — Tóm tắt/Mở đầu/Chương 1 | Đã có bản nháp; người dùng yêu cầu tiếp tục giai đoạn sau |
+| 3 — Chương 2 | Đã viết bản nháp, 12 mục/52 tiểu mục, 12 bảng, 17 hình và 2 vị trí trống theo yêu cầu; dừng kiểm tra |
 | 4 — Chương 3 | Chưa bắt đầu |
 | 5 — Hoàn thiện nội dung | Chưa bắt đầu |
 | 6 — Xuất Word | Chưa bắt đầu |
 | 7 — Kiểm tra cuối/PDF | Chưa bắt đầu |
 
-**Điểm dừng hiện hành: sau Giai đoạn 2**, theo yêu cầu tiếp tục mới của người dùng. Không tự viết G3–G7, sửa sơ đồ hoặc tạo Word. Các khoảng thiếu được giữ rõ để xử lý ở bước phù hợp, không thay bằng nội dung giả.
+**Điểm dừng hiện hành: sau Giai đoạn 3**, theo yêu cầu tiếp tục mới của người dùng. Không tự viết G4–G7, sửa sơ đồ hoặc tạo Word. Chỗ thiếu sơ đồ giữ trống để người dùng tự chèn; không thay bằng hình giả hoặc nhận là hình đã có.
 
 
 ## 10. Giai đoạn 1 hoàn thiện đề cương chi tiết
@@ -218,3 +218,36 @@ Chưa kiểm số trang Tóm tắt hoặc độ dài toàn chương bằng rende
 ### 11.4. Điểm dừng
 
 Hoàn tất bản nháp G2 trong phạm vi đã giao và bàn giao để người dùng kiểm tra. **Chưa bắt đầu G3.** Giữ nguyên mã nguồn, dữ liệu và 17 sơ đồ; không xuất Word/PDF trong giai đoạn này.
+
+Ghi nhận G2 đã lưu trên nhánh `codex/bao-cao-cuoi-ky-giai-doan-2`, commit `131dbf43c5da02e53e606bc4a4bf83bf5841bc68`, SHA remote đã khớp. Điểm dừng G2 ở trên là lịch sử, được thay bởi yêu cầu tiếp tục G3; người dùng đồng thời yêu cầu không push và tự chèn những sơ đồ còn thiếu.
+
+## 12. Giai đoạn 3 — Chương 2: Phương pháp thực hiện
+
+### 12.1. Phạm vi và cách bàn giao mới
+
+Ngày 09/11/2026, người dùng yêu cầu tiếp tục giai đoạn sau G2, không cần push GitHub và nơi chưa có sơ đồ phải để trống để tự chèn sau. Thực hiện G3, viết Chương 2 và cập nhật hồ sơ; không tự chuyển sang Chương 3. Lưu trên nhánh cục bộ `codex/bao-cao-cuoi-ky-giai-doan-3`; không push theo chỉ dẫn mới hơn quy tắc push mặc định trong AGENTS.md. Không sửa AGENTS.md hoặc suy thành yêu cầu thay mã nguồn.
+
+### 12.2. Sản phẩm và nội dung
+
+- [CHUONG_2_PHUONG_PHAP_THUC_HIEN.md](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md): đủ 12 mục chính và 52 tiểu mục theo G1; gồm khảo sát, yêu cầu/quyền, sáu loại biểu diễn, dữ liệu, kiến trúc, API và cơ chế xử lý, tổng kết/truy vết.
+- Đã viết Bảng 2.1–2.12 đúng caption/vị trí: tác nhân, YC/PC, quyền, đặc tả đặt lịch, trạng thái, route, 21 bảng ứng dụng + bảng kỹ thuật, ràng buộc, API, bảo vệ nghiệp vụ và sai khác UML–mã.
+- Gắn 17 đường dẫn ảnh PNG gốc đúng Hình 2.1–2.17, không sửa/vẽ lại ảnh. Đủ UC, Activity, Sequence, Class, State Machine và cây màn hình; không gọi cây màn hình là một loại UML chuẩn.
+- **Hình 2.18 ở 2.9.2 (ERD đầy đủ) và Hình 2.19 ở 2.10.1 (kiến trúc) để trống**, có caption và khoảng trống để người dùng tự chèn. Không tạo Mermaid/PNG mới để thay phần còn thiếu.
+- [KIEM_TRA_CHUONG_2_VA_TRICH_DAN.md](KIEM_TRA_CHUONG_2_VA_TRICH_DAN.md): kiểm tra cấu trúc, căn cứ mã/DDL, 13 nguồn Chương 2, hai vị trí trống, hiệu chỉnh nhận định và giới hạn QA.
+- Đồng bộ đề cương, catalog và kiểm kê sơ đồ để dẫn tới bản nháp. Số nguồn vẫn dùng kho 41 hồ sơ; chưa xếp/thay số cuối theo mẫu trường.
+
+### 12.3. Đối chiếu thực tế và hiệu chỉnh
+
+Đọc lại các phần liên quan của middleware/quyền, routes, App, booking/scheduling, dispatch/care, invoices/complaints, chính sách cọc, DDL và DB tooling. Không truy vấn DB đang chạy. Chương 2 phân biệt khả thi với tối ưu/tự phân công, dữ liệu trước khi ghi với kiểm lại dưới khóa, phê duyệt với thực chi, hỗ trợ chuyển khoản với đối soát tự động và giao diện mô phỏng với chức năng backend.
+
+Đã làm rõ một nhận định G2 về giao thoa: schema thực sự có EXCLUDE/tsrange cho lịch theo nhân viên và ca theo predicate. Cập nhật đoạn 1.3.1 Chương 1 và dòng kiểm tra G2 tương ứng để tránh hiểu toàn bộ bảo vệ chỉ nằm ở JavaScript. EXCLUDE chưa thay solver lịch chưa gán người. Đây là hiệu chỉnh tài liệu từ đối chiếu nguồn SQL, không sửa schema hoặc logic.
+
+Chương 2 dẫn 13 nguồn đã xác minh; toàn phần đã viết vẫn dẫn 24 nguồn, 6 Việt/18 Anh. Không thêm nguồn chưa đọc để tăng tỷ lệ. Các bảng YC/PC và đặc tả là nhóm biên soạn từ dự án, không giả là hồ sơ khảo sát doanh nghiệp hoặc đặc tả gốc của cơ sở dịch vụ.
+
+### 12.4. Kiểm tra và điểm dừng
+
+Kiểm tra G3 tập trung vào cấu trúc G1, vị trí/caption hình-bảng, ảnh gốc và hai ô trống, tên bảng từ DDL, trích dẫn/đường dẫn, UTF-8, diff và hash bảo toàn. Kết quả máy kiểm lưu cục bộ tại `.cache/bao-cao-cuoi-ky-g3/validation.json`. Không chạy test ứng dụng, không thêm số PASS nghiệp vụ và không tạo Word/PDF hoặc sơ đồ mới.
+
+Kiểm tra cục bộ G3 **ĐẠT**: 12 mục/52 tiểu mục và 12 bảng khớp G1; 19 caption hình đúng vị trí, 17 đường dẫn PNG đúng file gốc và đúng hai khoảng trống 2.18/2.19. Đối chiếu đủ 21 bảng ứng dụng và một bảng kỹ thuật từ nguồn; 13 số dẫn Chương 2 có đối ứng trong kho 41 hồ sơ. 109 liên kết cục bộ trong 8 file được tạo/cập nhật hợp lệ; hash 40 file thay đổi có trước và 218 file được bảo vệ giữ nguyên trước khi nối ghi nhận kế hoạch. Đây là kiểm tra tài liệu, không phải nghiệm thu chức năng hoặc bản in.
+
+G3 hoàn tất **bản nháp nội dung theo phạm vi có hai vị trí hình được chủ động để trống**, không chứng nhận đã đủ hình xuất bản hoặc bố cục in. Còn phải kiểm độ đọc ảnh, số trang và định dạng khi dàn Word; kết quả phần mềm và ảnh UI thuộc G4. Dừng để người dùng kiểm tra, **chưa bắt đầu G4 và không push GitHub**.
