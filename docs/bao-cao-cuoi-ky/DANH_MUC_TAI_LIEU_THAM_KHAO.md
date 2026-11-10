@@ -1,10 +1,12 @@
 # Hồ sơ tài liệu tham khảo phục vụ báo cáo cuối kỳ
 
-Ngày cập nhật: 09/11/2026. G0–G1 tận dụng thư viện đã xác minh đợt 07/11/2026; G2 tìm bổ sung có mục tiêu cho những phần lý thuyết còn thiếu. Giữ ngày truy cập của từng nguồn đúng đợt kiểm tra. Narrative/Integrative Literature Review, không Systematic Review.
+Ngày cập nhật hồ sơ: 10/11/2026. G0–G1 tận dụng thư viện đã xác minh đợt 07/11/2026; G2 tìm bổ sung có mục tiêu cho những phần lý thuyết còn thiếu. G4 tái sử dụng nguồn để viết Chương 3, không xác minh online lại toàn kho. Giữ ngày truy cập của từng nguồn đúng đợt kiểm tra. Narrative/Integrative Literature Review, không Systematic Review.
 
 **41 hồ sơ đánh số, 21 Việt/20 Anh (51,2% Việt), 10 hồ sơ có DOI có căn cứ.** G2 bổ sung 5 tài liệu mới và chuyển RFC 7519 từ ứng viên đã xác minh vào dãy số. Bản lưu nghiên cứu 35 hồ sơ vẫn được giữ như lịch sử. Xác minh thư mục không có nghĩa đọc toàn văn; resolver DOI/rút bài chưa được kiểm tra toàn diện. Dãy dưới đây là kho xét chọn, không phải quyết định đưa đủ 41 vào Word. Tập thực sự dẫn ở G2 được ghi riêng trong [kiểm tra trích dẫn G2](KIEM_TRA_TRICH_DAN_GIAI_DOAN_2.md).
 
 Nguồn gốc và giới hạn chi tiết: [danh mục nghiên cứu 35 hồ sơ](../nghien-cuu-tai-lieu/DANH_MUC_25_TAI_LIEU_THAM_KHAO.md), [kiểm tra IEEE trước G2](../nghien-cuu-tai-lieu/BAO_CAO_KIEM_TRA_TRICH_DAN_IEEE.md), [hồ sơ bổ sung G2](BO_SUNG_NGUON_GIAI_DOAN_2.md).
+
+Đến hết G4, Tóm tắt/Mở đầu và ba chương dẫn **25 nguồn phân biệt: 6 Việt/19 Anh (24% Việt)**. Chương 3 sử dụng thêm nguồn [22] đã có trong kho; không tăng tổng kho 41. Các số vẫn là mã làm việc, chưa xếp/thay số cuối theo mẫu trường. Đối chiếu trong [kiểm tra Chương 3](KIEM_TRA_CHUONG_3_VA_MINH_CHUNG.md); nguồn dự phòng không tự trở thành danh mục nộp.
 
 ## Quyết định sử dụng ở giai đoạn khảo sát
 

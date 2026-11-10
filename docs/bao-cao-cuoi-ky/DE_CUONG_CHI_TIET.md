@@ -6,6 +6,8 @@ Cập nhật G2 ngày 09/11/2026: đã có bản nháp [Tóm tắt](TOM_TAT_DO_A
 
 Cập nhật G3 ngày 09/11/2026: đã có [bản nháp Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md), đủ 12 mục/52 tiểu mục, 12 bảng và tham chiếu 17 PNG gốc. Hình 2.18/2.19 để trống để người dùng tự chèn; không push GitHub theo yêu cầu mới. Chương 3 chưa viết.
 
+Cập nhật G4 ngày 10/11/2026: đã viết [Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_GIA.md), đủ 12 mục/37 tiểu mục và 7 bảng. Có 8 ảnh demo đã xem/chọn, 9 vị trí ảnh trống để tác giả bổ sung; chưa thực hiện kết luận/chốt tham khảo hoặc Word/PDF. Tiếp tục không push GitHub.
+
 Tên đề tài: **XÂY DỰNG HỆ THỐNG QUẢN LÝ VÀ ĐẶT LỊCH DỊCH VỤ CHĂM SÓC THÚ CƯNG**.
 
 ## Quy ước và phạm vi đề cương
@@ -1198,7 +1200,7 @@ Chốt giới hạn triển khai, nguồn/ảnh và đánh giá ở 3.12; không
 
 ## DANH MỤC TÀI LIỆU THAM KHẢO
 
-Nguồn xét chọn: [DANH_MUC_TAI_LIEU_THAM_KHAO.md](DANH_MUC_TAI_LIEU_THAM_KHAO.md), hiện 41 hồ sơ (21 Việt/20 Anh), kế thừa 35 và bổ sung G2. G2 dẫn 24 nguồn; chưa khóa tập dẫn toàn báo cáo. Mục tiêu khoảng 20–25 nguồn chất lượng, tối thiểu 10 theo mẫu; không giữ nguồn bệnh lý hoặc catalog không dùng chỉ để đủ số/tỷ lệ.
+Nguồn xét chọn: [DANH_MUC_TAI_LIEU_THAM_KHAO.md](DANH_MUC_TAI_LIEU_THAM_KHAO.md), hiện 41 hồ sơ (21 Việt/20 Anh), kế thừa 35 và bổ sung G2. Đến G4 dẫn 25 nguồn trong Mở đầu/ba chương; chưa khóa tập cuối trước G5. Mục tiêu khoảng 20–25 nguồn chất lượng, tối thiểu 10 theo mẫu; không giữ nguồn bệnh lý hoặc catalog không dùng chỉ để đủ số/tỷ lệ.
 
 Khi viết, đặt số tại đúng luận điểm; nguồn ngoài cho khái niệm/kết quả kế thừa, bằng chứng dự án cho kết quả tự làm. Không trích nguồn chưa xác minh. Không dùng dữ liệu hiệu quả của VOAS/bài khác làm kết quả PetCare. Nguồn sản phẩm được gắn loại tài liệu hãng.
 

@@ -63,3 +63,29 @@ Không dùng banner, ảnh minh họa sinh hoặc dữ liệu mẫu trong wirefr
 ## Bố trí ảnh trong đề cương Giai đoạn 1
 
 Đã dành các vị trí Hình 3.1–3.17 trong [bảng bố trí](BANG_BO_TRI_HINH_BANG_VA_NGUON.md), gắn tiểu mục, đầu mối file và trạng thái cần kiểm/chụp. Việc phân bổ không nâng ảnh ứng viên thành ảnh đã duyệt hoặc tạo bằng chứng UI mới. Hình 3.16 cần bản KPI Admin mới; ảnh stage11-admin.png cũ không thay thế. Ảnh được xem ở G0 vẫn là ảnh demo lịch sử, chưa được coi là ảnh của mọi phiên bản hiện hành. G1 không chụp, chỉnh hoặc sao chép ảnh nguồn.
+
+## Quyết định sử dụng ảnh ở Giai đoạn 4 — 10/11/2026
+
+[Bản nháp Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_GIA.md) có 17 vị trí ảnh: 8 ảnh demo được chọn, 9 vị trí để trống có caption/khoảng cách để người dùng tự chèn. Đã mở trực tiếp 9 ảnh trong G4 (mở lại 5 ảnh G0, xem thêm 4 ảnh); tổng số ảnh từng được xem nội dung đến G4 là 10/27, không phải cả 27 đã được duyệt. Không sửa/chụp mới hoặc sao chép ảnh cache vào commit.
+
+| Hình | Trạng thái G4 | Phạm vi dùng/lý do để trống |
+|---|---|---|
+| 3.1 | Để trống | Ảnh ứng viên chỉ có một phần form lỗi đăng ký; chưa đủ hình đăng ký/đăng nhập. |
+| 3.2 | Để trống | Chưa có ảnh hồ sơ thú cưng được chọn. |
+| 3.3 | Ảnh demo đã chọn | Ảnh có sẵn, minh họa ngày không có ca; ngày trên biểu mẫu không xác định ngày chụp. |
+| 3.4 | Ảnh demo đã chọn | Ảnh sandbox có sẵn; cọc 45.000 đồng là mô phỏng, lịch còn chờ xác nhận. |
+| 3.5 | Để trống | Chưa có ảnh khiếu nại khách phù hợp và QA đủ viewport. |
+| 3.6 | Ảnh demo đã chọn | Ảnh demo lịch sử; không phải lần nghiệm thu mới ngày 10/11/2026. |
+| 3.7 | Để trống | Chưa có ảnh ngoại lệ trước bắt đầu được chọn. |
+| 3.8 | Ảnh demo đã chọn | Ảnh demo lịch sử; không tự ghép cùng fixture với ảnh chăm sóc chỉ từ mã lịch. |
+| 3.9 | Ảnh demo đã chọn | Ảnh hóa đơn demo: thu 400.000, hoàn 100.000, nợ 0; không phải giao dịch thật. |
+| 3.10 | Ảnh demo đã chọn | Phiếu demo có chứng từ UI-DEMO-REFUND-ONLY; không chứng minh đã chuyển tiền thật. |
+| 3.11 | Để trống | Chưa có ảnh ca và cảnh báo ràng buộc được chọn. |
+| 3.12 | Để trống | Chưa có ảnh danh mục quản lý được chọn. |
+| 3.13 | Để trống | Chưa có ảnh đúng trạng thái đã duyệt, chưa chi. |
+| 3.14 | Ảnh demo đã chọn | Ảnh báo cáo demo lịch sử: thu 400.000, hoàn 100.000, thực thu 300.000; không là lợi nhuận. |
+| 3.15 | Ảnh demo đã chọn | Preview biểu đồ demo của tập dữ liệu khác: thu 1.145.000, hoàn 200.000, thực thu 945.000 đồng. |
+| 3.16 | Để trống | Ảnh Admin cũ không phản ánh KPI/lọc mới. |
+| 3.17 | Để trống | Chưa có ảnh cảnh báo quản trị phù hợp. |
+
+Chi tiết file nguồn/hash và giới hạn tại [kiểm tra Chương 3](KIEM_TRA_CHUONG_3_VA_MINH_CHUNG.md). Ngày trong form/bộ lọc không được dùng làm ngày chụp. Ảnh Admin cũ không thay ảnh KPI/cảnh báo mới; phiếu đã chi không thay ảnh duyệt chưa chi. Khi dàn Word cần kiểm còn đủ file cục bộ và độ đọc ở kích thước in. Hình 2.18/2.19 tiếp tục giữ trống theo yêu cầu trước, không tạo sơ đồ bổ trợ trong G4.

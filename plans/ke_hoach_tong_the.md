@@ -316,3 +316,13 @@ Sửa phản hồi người dùng: phần cọc tự tải thông tin/VietQR nga
 - Tạo kiểm tra Chương 2/trích dẫn; cập nhật tiến độ, đề cương, catalog và kiểm kê sơ đồ. Chương 2 dẫn 13 nguồn đã xác minh, tổng phần đã viết vẫn 24 nguồn; chưa xếp/thay số danh mục cuối.
 - Kiểm tra tài liệu đạt: cấu trúc/caption/vị trí khớp G1, 17 đường dẫn ảnh và 2 chỗ trống đúng yêu cầu, đủ tên bảng và số nguồn; 109 liên kết cục bộ hợp lệ. Bảo toàn 40 file thay đổi có trước và 218 file mã/sơ đồ trước khi nối ghi nhận này; không chạy app/test/DB hoặc tạo PASS mới.
 - Theo chỉ dẫn mới ngày 09/11/2026, không push GitHub. Lưu cục bộ trên nhánh codex/bao-cao-cuoi-ky-giai-doan-3; dừng sau G3 để người dùng kiểm tra. Chưa bắt đầu G4, không thay nghiệm thu phần mềm.
+
+
+## Báo cáo cuối kỳ PetCare — biên soạn Giai đoạn 4 (10/11/2026)
+
+- Theo yêu cầu tiếp tục, viết CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_GIA.md, đủ 12 mục/37 tiểu mục và 7 bảng theo G1; trình bày cài đặt, môi trường, kiểm thử, mức đáp ứng và hạn chế. Chưa thực hiện G5 hoặc Word/PDF.
+- Đọc lại biên bản và mã/case có thật; giữ riêng các mốc 23–24/10, cọc, transfers, SMTP, khiếu nại và 07–08/11. Không cộng số test chồng nhau, không chuyển SKIP thành PASS, không lấy loopback làm Mailtrap thật hoặc build làm nghiệm thu UI.
+- Xem 9 ảnh, chọn 8 ảnh demo có sẵn; để trống Hình 3.1, 3.2, 3.5, 3.7, 3.11–3.13, 3.16–3.17 để người dùng tự chèn. Phân biệt fixture/ảnh lịch sử, số demo và tiền thật; không tạo/sửa ảnh hoặc dùng Admin cũ chứng minh KPI mới. Hình 2.18/2.19 vẫn giữ trống.
+- Tạo kiểm tra Chương 3/minh chứng; đồng bộ tiến độ, đề cương, catalog, hồ sơ ảnh/test và kho tham khảo. Chương 3 dẫn [22], [23], [32]; phần đã viết có 25 nguồn (6 Việt/19 Anh), kho vẫn 41; thứ tự/đổi số cuối còn thuộc G5.
+- Kiểm tra tài liệu đạt: cấu trúc/caption/vị trí đúng G1, 12 đầu mối case có thật, 157 liên kết cục bộ hợp lệ, 8 ảnh/9 ô trống đúng quyết định; bảo toàn 40 file thay đổi có trước, 218 file được bảo vệ và 27 PNG trước khi nối ghi nhận này. Không chạy app/test/DB hoặc tạo PASS nghiệp vụ mới.
+- Lưu cục bộ trên nhánh codex/bao-cao-cuoi-ky-giai-doan-4, không push theo yêu cầu trước vẫn có hiệu lực. Dừng sau G4 để người dùng kiểm tra; không sửa mã/sơ đồ/dữ liệu hoặc thay nghiệm thu phần mềm/Admin/giai đoạn 12.

@@ -1,8 +1,8 @@
 # Tiến độ biên soạn báo cáo cuối kỳ PetCare
 
-Ngày cập nhật: **09/11/2026**. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-3`. Các mục G0–G2 bên dưới là hồ sơ lịch sử; kết quả G3 tại mục 12.
+Ngày cập nhật: **10/11/2026**. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-4`. Các mục G0–G3 bên dưới là hồ sơ lịch sử; kết quả G4 tại mục 13.
 
-**Trạng thái hiện tại: đã viết thêm bản nháp Chương 2 ở Giai đoạn 3.** Gắn 17 hình gốc; để trống Hình 2.18/2.19 để người dùng tự chèn. Dừng bàn giao để kiểm tra; chưa viết Chương 3 hoặc tạo DOCX/PDF. Theo yêu cầu mới, lưu cục bộ và **không push GitHub**.
+**Trạng thái hiện tại: đã viết bản nháp Chương 3 ở Giai đoạn 4.** Có 12 mục/37 tiểu mục, 7 bảng, 8 ảnh demo được chọn và 9 vị trí ảnh trống. Ba chương đã có nội dung; kết luận/chốt tham khảo và Word/PDF chưa thực hiện. Lưu cục bộ, **không push GitHub**, dừng để người dùng kiểm tra.
 
 ## 1. Phạm vi và yêu cầu điều khiển
 
@@ -132,13 +132,13 @@ Kiểm tra cục bộ ngày 08/11/2026 **ĐẠT**: đủ bảy file, sáu loại
 | 0 — Khảo sát | Đã được người dùng xem và chấp nhận trong chat |
 | 1 — Đề cương | Đã hoàn thiện; người dùng yêu cầu tiếp tục G2 |
 | 2 — Tóm tắt/Mở đầu/Chương 1 | Đã có bản nháp; người dùng yêu cầu tiếp tục giai đoạn sau |
-| 3 — Chương 2 | Đã viết bản nháp, 12 mục/52 tiểu mục, 12 bảng, 17 hình và 2 vị trí trống theo yêu cầu; dừng kiểm tra |
-| 4 — Chương 3 | Chưa bắt đầu |
+| 3 — Chương 2 | Đã viết bản nháp; người dùng yêu cầu tiếp tục |
+| 4 — Chương 3 | Đã viết bản nháp, giữ số liệu theo biên bản; 8 ảnh demo và 9 chỗ trống; dừng kiểm tra |
 | 5 — Hoàn thiện nội dung | Chưa bắt đầu |
 | 6 — Xuất Word | Chưa bắt đầu |
 | 7 — Kiểm tra cuối/PDF | Chưa bắt đầu |
 
-**Điểm dừng hiện hành: sau Giai đoạn 3**, theo yêu cầu tiếp tục mới của người dùng. Không tự viết G4–G7, sửa sơ đồ hoặc tạo Word. Chỗ thiếu sơ đồ giữ trống để người dùng tự chèn; không thay bằng hình giả hoặc nhận là hình đã có.
+**Điểm dừng hiện hành: sau Giai đoạn 4**, theo yêu cầu tiếp tục của người dùng ngày 10/11/2026. Không tự thực hiện G5–G7 hoặc tạo Word. Chỗ thiếu sơ đồ/ảnh giữ trống để người dùng tự chèn; không thay bằng hình giả hoặc nhận là hình đã có.
 
 
 ## 10. Giai đoạn 1 hoàn thiện đề cương chi tiết
@@ -251,3 +251,36 @@ Kiểm tra G3 tập trung vào cấu trúc G1, vị trí/caption hình-bảng, �
 Kiểm tra cục bộ G3 **ĐẠT**: 12 mục/52 tiểu mục và 12 bảng khớp G1; 19 caption hình đúng vị trí, 17 đường dẫn PNG đúng file gốc và đúng hai khoảng trống 2.18/2.19. Đối chiếu đủ 21 bảng ứng dụng và một bảng kỹ thuật từ nguồn; 13 số dẫn Chương 2 có đối ứng trong kho 41 hồ sơ. 109 liên kết cục bộ trong 8 file được tạo/cập nhật hợp lệ; hash 40 file thay đổi có trước và 218 file được bảo vệ giữ nguyên trước khi nối ghi nhận kế hoạch. Đây là kiểm tra tài liệu, không phải nghiệm thu chức năng hoặc bản in.
 
 G3 hoàn tất **bản nháp nội dung theo phạm vi có hai vị trí hình được chủ động để trống**, không chứng nhận đã đủ hình xuất bản hoặc bố cục in. Còn phải kiểm độ đọc ảnh, số trang và định dạng khi dàn Word; kết quả phần mềm và ảnh UI thuộc G4. Dừng để người dùng kiểm tra, **chưa bắt đầu G4 và không push GitHub**.
+
+Ghi nhận lưu G3: commit cục bộ `e5551835970466badd81c1250b11afa8f1867672` trên nhánh `codex/bao-cao-cuoi-ky-giai-doan-3`, không push. Điểm dừng trên là lịch sử, được thay bằng yêu cầu “tiếp tục” của người dùng ngày 10/11/2026.
+
+## 13. Giai đoạn 4 — Chương 3: Cài đặt thử nghiệm, kết quả và đánh giá
+
+### 13.1. Phạm vi được thực hiện
+
+Tiếp tục sau G3, viết Chương 3 theo đề cương, cập nhật minh chứng và dừng. Tiếp tục giữ yêu cầu không push, không sửa mã/sơ đồ, không tạo ảnh giả và chỗ thiếu hình để trống cho người dùng bổ sung. Không chạy app/test/DB để tạo số kết quả mới, không xuất Word/PDF hoặc tự bắt đầu G5.
+
+### 13.2. Sản phẩm
+
+- [CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_GIA.md](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_GIA.md): đủ 12 mục và 37 tiểu mục; môi trường, cấu trúc, DB, năm nhóm người dùng, phương pháp/kết quả test, mức đáp ứng và hạn chế.
+- Viết Bảng 3.1–3.7 theo vị trí/caption G1; testcase kỳ vọng tách kết quả thực thi, kết quả các mốc không bị cộng chồng. Giữ rõ 83 PASS tích hợp lõi tháng 10 khác 83 PASS mặc định tháng 11 và 13 nhóm SKIP.
+- Xem trực tiếp 9 ảnh; chọn 8 ảnh demo có sẵn cho Hình 3.3, 3.4, 3.6, 3.8–3.10, 3.14–3.15. Mỗi ảnh ghi dữ liệu demo/phạm vi, không chứng minh tiền thật hoặc UI mới nhất. Preview quý dùng tập dữ liệu khác ảnh bảng cũ.
+- **Để trống Hình 3.1, 3.2, 3.5, 3.7, 3.11–3.13, 3.16–3.17** với caption/khoảng cách để người dùng tự chèn. Không dùng ảnh lỗi đăng ký thiếu khung, Admin cũ hoặc phiếu thực chi để thay một trạng thái khác.
+- [KIEM_TRA_CHUONG_3_VA_MINH_CHUNG.md](KIEM_TRA_CHUONG_3_VA_MINH_CHUNG.md): chuỗi nguồn cho số liệu, quyết định chọn ảnh, trích dẫn, mức kết luận và giới hạn kiểm tra.
+- Đồng bộ đề cương, catalog, hồ sơ ảnh/test, kho tham khảo và file tiến độ; ghi nhận riêng vào kế hoạch tổng thể.
+
+### 13.3. Nội dung và kết luận có giới hạn
+
+Nguồn chính là các biên bản 23–24/10, cọc, chuyển khoản, reset, khiếu nại và kiểm tra 07–08/11. Môi trường Node/npm/Vite/PostgreSQL được ghi theo mốc đã kiểm, không suy từ ngày viết 10/11. Các ảnh minh họa không được nối cùng fixture chỉ vì trùng mã lịch. 400.000 − 100.000 = 300.000 và 1.145.000 − 200.000 = 945.000 là hai bộ demo khác nhau, không phải số kinh doanh thật.
+
+Các kết luận giữ rõ mức đã có mã, test API, QA chọn lọc và phần thiếu. KPI/lọc Admin chưa HTTP/UI QA riêng; Mailtrap thật còn BLOCKED; Docker runtime, merchant/webhook, tải và khảo sát thực địa chưa có bằng chứng hoàn tất. Giao dịch được duyệt khác thực chi, SMTP loopback khác gửi thư ngoài, build khác kiểm thử nghiệp vụ. Không thay nghiệm thu Admin hoặc giai đoạn 12.
+
+Chương 3 dẫn [22], [23], [32]. Tập được dẫn đến hết ba chương hiện 25 nguồn: 6 Việt/19 Anh (24% Việt); kho vẫn 41 hồ sơ. Không thêm tài liệu chưa đọc để tăng tỷ lệ tiếng Việt. G5 còn phải chọn danh mục cuối, xếp theo quy tắc trường và thay số đồng bộ; G6–G7 còn định dạng/render/QA Word/PDF.
+
+### 13.4. Kiểm tra và điểm dừng
+
+Kiểm tra tài liệu gồm cấu trúc G1, số/vị trí/caption bảng-hình, ảnh được chọn và chỗ trống, tên case trong file có thật, số nguồn, liên kết, UTF-8, diff và hash. Snapshot đầu G4: 40 file có thay đổi trước nhiệm vụ, 218 file được bảo vệ và 27 PNG ứng viên. Chi tiết sau QA lưu tại `.cache/bao-cao-cuoi-ky-g4/validation.json`; không gọi đây là kết quả test ứng dụng hoặc phản biện độc lập.
+
+Kiểm tra cục bộ G4 **ĐẠT**: 12 mục/37 tiểu mục, 7 bảng và 17 caption hình đúng vị trí/tên theo G1; 8 đường dẫn ảnh demo có thật và 9 chỗ trống đúng quyết định. Đối chiếu 12 đầu mối case trong mã; 3 nguồn Chương 3 có bản ghi và tập dẫn cả ba chương là 25. 157 liên kết cục bộ trong 8 file được tạo/cập nhật hợp lệ; hash 40 file có trước, 218 file được bảo vệ và 27 PNG giữ nguyên trước khi nối ghi nhận kế hoạch. Không tạo ảnh, Word/PDF hoặc kết quả chạy test mới.
+
+G4 hoàn tất bản nháp trong phạm vi có các vị trí ảnh được chủ động để trống. Cả ba chương có 32 mục chính/118 tiểu mục và 24 bảng theo G1; hình/ảnh xuất bản còn thiếu, không nhận toàn bộ báo cáo đã hoàn thành. Dừng bàn giao để người dùng kiểm tra, **chưa thực hiện G5 và không push GitHub**.

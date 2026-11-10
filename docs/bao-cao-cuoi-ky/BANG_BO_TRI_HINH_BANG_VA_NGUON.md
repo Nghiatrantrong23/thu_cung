@@ -4,6 +4,8 @@ Giai đoạn 1, ngày 08/11/2026; cập nhật nguồn G2 ngày 09/11/2026. Danh
 
 Cập nhật G3 ngày 09/11/2026: [Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md) đã có 12 bảng và tham chiếu 17 ảnh gốc đúng vị trí. Hình 2.18/2.19 được chủ động để trống để người dùng tự chèn; không tạo hình bổ trợ trong lượt này.
 
+Cập nhật G4 ngày 10/11/2026: [Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_GIA.md) đã có 7 bảng, 8 ảnh demo có sẵn được chọn và 9 vị trí trống. Nguồn và trạng thái Hình 3.1–3.17 bên dưới phản ánh quyết định dùng ảnh; không chụp mới hoặc nhận ảnh cũ là UI mới đã nghiệm thu.
+
 ## Quy ước vị trí và nguồn
 
 - Trong mỗi tiểu mục: đoạn giới thiệu → hình/bảng → caption và nguồn → phân tích/liên hệ/giới hạn. Caption phải đi cùng đối tượng; không chỉ chèn hình.
@@ -35,23 +37,23 @@ Cập nhật G3 ngày 09/11/2026: [Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md
 | Hình 2.17 | 2.8.1 | Cây phân nhóm màn hình | [Sơ ĐỒ MÀN HÌNH CHÍNH.png](<../../So do man hinh/Sơ ĐỒ MÀN HÌNH CHÍNH.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Chưa có nhiều route mới; gộp lễ tân/quản lý không có nghĩa hai nhóm có quyền giống nhau. |
 | Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu PetCare theo schema khảo sát | [02_THIET_KE_CO_SO_DU_LIEU.md](<../../plans/02_THIET_KE_CO_SO_DU_LIEU.md>) | G3: để trống để người dùng tự chèn ERD đầy đủ sau 008; đã có bảng dữ liệu, không tạo hình mới. |
 | Hình 2.19 | 2.10.1 | Kiến trúc giao tiếp frontend, backend và cơ sở dữ liệu | Chưa có file đã duyệt | G3: để trống để người dùng tự chèn sơ đồ kiến trúc; mô tả theo mã, không tạo hình mới. |
-| Hình 3.1 | 3.4.1 | Giao diện đăng ký và đăng nhập | [register-error-fixed.png](<../../.cache/local-run/register-error-fixed.png>) | Ứng viên cũ chưa kiểm nội dung để chọn; HA-01; cần ảnh hiện tại, không lộ thông tin đăng nhập. |
-| Hình 3.2 | 3.4.1 | Quản lý hồ sơ thú cưng | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; HA-02; chụp từ UI thật trong dữ liệu demo khi được triển khai phần kết quả. |
-| Hình 3.3 | 3.4.2 | Đặt lịch và chọn ngày giờ khả dụng | [booking-spacing-fixed.png](<../../.cache/payment-sandbox/booking-spacing-fixed.png>) | Ứng viên chưa đánh giá đủ; HA-03; ảnh không có ca khác ảnh đặt thành công, cần lựa chọn đúng nội dung. |
-| Hình 3.4 | 3.4.2 | Thông tin đặt cọc và trạng thái sau đặt lịch | [deposit-paid-preview.png](<../../.cache/payment-sandbox/deposit-paid-preview.png>) | Ứng viên sandbox chưa duyệt; HA-03; ghi rõ mô phỏng, không nhận tiền thật. |
-| Hình 3.5 | 3.4.3 | Khách hàng gửi và theo dõi khiếu nại | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; HA-07; cần kiểm UI/viewport theo tiến độ. |
-| Hình 3.6 | 3.5.2 | Tiến trình và hoàn tất dịch vụ chăm sóc | [stage8-care-completed.png](<../../.cache/local-run/stage8-care-completed.png>) | Đã xem G0; ảnh demo lịch sử; HA-05; chú thích đúng phiên bản, không coi là ảnh mới. |
-| Hình 3.7 | 3.5.3 | Thông báo thú cưng không đủ điều kiện phục vụ | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; HA-05; chỉ tình huống được UI/API hỗ trợ trước bắt đầu. |
-| Hình 3.8 | 3.6.1 | Điều phối lịch hẹn và phân công nhân viên | [stage7-assigned.png](<../../.cache/local-run/stage7-assigned.png>) | Đã xem G0; ảnh demo lịch sử; HA-04; cần ảnh mới nếu diễn giải giao diện nâng cấp. |
-| Hình 3.9 | 3.6.2 | Hóa đơn và các khoản đã thu, đã hoàn | [stage9-invoice-after-refund.png](<../../.cache/local-run/stage9-invoice-after-refund.png>) | Đã xem G0; ảnh demo lịch sử; Số liệu trên ảnh là tình huống kiểm thử, không là doanh thu thực. |
-| Hình 3.10 | 3.6.3 | Phiếu thực chi hoàn tiền | [stage10-refund-receipt.png](<../../.cache/local-run/stage10-refund-receipt.png>) | Đã xem G0; ảnh demo lịch sử; HA-08; phiếu demo không chứng minh có chuyển tiền thật. |
-| Hình 3.11 | 3.7.1 | Quản lý ca làm việc và cảnh báo ràng buộc | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; HA-04; cần ảnh thao tác thật và tình huống được kiểm chứng. |
-| Hình 3.12 | 3.7.1 | Danh mục dịch vụ và bảng giá | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; Chọn/chụp giao diện thật, không dùng wireframe thay kết quả. |
-| Hình 3.13 | 3.7.2 | Duyệt hoàn và trạng thái chờ thực chi | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; HA-08; phải thể hiện duyệt khác chi. |
-| Hình 3.14 | 3.7.3 | Báo cáo thu, hoàn và thực thu | [stage11-net-report.png](<../../.cache/local-run/stage11-net-report.png>) | Đã xem G0; ảnh demo lịch sử; Không coi chỉ tiêu thực thu là lợi nhuận hoặc số liệu kinh doanh thật. |
-| Hình 3.15 | 3.7.3 | Biểu đồ báo cáo theo kỳ | [revenue-quarter-preview.png](<../../.cache/payment-sandbox/revenue-quarter-preview.png>) | Ứng viên chưa duyệt; HA-09; preview nhỏ phải kiểm độ rõ/phiên bản trước chèn. |
-| Hình 3.16 | 3.8.1 | KPI, tìm kiếm và bộ lọc tài khoản Admin | Chưa có file đã duyệt | Chưa có ảnh bản mới đã duyệt; HA-10; stage11-admin.png là bản cũ, không dùng chứng minh KPI mới. |
-| Hình 3.17 | 3.8.2 | Cảnh báo ràng buộc khi quản trị tài khoản | Chưa có file đã duyệt | Chưa có ảnh đã duyệt; HA-10; không tạo dialog giả hoặc nhận guard chưa thử là đã đạt. |
+| Hình 3.1 | 3.4.1 | Giao diện đăng ký và đăng nhập | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Ảnh ứng viên chỉ có một phần form lỗi đăng ký; chưa đủ hình đăng ký/đăng nhập. |
+| Hình 3.2 | 3.4.1 | Quản lý hồ sơ thú cưng | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh hồ sơ thú cưng được chọn. |
+| Hình 3.3 | 3.4.2 | Đặt lịch và chọn ngày giờ khả dụng | [booking-spacing-fixed.png](<../../.cache/payment-sandbox/booking-spacing-fixed.png>) | G4: đã xem và chọn ảnh demo có sẵn; Ảnh có sẵn, minh họa ngày không có ca; ngày trên biểu mẫu không xác định ngày chụp. |
+| Hình 3.4 | 3.4.2 | Thông tin đặt cọc và trạng thái sau đặt lịch | [deposit-paid-preview.png](<../../.cache/payment-sandbox/deposit-paid-preview.png>) | G4: đã xem và chọn ảnh demo có sẵn; Ảnh sandbox có sẵn; cọc 45.000 đồng là mô phỏng, lịch còn chờ xác nhận. |
+| Hình 3.5 | 3.4.3 | Khách hàng gửi và theo dõi khiếu nại | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh khiếu nại khách phù hợp và QA đủ viewport. |
+| Hình 3.6 | 3.5.2 | Tiến trình và hoàn tất dịch vụ chăm sóc | [stage8-care-completed.png](<../../.cache/local-run/stage8-care-completed.png>) | G4: đã xem và chọn ảnh demo có sẵn; Ảnh demo lịch sử; không phải lần nghiệm thu mới ngày 10/11/2026. |
+| Hình 3.7 | 3.5.3 | Thông báo thú cưng không đủ điều kiện phục vụ | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh ngoại lệ trước bắt đầu được chọn. |
+| Hình 3.8 | 3.6.1 | Điều phối lịch hẹn và phân công nhân viên | [stage7-assigned.png](<../../.cache/local-run/stage7-assigned.png>) | G4: đã xem và chọn ảnh demo có sẵn; Ảnh demo lịch sử; không tự ghép cùng fixture với ảnh chăm sóc chỉ từ mã lịch. |
+| Hình 3.9 | 3.6.2 | Hóa đơn và các khoản đã thu, đã hoàn | [stage9-invoice-after-refund.png](<../../.cache/local-run/stage9-invoice-after-refund.png>) | G4: đã xem và chọn ảnh demo có sẵn; Ảnh hóa đơn demo: thu 400.000, hoàn 100.000, nợ 0; không phải giao dịch thật. |
+| Hình 3.10 | 3.6.3 | Phiếu thực chi hoàn tiền | [stage10-refund-receipt.png](<../../.cache/local-run/stage10-refund-receipt.png>) | G4: đã xem và chọn ảnh demo có sẵn; Phiếu demo có chứng từ UI-DEMO-REFUND-ONLY; không chứng minh đã chuyển tiền thật. |
+| Hình 3.11 | 3.7.1 | Quản lý ca làm việc và cảnh báo ràng buộc | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh ca và cảnh báo ràng buộc được chọn. |
+| Hình 3.12 | 3.7.1 | Danh mục dịch vụ và bảng giá | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh danh mục quản lý được chọn. |
+| Hình 3.13 | 3.7.2 | Duyệt hoàn và trạng thái chờ thực chi | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh đúng trạng thái đã duyệt, chưa chi. |
+| Hình 3.14 | 3.7.3 | Báo cáo thu, hoàn và thực thu | [stage11-net-report.png](<../../.cache/local-run/stage11-net-report.png>) | G4: đã xem và chọn ảnh demo có sẵn; Ảnh báo cáo demo lịch sử: thu 400.000, hoàn 100.000, thực thu 300.000; không là lợi nhuận. |
+| Hình 3.15 | 3.7.3 | Biểu đồ báo cáo theo kỳ | [revenue-quarter-preview.png](<../../.cache/payment-sandbox/revenue-quarter-preview.png>) | G4: đã xem và chọn ảnh demo có sẵn; Preview biểu đồ demo của tập dữ liệu khác: thu 1.145.000, hoàn 200.000, thực thu 945.000 đồng. |
+| Hình 3.16 | 3.8.1 | KPI, tìm kiếm và bộ lọc tài khoản Admin | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Ảnh Admin cũ không phản ánh KPI/lọc mới. |
+| Hình 3.17 | 3.8.2 | Cảnh báo ràng buộc khi quản trị tài khoản | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh cảnh báo quản trị phù hợp. |
 
 ## Danh sách 24 vị trí bảng
 

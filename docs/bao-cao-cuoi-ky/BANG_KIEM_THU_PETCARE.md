@@ -90,3 +90,7 @@ Có **24 file backend (13 file tích hợp) và 8 file frontend**. Số file ho�
 ## Khi viết Chương 3
 
 Ghi riêng thiết kế test (tham khảo [32]), công cụ node:test [22], cách chuẩn bị DB cô lập và kết quả theo từng mốc. Hiện chưa có collection Postman được chạy; [35] chỉ là phương án. Nếu chạy lại ở giai đoạn sau phải bảo vệ DB thật, ghi rõ snapshot, lệnh, thời điểm, PASS/FAIL/SKIP và log; không dùng bản tổng hợp này làm log thực thi mới.
+
+## Sử dụng khi biên soạn Giai đoạn 4
+
+Ngày 10/11/2026: [Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_GIA.md) đã dùng KT-01–KT-12 để trình bày tiền điều kiện/kỳ vọng tại Bảng 3.3; Bảng 3.5 giữ riêng các mốc thực thi và Bảng 3.6 giữ các mục thiếu bằng chứng. Không chạy lại ứng dụng/DB, không tạo PASS mới hoặc đổi SKIP thành PASS. 83 PASS tích hợp tháng 10 khác 83 PASS mặc định tháng 11; hướng dẫn bộ test cũ được đọc cùng biên bản mở rộng. Xem [kiểm tra Chương 3 và minh chứng](KIEM_TRA_CHUONG_3_VA_MINH_CHUNG.md).
