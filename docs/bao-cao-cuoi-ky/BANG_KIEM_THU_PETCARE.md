@@ -40,7 +40,7 @@ Tên dưới đây lấy từ mã test, không phải ca thử do người viế
 | Hạng mục | Trạng thái | Điều kiện để kết luận |
 |---|---|---|
 | Hiệu năng/tải/số người đồng thời ở mức hệ thống | CHƯA CÓ BẰNG CHỨNG | Kịch bản tải, cấu hình, dữ liệu, ngưỡng và log thực thi |
-| Tỷ lệ hài lòng hoặc mức giảm thời gian chờ PetCare | CHƯA THỰC HIỆN | Thiết kế khảo sát/so sánh và dữ liệu thật; không lấy số VOAS hoặc hệ thống khác |
+| Tỷ lệ hài lòng hoặc mức giảm thời gian chờ Thế Giới Thú Cưng | CHƯA THỰC HIỆN | Thiết kế khảo sát/so sánh và dữ liệu thật; không lấy số VOAS hoặc hệ thống khác |
 | UI đầy đủ năm vai trò/thiết bị | CHƯA CÓ BẰNG CHỨNG ĐẦY ĐỦ | Checklist thao tác/viewport và ảnh hiện tại |
 | Admin KPI/lọc mới, HTTP DB test riêng và UI | CHƯA CÓ BẰNG CHỨNG ĐẦY ĐỦ | Theo TIEN_DO_ADMIN_PETCARE.md, kiểm tra riêng vẫn thiếu |
 | Audit logs/config/backup server qua trang Admin | CHƯA TRIỂN KHAI ĐẦY ĐỦ | Bỏ fallback; có persistence/API và kiểm chứng thực; không coi demo là PASS |

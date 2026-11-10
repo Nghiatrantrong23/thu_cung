@@ -2,7 +2,7 @@
 
 Đề tài “Xây dựng hệ thống quản lý và đặt lịch dịch vụ chăm sóc thú cưng” giải quyết bài toán liên kết hồ sơ chó mèo, dịch vụ, lịch hẹn và giao dịch. Mục tiêu là hỗ trợ đặt lịch trực tuyến, tổ chức ca, điều phối nhân viên và theo dõi quá trình chăm sóc.
 
-PetCare phục vụ năm nhóm: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Phương pháp gồm tổng hợp tài liệu, phân tích yêu cầu, mô hình hóa UML, thiết kế dữ liệu quan hệ, cài đặt và kiểm thử. Giao diện sử dụng React/Vite; backend sử dụng Node.js, Express và PostgreSQL, trao đổi qua HTTP API. JWT hỗ trợ xác thực, bcrypt băm mật khẩu, kết hợp kiểm tra vai trò và quyền sở hữu tại server.
+Thế Giới Thú Cưng phục vụ năm nhóm: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Phương pháp gồm tổng hợp tài liệu, phân tích yêu cầu, mô hình hóa UML, thiết kế dữ liệu quan hệ, cài đặt và kiểm thử. Giao diện sử dụng React/Vite; backend sử dụng Node.js, Express và PostgreSQL, trao đổi qua HTTP API. JWT hỗ trợ xác thực, bcrypt băm mật khẩu, kết hợp kiểm tra vai trò và quyền sở hữu tại server.
 
 Đối với đặt lịch, hệ thống kiểm tra toàn khoảng thời gian và khả năng bố trí nhân viên trong ca bằng tìm kiếm quay lui, giữ nguyên phân công đã có. Cơ chế kiểm tra tính khả thi không tự lưu phương án phân công. Transaction và khóa dữ liệu hỗ trợ kiểm soát đồng thời, bảo toàn lịch, cọc, hóa đơn và thu/hoàn.
 

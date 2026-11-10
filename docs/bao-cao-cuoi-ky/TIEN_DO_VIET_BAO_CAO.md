@@ -1,8 +1,10 @@
-# Tiến độ biên soạn báo cáo cuối kỳ PetCare
+# Tiến độ biên soạn báo cáo cuối kỳ Thế Giới Thú Cưng
 
 Ngày cập nhật: **10/11/2026**. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-4`. Các mục G0–G3 bên dưới là hồ sơ lịch sử; kết quả G4 tại mục 13.
 
 **Trạng thái hiện tại: đã viết bản nháp Chương 3 ở Giai đoạn 4.** Có 12 mục/37 tiểu mục, 7 bảng, 8 ảnh demo được chọn và 9 vị trí ảnh trống. Ba chương đã có nội dung; kết luận/chốt tham khảo và Word/PDF chưa thực hiện. Lưu cục bộ, **không push GitHub**, dừng để người dùng kiểm tra.
+
+**Cập nhật tên hiển thị ngày 10/11/2026:** theo yêu cầu người dùng, tên hệ thống trong Tóm tắt, Mở đầu, ba chương và hồ sơ biên soạn được thống nhất thành **Thế Giới Thú Cưng**. Tên sách/bài báo, URL, đường dẫn, tên file và định danh kỹ thuật giữ nguyên để bảo đảm trích dẫn và liên kết. Chữ trong ảnh/sơ đồ gốc chưa thay đổi; các ảnh đó vẫn là bằng chứng của phiên bản trước đổi tên. Đây là hiệu chỉnh tên, không bắt đầu G5, không sửa website/mã nguồn hoặc push GitHub.
 
 ## 1. Phạm vi và yêu cầu điều khiển
 
@@ -18,7 +20,7 @@ Các chỉ dẫn trong mẫu trường được đọc như dữ liệu định 
 |---|---|---|
 | `Huong dan trinh bay Báo cáo ĐACN_2026-2027(1).docx` | Chưa thấy đúng tên có `(1)` trong workspace/vị trí Documents đã kiểm tra | Sử dụng bản người dùng đã gửi trước, không giả có bản mới |
 | `C:\Users\TRONG NGHIA\Documents\Huong dan trinh bay Báo cáo ĐACN_2026-2027.docx` | Đọc XML chỉ đọc, chia sẻ với ứng dụng đang mở; 542 đoạn trực tiếp trong body và section properties | Đủ căn cứ đối chiếu quy định chữ; chưa phải kiểm tra render báo cáo mới |
-| Báo cáo PetCare DOCX/PDF hiện có | Không tìm thấy trong workspace sau quét loại trừ thư viện phụ thuộc/build/backup DB | Chưa có bản thảo để kế thừa, kiểm Word hoặc kiểm citation fields |
+| Báo cáo Thế Giới Thú Cưng DOCX/PDF hiện có | Không tìm thấy trong workspace sau quét loại trừ thư viện phụ thuộc/build/backup DB | Chưa có bản thảo để kế thừa, kiểm Word hoặc kiểm citation fields |
 | [Kế hoạch tổng thể](../../plans/ke_hoach_tong_the.md), [thiết kế CSDL](../../plans/02_THIET_KE_CO_SO_DU_LIEU.md) | Đã đọc tiến độ, quyền, luồng, trạng thái và thiết kế lõi | Tách mốc cũ 000–005 với phần mở rộng hiện tại |
 | `thu_cung.sql`, migrations 001–008, `backend/scripts/db-tooling.js` | Đã kiểm nguồn DDL và ánh xạ version 000 tới `thu_cung.sql` | Có 9 version logic; không có file vật lý `migrations/000*.sql` |
 | 17 PNG và ba Markdown màn hình | Đã xem trực tiếp cả 17 sơ đồ; đọc phần mô tả wireframe | Đủ sáu loại hiện diện, nhưng nhiều điểm chưa khớp mã |
@@ -103,7 +105,7 @@ Nguồn đọc chính: `frontend/src/App.jsx`, `backend/src/server.js`, `backend
 - Metadata không thay nội dung: một số sách UML/CSDL/phân tích và khóa luận Việt cần đọc sâu trước khi viết luận điểm cụ thể. Vite/bcrypt/chuẩn UML còn cần hồ sơ chính thức phù hợp nếu được dẫn về lý thuyết.
 - Chưa có báo cáo thị trường Việt định lượng có phương pháp đã kiểm chứng; tin hội thảo chỉ hỗ trợ bối cảnh. Chưa có khảo sát thực địa/SOP cơ sở thực được xác nhận.
 - Chưa có bản gốc đủ xuất xứ D&C/Paws Pet House; giữ ngoài nguồn chính thức. Không tái tìm các nguồn đã xác minh đủ trong Giai đoạn 0.
-- Chưa có dữ liệu đo hiệu năng, khảo sát hài lòng hoặc so sánh trước/sau của chính PetCare. Không mượn kết quả [29], [30], [33] làm kết quả dự án.
+- Chưa có dữ liệu đo hiệu năng, khảo sát hài lòng hoặc so sánh trước/sau của chính Thế Giới Thú Cưng. Không mượn kết quả [29], [30], [33] làm kết quả dự án.
 - Chưa có bộ ảnh hiện hành đầy đủ mọi chức năng/thiết bị; sáu ảnh đã xem là demo lịch sử. Không tự chế ảnh để lấp chỗ trống.
 - Chưa xác định thông tin tác giả/GVHD từ đầu vào được kiểm tra; không ảnh hưởng khảo sát, nhưng cần có trước khi điền header/footer ở giai đoạn Word.
 

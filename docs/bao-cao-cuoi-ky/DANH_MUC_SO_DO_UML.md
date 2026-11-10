@@ -1,4 +1,4 @@
-# Kiểm kê sơ đồ PetCare
+# Kiểm kê sơ đồ Thế Giới Thú Cưng
 
 Ngày 08/11/2026. Giai đoạn 0. Đã mở và quan sát trực tiếp **17/17 PNG gốc**, gồm 1 UC, 6 Activity, 6 Sequence, 1 Class, 2 State Machine và 1 cây màn hình. Đủ sáu loại về sự hiện diện; **không xác nhận toàn bộ sơ đồ đã hoàn thiện/khớp mã nguồn**.
 
@@ -33,7 +33,7 @@ Mã UC-01, SM-01, SM-02 và MH-TQ là mã hồ sơ đặt cho khảo sát; AD-01
 ## Định dạng và phần thiếu
 
 - Không tìm thấy file `.puml`, `.plantuml`, `.drawio`, `.vsdx`, `.mmd` trong phạm vi quét workspace kể cả cache, loại trừ thư viện phụ thuộc/build/backup DB. Có ERD Mermaid nội tuyến trong kế hoạch CSDL; đây không phải file nguồn của 17 PNG.
-- Không tìm thấy báo cáo DOCX/PDF PetCare trong workspace. Không có bảng đặc tả UC độc lập được nhận diện; không nhận wireframe thành đặc tả UC đầy đủ.
+- Không tìm thấy báo cáo DOCX/PDF Thế Giới Thú Cưng trong workspace. Không có bảng đặc tả UC độc lập được nhận diện; không nhận wireframe thành đặc tả UC đầy đủ.
 - UC-01 còn dấu chọn màu xanh; một số hình trạng thái/UC còn đường hướng dẫn nét đứt. Các hình Sequence/Class nhiều chữ cần thử trang ngang hoặc bố trí phù hợp khi tạo Word. Không chỉnh sửa/crop hình gốc ở Giai đoạn 0.
 - Kích thước pixel cho biết khả năng hiển thị, không tự chứng minh chữ đọc được khi in A4. Kiểm tra này chỉ hoàn tất sau render Word/PDF tại giai đoạn xuất bản.
 - Chưa có nguồn chỉnh sửa sơ đồ; nếu người dùng muốn cập nhật phải có yêu cầu riêng. Hiện tại giữ hình và thuyết minh rõ khác biệt.

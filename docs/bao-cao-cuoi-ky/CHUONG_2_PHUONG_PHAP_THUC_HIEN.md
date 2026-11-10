@@ -4,7 +4,7 @@
 
 ### 2.1.1. Nguồn khảo sát và phạm vi hệ thống
 
-Phân tích PetCare dựa trên kế hoạch tổng thể, tài liệu thiết kế cơ sở dữ liệu, bộ sơ đồ đã thiết kế, wireframe, mã frontend/backend và các biên bản kiểm tra trong dự án. Việc đối chiếu được thực hiện giữa yêu cầu, mô hình và thành phần xử lý để xác định phần đã có, phần khác thiết kế ban đầu và phần còn thiếu bằng chứng. Đây là khảo sát hồ sơ và hiện trạng phần mềm; chưa có biên bản phỏng vấn hoặc quan sát mới tại một cơ sở kinh doanh để gọi là khảo sát thực địa.
+Phân tích Thế Giới Thú Cưng dựa trên kế hoạch tổng thể, tài liệu thiết kế cơ sở dữ liệu, bộ sơ đồ đã thiết kế, wireframe, mã frontend/backend và các biên bản kiểm tra trong dự án. Việc đối chiếu được thực hiện giữa yêu cầu, mô hình và thành phần xử lý để xác định phần đã có, phần khác thiết kế ban đầu và phần còn thiếu bằng chứng. Đây là khảo sát hồ sơ và hiện trạng phần mềm; chưa có biên bản phỏng vấn hoặc quan sát mới tại một cơ sở kinh doanh để gọi là khảo sát thực địa.
 
 Phạm vi tập trung vào quản lý và đặt lịch chăm sóc chó mèo trong một cơ sở, từ thông tin khách–thú cưng đến điều phối, chăm sóc và giao dịch. Kiến thức nghiệp vụ ở Chương 1 hỗ trợ xác định thông tin cần trao đổi và giới hạn chuyên môn [13], [16]. Những quy tắc như giờ nhận lịch, chính sách cọc và phân nhóm quyền là lựa chọn của dự án; báo cáo không xem chúng là tiêu chuẩn áp dụng cho mọi cơ sở thú cưng.
 
@@ -24,7 +24,7 @@ Tiêu chí chấp nhận được đặt theo hành vi có thể kiểm chứng.
 
 ### 2.2.1. Tác nhân và ánh xạ vai trò
 
-PetCare có năm nhóm đăng nhập: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Khách vãng lai là tác nhân sử dụng chức năng công khai, chưa hình thành một giá trị vai trò riêng trong cơ sở dữ liệu. Mô hình RBAC cung cấp cơ sở liên kết người dùng với quyền thông qua vai trò [34]; cách chia nhóm và điều kiện bổ sung dưới đây là thiết kế của dự án.
+Thế Giới Thú Cưng có năm nhóm đăng nhập: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Khách vãng lai là tác nhân sử dụng chức năng công khai, chưa hình thành một giá trị vai trò riêng trong cơ sở dữ liệu. Mô hình RBAC cung cấp cơ sở liên kết người dùng với quyền thông qua vai trò [34]; cách chia nhóm và điều kiện bổ sung dưới đây là thiết kế của dự án.
 
 **Bảng 2.1. Tác nhân và ánh xạ nhóm quyền**
 
@@ -65,7 +65,7 @@ Nhóm chia yêu cầu theo đối tượng và kết quả nghiệp vụ để t
 | YC-14 | Báo cáo quản lý | Khoảng thời gian → số liệu thu, hoàn và thống kê | Reports; dựa giao dịch thành công, phân biệt thực thu và lợi nhuận |
 | YC-15 | Admin quản trị tài khoản | Tạo/reset/khóa/đổi quyền → trạng thái tài khoản được kiểm soát | Admin; bắt đổi mật khẩu tạm, thu hồi phiên, bảo vệ ràng buộc lịch |
 
-*Nguồn: nhóm phân tích yêu cầu từ kế hoạch, mã và hồ sơ khảo sát PetCare. Không dùng sự hiện diện module để tự đánh dấu yêu cầu đã nghiệm thu.*
+*Nguồn: nhóm phân tích yêu cầu từ kế hoạch, mã và hồ sơ khảo sát Thế Giới Thú Cưng. Không dùng sự hiện diện module để tự đánh dấu yêu cầu đã nghiệm thu.*
 
 Nhật ký bảo mật toàn hệ thống, cấu hình vận hành có persistence và sao lưu qua giao diện Admin chưa có phần xử lý đầy đủ tương ứng. Những trang hiện có cho các chức năng này không được thêm vào bảng như một kết quả backend hoàn thành. Tương tự, tài liệu có cấu hình Docker chưa chứng minh ứng dụng đã được triển khai bằng container.
 
@@ -86,7 +86,7 @@ Yêu cầu phi chức năng được gắn với phép kiểm tra hoặc giới 
 | PC-07 | Truy vết và bảo trì | Đối chiếu yêu cầu–API–module–test, kiểm migration/checksum | Nhật ký lịch không thay audit bảo mật toàn hệ thống |
 | PC-08 | Hiệu năng và vận hành | Cần phép đo tải, thời gian đáp ứng và giám sát thực tế | Chưa có số đo để công bố mức tải hoặc uptime |
 
-*Nguồn: nhóm xác định cho PetCare; phương pháp tham khảo [23], [25], [32].*
+*Nguồn: nhóm xác định cho Thế Giới Thú Cưng; phương pháp tham khảo [23], [25], [32].*
 
 ### 2.2.4. Ma trận quyền năm nhóm
 
@@ -123,13 +123,13 @@ Các route tạo/sửa/ngừng theo dõi hồ sơ thú cưng tự phục vụ ch
 
 ### 2.3.1. Sơ đồ ca sử dụng tổng thể
 
-Use Case được sử dụng để mô tả tác nhân và những hành vi mà hệ thống cung cấp; các mô hình cấu trúc, hoạt động, tương tác và trạng thái bổ sung những góc nhìn khác theo UML [36]. Hình 2.1 là sơ đồ tổng thể đã thiết kế của PetCare, giữ nguyên ảnh gốc để đối chiếu với hiện trạng.
+Use Case được sử dụng để mô tả tác nhân và những hành vi mà hệ thống cung cấp; các mô hình cấu trúc, hoạt động, tương tác và trạng thái bổ sung những góc nhìn khác theo UML [36]. Hình 2.1 là sơ đồ tổng thể đã thiết kế của Thế Giới Thú Cưng, giữ nguyên ảnh gốc để đối chiếu với hiện trạng.
 
 ![UC-01 — Tác nhân và chức năng tổng thể](<D:/dich_vu_thu_cung/Sơ đồ trạng thái_sơ đồ class/Sơ đồ ca sử dụng.png>)
 
 **Hình 2.1. Tác nhân và chức năng tổng thể**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã UC-01; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã UC-01; giữ nguyên ảnh gốc.*
 
 Ranh giới hình bao quanh các chức năng của hệ thống; bên ngoài là khách vãng lai, khách hàng, nhân viên, lễ tân, quản lý, Admin và tác nhân người dùng chung. Các đường nối thể hiện sự tham gia; hình còn dùng các nhãn `include`, `extend` và quan hệ khái quát hóa. Khi đọc các quan hệ này cần kiểm tra hướng mũi tên và ý nghĩa bắt buộc/tùy điều kiện, không đồng nhất mọi nét nối với một quyền API đã được cấp.
 
@@ -179,7 +179,7 @@ Use case đặt lịch online được chọn để liên kết yêu cầu, dữ
 | Ngoại lệ giao dịch | Lỗi sau một bước ghi → rollback toàn bộ phần thay đổi trong transaction |
 | API/đối chiếu | `GET /api/lich-hen/khung-gio-trong`, `POST /api/lich-hen`; AD-02, SD-02 và `services/booking.js` |
 
-*Nguồn: nhóm đặc tả từ UC-01, AD-02, SD-02 và mã PetCare; các bước kiểm soát hiện tại có thể chi tiết hơn hình gốc.*
+*Nguồn: nhóm đặc tả từ UC-01, AD-02, SD-02 và mã Thế Giới Thú Cưng; các bước kiểm soát hiện tại có thể chi tiết hơn hình gốc.*
 
 ## 2.4. Thiết kế sơ đồ hoạt động
 
@@ -191,7 +191,7 @@ Activity đăng ký trình bày luồng từ nhập thông tin đến kiểm tra
 
 **Hình 2.2. Đăng ký tài khoản**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã AD-01; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã AD-01; giữ nguyên ảnh gốc.*
 
 Trong cài đặt, kiểm tra tài khoản/liên hệ và băm mật khẩu phải hoàn tất theo quy tắc trước khi tạo hồ sơ. Trường hợp dữ liệu trùng hoặc không hợp lệ được trả về thay vì tiếp tục luồng thành công. Hình không thể hiện hết giới hạn chuỗi, giới hạn byte mật khẩu hoặc khóa chống tạo trùng; các chi tiết đó được đối chiếu từ controller và validation. Không đưa mật khẩu gốc vào hồ sơ hoặc xem thao tác băm là giải mã mật khẩu.
 
@@ -203,7 +203,7 @@ Activity đặt lịch kết nối việc nhận diện khách/thú cưng, chọ
 
 **Hình 2.3. Đặt lịch online/tại quầy**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã AD-02; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã AD-02; giữ nguyên ảnh gốc.*
 
 Phần kiểm tra giờ trống trên hình được thuyết minh theo toàn khoảng thời lượng trong mã hiện tại. Ngoài ra, transaction tạo lịch còn ghi các chi tiết, snapshot cọc nếu áp dụng và thông báo liên quan. Lấy khóa ngày trước khi đọc công suất là biện pháp kiểm soát đồng thời chưa thể hiện trong ảnh. Những bổ sung này được mô tả bằng văn bản và mục 2.11, không gán thêm nút hoạt động vào hình gốc.
 
@@ -215,7 +215,7 @@ Activity điều phối thể hiện việc nhân sự tiếp nhận xem lịch 
 
 **Hình 2.4. Điều phối và phân công**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã AD-03; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã AD-03; giữ nguyên ảnh gốc.*
 
 Mã hiện tại nhận đúng một giá trị `hanhDong`: `phan-cong`, `giu-cho` hoặc `tu-choi`. Giữ chờ tiếp tục `ChoXacNhan`; phân công thành công chuyển `DaXacNhan`; từ chối chuyển `TuChoi`. Nhãn “Đã hủy” ở nhánh từ chối trong hình không phải trạng thái dùng cho thao tác từ chối hiện tại. Sự khác nhau cần giữ rõ vì hủy lịch và từ chối tiếp nhận có ý nghĩa nghiệp vụ, lịch sử và xử lý cọc khác nhau.
 
@@ -227,7 +227,7 @@ Activity chăm sóc bắt đầu từ lịch được giao, việc tiếp nhận
 
 **Hình 2.5. Tiếp nhận và chăm sóc**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã AD-04; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã AD-04; giữ nguyên ảnh gốc.*
 
 Hiện trạng phân biệt báo không đủ điều kiện trước bắt đầu với hủy hoặc đổi lịch do nhân sự có quyền xử lý. Báo vấn đề chưa tự chuyển lịch sang `DaHuy`. Khi đang thực hiện, mỗi chi tiết đi từ chờ đến đang làm rồi hoàn thành; chỉ khi tất cả chi tiết hoàn thành mới kết thúc lịch. Nhánh hủy/hoãn trên hình vì vậy không được hiểu là quyền tự hủy dịch vụ đang làm dở; phần quyết toán trường hợp đó còn là giới hạn của dự án.
 
@@ -239,7 +239,7 @@ Activity hóa đơn mô tả việc lấy dữ liệu phục vụ, tính tổng/
 
 **Hình 2.6. Lập hóa đơn và thu**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã AD-05; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã AD-05; giữ nguyên ảnh gốc.*
 
 Mã hiện tại bổ sung khấu trừ cọc và phân biệt số tiền thu với tiền khách đưa/tiền thừa. Hóa đơn giữ tên, giá và số lượng tại thời điểm lập; thay đổi danh mục không sửa lịch sử đó. Cụm hóa đơn điện tử hoặc chức năng in trong thiết kế không chứng minh đã tích hợp hóa đơn thuế. Tương tự, hiển thị QR/hướng dẫn chuyển khoản hỗ trợ thanh toán nhưng không tự xác nhận tiền ngân hàng đã đến; nhân sự xác nhận thực nhận theo luồng được cài đặt.
 
@@ -251,7 +251,7 @@ Activity khiếu nại tách các lane khách hàng, lễ tân, hệ thống và
 
 **Hình 2.7. Tiếp nhận, quyết định và chi hoàn**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã AD-06; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã AD-06; giữ nguyên ảnh gốc.*
 
 Sai khác đáng chú ý là hình tạo giao dịch và đổi hóa đơn sang “Đã hoàn tiền” ngay sau duyệt, trước khi lễ tân thực chi. Trong mã, duyệt chỉ giữ hạn mức và chuyển khiếu nại sang `ChoHoanTien`. Thực chi thành công mới ghi dòng tiền thành công, đổi trạng thái hóa đơn phù hợp hoàn một phần/toàn bộ và kết thúc khiếu nại; chi thất bại tiếp tục chờ. Nhãn “Chờ xử lý”/“Đã từ chối” trong hình cũng cần đối chiếu với trạng thái `DaTiepNhan`, `DaXuLy` và cột quyết định riêng.
 
@@ -265,7 +265,7 @@ Sequence đăng nhập làm rõ thứ tự gửi thông tin từ giao diện, ki
 
 **Hình 2.8. Tương tác đăng nhập**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SD-01; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SD-01; giữ nguyên ảnh gốc.*
 
 Hiện trạng bổ sung access token, refresh token, mục đích token, phiên bản phiên và kiểm tra tài khoản còn hoạt động. Khi dùng mật khẩu tạm, người dùng phải đổi trước nghiệp vụ. Những điều kiện này chi tiết hơn khái niệm tạo phiên trên hình; không thể chỉ dựa vào nhánh mật khẩu đúng để kết luận đã được phép sử dụng mọi chức năng.
 
@@ -277,7 +277,7 @@ Sequence đặt lịch thể hiện tương tác chọn khách/thú cưng, dịc
 
 **Hình 2.9. Tương tác đặt lịch**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SD-02; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SD-02; giữ nguyên ảnh gốc.*
 
 Điều kiện so số lịch với số nhân viên trực ca trong hình không tương đương cơ chế hiện hành. Mã xét ca bao trọn, các khoảng giao nhau, lịch đã phân công và lịch chưa gán; sau đó tìm xem có cách bố trí toàn khoảng hay không. Transaction còn lấy khóa ngày, đọc lại dữ liệu và kiểm thời điểm chưa qua trước khi ghi. Phần giải thích này chỉ ra sự tiến triển của thiết kế, không nhận rằng các message đếm chỗ trong hình đã thể hiện thuật toán quay lui.
 
@@ -289,7 +289,7 @@ Sequence điều phối mô tả việc lấy thông tin lịch, xem nguồn l�
 
 **Hình 2.10. Tương tác điều phối**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SD-03; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SD-03; giữ nguyên ảnh gốc.*
 
 Hình có nhánh tùy chọn từ chối và phần phân công tiếp theo; khi vận dụng phải phân biệt ba lựa chọn loại trừ của mã. Sau từ chối không tiếp tục phân công trong cùng lần xử lý. Hai quyết định cạnh tranh trên một lịch không được cùng thành công nếu quyết định trước đã làm thay đổi trạng thái. `TuChoi` là giá trị hiện tại của từ chối, khác `DaHuy` xuất hiện trong hình.
 
@@ -301,7 +301,7 @@ Sequence chăm sóc mô tả trao đổi khi tiếp nhận, bắt đầu, ghi ti
 
 **Hình 2.11. Tương tác chăm sóc**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SD-04; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SD-04; giữ nguyên ảnh gốc.*
 
 Khối lễ tân hủy được đặt sau khối lựa chọn trong ảnh có thể gây hiểu nhầm rằng hủy là bước tiếp theo sau hoàn thành. Mã hiện tại chỉ cho hủy lịch còn chờ hoặc đã xác nhận, không cho `HoanThanh` hay `DangThucHien` đi qua API hủy đó. Do vậy, nhánh xử lý không đủ điều kiện trước lúc bắt đầu là tình huống riêng; thứ tự vẽ không được dùng để hợp thức hóa một chuyển trạng thái mà server chặn.
 
@@ -313,7 +313,7 @@ Sequence hóa đơn diễn tả việc tạo các dòng dịch vụ, tính thàn
 
 **Hình 2.12. Tương tác hóa đơn và thu**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SD-05; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SD-05; giữ nguyên ảnh gốc.*
 
 Mã không mặc định lấy toàn bộ tiền khách đưa làm số tiền thu. Số ghi nhận phải dương và không vượt nợ còn lại sau khoản cọc đã áp dụng; tiền mặt có thể kèm tiền thừa. Mỗi lần thu có khóa chống lặp và được xử lý dưới khóa hóa đơn. Những điều kiện này khác việc chỉ lặp thu đến khi đủ trên giao diện, vì quyết định cuối phải nhất quán ngay khi nhiều yêu cầu đến đồng thời.
 
@@ -325,7 +325,7 @@ Sequence khiếu nại chia ba phần lớn: tiếp nhận, quản lý quyết �
 
 **Hình 2.13. Tương tác khiếu nại và hoàn**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SD-06; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SD-06; giữ nguyên ảnh gốc.*
 
 Các message 18–22 trên ảnh tạo giao dịch, cập nhật `DaHoanTien` và `DaXuLy` ngay trong nhánh duyệt. Hiện trạng giữ `ChoHoanTien` sau duyệt và chỉ ghi thành công khi thực chi được xác nhận. Hạn mức còn phải trừ các lần hoàn thành công và khoản đã duyệt đang chờ, không chỉ so với tổng đã thu ban đầu. Bản ghi chi thất bại được lưu theo quy tắc nhưng không giảm tiền; gửi lại cùng nội dung có thể nhận kết quả đã ghi trước đó thay vì tạo lần chi mới.
 
@@ -339,7 +339,7 @@ Sơ đồ lớp tập hợp các khái niệm miền như `NguoiDung`, `KhachHan
 
 **Hình 2.14. Mô hình lớp miền**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã CD-01; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã CD-01; giữ nguyên ảnh gốc.*
 
 Ví dụ, lịch giữ thời điểm, trạng thái và các trách nhiệm tạo/cập nhật/phân công; hóa đơn tập hợp số tiền và xử lý liên quan. Những phương thức này không phải danh sách tên hàm đã được cài đặt nguyên dạng. Mã backend tổ chức theo các hàm ES module, controller/service và SQL trực tiếp; báo cáo đọc hình như mô hình miền để tránh đánh đồng ký pháp lớp với kiến trúc lập trình thực tế.
 
@@ -365,7 +365,7 @@ Sơ đồ trạng thái lịch mô tả các giai đoạn chờ xác nhận, đ�
 
 **Hình 2.15. Trạng thái lịch hẹn**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SM-01; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SM-01; giữ nguyên ảnh gốc.*
 
 Trong hiện trạng, phân công hợp lệ đưa lịch chờ sang `DaXacNhan`; nhân viên bắt đầu chuyển `DangThucHien`; hoàn tất mọi chi tiết mới chuyển `HoanThanh`. API hủy chỉ nhận `ChoXacNhan` hoặc `DaXacNhan`. Hình còn thiếu `TuChoi` và có đường `DangThucHien` sang `DaHuy` chưa được API hủy hỗ trợ. Nhãn hủy/hoãn trên hình cũng không mô tả chính xác việc đổi giờ hiện tại: đổi giờ hợp lệ đưa lịch về chờ và bỏ phân công để điều phối lại.
 
@@ -377,7 +377,7 @@ Sơ đồ hóa đơn thể hiện chưa thu, thu một phần, thu đủ, đã h
 
 **Hình 2.16. Trạng thái hóa đơn**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã SM-02; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã SM-02; giữ nguyên ảnh gốc.*
 
 Hiện trạng bổ sung `HoanTienMotPhan`. Duyệt hoàn chưa đổi hóa đơn thành đã hoàn; thực chi thành công mới cập nhật theo số đã hoàn. Khi giá trị cần trả bằng không hoặc cọc đã đủ điều kiện áp dụng, khởi tạo hóa đơn có thể đã tất toán theo service, không phải mọi hóa đơn đều bắt đầu ở `ChuaThanhToan`. Trạng thái `DaHuy` có trong thiết kế/miền dữ liệu không tự chứng minh đã có một API hủy hóa đơn tương ứng.
 
@@ -409,7 +409,7 @@ Cây màn hình phân nhóm giao diện chung, khách hàng, nhân viên, lễ t
 
 **Hình 2.17. Cây phân nhóm màn hình**
 
-*Nguồn: bộ sơ đồ thiết kế PetCare được cung cấp, mã MH-TQ; giữ nguyên ảnh gốc.*
+*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã MH-TQ; giữ nguyên ảnh gốc.*
 
 Hình có các nhóm bảng giá, hồ sơ, đặt/xem lịch, chăm sóc, điều phối, hóa đơn, báo cáo và quản trị tài khoản. Cây chưa thể hiện mọi trang mới hoặc mọi đường dẫn qua lại. Việc gộp lễ tân/quản lý trong một nhánh không cho phép lễ tân xem báo cáo hoặc duyệt hoàn khi server chỉ cấp cho quản lý/Admin.
 
@@ -421,7 +421,7 @@ Các mẫu giúp phân biệt vùng nhập, danh sách, trạng thái và hành 
 
 ### 2.8.3. Ánh xạ màn hình sang route và quyền
 
-Frontend sử dụng HashRouter; đường dẫn trong Bảng 2.7 là phần sau dấu `#`. `App.jsx` và thành phần kiểm quyền xác định vùng giao diện theo nhóm, còn dữ liệu cuối cùng vẫn được server bảo vệ. Thiết kế component và state tham khảo mô hình của React [24]; cấu trúc màn hình cụ thể là lựa chọn của PetCare.
+Frontend sử dụng HashRouter; đường dẫn trong Bảng 2.7 là phần sau dấu `#`. `App.jsx` và thành phần kiểm quyền xác định vùng giao diện theo nhóm, còn dữ liệu cuối cùng vẫn được server bảo vệ. Thiết kế component và state tham khảo mô hình của React [24]; cấu trúc màn hình cụ thể là lựa chọn của Thế Giới Thú Cưng.
 
 **Bảng 2.7. Ánh xạ màn hình, route và quyền**
 
@@ -466,14 +466,14 @@ Bảng kỹ thuật lưu version, tên và checksum migration đã áp dụng. D
 
 Đối chiếu nguồn DDL nhận diện 21 bảng ứng dụng và một bảng lịch sử migration do công cụ DB tạo. Quan hệ trung tâm đi từ tài khoản sang hồ sơ, từ khách sang thú cưng và lịch; lịch liên kết các dòng dịch vụ, tiến độ, hóa đơn, đánh giá và khiếu nại. Các bảng cọc/intent/reset là phần mở rộng so với hình lớp miền.
 
-<!-- CHEN_HINH_2_18: Mô hình quan hệ dữ liệu PetCare theo schema khảo sát; người dùng tự chèn sau. -->
+<!-- CHEN_HINH_2_18: Mô hình quan hệ dữ liệu Thế Giới Thú Cưng theo schema khảo sát; người dùng tự chèn sau. -->
 
 <br>
 <br>
 <br>
 <br>
 
-**Hình 2.18. Mô hình quan hệ dữ liệu PetCare theo schema khảo sát**
+**Hình 2.18. Mô hình quan hệ dữ liệu Thế Giới Thú Cưng theo schema khảo sát**
 
 *Vị trí để trống — chưa có hình, tác giả tự chèn sau.*
 
@@ -510,7 +510,7 @@ Vị trí Hình 2.18 được dành cho ERD đầy đủ để tác giả tự c
 
 ### 2.9.3. Khóa, ràng buộc và chỉ mục
 
-Khóa chính nhận diện bản ghi; khóa ngoại liên kết các đối tượng; các ràng buộc miền và duy nhất bảo vệ dữ liệu ngay tại DB theo chức năng PostgreSQL [23]. Trong PetCare, cần phối hợp chúng với kiểm tra quyền và logic liên bảng ở service. Ví dụ, FK lịch–chi tiết không buộc lịch luôn có chi tiết, còn FK nhân viên không tự chứng minh ca của người đó bao trọn lịch.
+Khóa chính nhận diện bản ghi; khóa ngoại liên kết các đối tượng; các ràng buộc miền và duy nhất bảo vệ dữ liệu ngay tại DB theo chức năng PostgreSQL [23]. Trong Thế Giới Thú Cưng, cần phối hợp chúng với kiểm tra quyền và logic liên bảng ở service. Ví dụ, FK lịch–chi tiết không buộc lịch luôn có chi tiết, còn FK nhân viên không tự chứng minh ca của người đó bao trọn lịch.
 
 **Bảng 2.9. Ràng buộc và chỉ mục bảo toàn dữ liệu**
 
@@ -529,7 +529,7 @@ Khóa chính nhận diện bản ghi; khóa ngoại liên kết các đối tư�
 | UNIQUE/hash/thời hạn token reset | 008 | Token được lưu bằng hash, liên kết một tài khoản | Kiểm token còn hạn/chưa dùng và snapshot tài khoản; không lưu token gốc |
 | Chỉ mục lịch, người nhận, thời gian/giao dịch | 000–004 | Hỗ trợ tra cứu theo điều kiện thường dùng | Có index chưa chứng minh đạt một thời gian đáp ứng cụ thể |
 
-*Nguồn: nhóm đọc DDL và service PetCare; nguyên lý ràng buộc tham khảo [23]. Tên EXCLUDE lịch không được tự đặt thành tên constraint giả định.*
+*Nguồn: nhóm đọc DDL và service Thế Giới Thú Cưng; nguyên lý ràng buộc tham khảo [23]. Tên EXCLUDE lịch không được tự đặt thành tên constraint giả định.*
 
 Schema đã có `EXCLUDE USING gist` với khoảng `tsrange`; vì vậy không mô tả cơ chế tránh trùng chỉ nằm ở JavaScript. Tuy nhiên, lịch chưa phân công không được ràng buộc theo một nhân viên cụ thể bằng EXCLUDE đó. Kiểm tra tính khả thi ở service và ràng buộc DB bảo vệ những phạm vi khác nhau, cần giữ cả hai trong phân tích.
 
@@ -637,7 +637,7 @@ Trước khi chốt lịch, thời điểm hẹn được kiểm lại để tr�
 
 ### 2.11.4. Xác thực, phân quyền và quyền sở hữu
 
-Thiết kế dùng JWT cho claims phiên và bcrypt cho đối chiếu mật khẩu; định nghĩa và khuyến nghị sử dụng được tham khảo từ RFC 7519, RFC 8725 và README bcrypt đã xác minh [41], [25], [39]. Các quy tắc bắt đổi mật khẩu tạm, kiểm mục đích access/refresh và phiên bản token là phần áp dụng trong PetCare. Chữ ký token không được xem như đã mã hóa bí mật toàn bộ nội dung.
+Thiết kế dùng JWT cho claims phiên và bcrypt cho đối chiếu mật khẩu; định nghĩa và khuyến nghị sử dụng được tham khảo từ RFC 7519, RFC 8725 và README bcrypt đã xác minh [41], [25], [39]. Các quy tắc bắt đổi mật khẩu tạm, kiểm mục đích access/refresh và phiên bản token là phần áp dụng trong Thế Giới Thú Cưng. Chữ ký token không được xem như đã mã hóa bí mật toàn bộ nội dung.
 
 Middleware đọc lại tài khoản, chức vụ và trạng thái hoạt động từ DB. Token cũ có version khác hoặc tài khoản không còn được phép sử dụng sẽ bị từ chối theo logic hiện tại. Sau đó, kiểm tra vai trò chưa đủ: khách phải sở hữu dữ liệu, nhân viên phải được phân công, và thao tác phải hợp trạng thái. Frontend kiểm quyền để tổ chức trải nghiệm nhưng không thay thế những điều kiện server này.
 

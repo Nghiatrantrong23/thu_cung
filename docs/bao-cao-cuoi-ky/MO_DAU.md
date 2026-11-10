@@ -4,7 +4,7 @@
 
 Chăm sóc thú cưng bao gồm nhiều công việc có quan hệ với nhau: tiếp nhận thông tin chủ nuôi và chó mèo, xác định nhu cầu dịch vụ, bố trí thời gian, chuẩn bị nhân sự, ghi nhận quá trình thực hiện và bàn giao. Chương trình Pet-Grooming của Đại học Cửu Long đưa nội dung vệ sinh, tạo kiểu và vận hành dịch vụ vào cùng một chương trình đào tạo; tin hội thảo của Học viện Nông nghiệp Việt Nam cũng cho thấy sự quan tâm tới đào tạo và thực tiễn nghề chăm sóc thú cưng [13], [31]. Những nguồn này giúp xác định bối cảnh của đề tài, nhưng không được sử dụng để suy ra quy mô thị trường hoặc một tỷ lệ tăng trưởng chưa kiểm chứng.
 
-Trong bài toán quản lý một cơ sở dịch vụ, lịch hẹn không chỉ là một ngày giờ được ghi lại. Mỗi lịch gắn với thú cưng, tập dịch vụ, thời lượng, giá dự kiến, người tiếp nhận và nhân viên phụ trách. Một thời điểm bắt đầu còn trống chưa bảo đảm toàn bộ dịch vụ có thể thực hiện trong ca. Khi nhiều khách cùng chọn một khoảng giờ, việc kiểm tra ở giao diện cũng chưa đủ để ngăn hai yêu cầu cùng được ghi nhận. Đây là các vấn đề được nhóm phân tích từ yêu cầu, mô hình và mã nguồn PetCare, không phải kết quả khảo sát định lượng tại một doanh nghiệp.
+Trong bài toán quản lý một cơ sở dịch vụ, lịch hẹn không chỉ là một ngày giờ được ghi lại. Mỗi lịch gắn với thú cưng, tập dịch vụ, thời lượng, giá dự kiến, người tiếp nhận và nhân viên phụ trách. Một thời điểm bắt đầu còn trống chưa bảo đảm toàn bộ dịch vụ có thể thực hiện trong ca. Khi nhiều khách cùng chọn một khoảng giờ, việc kiểm tra ở giao diện cũng chưa đủ để ngăn hai yêu cầu cùng được ghi nhận. Đây là các vấn đề được nhóm phân tích từ yêu cầu, mô hình và mã nguồn Thế Giới Thú Cưng, không phải kết quả khảo sát định lượng tại một doanh nghiệp.
 
 Thông tin trong quá trình phục vụ cũng cần được chuyển giao giữa các nhóm người dùng. Nhân viên chăm sóc cần biết lịch được giao và ghi chú liên quan; lễ tân cần nắm trạng thái để liên hệ khách; quản lý cần xem xét ngoại lệ và khiếu nại. Hướng dẫn dành cho người làm grooming của CFSG nhấn mạnh việc hiểu đặc điểm từng con vật, trao đổi với chủ nuôi và tổ chức quy trình phục vụ [16]. Từ đó, đề tài xác định nhu cầu lưu giữ thông tin phục vụ và trách nhiệm thao tác, thay vì chỉ xây dựng một biểu mẫu đặt hẹn.
 
@@ -16,7 +16,7 @@ Vì vậy, nhóm lựa chọn đề tài “Xây dựng hệ thống quản lý 
 
 ### 2.1. Mục tiêu tổng quát
 
-Xây dựng ứng dụng Web PetCare hỗ trợ quản lý và đặt lịch dịch vụ chăm sóc chó mèo, trong đó dữ liệu và trạng thái nghiệp vụ được liên kết, thao tác được kiểm soát theo vai trò và các quy tắc quan trọng được kiểm tra tại server.
+Xây dựng ứng dụng Web Thế Giới Thú Cưng hỗ trợ quản lý và đặt lịch dịch vụ chăm sóc chó mèo, trong đó dữ liệu và trạng thái nghiệp vụ được liên kết, thao tác được kiểm soát theo vai trò và các quy tắc quan trọng được kiểm tra tại server.
 
 ### 2.2. Mục tiêu cụ thể
 
@@ -34,11 +34,11 @@ Các mục tiêu trên là cơ sở đánh giá ở Chương 3. Việc có một
 
 Đối tượng nghiên cứu là bài toán quản lý quá trình cung cấp dịch vụ chăm sóc chó mèo: các tác nhân tham gia, dữ liệu cần lưu, trạng thái và điều kiện chuyển trạng thái, quan hệ giữa lịch hẹn với nguồn lực và giao dịch. Về mặt phần mềm, đề tài tập trung vào mô hình hóa yêu cầu, thiết kế dữ liệu và HTTP API, xác thực/phân quyền, kiểm tra tính khả thi của lịch và bảo toàn dữ liệu khi thao tác đồng thời.
 
-Đề tài không nghiên cứu thuật toán chẩn đoán bệnh, kê đơn hoặc lựa chọn phương án điều trị. Thông tin sức khỏe trong PetCare phục vụ ghi nhận, trao đổi và quyết định tiếp nhận của người có trách nhiệm; ứng dụng không thay thế đánh giá chuyên môn thú y.
+Đề tài không nghiên cứu thuật toán chẩn đoán bệnh, kê đơn hoặc lựa chọn phương án điều trị. Thông tin sức khỏe trong Thế Giới Thú Cưng phục vụ ghi nhận, trao đổi và quyết định tiếp nhận của người có trách nhiệm; ứng dụng không thay thế đánh giá chuyên môn thú y.
 
 ## 4. Phạm vi thực hiện
 
-PetCare phục vụ năm nhóm đăng nhập: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Khách vãng lai là tác nhân truy cập các chức năng công khai trước đăng nhập, không phải một vai trò lưu trong cơ sở dữ liệu. Khi mô tả phân quyền, báo cáo sử dụng quyền thực tế trong middleware và route; việc tách Admin khỏi mọi nghiệp vụ vận hành chưa được coi là kết quả đã cài đặt.
+Thế Giới Thú Cưng phục vụ năm nhóm đăng nhập: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Khách vãng lai là tác nhân truy cập các chức năng công khai trước đăng nhập, không phải một vai trò lưu trong cơ sở dữ liệu. Khi mô tả phân quyền, báo cáo sử dụng quyền thực tế trong middleware và route; việc tách Admin khỏi mọi nghiệp vụ vận hành chưa được coi là kết quả đã cài đặt.
 
 Phạm vi chức năng bao gồm hồ sơ thú cưng, danh mục dịch vụ, lịch và ca, điều phối/chăm sóc, cọc, hóa đơn và ghi nhận thu tiền, đánh giá, khiếu nại/hoàn tiền, thông báo trong ứng dụng, báo cáo và quản trị tài khoản. Các trang nhật ký, cấu hình và sao lưu Admin còn thiếu phần xử lý hoặc dữ liệu thật tương ứng được ghi nhận là hạn chế, không đưa vào danh sách chức năng server đã hoàn thành.
 

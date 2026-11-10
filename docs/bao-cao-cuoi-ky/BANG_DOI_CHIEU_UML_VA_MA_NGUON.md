@@ -1,4 +1,4 @@
-# Đối chiếu sơ đồ và mã nguồn PetCare
+# Đối chiếu sơ đồ và mã nguồn Thế Giới Thú Cưng
 
 Ngày 08/11/2026. Đọc trực tiếp 17 PNG, route React/Express, middleware, các service và DDL liên quan. Đây là kiểm tra tĩnh, không phải kết quả chạy API/UI mới. Mã được đọc là workspace có thay đổi chưa commit; commit khảo sát chỉ lưu tài liệu, không tự đưa code đó lên GitHub.
 

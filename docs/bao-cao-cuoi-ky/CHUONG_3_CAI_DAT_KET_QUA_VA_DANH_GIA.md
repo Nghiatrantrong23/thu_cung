@@ -6,7 +6,7 @@ Chương này trình bày phần cài đặt đã đối chiếu với mã ngu�
 
 ### 3.1.1. Phần mềm và phiên bản
 
-PetCare gồm frontend React/Vite, backend Node.js/Express và PostgreSQL, theo thiết kế đã trình bày ở Chương 2. Phiên bản khai báo trong package là điều kiện lựa chọn dependency, khác phiên bản thực chạy được ghi tại một mốc. Bảng 3.1 tách hai loại thông tin để tránh lấy số khai báo làm kết quả đo môi trường.
+Thế Giới Thú Cưng gồm frontend React/Vite, backend Node.js/Express và PostgreSQL, theo thiết kế đã trình bày ở Chương 2. Phiên bản khai báo trong package là điều kiện lựa chọn dependency, khác phiên bản thực chạy được ghi tại một mốc. Bảng 3.1 tách hai loại thông tin để tránh lấy số khai báo làm kết quả đo môi trường.
 
 **Bảng 3.1. Môi trường và phiên bản theo mốc thử nghiệm**
 
@@ -83,7 +83,7 @@ Các biên bản 23–24/10 mô tả kiểm tra và nâng cấp trên bản sao 
 
 Fixture trên DB mới tạo các đối tượng phục vụ điều kiện kiểm tra: tài khoản theo nhóm, hồ sơ, dịch vụ, ca và dữ liệu cần cô lập một phân hệ. Bài hành trình thực hiện các chuyển nghiệp vụ qua HTTP trong phạm vi biên bản, không dùng việc sửa SQL ép trạng thái làm bằng chứng giao diện đã xử lý thành công. Nhãn Demo trên ảnh và ghi chú biên bản giúp phân biệt dữ liệu này với thông tin thực tế.
 
-Khóa, CHECK, UNIQUE và EXCLUDE phối hợp với kiểm tra service như đã phân tích ở Chương 2. Kiểm chứng cần xem cả phản hồi và dữ liệu sau thao tác: lịch/chi tiết có cùng rollback, giao dịch không ghi lặp, thu/hoàn không vượt hạn mức. Khả năng giao dịch và ràng buộc của PostgreSQL cung cấp cơ sở kỹ thuật [23]; tính đúng của cách áp dụng được đánh giá bằng ca thử PetCare, không tự suy từ tên hệ quản trị.
+Khóa, CHECK, UNIQUE và EXCLUDE phối hợp với kiểm tra service như đã phân tích ở Chương 2. Kiểm chứng cần xem cả phản hồi và dữ liệu sau thao tác: lịch/chi tiết có cùng rollback, giao dịch không ghi lặp, thu/hoàn không vượt hạn mức. Khả năng giao dịch và ràng buộc của PostgreSQL cung cấp cơ sở kỹ thuật [23]; tính đúng của cách áp dụng được đánh giá bằng ca thử Thế Giới Thú Cưng, không tự suy từ tên hệ quản trị.
 
 ### 3.3.3. Kiểm chứng và giới hạn
 
@@ -129,7 +129,7 @@ Giao diện đặt lịch tổ chức việc chọn thú cưng, dịch vụ rồ
 
 **Hình 3.3. Đặt lịch và chọn ngày giờ khả dụng**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Ảnh có sẵn, minh họa ngày không có ca; ngày trên biểu mẫu không xác định ngày chụp.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Ảnh có sẵn, minh họa ngày không có ca; ngày trên biểu mẫu không xác định ngày chụp.*
 
 Khi chính sách cọc được bật và đã được chấp nhận, hệ thống lưu thông tin cọc theo lịch. Hình 3.4 cho thấy một trạng thái demo đã nhận cọc nhưng lịch còn chờ xác nhận; hai trạng thái này không được gộp. Ảnh ghi rõ sandbox và khoản 45.000 đồng mô phỏng, không xác nhận có tiền thật chuyển vào tài khoản nhận.
 
@@ -137,7 +137,7 @@ Khi chính sách cọc được bật và đã được chấp nhận, hệ th�
 
 **Hình 3.4. Thông tin đặt cọc và trạng thái sau đặt lịch**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Ảnh sandbox có sẵn; cọc 45.000 đồng là mô phỏng, lịch còn chờ xác nhận.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Ảnh sandbox có sẵn; cọc 45.000 đồng là mô phỏng, lịch còn chờ xác nhận.*
 
 Khách theo dõi lịch, hủy hoặc đổi theo đường xử lý được cấp và điều kiện chính sách. Khi gửi yêu cầu tạo lịch, server vẫn kiểm lại dưới khóa dù giao diện đã hiển thị một giờ có thể chọn. Các ca tranh chỗ và rollback là bằng chứng phù hợp hơn một ảnh ô giờ cho kết luận kiểm soát công suất. Chưa có cơ chế tự giải phóng chỗ của mọi lịch chưa cọc; giới hạn này được giữ khi đánh giá khả năng vận hành.
 
@@ -174,7 +174,7 @@ Luồng chăm sóc phân biệt bắt đầu lịch, cập nhật từng dịch 
 
 **Hình 3.6. Tiến trình và hoàn tất dịch vụ chăm sóc**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Ảnh demo lịch sử; không phải lần nghiệm thu mới ngày 10/11/2026.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Ảnh demo lịch sử; không phải lần nghiệm thu mới ngày 10/11/2026.*
 
 Hình 3.6 là ảnh demo lịch sử, thấy lịch hoàn thành và các dịch vụ đã cập nhật. Bằng chứng kiểm thử còn có ca chặn kết thúc khi chi tiết chưa xong, thao tác sai người và thay đổi ca làm mất bao phủ. Ảnh minh họa một trạng thái sau xử lý, không tự chứng minh mọi bước đã được tự động kiểm thử hoặc cùng giao diện với bản nâng cấp gần nhất.
 
@@ -205,7 +205,7 @@ Nhóm kiểm thử ca/chăm sóc có tình huống ngoại lệ này trong mã v
 
 **Hình 3.8. Điều phối lịch hẹn và phân công nhân viên**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Ảnh demo lịch sử; không tự ghép cùng fixture với ảnh chăm sóc chỉ từ mã lịch.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Ảnh demo lịch sử; không tự ghép cùng fixture với ảnh chăm sóc chỉ từ mã lịch.*
 
 Hình 3.8 minh họa lịch demo đã phân công. Mã và nhóm dispatch còn tách giữ chờ, từ chối và phân công thành ba quyết định loại trừ; từ chối dùng `TuChoi`, khác hủy. Ảnh điều phối và ảnh chăm sóc có thể thuộc các lần dựng fixture khác nhau; mã lịch nhỏ như `#1` không đủ để nối chúng thành một hành trình duy nhất. Nhận xét về hành trình phải dựa vào bài journey và biên bản tương ứng.
 
@@ -217,7 +217,7 @@ Lễ tân lập hóa đơn từ lịch và các chi tiết hoàn tất, áp gi�
 
 **Hình 3.9. Hóa đơn và các khoản đã thu, đã hoàn**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Ảnh hóa đơn demo: thu 400.000, hoàn 100.000, nợ 0; không phải giao dịch thật.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Ảnh hóa đơn demo: thu 400.000, hoàn 100.000, nợ 0; không phải giao dịch thật.*
 
 Hình 3.9 cho thấy hóa đơn demo đã thu 400.000 đồng, hoàn 100.000 đồng và còn nợ 0; trạng thái hoàn một phần không mở lại công nợ. Đây là tình huống kiểm thử được lưu trong ảnh/biên bản, không phải hóa đơn của cơ sở kinh doanh thật. Chuyển khoản có cấu hình VietQR là hướng dẫn nhận tiền và nhân sự xác nhận thực nhận; việc tải QR hoặc khách báo đã chuyển chưa ghi nhận ngân hàng đã đối soát tự động.
 
@@ -229,7 +229,7 @@ Lễ tân tiếp nhận vấn đề, theo dõi quyết định và thực chi tr
 
 **Hình 3.10. Phiếu thực chi hoàn tiền**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Phiếu demo có chứng từ UI-DEMO-REFUND-ONLY; không chứng minh đã chuyển tiền thật.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Phiếu demo có chứng từ UI-DEMO-REFUND-ONLY; không chứng minh đã chuyển tiền thật.*
 
 Phiếu trong Hình 3.10 có dấu chứng từ `UI-DEMO-REFUND-ONLY`, minh họa thực chi demo 100.000 đồng. Phiếu không chứng minh đã có chuyển khoản thật hoặc chữ ký nhận tiền thực tế. Nhóm kiểm thử tài chính còn kiểm tra hai yêu cầu chi cạnh tranh, replay và lỗi thông báo làm rollback; các cơ chế đó cần xem cùng điều kiện trong service, không chỉ dựa vào việc in được một phiếu.
 
@@ -288,7 +288,7 @@ Báo cáo phân biệt giá trị dịch vụ/hóa đơn với tiền thu, hoàn
 
 **Hình 3.14. Báo cáo thu, hoàn và thực thu**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Ảnh báo cáo demo lịch sử: thu 400.000, hoàn 100.000, thực thu 300.000; không là lợi nhuận.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Ảnh báo cáo demo lịch sử: thu 400.000, hoàn 100.000, thực thu 300.000; không là lợi nhuận.*
 
 Ảnh bảng lịch sử minh họa 400.000 đồng thu trừ 100.000 đồng thực chi hoàn bằng 300.000 đồng thực thu. Biên bản bổ sung biểu đồ ngày/tháng/quý/năm mô tả tổng hợp kỳ và các mốc không giao dịch có giá trị 0. Hình 3.15 là preview demo của một tập dữ liệu khác, với 1.145.000 đồng thu, 200.000 đồng hoàn và 945.000 đồng thực thu; không cộng hoặc đối chiếu trực tiếp các số đó với fixture 400.000 đồng ở ảnh trước.
 
@@ -296,7 +296,7 @@ Báo cáo phân biệt giá trị dịch vụ/hóa đơn với tiền thu, hoàn
 
 **Hình 3.15. Biểu đồ báo cáo theo kỳ**
 
-*Nguồn: ảnh chạy thử PetCare có sẵn trong hồ sơ cục bộ. Preview biểu đồ demo của tập dữ liệu khác: thu 1.145.000, hoàn 200.000, thực thu 945.000 đồng.*
+*Nguồn: ảnh chạy thử Thế Giới Thú Cưng có sẵn trong hồ sơ cục bộ. Preview biểu đồ demo của tập dữ liệu khác: thu 1.145.000, hoàn 200.000, thực thu 945.000 đồng.*
 
 Preview minh họa biểu đồ và vùng chi tiết đã có, chưa thay bộ ảnh đầy đủ của từng kỳ hoặc kiểm tra mọi thiết bị. Báo cáo ngày chưa có bằng chứng chia dữ liệu theo giờ. Các số demo và nhận xét giao diện chỉ hỗ trợ đánh giá trong kịch bản, không đo tăng doanh thu hoặc mức sử dụng dịch vụ thực tế của thị trường.
 
@@ -346,7 +346,7 @@ Middleware hiện cho Admin quyền vận hành tiếp nhận/quản lý, còn t
 
 ### 3.9.1. Thiết kế testcase từ yêu cầu
 
-Ca kiểm tra được liên hệ với các mã YC/PC ở Chương 2. Phân hoạch tương đương và phân tích giá trị biên cung cấp căn cứ chọn đầu vào [32]; trong PetCare, nhóm còn xét người dùng, sở hữu, trạng thái và sự kiện đồng thời. Ví dụ, giờ trước/trong/sau ca, hai khoảng vừa chạm/trùng, số tiền bằng/vượt nợ và đúng/sai chủ là những miền cần được phân biệt.
+Ca kiểm tra được liên hệ với các mã YC/PC ở Chương 2. Phân hoạch tương đương và phân tích giá trị biên cung cấp căn cứ chọn đầu vào [32]; trong Thế Giới Thú Cưng, nhóm còn xét người dùng, sở hữu, trạng thái và sự kiện đồng thời. Ví dụ, giờ trước/trong/sau ca, hai khoảng vừa chạm/trùng, số tiền bằng/vượt nợ và đúng/sai chủ là những miền cần được phân biệt.
 
 Bảng 3.3 diễn giải các case đã định vị trong mã. Cột kỳ vọng nêu điều kiện cần kiểm, chưa phải một lần chạy PASS riêng ngày biên soạn. Các mã KT kế thừa hồ sơ kiểm thử G0 để liên hệ được với file và biên bản cấp nhóm.
 
@@ -476,7 +476,7 @@ Xác thực/hồ sơ và quản trị tài khoản lõi có bằng chứng API l
 | Toàn vẹn/quyền — PC-01–05 | Case rollback, concurrent, owner/role/version và replay | Có bằng chứng theo các tình huống đã chạy | Chưa kiểm thử xâm nhập hoặc mọi cấu hình vận hành |
 | Giao diện/truy vết/vận hành — PC-06–08 | Cấu trúc module, tài liệu, unit/lint/build và QA chọn lọc | Có nền tảng và hồ sơ; nghiệm thu chưa toàn diện | UI đủ thiết bị, tải, SMTP ngoài, Docker/production |
 
-*Nguồn: nhóm đánh giá từ mục tiêu Mở đầu, YC/PC Chương 2 và các bằng chứng Chương 3. Không dùng kết quả nghiên cứu hệ thống khác để chấm PetCare.*
+*Nguồn: nhóm đánh giá từ mục tiêu Mở đầu, YC/PC Chương 2 và các bằng chứng Chương 3. Không dùng kết quả nghiên cứu hệ thống khác để chấm Thế Giới Thú Cưng.*
 
 Trong phạm vi thử nghiệm, các mục tiêu chức năng cốt lõi đã có phần cài đặt và bằng chứng phù hợp. Các công cụ Admin mở rộng, tích hợp bên ngoài và đánh giá vận hành vẫn chưa hoàn tất. Kết luận này cho phép xác định phần đã làm và công việc cần tiếp tục mà không chuyển số test PASS thành lời khẳng định hệ thống đã sẵn sàng cho mọi cơ sở sử dụng.
 
@@ -488,9 +488,9 @@ Giao dịch và ràng buộc PostgreSQL là thành phần bảo vệ [23], nhưn
 
 ### 3.11.3. Giá trị sử dụng và giới hạn suy luận
 
-PetCare tập hợp hồ sơ, dịch vụ, lịch, nguồn lực và giao dịch trong cùng luồng, hỗ trợ chuyển thông tin giữa khách, chăm sóc, tiếp nhận và quản lý. Việc tách duyệt/chi, trạng thái cọc và hóa đơn giúp thể hiện rõ trách nhiệm thao tác. Đây là giá trị sử dụng được phân tích từ chức năng đã cài đặt và tình huống demo.
+Thế Giới Thú Cưng tập hợp hồ sơ, dịch vụ, lịch, nguồn lực và giao dịch trong cùng luồng, hỗ trợ chuyển thông tin giữa khách, chăm sóc, tiếp nhận và quản lý. Việc tách duyệt/chi, trạng thái cọc và hóa đơn giúp thể hiện rõ trách nhiệm thao tác. Đây là giá trị sử dụng được phân tích từ chức năng đã cài đặt và tình huống demo.
 
-Chưa có khảo sát đại diện hoặc phép so sánh trước/sau tại doanh nghiệp để định lượng giảm chờ, tiết kiệm nhân lực, tăng doanh thu hay mức hài lòng. Kết quả UAT/SUS hoặc nhận xét trong tài liệu liên quan thuộc hệ thống của các tác giả đó; không chuyển thành kết quả PetCare. Phạm vi đánh giá hiện phù hợp một đồ án đã kiểm chứng các luồng chính và còn giới hạn cần công bố.
+Chưa có khảo sát đại diện hoặc phép so sánh trước/sau tại doanh nghiệp để định lượng giảm chờ, tiết kiệm nhân lực, tăng doanh thu hay mức hài lòng. Kết quả UAT/SUS hoặc nhận xét trong tài liệu liên quan thuộc hệ thống của các tác giả đó; không chuyển thành kết quả Thế Giới Thú Cưng. Phạm vi đánh giá hiện phù hợp một đồ án đã kiểm chứng các luồng chính và còn giới hạn cần công bố.
 
 ## 3.12. Hạn chế của hệ thống
 

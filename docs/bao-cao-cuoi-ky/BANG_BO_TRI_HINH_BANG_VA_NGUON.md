@@ -1,4 +1,4 @@
-# Bố trí hình bảng và nguồn cho báo cáo PetCare
+# Bố trí hình bảng và nguồn cho báo cáo Thế Giới Thú Cưng
 
 Giai đoạn 1, ngày 08/11/2026; cập nhật nguồn G2 ngày 09/11/2026. Danh sách dành vị trí để biên soạn; chưa chèn hình/bảng vào Word. Các số nguồn là mã làm việc theo kho hiện có 41 hồ sơ. Bảng 1.1–1.5 đã được viết trong bản nháp Chương 1, giữ vị trí/caption dưới đây.
 
@@ -9,7 +9,7 @@ Cập nhật G4 ngày 10/11/2026: [Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_
 ## Quy ước vị trí và nguồn
 
 - Trong mỗi tiểu mục: đoạn giới thiệu → hình/bảng → caption và nguồn → phân tích/liên hệ/giới hạn. Caption phải đi cùng đối tượng; không chỉ chèn hình.
-- Sơ đồ gốc: dự kiến ghi nguồn nhóm thực hiện, tên file trong kho PetCare; mã kiểm kê không là số hiệu phiên bản. Giữ nguyên hình và nói rõ sai khác.
+- Sơ đồ gốc: dự kiến ghi nguồn nhóm thực hiện, tên file trong kho Thế Giới Thú Cưng; mã kiểm kê không là số hiệu phiên bản. Giữ nguyên hình và nói rõ sai khác.
 - Ảnh UI: ghi người thực hiện/nguồn dự án, môi trường demo, thời điểm có căn cứ và giới hạn phiên bản; kiểm/che thông tin nhạy cảm trước xuất bản khi cần. Không tự chụp/tạo/crop ở G1.
 - Bảng tổng hợp tài liệu: ghi tổng hợp của nhóm từ các số nguồn được dùng; bảng code/test: ghi tổng hợp từ mã/biên bản cụ thể, không ghi nguồn sách cho số kết quả tự làm.
 - Dành vị trí không có nghĩa đối tượng đã có hoặc được duyệt. Chỉ 17 sơ đồ gốc có kết quả xem G0; 2 hình thiết kế bổ trợ chưa tạo; 17 ảnh UI cần chọn/kiểm/bổ sung.
@@ -35,7 +35,7 @@ Cập nhật G4 ngày 10/11/2026: [Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_
 | Hình 2.15 | 2.7.1 | Trạng thái lịch hẹn | [Sơ đồ trạng thái_01.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái_01.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Thiếu TuChoi; chuyển DangThucHien sang DaHuy trên hình không được API hủy cho phép. |
 | Hình 2.16 | 2.7.2 | Trạng thái hóa đơn | [Sơ đồ trạng thái.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Thiếu HoanTienMotPhan và điều kiện thực chi; không đủ dùng như máy trạng thái hiện hành hoàn chỉnh. |
 | Hình 2.17 | 2.8.1 | Cây phân nhóm màn hình | [Sơ ĐỒ MÀN HÌNH CHÍNH.png](<../../So do man hinh/Sơ ĐỒ MÀN HÌNH CHÍNH.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Chưa có nhiều route mới; gộp lễ tân/quản lý không có nghĩa hai nhóm có quyền giống nhau. |
-| Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu PetCare theo schema khảo sát | [02_THIET_KE_CO_SO_DU_LIEU.md](<../../plans/02_THIET_KE_CO_SO_DU_LIEU.md>) | G3: để trống để người dùng tự chèn ERD đầy đủ sau 008; đã có bảng dữ liệu, không tạo hình mới. |
+| Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu Thế Giới Thú Cưng theo schema khảo sát | [02_THIET_KE_CO_SO_DU_LIEU.md](<../../plans/02_THIET_KE_CO_SO_DU_LIEU.md>) | G3: để trống để người dùng tự chèn ERD đầy đủ sau 008; đã có bảng dữ liệu, không tạo hình mới. |
 | Hình 2.19 | 2.10.1 | Kiến trúc giao tiếp frontend, backend và cơ sở dữ liệu | Chưa có file đã duyệt | G3: để trống để người dùng tự chèn sơ đồ kiến trúc; mô tả theo mã, không tạo hình mới. |
 | Hình 3.1 | 3.4.1 | Giao diện đăng ký và đăng nhập | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Ảnh ứng viên chỉ có một phần form lỗi đăng ký; chưa đủ hình đăng ký/đăng nhập. |
 | Hình 3.2 | 3.4.1 | Quản lý hồ sơ thú cưng | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Chưa có ảnh hồ sơ thú cưng được chọn. |
@@ -62,7 +62,7 @@ Cập nhật G4 ngày 10/11/2026: [Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_
 | Bảng 1.1 | 1.2.3 | Đặc điểm nghiệp vụ và nhu cầu thông tin | Bước, đối tượng, dữ liệu cần quản lý, trách nhiệm, giới hạn | [13], [16]; quy trình nhóm phân tích |
 | Bảng 1.2 | 1.4.3 | Tổng hợp công trình nghiên cứu liên quan | Tác giả/năm, miền bài toán, chức năng có bằng chứng, cách đánh giá, hạn chế | [6], [26], [29], [30], [33]; [26] chỉ metadata |
 | Bảng 1.3 | 1.4.4 | Khảo sát nền tảng thương mại | Sản phẩm, tính năng được hãng mô tả, ngày/phạm vi tiếp cận, giới hạn | [19], [20], [21]; không benchmark |
-| Bảng 1.4 | 1.5.2 | So sánh giải pháp theo tiêu chí PetCare | Tiêu chí, bằng chứng nguồn, tương đồng/khác biệt, điều chưa xác định | [6], [19], [20], [21], [29], [30], [33] và G0 |
+| Bảng 1.4 | 1.5.2 | So sánh giải pháp theo tiêu chí Thế Giới Thú Cưng | Tiêu chí, bằng chứng nguồn, tương đồng/khác biệt, điều chưa xác định | [6], [19], [20], [21], [29], [30], [33] và G0 |
 | Bảng 1.5 | 1.7.8 | Công nghệ lựa chọn và căn cứ sử dụng | Thành phần, vai trò, lý do, phiên bản khai báo, nguồn/giới hạn | [17], [23]–[25], [37]–[39], [41]; package; nguồn bổ sung đã có ở G2 |
 | Bảng 2.1 | 2.2.1 | Tác nhân và ánh xạ nhóm quyền | Tác nhân, vai_tro, chuc_vu, phạm vi; khách vãng lai tách nhóm đăng nhập | UC-01, middleware; [34] cho lý thuyết |
 | Bảng 2.2 | 2.2.2 | Yêu cầu chức năng | Mã yêu cầu, tác nhân, đầu vào/đầu ra, module dự kiến, điều kiện chấp nhận | Kế hoạch, G0, API; chưa phải bảng kết quả |
@@ -94,7 +94,7 @@ Nguồn dưới đây cần được dẫn tại luận điểm tương ứng, k
 | 1.2 | Liên kết nghiệp vụ chăm sóc với dữ liệu và trách nhiệm quản lý. | [13], [16]; đối chiếu [29], [30]. | Chương trình nghề/hướng dẫn chuyên môn và luồng dự án; chưa nhận là SOP được cơ sở thực địa phê duyệt. |
 | 1.3 | Làm rõ bài toán phần mềm cần giải quyết trước khi so sánh giải pháp. | [23], [29], [30], [33]; lý do nghiệp vụ do nhóm phân tích. | Tài liệu tổng hợp, yêu cầu và mã đã khảo sát; không khẳng định đã đo mức giảm thời gian chờ. |
 | 1.4 | Tổng hợp có phân loại nguồn và phạm vi bằng chứng. | [6], [26], [29], [30], [33], [19], [20], [21]; [4], [27], [28] có điều kiện. | Năm file nghiên cứu và thư viện 35 hồ sơ. D&C/Paws Pet House chưa đủ xuất xứ, không làm nguồn chính thức. |
-| 1.5 | Rút ra yêu cầu áp dụng cho PetCare từ đối chiếu có giới hạn. | [6], [19], [20], [21], [29], [30], [33]. | Bảng tổng hợp nguồn và yêu cầu; kết luận so sánh là phân tích của nhóm. |
+| 1.5 | Rút ra yêu cầu áp dụng cho Thế Giới Thú Cưng từ đối chiếu có giới hạn. | [6], [19], [20], [21], [29], [30], [33]. | Bảng tổng hợp nguồn và yêu cầu; kết luận so sánh là phân tích của nhóm. |
 | 1.6 | Đặt nền tảng cho mô hình hóa và kiểm chứng ở chương sau. | [18], [23], [32], [34], [36], [40]; các sách chỉ catalog vẫn có điều kiện đọc. | G2 đã có nguồn UML chính thức và bài giảng CSDL đọc được; không dùng catalog thay nội dung. |
 | 1.7 | Giải thích đúng công nghệ dự án sử dụng và lý do lựa chọn. | [17], [18], [23], [24], [25], [37], [38], [39], [41]. | G2 đã bổ sung Vite/bcrypt/runtime Node và RFC 7519; không đồng nhất version khai báo với runtime đo được. |
 | 1.8 | Kết nối bối cảnh, giải pháp liên quan và căn cứ với phương pháp thực hiện. | Tổng hợp các nguồn đã dùng trong Chương 1, không bổ sung nguồn chỉ để đủ số. | Nêu yêu cầu được chọn và khoảng thiếu bằng chứng; không lặp kết quả Chương 3. |

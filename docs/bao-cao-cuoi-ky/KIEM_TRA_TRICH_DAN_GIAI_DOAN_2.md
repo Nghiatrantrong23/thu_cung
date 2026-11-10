@@ -16,9 +16,9 @@ Trong tập được dẫn, **6 nguồn Việt/18 nguồn Anh (25% Việt)**. S�
 |---|---|---|
 | Bối cảnh đào tạo Việt Nam | [13] chương trình Pet-Grooming; [31] tin hội thảo | Chỉ nói về đào tạo/nghề, không nêu CAGR, doanh thu hoặc quy mô thị trường |
 | An toàn và tiếp nhận | [16] hướng dẫn CFSG, các mục hành vi/sức khỏe, chủ nuôi và quy trình | Dùng nguyên tắc tham khảo; không áp luật Anh/Wales tại Việt Nam, không tự đặt chỉ định y khoa |
-| Khung quy trình PetCare | Phân tích yêu cầu/mã và sơ đồ đã khảo sát; [13], [16] hỗ trợ phạm vi | Bảng 1.1 ghi rõ do nhóm phân tích; chưa nhận SOP thực địa đã phê duyệt |
+| Khung quy trình Thế Giới Thú Cưng | Phân tích yêu cầu/mã và sơ đồ đã khảo sát; [13], [16] hỗ trợ phạm vi | Bảng 1.1 ghi rõ do nhóm phân tích; chưa nhận SOP thực địa đã phê duyệt |
 | Công trình Việt cùng hướng | [26] hồ sơ thư viện; [6] bài đã đọc | [26] chỉ nhận diện tác giả/tên/năm/chủ đề; không suy thuật toán hoặc kết quả chưa đọc |
-| Công trình hệ thống quốc tế | [29], [30], [33], phần phương pháp/chức năng/đánh giá đã đọc | Nêu mức áp dụng và khác biệt; không lấy điểm UAT/SUS hoặc kết quả nguồn làm kết quả PetCare |
+| Công trình hệ thống quốc tế | [29], [30], [33], phần phương pháp/chức năng/đánh giá đã đọc | Nêu mức áp dụng và khác biệt; không lấy điểm UAT/SUS hoặc kết quả nguồn làm kết quả Thế Giới Thú Cưng |
 | VOAS | [33] PDF và số báo 2023 | Không dùng ngày nhập landing 2025 làm năm bài; không đếm bản kỷ yếu liên quan thành nghiên cứu độc lập |
 | Hệ thống thương mại | [19]–[21], trang/hướng dẫn hãng | Bảng 1.3 ghi rõ nguồn nhà cung cấp, chưa dùng thử; ô thiếu căn cứ là chưa xác định |
 | UML | [36] các phần chọn lọc về Class, StateMachines, Activities, Interactions, Use Cases | Không gọi sơ đồ màn hình là loại UML chuẩn; không suy backend có class lập trình cùng tên |

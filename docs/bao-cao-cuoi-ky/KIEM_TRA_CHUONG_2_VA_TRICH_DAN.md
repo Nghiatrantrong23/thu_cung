@@ -16,7 +16,7 @@ Người dùng yêu cầu tiếp tục giai đoạn sau G2, không cần push Gi
 
 | Vị trí còn trống | Tiểu mục | Nội dung cần người dùng chèn sau | Trạng thái |
 |---|---|---|---|
-| Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu PetCare theo schema khảo sát, phản ánh đầy đủ phần mở rộng sau 008 | Để trống với khoảng cách và caption; chưa tạo ERD mới |
+| Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu Thế Giới Thú Cưng theo schema khảo sát, phản ánh đầy đủ phần mở rộng sau 008 | Để trống với khoảng cách và caption; chưa tạo ERD mới |
 | Hình 2.19 | 2.10.1 | Kiến trúc giao tiếp frontend, backend và cơ sở dữ liệu | Để trống với khoảng cách và caption; chưa tạo sơ đồ kiến trúc |
 
 Các chỗ trắng là phần người dùng chủ động tự chèn theo yêu cầu mới, không được báo là đã có hình. Ảnh PNG nhiều chữ có thể cần bố trí trang ngang/độ rộng thích hợp khi tạo Word; chưa render nên không kết luận chữ đạt độ đọc trên A4. Không tự thêm một hình cọc, hình API hoặc Use Case con chưa được cung cấp.
@@ -40,7 +40,7 @@ Các chỗ trắng là phần người dùng chủ động tự chèn theo yêu 
 
 Chương 2 dùng **13 nguồn phân biệt**: [13], [16], [17], [18], [23], [24], [25], [32], [34], [36], [39], [40], [41]. Tất cả nằm trong kho đã xác minh 1–41; số giữ nguyên so với G2, không thêm tài liệu chưa xác minh.
 
-Nguồn [36] cung cấp nền ký pháp UML, [40] nền CSDL/chuẩn hóa, [34] mô hình vai trò, [18] định hướng kiến trúc, [23] cơ chế dữ liệu, [17]/[24] công nghệ, [25]/[41]/[39] xác thực và [32] phương pháp kiểm thử. [13]/[16] chỉ hỗ trợ phạm vi nghiệp vụ đã trình bày ở Chương 1. Các quy tắc cụ thể, bảng YC/PC, route và thuật toán của PetCare được ghi rõ là phân tích từ dự án, không gán cho các tài liệu ngoài.
+Nguồn [36] cung cấp nền ký pháp UML, [40] nền CSDL/chuẩn hóa, [34] mô hình vai trò, [18] định hướng kiến trúc, [23] cơ chế dữ liệu, [17]/[24] công nghệ, [25]/[41]/[39] xác thực và [32] phương pháp kiểm thử. [13]/[16] chỉ hỗ trợ phạm vi nghiệp vụ đã trình bày ở Chương 1. Các quy tắc cụ thể, bảng YC/PC, route và thuật toán của Thế Giới Thú Cưng được ghi rõ là phân tích từ dự án, không gán cho các tài liệu ngoài.
 
 Gộp phần đã viết đến hết G3 vẫn có 24 nguồn được dẫn, 6 Việt/18 Anh (25% Việt), vì 13 nguồn Chương 2 đều thuộc tập đã dùng. Kho xét chọn vẫn 41 hồ sơ, 21 Việt/20 Anh; không nhận tỷ lệ kho là tỷ lệ của báo cáo. Mục tiêu 60–70% tiếng Việt chưa đạt; không thêm catalog chưa đọc vào bản thảo chỉ để tăng tỷ lệ.
 

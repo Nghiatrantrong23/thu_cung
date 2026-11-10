@@ -1,4 +1,4 @@
-# Đề cương chi tiết báo cáo cuối kỳ PetCare
+# Đề cương chi tiết báo cáo cuối kỳ Thế Giới Thú Cưng
 
 Phiên bản Giai đoạn 1 — ngày 08/11/2026. Người dùng đã chấp nhận khảo sát Giai đoạn 0 và cho phép hoàn thiện đề cương. Đây là kế hoạch viết có mục/tiểu mục, vị trí hình/bảng và nguồn; **chưa phải nội dung báo cáo đã viết, chưa xuất Word/PDF**. Giai đoạn 1 được kiểm tra trước khi dừng chờ người dùng duyệt bước tiếp theo.
 
@@ -81,7 +81,7 @@ Giới thiệu đúng ba chương và mối liên hệ, sau đó kết luận/h�
 
 #### 1.1.1. Khái niệm và phạm vi dịch vụ chăm sóc chó mèo
 
-Phạm vi viết: Phân biệt chăm sóc thường ngày, grooming/spa và khám chữa bệnh; giới hạn PetCare ở quản lý dịch vụ.
+Phạm vi viết: Phân biệt chăm sóc thường ngày, grooming/spa và khám chữa bệnh; giới hạn Thế Giới Thú Cưng ở quản lý dịch vụ.
 
 
 #### 1.1.2. Bối cảnh Việt Nam và yêu cầu về nhân lực
@@ -190,7 +190,7 @@ Phạm vi viết: MoeGo [21], DaySmart Pet [20], Gingr [19]; tài liệu hãng c
 
 ### 1.5. Phân tích và so sánh các giải pháp
 
-**Mục đích:** Rút ra yêu cầu áp dụng cho PetCare từ đối chiếu có giới hạn.
+**Mục đích:** Rút ra yêu cầu áp dụng cho Thế Giới Thú Cưng từ đối chiếu có giới hạn.
 
 
 #### 1.5.1. Tiêu chí so sánh
@@ -203,10 +203,10 @@ Phạm vi viết: Hồ sơ, đặt/duyệt, phân công, tiến độ, giao dị
 Phạm vi viết: Ô chưa có căn cứ ghi chưa xác định; không suy không hỗ trợ từ việc tài liệu không nhắc.
 
 
-- **Bảng 1.4. So sánh giải pháp theo tiêu chí PetCare** — dữ liệu cần trình bày: Tiêu chí, bằng chứng nguồn, tương đồng/khác biệt, điều chưa xác định.
+- **Bảng 1.4. So sánh giải pháp theo tiêu chí Thế Giới Thú Cưng** — dữ liệu cần trình bày: Tiêu chí, bằng chứng nguồn, tương đồng/khác biệt, điều chưa xác định.
 
 
-#### 1.5.3. Định hướng giải pháp PetCare
+#### 1.5.3. Định hướng giải pháp Thế Giới Thú Cưng
 
 Phạm vi viết: Giải thích lựa chọn theo phạm vi/nguồn lực dự án; không tuyên bố tính mới toàn cầu hoặc ưu việt khi chưa đo.
 
@@ -662,7 +662,7 @@ Phạm vi viết: thu_cung.sql là version 000, migrations 001–008; không t�
 Phạm vi viết: 21 bảng ứng dụng + bảng lịch sử theo DDL/snapshot đã có; vị trí ERD là dự kiến, chưa có hình phản ánh đầy đủ 008.
 
 
-- **Hình 2.18. Mô hình quan hệ dữ liệu PetCare theo schema khảo sát** — Dự kiến; chưa có hình đủ schema sau 008. Mermaid cũ chỉ là đầu mối; phải kiểm DDL 000–008 trước tạo hình mới ở giai đoạn phù hợp. Không sửa sơ đồ gốc.
+- **Hình 2.18. Mô hình quan hệ dữ liệu Thế Giới Thú Cưng theo schema khảo sát** — Dự kiến; chưa có hình đủ schema sau 008. Mermaid cũ chỉ là đầu mối; phải kiểm DDL 000–008 trước tạo hình mới ở giai đoạn phù hợp. Không sửa sơ đồ gốc.
 
 
 - **Bảng 2.8. Các bảng dữ liệu và trách nhiệm lưu trữ** — dữ liệu cần trình bày: Bảng, nhóm nghiệp vụ, PK/FK chính, version nguồn, mục đích.
@@ -1140,7 +1140,7 @@ Phạm vi viết: Phân tích concurrency, quyền, snapshot và thu/hoàn từ 
 
 #### 3.11.3. Giá trị sử dụng và giới hạn suy luận
 
-Phạm vi viết: Đánh giá định tính trong phạm vi; chưa có tỷ lệ hài lòng, giảm chờ hoặc benchmark của PetCare.
+Phạm vi viết: Đánh giá định tính trong phạm vi; chưa có tỷ lệ hài lòng, giảm chờ hoặc benchmark của Thế Giới Thú Cưng.
 
 
 **Nguồn và vị trí dẫn:** [23], [25], [32], [34] nếu liên hệ tiêu chí; [29], [30], [33] không thay kết quả dự án.
@@ -1202,7 +1202,7 @@ Chốt giới hạn triển khai, nguồn/ảnh và đánh giá ở 3.12; không
 
 Nguồn xét chọn: [DANH_MUC_TAI_LIEU_THAM_KHAO.md](DANH_MUC_TAI_LIEU_THAM_KHAO.md), hiện 41 hồ sơ (21 Việt/20 Anh), kế thừa 35 và bổ sung G2. Đến G4 dẫn 25 nguồn trong Mở đầu/ba chương; chưa khóa tập cuối trước G5. Mục tiêu khoảng 20–25 nguồn chất lượng, tối thiểu 10 theo mẫu; không giữ nguồn bệnh lý hoặc catalog không dùng chỉ để đủ số/tỷ lệ.
 
-Khi viết, đặt số tại đúng luận điểm; nguồn ngoài cho khái niệm/kết quả kế thừa, bằng chứng dự án cho kết quả tự làm. Không trích nguồn chưa xác minh. Không dùng dữ liệu hiệu quả của VOAS/bài khác làm kết quả PetCare. Nguồn sản phẩm được gắn loại tài liệu hãng.
+Khi viết, đặt số tại đúng luận điểm; nguồn ngoài cho khái niệm/kết quả kế thừa, bằng chứng dự án cho kết quả tự làm. Không trích nguồn chưa xác minh. Không dùng dữ liệu hiệu quả của VOAS/bài khác làm kết quả Thế Giới Thú Cưng. Nguồn sản phẩm được gắn loại tài liệu hãng.
 
 Thứ tự dự kiến theo quy định trường: nhóm Việt theo tên tác giả đầu, nhóm Anh theo họ/tổ chức, một dãy số liên tục; ghi rõ điểm không thống nhất trong mẫu đã khảo sát. Chỉ sắp/đổi số đồng bộ khi chốt danh sách, sau đó kiểm citation ↔ reference trên bản thảo thật. Không nhận dãy 1–41 đang làm việc là thứ tự nộp đã hoàn tất.
 

@@ -22,9 +22,9 @@ Kết quả: **5 tài liệu mới [36]–[40]**, cộng **[41] được chuyể
 - **Truy cập:** [trang phiên bản](https://www.omg.org/spec/UML/2.5.1), [PDF đặc tả](https://www.omg.org/spec/UML/2.5.1/PDF).
 - **Ngôn ngữ/độ tin cậy:** Anh; đặc tả do tổ chức ban hành, tin cậy cao để giải thích ký pháp.
 - **Phần đã đọc:** trang bìa và các phần chọn lọc 11.4 Classes, 14.1–14.2 StateMachines, 15.1–15.2 Activities, 17.1 Interactions, 18.1 Use Cases. Tương ứng trang PDF 236, 347, 415, 607, 681; số trang in lần lượt 194, 305, 373, 565, 639. Không nhận đã đọc toàn bộ 796 trang.
-- **Nội dung/lý do phù hợp:** phân biệt mô hình cấu trúc, hành vi và tương tác, làm nền cho bộ sơ đồ của PetCare.
+- **Nội dung/lý do phù hợp:** phân biệt mô hình cấu trúc, hành vi và tương tác, làm nền cho bộ sơ đồ của Thế Giới Thú Cưng.
 - **Vị trí:** 1.6.2; Chương 2 khi thuyết minh sơ đồ.
-- **Giới hạn:** không chứng nhận sơ đồ gốc của PetCare đúng chuẩn; sơ đồ màn hình không được tính là một loại UML chuẩn.
+- **Giới hạn:** không chứng nhận sơ đồ gốc của Thế Giới Thú Cưng đúng chuẩn; sơ đồ màn hình không được tính là một loại UML chuẩn.
 
 ### [37] Vite — Getting Started, nhánh Vite 5
 
@@ -37,7 +37,7 @@ Kết quả: **5 tài liệu mới [36]–[40]**, cộng **[41] được chuyể
 - **Phần đã đọc:** Overview và nội dung giới thiệu dev server/build; phù hợp Vite `^5.4.0` của dự án.
 - **Nội dung/lý do phù hợp:** phân biệt công cụ chạy phát triển, cập nhật nóng và đóng gói frontend với logic nghiệp vụ.
 - **Vị trí:** 1.7.2, Bảng 1.5; Chương 3 về môi trường/build.
-- **Giới hạn:** không dùng mô tả tốc độ của công cụ làm phép đo tốc độ PetCare; không suy tính năng nhánh mới hơn cho Vite 5.
+- **Giới hạn:** không dùng mô tả tốc độ của công cụ làm phép đo tốc độ Thế Giới Thú Cưng; không suy tính năng nhánh mới hơn cho Vite 5.
 
 ### [38] Node.js — Introduction to Node.js
 
@@ -50,7 +50,7 @@ Kết quả: **5 tài liệu mới [36]–[40]**, cộng **[41] được chuyể
 - **Phần đã đọc:** giới thiệu runtime JavaScript/V8 và I/O bất đồng bộ.
 - **Nội dung/lý do phù hợp:** bổ sung cơ sở cho lựa chọn backend; nguồn [22] trước đó chỉ là tài liệu test runner, không thay thế nội dung này.
 - **Vị trí:** 1.7.3, Bảng 1.5; Chương 2 về kiến trúc và Chương 3 về môi trường.
-- **Giới hạn:** không chứng minh mức tải, phiên bản runtime thực chạy hoặc tính đúng đồng thời của PetCare.
+- **Giới hạn:** không chứng minh mức tải, phiên bản runtime thực chạy hoặc tính đúng đồng thời của Thế Giới Thú Cưng.
 
 ### [39] Kelektiv — node.bcrypt.js README, v5.1.1
 
@@ -63,7 +63,7 @@ Kết quả: **5 tài liệu mới [36]–[40]**, cộng **[41] được chuyể
 - **Phần đã đọc:** Security Issues and Concerns, Usage, API và khuyến nghị API bất đồng bộ.
 - **Nội dung/lý do phù hợp:** hash/compare và giới hạn 72 **byte** đầu vào; đúng nhánh thư viện dự án khai báo.
 - **Vị trí:** 1.7.8, Bảng 1.5; các phần xác thực/bảo mật ở Chương 2–3.
-- **Giới hạn:** không coi dùng bcrypt là chứng nhận bảo mật tổng thể hoặc phép đo chi phí băm của PetCare.
+- **Giới hạn:** không coi dùng bcrypt là chứng nhận bảo mật tổng thể hoặc phép đo chi phí băm của Thế Giới Thú Cưng.
 
 ### [40] Nguyễn Hải Châu — Slide môn học Cơ sở dữ liệu
 
@@ -77,7 +77,7 @@ Kết quả: **5 tài liệu mới [36]–[40]**, cộng **[41] được chuyể
 - **Ngôn ngữ/độ tin cậy:** Việt; tài liệu giảng dạy trên website giảng viên của trường đại học, tin cậy cao cho lý thuyết nhập môn; không gọi là bài tạp chí bình duyệt hoặc sách có NXB.
 - **Nội dung/lý do phù hợp:** mô hình quan hệ, dư thừa, phụ thuộc hàm và chuẩn hóa; cung cấp nội dung tiếng Việt thực sự đọc được cho thiết kế CSDL.
 - **Vị trí:** 1.6.3, các mục CSDL Chương 2.
-- **Giới hạn:** chỉ tính cả bộ như một tài liệu; cần chứng minh phụ thuộc cụ thể nếu kết luận lược đồ PetCare đạt chuẩn.
+- **Giới hạn:** chỉ tính cả bộ như một tài liệu; cần chứng minh phụ thuộc cụ thể nếu kết luận lược đồ Thế Giới Thú Cưng đạt chuẩn.
 
 ### [41] Jones, Bradley và Sakimura — RFC 7519
 
@@ -90,7 +90,7 @@ Kết quả: **5 tài liệu mới [36]–[40]**, cộng **[41] được chuyể
 - **Phần đã đọc/đối chiếu:** tác giả, tháng/năm, DOI, abstract và mô tả biểu diễn claims; dùng cùng khuyến nghị an toàn [25].
 - **Nội dung/lý do phù hợp:** làm rõ JWT, JWS/JWE và phân biệt ký với mã hóa khi giải thích xác thực.
 - **Vị trí:** 1.7.7, Bảng 1.5; Chương 2–3 về xác thực.
-- **Giới hạn:** không suy các lựa chọn quản lý phiên của PetCare là mặc định của RFC.
+- **Giới hạn:** không suy các lựa chọn quản lý phiên của Thế Giới Thú Cưng là mặc định của RFC.
 
 ## 3. Nguồn cũ được mở rộng phạm vi đọc
 

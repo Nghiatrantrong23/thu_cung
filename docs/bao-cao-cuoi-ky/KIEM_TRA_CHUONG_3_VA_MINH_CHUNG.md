@@ -50,7 +50,7 @@ Tám ảnh chọn đã được xem nội dung: dữ liệu/nhãn demo phù hợ
 
 ## 4. Trích dẫn và phân biệt kết quả tự làm
 
-Chương 3 dùng [22] cho tài liệu công cụ Node test runner, [23] cho cơ sở cơ chế DB và [32] cho phương pháp thiết kế ca. Số không đổi so với kho 1–41. Kết quả ứng dụng, phiên bản môi trường, ảnh và bảng đánh giá lấy từ mã/biên bản dự án, không dùng bài nghiên cứu bên ngoài chứng nhận kết quả PetCare.
+Chương 3 dùng [22] cho tài liệu công cụ Node test runner, [23] cho cơ sở cơ chế DB và [32] cho phương pháp thiết kế ca. Số không đổi so với kho 1–41. Kết quả ứng dụng, phiên bản môi trường, ảnh và bảng đánh giá lấy từ mã/biên bản dự án, không dùng bài nghiên cứu bên ngoài chứng nhận kết quả Thế Giới Thú Cưng.
 
 Tập được dẫn đến hết ba chương hiện có **25 nguồn: 6 Việt/19 Anh (24% Việt)**. [22] là nguồn đã có được đưa vào sử dụng, không phải nguồn mới phát hiện. Kho xét chọn vẫn 41 hồ sơ; tỷ lệ tiếng Việt chưa đạt 60–70%, không dùng nguồn chưa đọc hoặc ít liên quan để tăng tỷ lệ. Chưa cần đưa [35] Postman vào tập dẫn vì không có bằng chứng collection đã thực thi.
 
