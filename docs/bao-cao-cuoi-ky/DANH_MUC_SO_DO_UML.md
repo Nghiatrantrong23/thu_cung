@@ -1,5 +1,7 @@
 # Kiểm kê sơ đồ Thế Giới Thú Cưng
 
+**Cập nhật G5:** Bản báo cáo dùng [cây màn hình theo web](hinh-man-hinh/01_Cay_man_hinh_tong_the.png) ở Hình 2.17 và sáu wireframe ở [Phụ lục D](PHU_LUC.md). Bảng dưới đây ghi nhận các tệp gốc đã khảo sát.
+
 Ngày 08/11/2026. Giai đoạn 0. Đã mở và quan sát trực tiếp **17/17 PNG gốc**, gồm 1 UC, 6 Activity, 6 Sequence, 1 Class, 2 State Machine và 1 cây màn hình. Đủ sáu loại về sự hiện diện; **không xác nhận toàn bộ sơ đồ đã hoàn thiện/khớp mã nguồn**.
 
 Mã UC-01, SM-01, SM-02 và MH-TQ là mã hồ sơ đặt cho khảo sát; AD-01…AD-06, SD-01…SD-06, CD-01 đọc được trên hình. Các bản cùng hash trong cache/backup không đếm thêm.

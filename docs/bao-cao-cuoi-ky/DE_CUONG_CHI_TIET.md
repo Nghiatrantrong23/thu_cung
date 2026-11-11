@@ -16,7 +16,7 @@ Tên đề tài: **XÂY DỰNG HỆ THỐNG QUẢN LÝ VÀ ĐẶT LỊCH DỊCH 
 - Mở đầu bắt đầu số trang 1; phần trước không hiện số. A4, Times New Roman 13, tiêu đề chính 16, giãn 1,5, lề trên/dưới 2 cm, trái 3 cm, phải 2 cm theo quy định chữ và yêu cầu đã chốt. Chưa đo số trang hoặc áp định dạng Word trong giai đoạn này.
 - Các tên mục/tiểu mục dưới đây là cấu trúc báo cáo; dòng mục đích, căn cứ và điều kiện là hướng dẫn biên soạn, không chép nguyên thành văn bản báo cáo.
 - Số nguồn [1]–[41] là mã tham chiếu làm việc từ thư viện đã xác minh, chưa phải số cuối theo ABC mẫu trường. Chỉ giữ nguồn thực sự sử dụng; khi chốt đổi số đồng bộ. Nguồn catalog phải đọc phần cần dẫn trước khi viết luận điểm chi tiết.
-- Hình 2.1–2.17 giữ cho 17 PNG gốc, không vẽ/sửa. Hình 2.18–2.19 và Hình 3.1–3.17 chỉ là vị trí dự kiến, có trạng thái bằng chứng riêng. Số hình/bảng là số thứ tự theo chương, không phải số trang.
+- Hình 2.1–2.16 dùng ảnh UML gốc. Hình 2.17 dùng bản cập nhật cây màn hình từ G5. Hình 2.18–2.19 và Hình 3.1–3.17 chỉ là vị trí dự kiến, có trạng thái bằng chứng riêng. Số hình/bảng là số thứ tự theo chương, không phải số trang.
 - Mỗi mục đi từ mục đích đến phân tích, căn cứ và liên hệ; mỗi sơ đồ: giới thiệu → chèn hình thực → thành phần/luồng/ngoại lệ có trên hình → yêu cầu liên quan → sai khác mã nếu có. Không sáng tạo message, endpoint hoặc kết quả kiểm thử.
 - [Bảng bố trí hình, bảng và nguồn](BANG_BO_TRI_HINH_BANG_VA_NGUON.md) là danh sách vị trí thống nhất; [kiểm kê sơ đồ](DANH_MUC_SO_DO_UML.md), [đối chiếu mã](BANG_DOI_CHIEU_UML_VA_MA_NGUON.md), [ảnh cần bổ sung](DANH_SACH_HINH_ANH_CAN_BO_SUNG.md) và [test](BANG_KIEM_THU_PETCARE.md) là hồ sơ bằng chứng.
 
@@ -621,7 +621,7 @@ Phạm vi viết: Lịch, hóa đơn, khiếu nại và cọc là các đối t�
 Phạm vi viết: Chèn MH-TQ; phân tích nhóm màn hình và phạm vi cây, không nhận cây là mọi liên kết điều hướng.
 
 
-- **Hình 2.17. Cây phân nhóm màn hình** — Có PNG gốc, đã xem ở G0; giữ nguyên. Chưa có nhiều route mới; gộp lễ tân/quản lý không có nghĩa hai nhóm có quyền giống nhau.
+- **Hình 2.17. Cây phân nhóm màn hình** — G5 dùng [cây cập nhật theo web](hinh-man-hinh/01_Cay_man_hinh_tong_the.png), phân nhánh theo năm vai trò và đánh dấu các mục Admin chưa hoàn chỉnh.
 
 
 #### 2.8.2. Wireframe và luồng màn hình tiêu biểu
@@ -1191,20 +1191,17 @@ Chốt giới hạn triển khai, nguồn/ảnh và đánh giá ở 3.12; không
 
 Ưu tiên hoàn thiện quản trị có dữ liệu thật, kiểm thử UI/thiết bị, hiệu năng, tích hợp thanh toán/SMTP phù hợp và vận hành; các nội dung này là dự kiến, không nằm trong kết quả hoàn thành.
 
-## PHỤ LỤC nếu cần
+## PHỤ LỤC
 
-- Phụ lục 1: yêu cầu/đặc tả chi tiết và route, phần dài bổ trợ Bảng 2.2/2.5/2.10.
-- Phụ lục 2: cấu trúc bảng, ràng buộc và migration, bổ trợ Bảng 2.8/2.9; không đưa dump hoặc cấu hình bí mật.
-- Phụ lục 3: testcase, mốc/log được chọn và quy ước đếm; chỉ dữ liệu đã kiểm tra, không tự tạo log.
-- Phụ lục 4: sai khác UML–mã và hướng dẫn thao tác trong phạm vi đã triển khai, khi cần. Phụ lục không thay việc phân tích đủ sáu loại sơ đồ trong Chương 2.
+[Bản viết G5](PHU_LUC.md) gồm A – yêu cầu, màn hình và API, B – lược đồ và migration, C – ca kiểm thử và mốc đối chiếu, D – sáu wireframe và ghi chú UML. [Kết luận và hướng phát triển](KET_LUAN_VA_HUONG_PHAT_TRIEN.md) đặt trước phần này.
 
 ## DANH MỤC TÀI LIỆU THAM KHẢO
 
-Nguồn xét chọn: [DANH_MUC_TAI_LIEU_THAM_KHAO.md](DANH_MUC_TAI_LIEU_THAM_KHAO.md), hiện 41 hồ sơ (21 Việt/20 Anh), kế thừa 35 và bổ sung G2. Đến G4 dẫn 25 nguồn trong Mở đầu/ba chương; chưa khóa tập cuối trước G5. Mục tiêu khoảng 20–25 nguồn chất lượng, tối thiểu 10 theo mẫu; không giữ nguồn bệnh lý hoặc catalog không dùng chỉ để đủ số/tỷ lệ.
+[Danh mục bản nộp](TAI_LIEU_THAM_KHAO_BAN_NOP.md) gồm 25 nguồn thực sự được dẫn trong Mở đầu và ba chương. [Kho xét chọn](DANH_MUC_TAI_LIEU_THAM_KHAO.md) lưu 41 hồ sơ với mã làm việc của các giai đoạn trước.
 
 Khi viết, đặt số tại đúng luận điểm; nguồn ngoài cho khái niệm/kết quả kế thừa, bằng chứng dự án cho kết quả tự làm. Không trích nguồn chưa xác minh. Không dùng dữ liệu hiệu quả của VOAS/bài khác làm kết quả Thế Giới Thú Cưng. Nguồn sản phẩm được gắn loại tài liệu hãng.
 
-Thứ tự dự kiến theo quy định trường: nhóm Việt theo tên tác giả đầu, nhóm Anh theo họ/tổ chức, một dãy số liên tục; ghi rõ điểm không thống nhất trong mẫu đã khảo sát. Chỉ sắp/đổi số đồng bộ khi chốt danh sách, sau đó kiểm citation ↔ reference trên bản thảo thật. Không nhận dãy 1–41 đang làm việc là thứ tự nộp đã hoàn tất.
+Danh mục bản nộp xếp nhóm Việt theo tên tác giả đầu, nhóm Anh theo họ, sử dụng tên tổ chức nếu không có tác giả cá nhân. Một dãy số liên tục được đối chiếu với bản Markdown trong [kiểm tra G5](KIEM_TRA_TRICH_DAN_GIAI_DOAN_5.md).
 
 ## Điều kiện bàn giao Giai đoạn 1
 

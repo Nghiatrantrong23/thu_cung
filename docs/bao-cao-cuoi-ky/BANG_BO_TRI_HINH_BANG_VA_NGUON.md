@@ -1,5 +1,7 @@
 # Bố trí hình bảng và nguồn cho báo cáo Thế Giới Thú Cưng
 
+**Cập nhật G5:** Chương 2 dùng cây màn hình mới ở Hình 2.17. Sáu hình wireframe ở [Phụ lục D](PHU_LUC.md). Các mã nguồn nghiên cứu trong bảng này thuộc kho làm việc. [Đối chiếu số bản nộp](KIEM_TRA_TRICH_DAN_GIAI_DOAN_5.md).
+
 Giai đoạn 1, ngày 08/11/2026; cập nhật nguồn G2 ngày 09/11/2026. Danh sách dành vị trí để biên soạn; chưa chèn hình/bảng vào Word. Các số nguồn là mã làm việc theo kho hiện có 41 hồ sơ. Bảng 1.1–1.5 đã được viết trong bản nháp Chương 1, giữ vị trí/caption dưới đây.
 
 Cập nhật G3 ngày 09/11/2026: [Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md) đã có 12 bảng và tham chiếu 17 ảnh gốc đúng vị trí. Hình 2.18/2.19 được chủ động để trống để người dùng tự chèn; không tạo hình bổ trợ trong lượt này.
@@ -34,7 +36,7 @@ Cập nhật G4 ngày 10/11/2026: [Chương 3](CHUONG_3_CAI_DAT_KET_QUA_VA_DANH_
 | Hình 2.14 | 2.6.1 | Mô hình lớp miền | [SƠ ĐỒ LỚP HỆ THỐNG.png](<../../Sơ đồ trạng thái_sơ đồ class/SƠ ĐỒ LỚP HỆ THỐNG.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Là mô hình khái niệm; chưa thể hiện bảng kỹ thuật, cọc và reset hiện có; không phải class ES6 của backend. |
 | Hình 2.15 | 2.7.1 | Trạng thái lịch hẹn | [Sơ đồ trạng thái_01.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái_01.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Thiếu TuChoi; chuyển DangThucHien sang DaHuy trên hình không được API hủy cho phép. |
 | Hình 2.16 | 2.7.2 | Trạng thái hóa đơn | [Sơ đồ trạng thái.png](<../../Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Thiếu HoanTienMotPhan và điều kiện thực chi; không đủ dùng như máy trạng thái hiện hành hoàn chỉnh. |
-| Hình 2.17 | 2.8.1 | Cây phân nhóm màn hình | [Sơ ĐỒ MÀN HÌNH CHÍNH.png](<../../So do man hinh/Sơ ĐỒ MÀN HÌNH CHÍNH.png>) | Có PNG gốc, đã xem ở G0; giữ nguyên; Chưa có nhiều route mới; gộp lễ tân/quản lý không có nghĩa hai nhóm có quyền giống nhau. |
+| Hình 2.17 | 2.8.1 | Cây phân nhóm màn hình | [Cây màn hình theo web](hinh-man-hinh/01_Cay_man_hinh_tong_the.png) | Bản G5 theo năm vai trò và menu trong mã frontend. |
 | Hình 2.18 | 2.9.2 | Mô hình quan hệ dữ liệu Thế Giới Thú Cưng theo schema khảo sát | [02_THIET_KE_CO_SO_DU_LIEU.md](<../../plans/02_THIET_KE_CO_SO_DU_LIEU.md>) | G3: để trống để người dùng tự chèn ERD đầy đủ sau 008; đã có bảng dữ liệu, không tạo hình mới. |
 | Hình 2.19 | 2.10.1 | Kiến trúc giao tiếp frontend, backend và cơ sở dữ liệu | Chưa có file đã duyệt | G3: để trống để người dùng tự chèn sơ đồ kiến trúc; mô tả theo mã, không tạo hình mới. |
 | Hình 3.1 | 3.4.1 | Giao diện đăng ký và đăng nhập | Chưa có ảnh phù hợp được chọn | G4: để trống để tác giả tự chèn; Ảnh ứng viên chỉ có một phần form lỗi đăng ký; chưa đủ hình đăng ký/đăng nhập. |

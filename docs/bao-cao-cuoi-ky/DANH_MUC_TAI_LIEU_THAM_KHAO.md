@@ -1,5 +1,7 @@
 # Hồ sơ tài liệu tham khảo phục vụ báo cáo cuối kỳ
 
+**Giai đoạn 5:** [Danh mục bản nộp](TAI_LIEU_THAM_KHAO_BAN_NOP.md) dùng dãy số mới đã đồng bộ với nội dung Markdown. Dãy số dưới đây là mã của kho 41 hồ sơ, dùng cùng [bảng chuyển số](KIEM_TRA_TRICH_DAN_GIAI_DOAN_5.md).
+
 Ngày cập nhật hồ sơ: 10/11/2026. G0–G1 tận dụng thư viện đã xác minh đợt 07/11/2026; G2 tìm bổ sung có mục tiêu cho những phần lý thuyết còn thiếu. G4 tái sử dụng nguồn để viết Chương 3, không xác minh online lại toàn kho. Giữ ngày truy cập của từng nguồn đúng đợt kiểm tra. Narrative/Integrative Literature Review, không Systematic Review.
 
 **41 hồ sơ đánh số, 21 Việt/20 Anh (51,2% Việt), 10 hồ sơ có DOI có căn cứ.** G2 bổ sung 5 tài liệu mới và chuyển RFC 7519 từ ứng viên đã xác minh vào dãy số. Bản lưu nghiên cứu 35 hồ sơ vẫn được giữ như lịch sử. Xác minh thư mục không có nghĩa đọc toàn văn; resolver DOI/rút bài chưa được kiểm tra toàn diện. Dãy dưới đây là kho xét chọn, không phải quyết định đưa đủ 41 vào Word. Tập thực sự dẫn ở G2 được ghi riêng trong [kiểm tra trích dẫn G2](KIEM_TRA_TRICH_DAN_GIAI_DOAN_2.md).

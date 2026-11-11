@@ -6,7 +6,7 @@
 
 Phân tích Thế Giới Thú Cưng dựa trên kế hoạch tổng thể, tài liệu thiết kế cơ sở dữ liệu, bộ sơ đồ đã thiết kế, wireframe, mã frontend/backend và các biên bản kiểm tra trong dự án. Việc đối chiếu được thực hiện giữa yêu cầu, mô hình và thành phần xử lý để xác định phần đã có, phần khác thiết kế ban đầu và phần còn thiếu bằng chứng. Đây là khảo sát hồ sơ và hiện trạng phần mềm; chưa có biên bản phỏng vấn hoặc quan sát mới tại một cơ sở kinh doanh để gọi là khảo sát thực địa.
 
-Phạm vi tập trung vào quản lý và đặt lịch chăm sóc chó mèo trong một cơ sở, từ thông tin khách–thú cưng đến điều phối, chăm sóc và giao dịch. Kiến thức nghiệp vụ ở Chương 1 hỗ trợ xác định thông tin cần trao đổi và giới hạn chuyên môn [13], [16]. Những quy tắc như giờ nhận lịch, chính sách cọc và phân nhóm quyền là lựa chọn của dự án; báo cáo không xem chúng là tiêu chuẩn áp dụng cho mọi cơ sở thú cưng.
+Phạm vi tập trung vào quản lý và đặt lịch chăm sóc chó mèo trong một cơ sở, từ thông tin khách–thú cưng đến điều phối, chăm sóc và giao dịch. Kiến thức nghiệp vụ ở Chương 1 hỗ trợ xác định thông tin cần trao đổi và giới hạn chuyên môn [6], [7]. Những quy tắc như giờ nhận lịch, chính sách cọc và phân nhóm quyền là lựa chọn của dự án; báo cáo không xem chúng là tiêu chuẩn áp dụng cho mọi cơ sở thú cưng.
 
 ### 2.1.2. Phân tích quy trình và dữ liệu nghiệp vụ
 
@@ -24,7 +24,7 @@ Tiêu chí chấp nhận được đặt theo hành vi có thể kiểm chứng.
 
 ### 2.2.1. Tác nhân và ánh xạ vai trò
 
-Thế Giới Thú Cưng có năm nhóm đăng nhập: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Khách vãng lai là tác nhân sử dụng chức năng công khai, chưa hình thành một giá trị vai trò riêng trong cơ sở dữ liệu. Mô hình RBAC cung cấp cơ sở liên kết người dùng với quyền thông qua vai trò [34]; cách chia nhóm và điều kiện bổ sung dưới đây là thiết kế của dự án.
+Thế Giới Thú Cưng có năm nhóm đăng nhập: khách hàng, nhân viên chăm sóc, lễ tân, quản lý và Admin. Khách vãng lai là tác nhân sử dụng chức năng công khai, chưa hình thành một giá trị vai trò riêng trong cơ sở dữ liệu. Mô hình RBAC cung cấp cơ sở liên kết người dùng với quyền thông qua vai trò [22]; cách chia nhóm và điều kiện bổ sung dưới đây là thiết kế của dự án.
 
 **Bảng 2.1. Tác nhân và ánh xạ nhóm quyền**
 
@@ -37,7 +37,7 @@ Thế Giới Thú Cưng có năm nhóm đăng nhập: khách hàng, nhân viên 
 | Quản lý | `NhanVien` | `Quản lý` | Quyền tiếp nhận, quản lý ca/danh mục/báo cáo và quyết định xử lý |
 | Admin | `Admin` | Không bắt buộc | Quản trị tài khoản; middleware hiện còn cấp quyền vận hành của tiếp nhận/quản lý |
 
-*Nguồn: nhóm đối chiếu `auth.middleware.js`, routes và `App.jsx`; lý thuyết vai trò tham khảo [34].*
+*Nguồn: nhóm đối chiếu `auth.middleware.js`, routes và `App.jsx`; lý thuyết vai trò tham khảo [22].*
 
 Năm nhóm được hình thành từ ba giá trị `vai_tro` và chức vụ nhân viên. Quyền phải dựa vào dữ liệu hiện hành của tài khoản, không nhận vai trò do client tự gửi. Phân biệt này đặc biệt cần thiết khi tài khoản bị khóa, nhân viên ngừng hoạt động hoặc chức vụ đã thay đổi sau lúc phát hành token.
 
@@ -71,7 +71,7 @@ Nhật ký bảo mật toàn hệ thống, cấu hình vận hành có persisten
 
 ### 2.2.3. Yêu cầu phi chức năng và cách kiểm chứng
 
-Yêu cầu phi chức năng được gắn với phép kiểm tra hoặc giới hạn cụ thể. Tài liệu giao dịch của PostgreSQL, thực hành JWT và phương pháp thiết kế ca thử hỗ trợ lựa chọn cơ chế kiểm chứng [23], [25], [32]. Các mục tiêu chưa có phép đo không được gắn nhãn đã đạt.
+Yêu cầu phi chức năng được gắn với phép kiểm tra hoặc giới hạn cụ thể. Tài liệu giao dịch của PostgreSQL, thực hành JWT và phương pháp thiết kế ca thử hỗ trợ lựa chọn cơ chế kiểm chứng [19], [23], [2]. Các mục tiêu chưa có phép đo không được gắn nhãn đã đạt.
 
 **Bảng 2.3. Yêu cầu phi chức năng và cách kiểm chứng**
 
@@ -86,7 +86,7 @@ Yêu cầu phi chức năng được gắn với phép kiểm tra hoặc giới 
 | PC-07 | Truy vết và bảo trì | Đối chiếu yêu cầu–API–module–test, kiểm migration/checksum | Nhật ký lịch không thay audit bảo mật toàn hệ thống |
 | PC-08 | Hiệu năng và vận hành | Cần phép đo tải, thời gian đáp ứng và giám sát thực tế | Chưa có số đo để công bố mức tải hoặc uptime |
 
-*Nguồn: nhóm xác định cho Thế Giới Thú Cưng; phương pháp tham khảo [23], [25], [32].*
+*Nguồn: nhóm xác định cho Thế Giới Thú Cưng; phương pháp tham khảo [19], [23], [2].*
 
 ### 2.2.4. Ma trận quyền năm nhóm
 
@@ -123,7 +123,7 @@ Các route tạo/sửa/ngừng theo dõi hồ sơ thú cưng tự phục vụ ch
 
 ### 2.3.1. Sơ đồ ca sử dụng tổng thể
 
-Use Case được sử dụng để mô tả tác nhân và những hành vi mà hệ thống cung cấp; các mô hình cấu trúc, hoạt động, tương tác và trạng thái bổ sung những góc nhìn khác theo UML [36]. Hình 2.1 là sơ đồ tổng thể đã thiết kế của Thế Giới Thú Cưng, giữ nguyên ảnh gốc để đối chiếu với hiện trạng.
+Use Case được sử dụng để mô tả tác nhân và những hành vi mà hệ thống cung cấp; các mô hình cấu trúc, hoạt động, tương tác và trạng thái bổ sung những góc nhìn khác theo UML [18]. Hình 2.1 là sơ đồ tổng thể đã thiết kế của Thế Giới Thú Cưng, giữ nguyên ảnh gốc để đối chiếu với hiện trạng.
 
 ![UC-01 — Tác nhân và chức năng tổng thể](<D:/dich_vu_thu_cung/Sơ đồ trạng thái_sơ đồ class/Sơ đồ ca sử dụng.png>)
 
@@ -403,25 +403,25 @@ Các đối tượng có vòng đời riêng cần được đọc độc lập.
 
 ### 2.8.1. Cây màn hình tổng thể
 
-Cây màn hình phân nhóm giao diện chung, khách hàng, nhân viên, lễ tân/quản lý và Admin. Mục đích là cho thấy cách tổ chức các khu vực sử dụng, giúp liên hệ tác nhân với điểm bắt đầu thao tác. Đây là sơ đồ thiết kế giao diện, không phải một loại UML chuẩn được thêm vào đặc tả.
+Cây màn hình mô tả các trang truy cập và xác thực, sau đó phân nhánh theo năm nhóm người dùng. Mỗi nhánh thể hiện điểm vào sau đăng nhập và các mục điều hướng tương ứng trong giao diện Web.
 
-![MH-TQ — Cây phân nhóm màn hình](<D:/dich_vu_thu_cung/So do man hinh/Sơ ĐỒ MÀN HÌNH CHÍNH.png>)
+![MH-TQ — Cây phân nhóm màn hình](hinh-man-hinh/01_Cay_man_hinh_tong_the.png)
 
 **Hình 2.17. Cây phân nhóm màn hình**
 
-*Nguồn: bộ sơ đồ thiết kế Thế Giới Thú Cưng được cung cấp, mã MH-TQ; giữ nguyên ảnh gốc.*
+*Nguồn: tác giả cập nhật từ các tuyến trang và menu theo vai trò trong `App.jsx`, `KhungKhachHang.jsx` và `staffNavigation.js`.*
 
-Hình có các nhóm bảng giá, hồ sơ, đặt/xem lịch, chăm sóc, điều phối, hóa đơn, báo cáo và quản trị tài khoản. Cây chưa thể hiện mọi trang mới hoặc mọi đường dẫn qua lại. Việc gộp lễ tân/quản lý trong một nhánh không cho phép lễ tân xem báo cáo hoặc duyệt hoàn khi server chỉ cấp cho quản lý/Admin.
+Quản lý và quản trị viên dùng chung một số màn hình vận hành với lễ tân. Từng thao tác bên trong màn hình vẫn tuân theo quyền do API kiểm tra. Ví dụ, màn hình khiếu nại được dùng chung, còn quyết định hoàn tiền thuộc quản lý hoặc quản trị viên. Các mục nhật ký, cấu hình và sao lưu được đánh dấu để thể hiện phần xử lý phía máy chủ còn thiếu.
 
 ### 2.8.2. Wireframe và luồng màn hình tiêu biểu
 
 Bộ thiết kế có ba file Markdown wireframe. File thứ nhất mô tả MH-01 đăng nhập/đăng ký, MH-02 đặt lịch, MH-03 danh sách lịch và MH-11 hồ sơ thú cưng. File thứ hai gồm MH-04 chăm sóc, MH-05 điều phối, MH-02b tại quầy và MH-06 hóa đơn. File thứ ba gồm MH-07 báo cáo, MH-09 ca, MH-10 khiếu nại và MH-08 tài khoản.
 
-Các mẫu giúp phân biệt vùng nhập, danh sách, trạng thái và hành động theo ngữ cảnh. Chẳng hạn đặt lịch cần đi từ hồ sơ/dịch vụ tới giờ, còn hóa đơn phải được lập trước khi thu theo luồng của màn hình. Số tiền, tên và biểu đồ trong wireframe là dữ liệu minh họa thiết kế, không phải số liệu đo hoặc doanh thu thật. Ảnh giao diện cài đặt và tình trạng QA được dành cho Chương 3.
+Sáu hình ở [Phụ lục D](PHU_LUC.md#phụ-lục-d-phác-thảo-màn-hình-và-ghi-chú-đối-chiếu-uml) cập nhật bố cục của các màn hình đặt lịch, phân công, chăm sóc, ghi nhận thanh toán, báo cáo doanh thu và quản lý tài khoản. Các hình giúp nhận diện vùng nhập, danh sách và nút thao tác theo từng vai trò. Số tiền, tên và biểu đồ trong wireframe là dữ liệu minh họa thiết kế. Ảnh giao diện cài đặt và phạm vi kiểm chứng được trình bày ở Chương 3.
 
 ### 2.8.3. Ánh xạ màn hình sang route và quyền
 
-Frontend sử dụng HashRouter; đường dẫn trong Bảng 2.7 là phần sau dấu `#`. `App.jsx` và thành phần kiểm quyền xác định vùng giao diện theo nhóm, còn dữ liệu cuối cùng vẫn được server bảo vệ. Thiết kế component và state tham khảo mô hình của React [24]; cấu trúc màn hình cụ thể là lựa chọn của Thế Giới Thú Cưng.
+Frontend sử dụng HashRouter; đường dẫn trong Bảng 2.7 là phần sau dấu `#`. `App.jsx` và thành phần kiểm quyền xác định vùng giao diện theo nhóm, còn dữ liệu cuối cùng vẫn được server bảo vệ. Thiết kế component và state tham khảo mô hình của React [20]; cấu trúc màn hình cụ thể là lựa chọn của Thế Giới Thú Cưng.
 
 **Bảng 2.7. Ánh xạ màn hình, route và quyền**
 
@@ -430,7 +430,7 @@ Frontend sử dụng HashRouter; đường dẫn trong Bảng 2.7 là phần sau
 | MH-01 | `/dang-nhap` | Công khai, hai tab đăng nhập/đăng ký | Đăng ký mới là khách; không tự chọn quyền nội bộ |
 | Khôi phục/đổi mật khẩu | `/quen-mat-khau`, `/dat-lai-mat-khau`, `/doi-mat-khau` | Khôi phục công khai theo token; đổi tạm theo phiên | Có route không chứng minh SMTP bên ngoài đã nghiệm thu |
 | Bảng giá | `/bang-gia` | Công khai | Chỉ quản lý/Admin sửa danh mục qua luồng quản trị |
-| Tổng quan/hồ sơ cá nhân | `/tong-quan`, `/thong-tin-ca-nhan` | Khách hàng trong vùng giao diện khách | Trang mới không hiện đầy đủ trên cây gốc |
+| Tổng quan/hồ sơ cá nhân | `/tong-quan`, `/thong-tin-ca-nhan` | Khách hàng trong vùng giao diện khách | Hiển thị qua các mục Tổng quan và Tài khoản |
 | MH-11 | `/ho-so-thu-cung` | Khách và hồ sơ thuộc mình | Nhận diện chủ được kiểm ở API |
 | MH-02, MH-03 | `/dat-lich`, `/lich-hen` | Khách đặt và theo dõi lịch của mình | Giờ đã tải có thể hết trước lúc ghi |
 | MH-02b, MH-05 | `/le-tan/dat-lich-tai-quay`, `/le-tan/lich-hen` | Lễ tân/quản lý/Admin | Một quyết định điều phối hợp lệ tại một thời điểm |
@@ -510,7 +510,7 @@ Vị trí Hình 2.18 được dành cho ERD đầy đủ để tác giả tự c
 
 ### 2.9.3. Khóa, ràng buộc và chỉ mục
 
-Khóa chính nhận diện bản ghi; khóa ngoại liên kết các đối tượng; các ràng buộc miền và duy nhất bảo vệ dữ liệu ngay tại DB theo chức năng PostgreSQL [23]. Trong Thế Giới Thú Cưng, cần phối hợp chúng với kiểm tra quyền và logic liên bảng ở service. Ví dụ, FK lịch–chi tiết không buộc lịch luôn có chi tiết, còn FK nhân viên không tự chứng minh ca của người đó bao trọn lịch.
+Khóa chính nhận diện bản ghi; khóa ngoại liên kết các đối tượng; các ràng buộc miền và duy nhất bảo vệ dữ liệu ngay tại DB theo chức năng PostgreSQL [19]. Trong Thế Giới Thú Cưng, cần phối hợp chúng với kiểm tra quyền và logic liên bảng ở service. Ví dụ, FK lịch–chi tiết không buộc lịch luôn có chi tiết, còn FK nhân viên không tự chứng minh ca của người đó bao trọn lịch.
 
 **Bảng 2.9. Ràng buộc và chỉ mục bảo toàn dữ liệu**
 
@@ -529,7 +529,7 @@ Khóa chính nhận diện bản ghi; khóa ngoại liên kết các đối tư�
 | UNIQUE/hash/thời hạn token reset | 008 | Token được lưu bằng hash, liên kết một tài khoản | Kiểm token còn hạn/chưa dùng và snapshot tài khoản; không lưu token gốc |
 | Chỉ mục lịch, người nhận, thời gian/giao dịch | 000–004 | Hỗ trợ tra cứu theo điều kiện thường dùng | Có index chưa chứng minh đạt một thời gian đáp ứng cụ thể |
 
-*Nguồn: nhóm đọc DDL và service Thế Giới Thú Cưng; nguyên lý ràng buộc tham khảo [23]. Tên EXCLUDE lịch không được tự đặt thành tên constraint giả định.*
+*Nguồn: nhóm đọc DDL và service Thế Giới Thú Cưng; nguyên lý ràng buộc tham khảo [19]. Tên EXCLUDE lịch không được tự đặt thành tên constraint giả định.*
 
 Schema đã có `EXCLUDE USING gist` với khoảng `tsrange`; vì vậy không mô tả cơ chế tránh trùng chỉ nằm ở JavaScript. Tuy nhiên, lịch chưa phân công không được ràng buộc theo một nhân viên cụ thể bằng EXCLUDE đó. Kiểm tra tính khả thi ở service và ràng buộc DB bảo vệ những phạm vi khác nhau, cần giữ cả hai trong phân tích.
 
@@ -547,7 +547,7 @@ Nhật ký lịch lưu người thao tác, hành động, trạng thái và nộ
 
 ### 2.9.6. Nhận xét thiết kế và chuẩn hóa
 
-Lý thuyết chuẩn hóa được dùng để xem ý nghĩa thuộc tính, phụ thuộc hàm và khả năng phát sinh bất thường cập nhật [40]. Ví dụ, mã thú cưng nhận diện hồ sơ với chủ và thông tin riêng; mã dịch vụ nhận diện giá hiện hành trong danh mục. Giá dự kiến của một lần đặt có ngữ cảnh giao dịch khác với giá hiện hành của dịch vụ, nên cần phân biệt khi xem xét dữ liệu lặp.
+Lý thuyết chuẩn hóa được dùng để xem ý nghĩa thuộc tính, phụ thuộc hàm và khả năng phát sinh bất thường cập nhật [1]. Ví dụ, mã thú cưng nhận diện hồ sơ với chủ và thông tin riêng; mã dịch vụ nhận diện giá hiện hành trong danh mục. Giá dự kiến của một lần đặt có ngữ cảnh giao dịch khác với giá hiện hành của dịch vụ, nên cần phân biệt khi xem xét dữ liệu lặp.
 
 Các bảng chi tiết tách quan hệ một–nhiều, còn bảng thu/hoàn biểu diễn nhiều sự kiện tài chính của một hóa đơn. Tổng tiền, tên/giá snapshot và cọc áp dụng là các giá trị được lưu có chủ đích; sự nhất quán của chúng cần được kiểm bằng công thức và transaction. Chương này chưa lập toàn bộ tập phụ thuộc và khóa ứng viên để chứng minh mọi bảng đạt 3NF. Do đó, báo cáo nhận xét lựa chọn thiết kế theo từng nhóm dữ liệu thay vì tuyên bố chuẩn hóa toàn bộ chỉ từ số bảng hoặc sơ đồ.
 
@@ -555,7 +555,7 @@ Các bảng chi tiết tách quan hệ một–nhiều, còn bảng thu/hoàn bi
 
 ### 2.10.1. Các thành phần và quan hệ giao tiếp
 
-Kiến trúc được tổ chức thành frontend React/Vite, backend HTTP API bằng Node.js/Express và PostgreSQL. Trình duyệt gửi yêu cầu để đọc hoặc thay đổi dữ liệu; backend xác thực, áp quy tắc nghiệp vụ và truy vấn DB thông qua `pg`. Tài liệu React, Express, PostgreSQL và nguyên tắc client–server của REST hỗ trợ nền tảng cho lựa chọn này [24], [17], [23], [18]; cách phân chia module cụ thể do nhóm thực hiện.
+Kiến trúc được tổ chức thành frontend React/Vite, backend HTTP API bằng Node.js/Express và PostgreSQL. Trình duyệt gửi yêu cầu để đọc hoặc thay đổi dữ liệu; backend xác thực, áp quy tắc nghiệp vụ và truy vấn DB thông qua `pg`. Tài liệu React, Express, PostgreSQL và nguyên tắc client–server của REST hỗ trợ nền tảng cho lựa chọn này [20], [9], [19], [10]; cách phân chia module cụ thể do nhóm thực hiện.
 
 <!-- CHEN_HINH_2_19: Kiến trúc giao tiếp frontend, backend và cơ sở dữ liệu; người dùng tự chèn sau. -->
 
@@ -586,7 +586,7 @@ Dự án dùng SQL trực tiếp qua `pg`, giúp thể hiện rõ các phép kh�
 
 ### 2.11.1. Thiết kế API tiêu biểu
 
-Đường dẫn được ghép từ prefix trong `server.js` và route con. API được mô tả theo tài nguyên, thao tác, điều kiện truy cập và dữ liệu cần thiết; cách dùng HTTP theo định hướng REST đã xác định ở Chương 1 [18]. Bảng 2.10 chọn các đường dẫn đại diện, không thay thế toàn bộ hợp đồng API hoặc tự sinh endpoint từ tên message UML.
+Đường dẫn được ghép từ prefix trong `server.js` và route con. API được mô tả theo tài nguyên, thao tác, điều kiện truy cập và dữ liệu cần thiết; cách dùng HTTP theo định hướng REST đã xác định ở Chương 1 [10]. Bảng 2.10 chọn các đường dẫn đại diện, không thay thế toàn bộ hợp đồng API hoặc tự sinh endpoint từ tên message UML.
 
 **Bảng 2.10. API tiêu biểu của hệ thống**
 
@@ -631,13 +631,13 @@ Ngân sách mặc định là 100.000 bước công việc của hàm, bao gồm
 
 Tra giờ khả dụng là phép đọc; một người khác có thể nhận chỗ trước lúc yêu cầu mới được ghi. Khi tạo lịch, mã bắt đầu transaction, lấy advisory lock chung theo ngày trước khi đọc năng lực, đọc lại tài khoản/ca/dịch vụ và kiểm tính khả thi. Các đường thay đổi cùng nguồn lực phải phối hợp theo quy ước khóa tương ứng. Khi đổi giữa hai ngày, mã lấy khóa các ngày theo thứ tự để giảm nguy cơ hai yêu cầu giữ khóa ngược chiều.
 
-Khóa bản ghi bảo vệ lịch hoặc hóa đơn khi cập nhật trạng thái và tiền. EXCLUDE ở DB tiếp tục bảo vệ giao thoa lịch đã gán và ca hoạt động theo predicate DDL. Các cơ chế khóa PostgreSQL là nền tảng [23], còn namespace/ngày khóa và phạm vi giao dịch là lựa chọn triển khai của dự án. Không chỉ dựa vào EXCLUDE để xét các lịch còn chưa có nhân viên, cũng không chỉ dựa vào một lần gọi solver trước transaction.
+Khóa bản ghi bảo vệ lịch hoặc hóa đơn khi cập nhật trạng thái và tiền. EXCLUDE ở DB tiếp tục bảo vệ giao thoa lịch đã gán và ca hoạt động theo predicate DDL. Các cơ chế khóa PostgreSQL là nền tảng [19], còn namespace/ngày khóa và phạm vi giao dịch là lựa chọn triển khai của dự án. Không chỉ dựa vào EXCLUDE để xét các lịch còn chưa có nhân viên, cũng không chỉ dựa vào một lần gọi solver trước transaction.
 
 Trước khi chốt lịch, thời điểm hẹn được kiểm lại để tránh khoảng bắt đầu đã qua trong lúc chờ xử lý. Khi dữ liệu đổi hoặc ràng buộc bị vi phạm, hệ thống trả xung đột/lỗi phù hợp và rollback thay vì âm thầm đổi người hoặc chuyển giờ. Cơ chế này cần được thử bằng những yêu cầu cạnh tranh trên DB cô lập; chương thiết kế không tự sinh thêm một kết quả PASS.
 
 ### 2.11.4. Xác thực, phân quyền và quyền sở hữu
 
-Thiết kế dùng JWT cho claims phiên và bcrypt cho đối chiếu mật khẩu; định nghĩa và khuyến nghị sử dụng được tham khảo từ RFC 7519, RFC 8725 và README bcrypt đã xác minh [41], [25], [39]. Các quy tắc bắt đổi mật khẩu tạm, kiểm mục đích access/refresh và phiên bản token là phần áp dụng trong Thế Giới Thú Cưng. Chữ ký token không được xem như đã mã hóa bí mật toàn bộ nội dung.
+Thiết kế dùng JWT cho claims phiên và bcrypt cho đối chiếu mật khẩu; định nghĩa và khuyến nghị sử dụng được tham khảo từ RFC 7519, RFC 8725 và README bcrypt đã xác minh [13], [23], [14]. Các quy tắc bắt đổi mật khẩu tạm, kiểm mục đích access/refresh và phiên bản token là phần áp dụng trong Thế Giới Thú Cưng. Chữ ký token không được xem như đã mã hóa bí mật toàn bộ nội dung.
 
 Middleware đọc lại tài khoản, chức vụ và trạng thái hoạt động từ DB. Token cũ có version khác hoặc tài khoản không còn được phép sử dụng sẽ bị từ chối theo logic hiện tại. Sau đó, kiểm tra vai trò chưa đủ: khách phải sở hữu dữ liệu, nhân viên phải được phân công, và thao tác phải hợp trạng thái. Frontend kiểm quyền để tổ chức trải nghiệm nhưng không thay thế những điều kiện server này.
 
@@ -704,4 +704,4 @@ Chương 2 cụ thể hóa bài toán bằng tác nhân, yêu cầu, ma trận q
 
 Các mã YC/PC được dùng làm đầu mối khi trình bày kết quả: yêu cầu gắn với màn hình/API, cơ chế xử lý và ca kiểm tra tương ứng. Nhóm xác thực/hồ sơ liên hệ auth/pet; lịch và điều phối liên hệ booking/dispatch/scheduling; chăm sóc/ca liên hệ care/shifts; giao dịch liên hệ invoices/deposits/complaints; báo cáo/Admin liên hệ các module và bằng chứng riêng. Một yêu cầu có thể cần nhiều loại kiểm chứng, không chỉ một ảnh chụp.
 
-Chương 3 sẽ phân biệt kết quả kiểm tra tự động, tích hợp trên DB cô lập và thao tác giao diện theo từng mốc. Phân hoạch tương đương, giá trị biên và điều kiện trạng thái giúp chọn ca kiểm tra [32], còn số PASS/FAIL/SKIP phải lấy từ biên bản đã chạy. Những mục thiếu hình, chưa QA hoặc chưa tích hợp bên ngoài tiếp tục được ghi là phần cần bổ sung; chương thiết kế này không thay nghiệm thu phần mềm.
+Chương 3 sẽ phân biệt kết quả kiểm tra tự động, tích hợp trên DB cô lập và thao tác giao diện theo từng mốc. Phân hoạch tương đương, giá trị biên và điều kiện trạng thái giúp chọn ca kiểm tra [2], còn số PASS/FAIL/SKIP phải lấy từ biên bản đã chạy. Những mục thiếu hình, chưa QA hoặc chưa tích hợp bên ngoài tiếp tục được ghi là phần cần bổ sung; chương thiết kế này không thay nghiệm thu phần mềm.

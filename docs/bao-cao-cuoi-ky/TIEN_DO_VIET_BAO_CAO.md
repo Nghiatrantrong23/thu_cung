@@ -1,8 +1,8 @@
 # Tiến độ biên soạn báo cáo cuối kỳ Thế Giới Thú Cưng
 
-Ngày cập nhật: **10/11/2026**. Nhánh hiện tại: `codex/bao-cao-cuoi-ky-giai-doan-4`. Các mục G0–G3 bên dưới là hồ sơ lịch sử; kết quả G4 tại mục 13.
+Ngày cập nhật: **11/11/2026**. Nhánh tài liệu: `codex/bao-cao-cuoi-ky-giai-doan-5`. Các mục G0–G4 bên dưới ghi nhận kết quả từng đợt.
 
-**Trạng thái hiện tại: đã viết bản nháp Chương 3 ở Giai đoạn 4.** Có 12 mục/37 tiểu mục, 7 bảng, 8 ảnh demo được chọn và 9 vị trí ảnh trống. Ba chương đã có nội dung; kết luận/chốt tham khảo và Word/PDF chưa thực hiện. Lưu cục bộ, **không push GitHub**, dừng để người dùng kiểm tra.
+**Trạng thái hiện tại: đã hoàn thiện nội dung Giai đoạn 5 trên bộ Markdown.** Đã viết kết luận, hướng phát triển, bốn phụ lục và danh mục 25 nguồn. Giai đoạn 6 sẽ dàn Word sau khi người dùng kiểm tra. Bản Word Chương 1–2 đã gửi riêng vẫn cần đối chiếu số tham chiếu nếu lấy nội dung từ bản đó.
 
 **Cập nhật tên hiển thị ngày 10/11/2026:** theo yêu cầu người dùng, tên hệ thống trong Tóm tắt, Mở đầu, ba chương và hồ sơ biên soạn được thống nhất thành **Thế Giới Thú Cưng**. Tên sách/bài báo, URL, đường dẫn, tên file và định danh kỹ thuật giữ nguyên để bảo đảm trích dẫn và liên kết. Chữ trong ảnh/sơ đồ gốc chưa thay đổi; các ảnh đó vẫn là bằng chứng của phiên bản trước đổi tên. Đây là hiệu chỉnh tên, không bắt đầu G5, không sửa website/mã nguồn hoặc push GitHub.
 
@@ -286,3 +286,24 @@ Kiểm tra tài liệu gồm cấu trúc G1, số/vị trí/caption bảng-hình
 Kiểm tra cục bộ G4 **ĐẠT**: 12 mục/37 tiểu mục, 7 bảng và 17 caption hình đúng vị trí/tên theo G1; 8 đường dẫn ảnh demo có thật và 9 chỗ trống đúng quyết định. Đối chiếu 12 đầu mối case trong mã; 3 nguồn Chương 3 có bản ghi và tập dẫn cả ba chương là 25. 157 liên kết cục bộ trong 8 file được tạo/cập nhật hợp lệ; hash 40 file có trước, 218 file được bảo vệ và 27 PNG giữ nguyên trước khi nối ghi nhận kế hoạch. Không tạo ảnh, Word/PDF hoặc kết quả chạy test mới.
 
 G4 hoàn tất bản nháp trong phạm vi có các vị trí ảnh được chủ động để trống. Cả ba chương có 32 mục chính/118 tiểu mục và 24 bảng theo G1; hình/ảnh xuất bản còn thiếu, không nhận toàn bộ báo cáo đã hoàn thành. Dừng bàn giao để người dùng kiểm tra, **chưa thực hiện G5 và không push GitHub**.
+
+## 14. Giai đoạn 5 — Hoàn thiện nội dung
+
+### 14.1. Phần đã hoàn thành
+
+- [Kết luận và hướng phát triển](KET_LUAN_VA_HUONG_PHAT_TRIEN.md) tổng hợp mức đáp ứng mục tiêu, kiến thức vận dụng, hai khó khăn kỹ thuật, giới hạn đánh giá và công việc phát triển tiếp theo dựa trên Bảng 3.7 và mục 3.12.
+- [Phụ lục](PHU_LUC.md) gồm A – yêu cầu, màn hình và API, B – lược đồ và migration, C – ca kiểm thử và mốc thực thi, D – wireframe và ghi chú đối chiếu UML.
+- [Danh mục bản nộp](TAI_LIEU_THAM_KHAO_BAN_NOP.md) chốt 25 nguồn thực sự được dẫn, gồm 6 Việt và 19 Anh. Đánh lại số trong Mở đầu và Chương 1–3 theo thứ tự ABC của hướng dẫn trường. [Kiểm tra trích dẫn G5](KIEM_TRA_TRICH_DAN_GIAI_DOAN_5.md) ghi bảng chuyển số, 103 lượt dẫn, sáu DOI và phạm vi xác minh.
+- [Chương 2](CHUONG_2_PHUONG_PHAP_THUC_HIEN.md) dùng cây màn hình cập nhật ở Hình 2.17 và dẫn sáu wireframe sang Phụ lục D. Bảy PNG được đưa vào `hinh-man-hinh/`. Dữ liệu trên wireframe dùng để minh họa thiết kế.
+
+### 14.2. File cập nhật và kiểm tra
+
+Ngoài bốn tệp nội dung và kiểm tra mới, G5 cập nhật `MO_DAU.md`, ba chương, `DE_CUONG_CHI_TIET.md`, `BANG_BO_TRI_HINH_BANG_VA_NGUON.md`, `DANH_MUC_SO_DO_UML.md`, `DANH_MUC_TAI_LIEU_THAM_KHAO.md` và tệp tiến độ này. Dãy mã kho và các biên bản trước G5 được giữ làm căn cứ đối chiếu.
+
+Đã kiểm tra đối ứng hai chiều của 25 số tham chiếu, chuyển dải số thành các số riêng khi thứ tự thay đổi, đối chiếu đường dẫn và ảnh, kiểm số bảng/hình và xác nhận các chỗ trống theo giai đoạn trước. Kết quả kiểm là của tài liệu Markdown. Kết quả chạy ứng dụng trong báo cáo vẫn theo các biên bản của từng mốc.
+
+### 14.3. Việc chuyển sang giai đoạn dàn trang
+
+Hình 2.18, Hình 2.19 và chín vị trí ảnh Chương 3 được giữ chỗ. Khi ghép nội dung từ bản Word Chương 1–2 đã gửi riêng, đối chiếu nguồn theo tên tác giả và nhan đề trước khi gán số G5. Dàn Word, mục lục tự động và kiểm tra bố cục in thuộc Giai đoạn 6.
+
+Giai đoạn 5 được bàn giao để người dùng kiểm tra. Tài liệu lưu cục bộ theo yêu cầu.

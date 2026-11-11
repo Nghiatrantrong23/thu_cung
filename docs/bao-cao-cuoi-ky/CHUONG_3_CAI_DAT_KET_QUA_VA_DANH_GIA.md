@@ -83,7 +83,7 @@ Các biên bản 23–24/10 mô tả kiểm tra và nâng cấp trên bản sao 
 
 Fixture trên DB mới tạo các đối tượng phục vụ điều kiện kiểm tra: tài khoản theo nhóm, hồ sơ, dịch vụ, ca và dữ liệu cần cô lập một phân hệ. Bài hành trình thực hiện các chuyển nghiệp vụ qua HTTP trong phạm vi biên bản, không dùng việc sửa SQL ép trạng thái làm bằng chứng giao diện đã xử lý thành công. Nhãn Demo trên ảnh và ghi chú biên bản giúp phân biệt dữ liệu này với thông tin thực tế.
 
-Khóa, CHECK, UNIQUE và EXCLUDE phối hợp với kiểm tra service như đã phân tích ở Chương 2. Kiểm chứng cần xem cả phản hồi và dữ liệu sau thao tác: lịch/chi tiết có cùng rollback, giao dịch không ghi lặp, thu/hoàn không vượt hạn mức. Khả năng giao dịch và ràng buộc của PostgreSQL cung cấp cơ sở kỹ thuật [23]; tính đúng của cách áp dụng được đánh giá bằng ca thử Thế Giới Thú Cưng, không tự suy từ tên hệ quản trị.
+Khóa, CHECK, UNIQUE và EXCLUDE phối hợp với kiểm tra service như đã phân tích ở Chương 2. Kiểm chứng cần xem cả phản hồi và dữ liệu sau thao tác: lịch/chi tiết có cùng rollback, giao dịch không ghi lặp, thu/hoàn không vượt hạn mức. Khả năng giao dịch và ràng buộc của PostgreSQL cung cấp cơ sở kỹ thuật [19]; tính đúng của cách áp dụng được đánh giá bằng ca thử Thế Giới Thú Cưng, không tự suy từ tên hệ quản trị.
 
 ### 3.3.3. Kiểm chứng và giới hạn
 
@@ -346,7 +346,7 @@ Middleware hiện cho Admin quyền vận hành tiếp nhận/quản lý, còn t
 
 ### 3.9.1. Thiết kế testcase từ yêu cầu
 
-Ca kiểm tra được liên hệ với các mã YC/PC ở Chương 2. Phân hoạch tương đương và phân tích giá trị biên cung cấp căn cứ chọn đầu vào [32]; trong Thế Giới Thú Cưng, nhóm còn xét người dùng, sở hữu, trạng thái và sự kiện đồng thời. Ví dụ, giờ trước/trong/sau ca, hai khoảng vừa chạm/trùng, số tiền bằng/vượt nợ và đúng/sai chủ là những miền cần được phân biệt.
+Ca kiểm tra được liên hệ với các mã YC/PC ở Chương 2. Phân hoạch tương đương và phân tích giá trị biên cung cấp căn cứ chọn đầu vào [2]; trong Thế Giới Thú Cưng, nhóm còn xét người dùng, sở hữu, trạng thái và sự kiện đồng thời. Ví dụ, giờ trước/trong/sau ca, hai khoảng vừa chạm/trùng, số tiền bằng/vượt nợ và đúng/sai chủ là những miền cần được phân biệt.
 
 Bảng 3.3 diễn giải các case đã định vị trong mã. Cột kỳ vọng nêu điều kiện cần kiểm, chưa phải một lần chạy PASS riêng ngày biên soạn. Các mã KT kế thừa hồ sơ kiểm thử G0 để liên hệ được với file và biên bản cấp nhóm.
 
@@ -367,13 +367,13 @@ Bảng 3.3 diễn giải các case đã định vị trong mã. Cột kỳ vọn
 | KT-11 — PC-05 | Hai yêu cầu chi cho cùng quyết định hoàn | Chỉ có một dòng hoàn thành công theo ràng buộc/logic | Refunds: two payout requests for one approval |
 | KT-12 — PC-02 | Ép lỗi thông báo khi ghi hoàn thành công | Tiền, hóa đơn và khiếu nại cùng rollback | Refunds: failed notification rolls payout back |
 
-*Nguồn: nhóm đối chiếu mã trong `backend/test`, hồ sơ `BANG_KIEM_THU_PETCARE.md`; kỹ thuật chọn ca tham khảo [32]. Tên case trong bảng được rút gọn, mã gốc và biên bản là đầu mối kiểm chứng.*
+*Nguồn: nhóm đối chiếu mã trong `backend/test`, hồ sơ `BANG_KIEM_THU_PETCARE.md`; kỹ thuật chọn ca tham khảo [2]. Tên case trong bảng được rút gọn, mã gốc và biên bản là đầu mối kiểm chứng.*
 
 Các ca giao diện nhiều viewport, tải lớn hoặc gửi thư Mailtrap thật chưa được ghi PASS từ bảng kỳ vọng này. Nếu bổ sung các ca đó, cần có dữ liệu, môi trường, thao tác và kết quả riêng. Cách phân biệt kỳ vọng với thực thi giúp tránh biến một kế hoạch kiểm thử thành số liệu kết quả.
 
 ### 3.9.2. Unit, HTTP tích hợp và DB cô lập
 
-Cả frontend và backend có script dùng `node --test`; tài liệu Node test runner là căn cứ sử dụng công cụ [22]. Kiểm tra đơn vị tập trung vào logic có thể cô lập như giờ nghiệp vụ, khả thi lịch, tiền/chính sách và xử lý trạng thái phía client. Kiểm thử tích hợp gửi HTTP tới backend thử và kiểm dữ liệu trong PostgreSQL mới riêng.
+Cả frontend và backend có script dùng `node --test`; tài liệu Node test runner là căn cứ sử dụng công cụ [17]. Kiểm tra đơn vị tập trung vào logic có thể cô lập như giờ nghiệp vụ, khả thi lịch, tiền/chính sách và xử lý trạng thái phía client. Kiểm thử tích hợp gửi HTTP tới backend thử và kiểm dữ liệu trong PostgreSQL mới riêng.
 
 **Bảng 3.4. Môi trường và cách thực thi kiểm thử**
 
@@ -388,7 +388,7 @@ Cả frontend và backend có script dùng `node --test`; tài liệu Node test 
 | SMTP loopback | Fixture thu thư cục bộ và DB reset riêng | Kiểm nội dung/quy tắc token và phản hồi HTTP | Không suy thư đã tới Mailtrap hoặc hộp thư bên ngoài |
 | Trình duyệt thủ công | Ứng dụng và DB demo được biên bản chỉ rõ | Mô tả thao tác, ảnh và điều kiện đạt tại mốc đó | Không mở rộng thành mọi màn hình/thiết bị đã QA |
 
-*Nguồn: scripts package, mã test, `backend/test/README.md` và các biên bản dự án; công cụ tham khảo [22]. Các lệnh trên mô tả cách thực hiện, không được chạy lại trong đợt viết này.*
+*Nguồn: scripts package, mã test, `backend/test/README.md` và các biên bản dự án; công cụ tham khảo [17]. Các lệnh trên mô tả cách thực hiện, không được chạy lại trong đợt viết này.*
 
 Hướng dẫn test lõi còn liệt kê bộ 9 nhóm và số frontend cũ; các phần bổ sung về cọc, chuyển khoản, reset và khiếu nại phải đọc thêm biên bản riêng. Kiểm kê G0 có 24 file test backend, trong đó 13 file tích hợp, cùng 8 file frontend; số file hoặc số khai báo tĩnh không phải số PASS. Báo cáo chưa có bằng chứng collection Postman đã thực thi, nên không gắn nhãn Postman cho kết quả HTTP của Node.
 
@@ -484,7 +484,7 @@ Trong phạm vi thử nghiệm, các mục tiêu chức năng cốt lõi đã c�
 
 Giá trị kỹ thuật thể hiện ở việc liên kết điều kiện nghiệp vụ với trạng thái và dữ liệu: lịch chưa đủ ca bị chặn, phân công không làm mất khả năng của lịch chờ, hóa đơn giữ snapshot và giao dịch hoàn chỉ ảnh hưởng tiền sau thực chi thành công. Các case cạnh tranh và rollback cung cấp bằng chứng cụ thể hơn việc một chuỗi thao tác đơn lẻ đi hết luồng.
 
-Giao dịch và ràng buộc PostgreSQL là thành phần bảo vệ [23], nhưng phạm vi khóa, điều kiện sở hữu và cách tính tiền do ứng dụng quyết định. Các thử nghiệm đã ghi nhận hỗ trợ tính đúng trong đầu vào và lịch đã thử; chưa chứng minh mọi cấu hình dữ liệu, lịch bất thường hay tải dài hạn. Cần giữ khả năng truy vết từ nhận xét tới case/biên bản khi mở rộng hoặc sửa phần mềm.
+Giao dịch và ràng buộc PostgreSQL là thành phần bảo vệ [19], nhưng phạm vi khóa, điều kiện sở hữu và cách tính tiền do ứng dụng quyết định. Các thử nghiệm đã ghi nhận hỗ trợ tính đúng trong đầu vào và lịch đã thử; chưa chứng minh mọi cấu hình dữ liệu, lịch bất thường hay tải dài hạn. Cần giữ khả năng truy vết từ nhận xét tới case/biên bản khi mở rộng hoặc sửa phần mềm.
 
 ### 3.11.3. Giá trị sử dụng và giới hạn suy luận
 
