@@ -11,12 +11,15 @@ migrations/     Các bản nâng cấp schema theo thứ tự
 thu_cung.sql    Schema ban đầu, được DB CLI nạp cùng migrations/
 deploy/         Cấu hình Nginx
 plans/          Kế hoạch chuẩn, thiết kế DB, tiến độ và báo cáo kiểm tra
-docs/           Hợp đồng API và hướng dẫn tính năng/vận hành
+docs/           API, hướng dẫn vận hành, báo cáo và tài liệu nghiên cứu
+docs/so-do/     Sơ đồ màn hình, hoạt động, trạng thái/lớp và tuần tự
 backups/        Bản sao lưu cục bộ, không đưa vào Git
 .cache/         File tạm và bằng chứng kiểm tra cục bộ, không đưa vào Git
 ```
 
 Từ 07/11/2026, `frontend/` là tên mới của thư mục giao diện và `backend/` là tên mới của thư mục API. Chạy lệnh frontend tại `frontend/`, backend tại `backend/`; Docker Compose vẫn chạy từ thư mục gốc. [Chi tiết rà soát và dọn file](plans/BAO_CAO_SAP_XEP_THU_MUC.md).
+
+Ngày 20/11/2026, các sơ đồ được gom vào `docs/so-do/` theo bốn nhóm `man-hinh/`, `hoat-dong/`, `trang-thai-va-lop/`, `tuan-tu/`; các file tiến độ ở thư mục gốc chuyển vào `plans/`. Báo cáo cuối kỳ ở `docs/bao-cao-cuoi-ky/`, tài liệu nghiên cứu ở `docs/nghien-cuu-tai-lieu/`. Chỉ giữ `thu_cung.sql` làm schema gốc; `thu.sql` là bản trùng hoàn toàn đã được bỏ. Các worktree cục bộ được loại khỏi Git và Docker context. Giữ `node_modules/` để chạy dự án; `dist/` và cache Vite có thể tạo lại khi build/chạy.
 
 ## Tiến độ và giới hạn hiện tại
 

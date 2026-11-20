@@ -3,6 +3,7 @@
 **/.env*
 **/.git
 .cache
+.petcare-worktree
 backups
 output
 **/*.log

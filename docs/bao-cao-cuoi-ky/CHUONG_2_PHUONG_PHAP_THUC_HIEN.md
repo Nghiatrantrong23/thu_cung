@@ -125,7 +125,7 @@ Các route tạo/sửa/ngừng theo dõi hồ sơ thú cưng tự phục vụ ch
 
 Use Case được sử dụng để mô tả tác nhân và những hành vi mà hệ thống cung cấp; các mô hình cấu trúc, hoạt động, tương tác và trạng thái bổ sung những góc nhìn khác theo UML [18]. Hình 2.1 là sơ đồ tổng thể đã thiết kế của Thế Giới Thú Cưng, giữ nguyên ảnh gốc để đối chiếu với hiện trạng.
 
-![UC-01 — Tác nhân và chức năng tổng thể](<D:/dich_vu_thu_cung/Sơ đồ trạng thái_sơ đồ class/Sơ đồ ca sử dụng.png>)
+![UC-01 — Tác nhân và chức năng tổng thể](<../so-do/trang-thai-va-lop/Sơ đồ ca sử dụng.png>)
 
 **Hình 2.1. Tác nhân và chức năng tổng thể**
 
@@ -187,7 +187,7 @@ Use case đặt lịch online được chọn để liên kết yêu cầu, dữ
 
 Activity đăng ký trình bày luồng từ nhập thông tin đến kiểm tra, ghi nhận và phản hồi cho người đăng ký. Việc tách hoạt động phía người dùng và phía hệ thống giúp xác định nơi phát sinh dữ liệu, nơi quyết định hợp lệ và nhánh người dùng cần sửa thông tin.
 
-![AD-01 — Đăng ký tài khoản](<D:/dich_vu_thu_cung/Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - ĐĂNG KÝ TÀI KHOẢN.png>)
+![AD-01 — Đăng ký tài khoản](<../so-do/hoat-dong/SƠ ĐỒ HOẠT ĐỘNG - ĐĂNG KÝ TÀI KHOẢN.png>)
 
 **Hình 2.2. Đăng ký tài khoản**
 
@@ -199,7 +199,7 @@ Trong cài đặt, kiểm tra tài khoản/liên hệ và băm mật khẩu ph�
 
 Activity đặt lịch kết nối việc nhận diện khách/thú cưng, chọn dịch vụ và giờ, kiểm tra điều kiện và lưu yêu cầu. Hai kênh online và tại quầy cùng tạo ra lịch chờ xử lý, nhưng khác tác nhân và khả năng tạo thông tin khách mới. Cả hai đều cần tuân thủ quy tắc nguồn lực, không để kênh tại quầy bỏ qua kiểm tra.
 
-![AD-02 — Đặt lịch online/tại quầy](<D:/dich_vu_thu_cung/Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - ĐẶT LỊCH DỊCH VỤ_02.png>)
+![AD-02 — Đặt lịch online/tại quầy](<../so-do/hoat-dong/SƠ ĐỒ HOẠT ĐỘNG - ĐẶT LỊCH DỊCH VỤ_02.png>)
 
 **Hình 2.3. Đặt lịch online/tại quầy**
 
@@ -211,7 +211,7 @@ Phần kiểm tra giờ trống trên hình được thuyết minh theo toàn kh
 
 Activity điều phối thể hiện việc nhân sự tiếp nhận xem lịch và đưa ra hướng xử lý. Điểm quyết định quan trọng là tiếp tục giữ chờ, từ chối hoặc chọn người phù hợp để xác nhận. Phân công phải gắn với ca và các lịch đang chiếm nguồn lực, đồng thời không làm các lịch chờ khác trở nên không thể bố trí.
 
-![AD-03 — Điều phối và phân công](<D:/dich_vu_thu_cung/Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - QUẢN LÝ LỊCH HẸN VÀ PHÂN CÔNG NHÂN VIÊN.png>)
+![AD-03 — Điều phối và phân công](<../so-do/hoat-dong/SƠ ĐỒ HOẠT ĐỘNG - QUẢN LÝ LỊCH HẸN VÀ PHÂN CÔNG NHÂN VIÊN.png>)
 
 **Hình 2.4. Điều phối và phân công**
 
@@ -223,7 +223,7 @@ Mã hiện tại nhận đúng một giá trị `hanhDong`: `phan-cong`, `giu-ch
 
 Activity chăm sóc bắt đầu từ lịch được giao, việc tiếp nhận và xem xét điều kiện phục vụ, sau đó cập nhật quá trình thực hiện và hoàn tất. Thông tin cần lưu gồm tiến độ từng dịch vụ và ghi chú của người thực hiện; kết quả kiểm tra điều kiện phải được chuyển tới người tiếp nhận khi cần xử lý lịch.
 
-![AD-04 — Tiếp nhận và chăm sóc](<D:/dich_vu_thu_cung/Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - THỰC HIỆN DỊCH VỤ.png>)
+![AD-04 — Tiếp nhận và chăm sóc](<../so-do/hoat-dong/SƠ ĐỒ HOẠT ĐỘNG - THỰC HIỆN DỊCH VỤ.png>)
 
 **Hình 2.5. Tiếp nhận và chăm sóc**
 
@@ -235,7 +235,7 @@ Hiện trạng phân biệt báo không đủ điều kiện trước bắt đ�
 
 Activity hóa đơn mô tả việc lấy dữ liệu phục vụ, tính tổng/giảm và ghi nhận tiền. Thiết kế cần giữ riêng quyết định lập hóa đơn với từng lần thu, bởi khách có thể còn nợ sau một lần thanh toán. Các phản hồi cần giúp nhân sự biết số tiền được ghi nhận và phần còn phải trả.
 
-![AD-05 — Lập hóa đơn và thu](<D:/dich_vu_thu_cung/Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - LẬP HÓA ĐƠN VÀ GHI NHẬN THANH TOÁN.png>)
+![AD-05 — Lập hóa đơn và thu](<../so-do/hoat-dong/SƠ ĐỒ HOẠT ĐỘNG - LẬP HÓA ĐƠN VÀ GHI NHẬN THANH TOÁN.png>)
 
 **Hình 2.6. Lập hóa đơn và thu**
 
@@ -247,7 +247,7 @@ Mã hiện tại bổ sung khấu trừ cọc và phân biệt số tiền thu v
 
 Activity khiếu nại tách các lane khách hàng, lễ tân, hệ thống và quản lý. Luồng đi từ tiếp nhận vấn đề, xem xét, lựa chọn phương án đến thông báo kết quả. Trường hợp hoàn tiền có thêm kiểm tra số tiền và bước thực hiện chi cho khách.
 
-![AD-06 — Tiếp nhận, quyết định và chi hoàn](<D:/dich_vu_thu_cung/Sơ đồ hoạt động/SƠ ĐỒ HOẠT ĐỘNG - XỬ LÝ KHIẾU NẠI VÀ HOÀN TIỀN.png>)
+![AD-06 — Tiếp nhận, quyết định và chi hoàn](<../so-do/hoat-dong/SƠ ĐỒ HOẠT ĐỘNG - XỬ LÝ KHIẾU NẠI VÀ HOÀN TIỀN.png>)
 
 **Hình 2.7. Tiếp nhận, quyết định và chi hoàn**
 
@@ -261,7 +261,7 @@ Sai khác đáng chú ý là hình tạo giao dịch và đổi hóa đơn sang 
 
 Sequence đăng nhập làm rõ thứ tự gửi thông tin từ giao diện, kiểm tra dữ liệu tài khoản và phản hồi theo nhánh thành công/thất bại. Các lifeline giao diện, điều khiển và thực thể là các thành phần của mô hình thiết kế, không mặc nhiên là tên file, lớp lập trình hoặc đường dẫn API.
 
-![SD-01 — Tương tác đăng nhập](<D:/dich_vu_thu_cung/Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – ĐĂNG NHẬP.png>)
+![SD-01 — Tương tác đăng nhập](<../so-do/tuan-tu/SƠ ĐỒ TUẦN TỰ – ĐĂNG NHẬP.png>)
 
 **Hình 2.8. Tương tác đăng nhập**
 
@@ -273,7 +273,7 @@ Hiện trạng bổ sung access token, refresh token, mục đích token, phiên
 
 Sequence đặt lịch thể hiện tương tác chọn khách/thú cưng, dịch vụ, giờ và ghi lịch cùng các chi tiết. Phần tùy chọn tại quầy và vòng lặp dịch vụ cho thấy một lịch có thể gắn nhiều dữ liệu đầu vào. API triển khai được xác định từ routes, không được đặt tên theo cách viết message trên hình.
 
-![SD-02 — Tương tác đặt lịch](<D:/dich_vu_thu_cung/Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – ĐẶT LỊCH DỊCH VỤ.png>)
+![SD-02 — Tương tác đặt lịch](<../so-do/tuan-tu/SƠ ĐỒ TUẦN TỰ – ĐẶT LỊCH DỊCH VỤ.png>)
 
 **Hình 2.9. Tương tác đặt lịch**
 
@@ -285,7 +285,7 @@ Sequence đặt lịch thể hiện tương tác chọn khách/thú cưng, dịc
 
 Sequence điều phối mô tả việc lấy thông tin lịch, xem nguồn lực và gửi quyết định xử lý. Người tiếp nhận phải sử dụng dữ liệu còn hiệu lực; trong thời gian giao diện mở, một yêu cầu khác có thể đã thay đổi lịch. Vì vậy, server khóa và kiểm tra lại trạng thái trước khi chấp nhận quyết định.
 
-![SD-03 — Tương tác điều phối](<D:/dich_vu_thu_cung/Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – QUẢN LÝ LỊCH HẸN VÀ PHÂN CÔNG NHÂN VIÊN.png>)
+![SD-03 — Tương tác điều phối](<../so-do/tuan-tu/SƠ ĐỒ TUẦN TỰ – QUẢN LÝ LỊCH HẸN VÀ PHÂN CÔNG NHÂN VIÊN.png>)
 
 **Hình 2.10. Tương tác điều phối**
 
@@ -297,7 +297,7 @@ Hình có nhánh tùy chọn từ chối và phần phân công tiếp theo; khi
 
 Sequence chăm sóc mô tả trao đổi khi tiếp nhận, bắt đầu, ghi tiến độ và hoàn tất. Mỗi thay đổi cần liên kết đúng lịch và chi tiết dịch vụ; cập nhật chi tiết không thuộc lịch hoặc cập nhật bởi người không được giao phải bị từ chối.
 
-![SD-04 — Tương tác chăm sóc](<D:/dich_vu_thu_cung/Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – THỰC HIỆN DỊCH VỤ.png>)
+![SD-04 — Tương tác chăm sóc](<../so-do/tuan-tu/SƠ ĐỒ TUẦN TỰ – THỰC HIỆN DỊCH VỤ.png>)
 
 **Hình 2.11. Tương tác chăm sóc**
 
@@ -309,7 +309,7 @@ Khối lễ tân hủy được đặt sau khối lựa chọn trong ảnh có t
 
 Sequence hóa đơn diễn tả việc tạo các dòng dịch vụ, tính thành tiền và tiếp nhận lần thanh toán. Các vòng lặp trên hình hỗ trợ hiểu cấu trúc chi tiết, còn ràng buộc tiền phải lấy từ quy tắc tài chính thực tế. Một hóa đơn không được tạo trùng cho cùng lịch chỉ vì người dùng gửi lại yêu cầu.
 
-![SD-05 — Tương tác hóa đơn và thu](<D:/dich_vu_thu_cung/Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – LẬP HÓA ĐƠN VÀ GHI NHẬN THANH TOÁN.png>)
+![SD-05 — Tương tác hóa đơn và thu](<../so-do/tuan-tu/SƠ ĐỒ TUẦN TỰ – LẬP HÓA ĐƠN VÀ GHI NHẬN THANH TOÁN.png>)
 
 **Hình 2.12. Tương tác hóa đơn và thu**
 
@@ -321,7 +321,7 @@ Mã không mặc định lấy toàn bộ tiền khách đưa làm số tiền t
 
 Sequence khiếu nại chia ba phần lớn: tiếp nhận, quản lý quyết định và lễ tân thực chi. Các lifeline khiếu nại, hóa đơn và thanh toán cho thấy giao dịch hoàn liên hệ nhiều đối tượng. Đây là lý do cần giữ ranh giới giữa quyết định và tiền thực chi.
 
-![SD-06 — Tương tác khiếu nại và hoàn](<D:/dich_vu_thu_cung/Sơ đồ tuần tự/SƠ ĐỒ TUẦN TỰ – XỬ LÝ KHIẾU NẠI VÀ HOÀN TIỀN.png>)
+![SD-06 — Tương tác khiếu nại và hoàn](<../so-do/tuan-tu/SƠ ĐỒ TUẦN TỰ – XỬ LÝ KHIẾU NẠI VÀ HOÀN TIỀN.png>)
 
 **Hình 2.13. Tương tác khiếu nại và hoàn**
 
@@ -335,7 +335,7 @@ Các message 18–22 trên ảnh tạo giao dịch, cập nhật `DaHoanTien` v�
 
 Sơ đồ lớp tập hợp các khái niệm miền như `NguoiDung`, `KhachHang`, `NhanVien`, `ThuCung`, `LoaiDV`, `DichVu`, `LichHen`, `ChiTietLichHen`, `CaLamViec`, `HoaDon`, `ChiTietHoaDon`, `ThanhToan`, `DanhGia` và `KhieuNai`. Thuộc tính thể hiện thông tin cần quản lý; phương thức thể hiện trách nhiệm dự kiến của đối tượng trong mô hình.
 
-![CD-01 — Mô hình lớp miền](<D:/dich_vu_thu_cung/Sơ đồ trạng thái_sơ đồ class/SƠ ĐỒ LỚP HỆ THỐNG.png>)
+![CD-01 — Mô hình lớp miền](<../so-do/trang-thai-va-lop/SƠ ĐỒ LỚP HỆ THỐNG.png>)
 
 **Hình 2.14. Mô hình lớp miền**
 
@@ -361,7 +361,7 @@ Sơ đồ chưa bao phủ toàn bộ các mở rộng hiện hành như nhật k
 
 Sơ đồ trạng thái lịch mô tả các giai đoạn chờ xác nhận, đã xác nhận, đang thực hiện và hoàn thành, cùng các nhánh hủy. Ý nghĩa của trạng thái cần gắn với sự kiện và điều kiện, thay vì chỉ đổi một nhãn hiển thị trên giao diện.
 
-![SM-01 — Trạng thái lịch hẹn](<D:/dich_vu_thu_cung/Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái_01.png>)
+![SM-01 — Trạng thái lịch hẹn](<../so-do/trang-thai-va-lop/Sơ đồ trạng thái_01.png>)
 
 **Hình 2.15. Trạng thái lịch hẹn**
 
@@ -373,7 +373,7 @@ Trong hiện trạng, phân công hợp lệ đưa lịch chờ sang `DaXacNhan`
 
 Sơ đồ hóa đơn thể hiện chưa thu, thu một phần, thu đủ, đã hoàn và hủy. Đối tượng này theo dõi nghĩa vụ tiền, khác trạng thái hoàn thành chăm sóc. Quy tắc chuyển cần xét các giao dịch thành công và khoản cọc đã áp dụng, không dựa vào tổng tiền khách vừa nhập ở một màn hình.
 
-![SM-02 — Trạng thái hóa đơn](<D:/dich_vu_thu_cung/Sơ đồ trạng thái_sơ đồ class/Sơ đồ trạng thái.png>)
+![SM-02 — Trạng thái hóa đơn](<../so-do/trang-thai-va-lop/Sơ đồ trạng thái.png>)
 
 **Hình 2.16. Trạng thái hóa đơn**
 

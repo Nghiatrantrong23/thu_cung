@@ -1,4 +1,25 @@
-# Rà soát cấu trúc frontend/backend — 07/11/2026
+# Rà soát và sắp xếp thư mục PetCare
+
+## Dọn gọn ngày 20/11/2026
+
+- Nhánh riêng: `codex/don-gon-thu-muc-20261120`, tách từ `75ee4c9`; không làm việc trên main.
+- Gom 23 file sơ đồ/mẫu từ bốn thư mục gốc vào `docs/so-do/man-hinh/`, `hoat-dong/`, `trang-thai-va-lop/`, `tuan-tu/`. Nội dung 23 file này giữ nguyên từng byte; cập nhật liên kết hình trong báo cáo để dùng đường dẫn tương đối.
+- Chuyển `TIEN_DO_GIAO_DIEN.md` và `TIEN_DO_ADMIN_PETCARE.md` vào `plans/`. File Admin vốn chưa theo dõi và có quy tắc lưu riêng nên chỉ chuyển cục bộ, giữ nguyên nội dung, không tự đưa vào commit này.
+- Xóa `thu.sql` chưa theo dõi sau khi xác nhận trùng SHA-256 với `thu_cung.sql`; schema chuẩn và migrations không đổi.
+- Xóa build `frontend/dist/`, cache `frontend/node_modules/.vite/`, Python bytecode và bản xuất kiểm tra Git cũ `.cache/restructure-frontend-backend/staged-check/`: tổng 272 file trùng/sinh tự động, khoảng 6,97 MiB. Hai junction dependencies trong bản xuất cũ được tháo riêng trước khi xóa; hai thư mục dependencies thật vẫn còn. Bản build tạo lại khi xác minh cũng được dọn sau kiểm tra.
+- Thêm `.petcare-worktree/` vào Git/Docker ignore. Giữ worktree, dữ liệu PostgreSQL trong cache, backups, `.env`, dependencies, nguồn nghiên cứu, ảnh minh chứng và các thay đổi tính năng đang làm. Các bản lưu trước sửa cùng log kiểm tra của đợt này ở `.cache/cleanup-20261120/`, không đưa vào Git.
+
+| Kiểm tra workspace sau sắp xếp | Kết quả |
+| --- | --- |
+| Đối chiếu file chuyển chỗ | 24 file giữ nguyên byte (23 sơ đồ/mẫu và tiến độ Admin); tiến độ giao diện chỉ đổi đường dẫn mẫu |
+| Liên kết Markdown nội bộ | 328 liên kết hợp lệ, không phát sinh liên kết hỏng |
+| Hash schema `thu_cung.sql` | Giữ nguyên SHA-256 `a12e398a02db473328204e9a3f05a9bfc818327be43925ae97bdb345fddd76ae` |
+| Frontend lint / test / build | PASS / 31 PASS / PASS, 118 modules |
+| Backend test mặc định, không có `TEST_DATABASE_URL` | 83 PASS, 1 FAIL, 13 SKIP; lỗi import thiếu package `xlsx` trong phần Excel đang làm, không liên quan file được dọn |
+
+Không sửa package, mã nghiệp vụ hoặc file test để xử lý lỗi Excel ngoài phạm vi. Không gọi backend hoặc toàn dự án đã nghiệm thu. Không chạy migrate/seed, SMTP thật hoặc test ghi database. Kết quả frontend là kết quả workspace hiện có; snapshot Git vẫn có giới hạn các file tính năng chưa theo dõi đã nêu ở biên bản 07/11 bên dưới. Commit chỉ chứa việc sắp xếp và tài liệu liên quan, không kèm thay đổi tính năng có trước; không thay trạng thái giai đoạn 12.
+
+## Đợt chuyển frontend/backend — 07/11/2026
 
 ## Phạm vi
 

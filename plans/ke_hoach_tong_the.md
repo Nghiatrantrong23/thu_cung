@@ -6,6 +6,8 @@
 
 ## 0. Tiến độ hiện tại
 
+> **20/11/2026 — dọn gọn thư mục:** gom 23 sơ đồ/mẫu vào `docs/so-do/`, chuyển hai file tiến độ gốc vào `plans/`, cập nhật liên kết và bỏ schema trùng cùng build/cache sinh tự động. Giữ dữ liệu, cấu hình và thay đổi tính năng có trước. Kiểm tra 328 liên kết hợp lệ; frontend lint/31 test/build 118 modules PASS. Backend 83 PASS / 1 FAIL (thiếu package `xlsx` của phần Excel đang làm) / 13 SKIP; chưa đạt toàn bộ backend. Không đổi nghiệm thu giai đoạn 12. [Phạm vi và kết quả dọn thư mục](BAO_CAO_SAP_XEP_THU_MUC.md).
+
 > **07/11/2026 — sắp xếp thư mục:** chuyển `dichvu/` → `frontend/`, `server/` → `backend/`; cập nhật Dockerfile, Compose, script demo và tài liệu. Xóa 9 file nguồn/tài nguyên cũ không còn tham chiếu, 2 banner trùng SHA-256 ở thư mục gốc và thư mục `codex/` rỗng. Workspace: frontend lint, 31 test và build 118 modules PASS; backend 83 PASS / 13 tích hợp SKIP. Giữ nguyên dữ liệu, migration, cấu hình cục bộ và thay đổi có sẵn; các thay đổi tính năng cũ được giữ ngoài commit sắp xếp. Chưa chạy Docker hoặc DB tích hợp trong đợt này; xem giới hạn snapshot Git trong [báo cáo sắp xếp](BAO_CAO_SAP_XEP_THU_MUC.md). Không thay trạng thái giai đoạn 12.
 
 

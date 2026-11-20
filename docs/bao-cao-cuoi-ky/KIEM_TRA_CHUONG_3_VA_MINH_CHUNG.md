@@ -17,8 +17,8 @@ G4 viết nội dung Chương 3 theo G1, cập nhật tiến độ/hồ sơ và 
 | Transfers/invoices/deposits/sandbox: 9+8+12+9 = 38 PASS | [Chuyển khoản](../THANH_TOAN_CHUYEN_KHOAN.md) | Tổng chỉ trong đợt 4 DB mới riêng; không chuyển tiền thật |
 | Reset HTTP/SMTP loopback 13 PASS; hồi quy auth 10 PASS | [Quên mật khẩu Mailtrap](../QUEN_MAT_KHAU_MAILTRAP.md) | Không gộp thành nghiệm thu Mailtrap; giữ BLOCKED gửi/nhận bên ngoài |
 | Khiếu nại 05/11: refunds 9 PASS; UI 08/11: 31 test/lint/build 118 modules | [Tiến độ khiếu nại](../../plans/TIEN_DO_KHIEU_NAI_KHACH_HANG.md) | Nêu chống gửi lặp, lỗi tải và phản hồi cũ; chưa QA ba viewport |
-| Workspace 07/11: backend 83 PASS/13 SKIP; frontend 31 PASS/build 118 modules | [Sắp xếp thư mục](../../plans/BAO_CAO_SAP_XEP_THU_MUC.md), [tiến độ Admin](../../TIEN_DO_ADMIN_PETCARE.md) | Tách 83 mặc định này với 83 tích hợp tháng 10; không coi SKIP là PASS |
-| Node v24.20.0/npm 11.19.0, Vite 5.4.21; PostgreSQL 17.11, 22 bảng, 9 checksum khớp | [Tiến độ Admin](../../TIEN_DO_ADMIN_PETCARE.md), package | Dữ liệu môi trường theo mốc 07/11; không truy vấn/đo lại ngày 10/11 |
+| Workspace 07/11: backend 83 PASS/13 SKIP; frontend 31 PASS/build 118 modules | [Sắp xếp thư mục](../../plans/BAO_CAO_SAP_XEP_THU_MUC.md), [tiến độ Admin](../../plans/TIEN_DO_ADMIN_PETCARE.md) | Tách 83 mặc định này với 83 tích hợp tháng 10; không coi SKIP là PASS |
+| Node v24.20.0/npm 11.19.0, Vite 5.4.21; PostgreSQL 17.11, 22 bảng, 9 checksum khớp | [Tiến độ Admin](../../plans/TIEN_DO_ADMIN_PETCARE.md), package | Dữ liệu môi trường theo mốc 07/11; không truy vấn/đo lại ngày 10/11 |
 | Khôi phục và kiểm dữ liệu cũ | [Khôi phục local](../DB_LOCAL_RECOVERY.md), báo cáo/biên bản migration | Phân biệt backup/thử copy/áp DB local ở những mốc khác nhau; hash không chứng minh mọi giao dịch cũ đúng nghiệp vụ |
 
 Đã định vị lại đầu mối các testcase Bảng 3.3 trong booking, dispatch và refunds. Bảng nêu tiền điều kiện/kỳ vọng và nguồn, không gán một kết quả chạy mới cho từng case. Raw log mọi ca chưa được kiểm toán lại; đây là tổng hợp có đối chiếu biên bản và mã, không phải thực thi tái lập toàn bộ kết quả.

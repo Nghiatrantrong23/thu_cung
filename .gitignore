@@ -5,6 +5,7 @@ dist-ssr/
 build/
 coverage/
 .cache/
+.petcare-worktree/
 .vite/
 __pycache__/
 *.pyc
